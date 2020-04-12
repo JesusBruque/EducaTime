@@ -1,0 +1,44 @@
+{
+  "name": "express-next-boilerplate",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node --project tsconfig.server.json server/server.ts",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build:next": "next build",
+    "build": "npm run build:next && npm run build:server",
+    "start": "NODE_ENV=production node dist/index.js"
+  },
+  "dependencies": {
+    "@types/connect-busboy": "0.0.2",
+    "@types/express-session": "^1.15.16",
+    "@types/mongoose": "^5.7.1",
+    "@types/passport": "^1.0.2",
+    "argon2": "^0.24.1",
+    "bcrypt-nodejs": "0.0.3",
+    "celebrate": "^11.0.1",
+    "connect-busboy": "^0.0.2",
+    "connect-mongo": "^3.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-list-endpoints": "^4.0.1",
+    "express-session": "^1.17.0",
+    "helmet": "^3.21.2",
+    "mongoose": "^5.9.1",
+    "mongoose-history": "^0.8.0",
+    "passport": "^0.4.1",
+    "underscore": "^1.9.2",
+    "winston": "^3.2.1",
+    "xlsx": "^0.15.5",
+    "next": "9.3.4",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.1",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "typescript": "^3.8.3"
+  }
+}
