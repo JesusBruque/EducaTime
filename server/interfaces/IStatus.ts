@@ -3,5 +3,5 @@ export interface IStatus {
     bookmark: Number; // En segundos, tiempo actual de progreso del video
     finished: boolean;
     lection: String;
-    user: String
+    user: string
 }

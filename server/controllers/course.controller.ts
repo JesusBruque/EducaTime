@@ -1,20 +1,56 @@
 import CourseService from "../services/course.services";
-import { Request, Response } from "express";
+import { Request, Response , NextFunction } from "express";
 import { ICourse } from "../interfaces/ICourse";
+import Logger from '../loaders/logger'
+import { IUsuarioDTO } from '../interfaces/IUsuario';
 
 export default class CourseController{
     private courseService:CourseService;
     constructor(){
         this.courseService = new CourseService;
     }
-    public Create = async(myRequest:Request,myResponse:Response)=>{
+    public Create = async( req:Request,res:Response , next: NextFunction)=>{
+        Logger.debug("Creando curso.")
         try {
-            const course = await this.courseService.Create(myRequest.body as ICourse);
-            return myResponse.status(200).json({status:200,mensaje:"El curso se ha almacenado con èxito",course:course})
+            const course = await this.courseService.create(req.body as ICourse, req.user as IUsuarioDTO);
+            return res.status(200).json({status:200,course:course})
         } catch (error) {
             console.error("Ha ocurrido un error al ingresar una curso.");
             console.error(error);
-            return myResponse.status(400).json({mensaje:"Ha ocurrido un error al crear un curso."});
+            return res.status(400).json({ status: 400, mensaje: "Se ha producido un error inesperado. Contacte con el administrador." });
+        }
+    }
+    public Edit = async (req: Request, res: Response, next: NextFunction) => {
+        Logger.debug('Editando un curso');
+        try {
+            const course = await this.courseService.edit(req.body as ICourse, req.user as IUsuarioDTO);
+            return res.status(200).json({ status: 200, course: course });
+        } catch (e) {
+            Logger.error('Se ha producido un error editando un curso');
+            Logger.error(e);
+            return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
+        }
+    }
+    public FindAll = async (req: Request, res: Response, next: NextFunction) => {
+        Logger.debug('Metodo findAll cursos');
+        try {
+            const courses = await this.courseService.findAll();
+            return res.status(200).json({ status: 200, courses: courses});
+        } catch (e) {
+            Logger.error('Se ha producido un error findAll courses');
+            Logger.error(e);
+            return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
+        }
+    }
+    public FindById = async (req: Request, res: Response, next: NextFunction) => {
+        Logger.debug('Metodo findById course');
+        try {
+            const course = await this.courseService.findById(req.params.courseId);
+            return res.status(200).json({ status: 200, course: course });
+        } catch (e) {
+            Logger.error('Se ha producido un error findById course');
+            Logger.error(e);
+            return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
         }
     }
 }

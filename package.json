@@ -27,13 +27,13 @@
     "helmet": "^3.21.2",
     "mongoose": "^5.9.1",
     "mongoose-history": "^0.8.0",
+    "next": "9.3.4",
     "passport": "^0.4.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
     "underscore": "^1.9.2",
     "winston": "^3.2.1",
-    "xlsx": "^0.15.5",
-    "next": "9.3.4",
-    "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "xlsx": "^0.15.5"
   },
   "devDependencies": {
     "@types/node": "^13.11.1",

@@ -20,7 +20,7 @@ var blogSchema = new Schema({
       trim: true
     },
     creation_date: {
-      type: Date,
+      type: String,
       required: true
     },
     author: {

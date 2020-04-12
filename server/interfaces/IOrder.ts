@@ -1,5 +1,5 @@
 export interface IOrder{
-    _id: String;
+    _id: string;
     place_date: string; // Fecha de pago
     course:String;
     user: String;

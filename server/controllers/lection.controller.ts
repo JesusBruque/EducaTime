@@ -1,20 +1,56 @@
-import {Request, Response} from 'express';
+import {Request, Response , NextFunction } from 'express';
 import LectionService from '../services/lection.services'
 import {ILection} from '../interfaces/ILection'
+import Logger from '../loaders/logger'
+import { IUsuarioDTO } from '../interfaces/IUsuario';
 
 export default class LectionController{
     private lectionService: LectionService;
     constructor(){
         this.lectionService=new LectionService();
     }
-    public Create=async(myRequest:Request,myResponse:Response)=>{
+    public Create=async(req:Request,res:Response , next: NextFunction)=>{
+        Logger.debug("Creando leccion.")
         try {
-            const lection = await this.lectionService.Create(myRequest.body as ILection);
-            return myResponse.status(200).json({status:200,mensaje:"Lecciòn almacenada correctamente",lection:lection});            
+            const lection = await this.lectionService.create(req.body as ILection, req.user as IUsuarioDTO);
+            return res.status(200).json({status:200,lection:lection});            
         } catch (error) {
             console.error("Ha ocurrido un error al ingresar una lecciòn.");
             console.error(error);
-            return myResponse.status(400).json({mensaje:"Ha ocurrido un error al crear una lecciòn."});
+            return res.status(400).json({ status: 400,mensaje: "Se ha producido un error inesperado. Contacte con el administrador." });
+        }
+    }
+    public Edit = async (req: Request, res: Response, next: NextFunction) => {
+        Logger.debug('Editando una leccion');
+        try {
+            const lection = await this.lectionService.edit(req.body as ILection, req.user as IUsuarioDTO);
+            return res.status(200).json({ status: 200, lection: lection });
+        } catch (e) {
+            Logger.error('Se ha producido un error editando una leccion');
+            Logger.error(e);
+            return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
+        }
+    }
+    public FindAll = async (req: Request, res: Response, next: NextFunction) => {
+        Logger.debug('Metodo findAll lections');
+        try {
+            const lections = await this.lectionService.findAll();
+            return res.status(200).json({ status: 200, lections: lections });
+        } catch (e) {
+            Logger.error('Se ha producido un error findAll lections');
+            Logger.error(e);
+            return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
+        }
+    }
+    public FindById = async (req: Request, res: Response, next: NextFunction) => {
+        Logger.debug('Metodo findById blog');
+        try {
+            const lection = await this.lectionService.findById(req.params.lectionId);
+            return res.status(200).json({ status: 200, lection: lection });
+        } catch (e) {
+            Logger.error('Se ha producido un error findById lection');
+            Logger.error(e);
+            return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
         }
     }
 }

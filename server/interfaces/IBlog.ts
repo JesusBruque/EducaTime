@@ -3,7 +3,7 @@ export interface IBlog {
     title: string;
     description: string;
     urls: [string];
-    creation_date: Date;
+    creation_date: string;
     author: string;
     active: boolean;
     tags: [string]

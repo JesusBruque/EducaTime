@@ -1,11 +1,17 @@
 import OrderController from '../../controllers/order.controllers';
 import {Router} from 'express';
 import {celebrate, Joi} from 'celebrate';
+import middlewares from '../middlewares';
 const route = Router();
 
 export default (app:Router) => {
     const orderController = new OrderController;
     app.use('/order',route);
+
+    route.get('/findAll', orderController.FindAll)
+    
+    route.get('/:orderId', orderController.FindById)
+
     route.post('/',
         celebrate({
             body: Joi.object({
@@ -18,5 +24,6 @@ export default (app:Router) => {
                 description: Joi.string()
             }),
         }),
+        middlewares.isAuth,
         orderController.Create);
 }

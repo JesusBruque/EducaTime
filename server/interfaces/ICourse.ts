@@ -1,5 +1,5 @@
 export interface ICourse{
-    _id: String;
+    _id: string;
     title: string; // Nombre del curso
     description: string;
     video: string; // Chequear esto (video promo)
