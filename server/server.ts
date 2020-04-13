@@ -1,6 +1,5 @@
 import config from './config';
 import Logger from './loaders/logger';
-import path from 'path';
 
 async function startServer(): Promise<void> {
 
@@ -10,12 +9,6 @@ async function startServer(): Promise<void> {
         console.log(arr[i])
         //Logger.info(arr[i])
     }*/
-    if (config.mode === 'prod') {
-        // Handles any requests that don't match the ones above
-        app.get("*", (req, res) => {
-            res.sendFile(path.join(__dirname + '../frontend/build/index.html'));
-        });
-    }
     app.listen(config.port, err => {
         if (err) {
             Logger.error(err);

@@ -4,7 +4,7 @@ import Logger from '../loaders/logger'
 import { IBlog } from '../interfaces/IBlog';
 import { IUsuarioDTO } from '../interfaces/IUsuario';
 
-export default class BlogController {
+export default class BlogControllers {
     private blogService: BlogService;
     constructor() {
         this.blogService = new BlogService();

@@ -72,7 +72,7 @@ export default async (connection: Connection): Promise<express.Application> => {
     app.use(passport.session());
 
 
-    app.use(config.api.prefix, express.static('api/data'))
+    app.use(config.api.prefix, express.static('api/data'));
     // Load API routes
     app.use(config.api.prefix, routes());
 
