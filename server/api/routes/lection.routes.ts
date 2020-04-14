@@ -8,9 +8,9 @@ export default (app: Router) => {
     const lectionController = new LectionController;
     app.use('/lection', route);
 
-    route.get('/findAll', lectionController.FindAll)
+    route.get('/findAll', lectionController.findAll)
     
-    route.get('/:blogId', lectionController.FindById)
+    route.get('/:blogId', lectionController.findById)
 
     route.post('/',
         celebrate({
@@ -24,8 +24,8 @@ export default (app: Router) => {
                 active: Joi.boolean()
             }),
         }),
-        middlewares.isAuth,
-        lectionController.Create);
+        // middlewares.isAuth,
+        lectionController.create);
 
     route.put('/',
         celebrate({
@@ -40,7 +40,7 @@ export default (app: Router) => {
                 updated_for: Joi.string().required()
             }),
         }),
-        middlewares.isAuth,
-        lectionController.Edit);
+        // middlewares.isAuth,
+        lectionController.edit);
 
 }

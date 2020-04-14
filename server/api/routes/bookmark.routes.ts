@@ -1,15 +1,15 @@
-import StatusController from '../../controllers/status.controller';
+import BookmarkController from '../../controllers/bookmark.controller';
 import {Joi, celebrate} from 'celebrate';
 import {Router} from 'express';
 import middlewares from '../middlewares';
 const route = Router();
 
 export default (app:Router) =>{
-    const statusController = new StatusController;
+    const bookmarkController = new BookmarkController;
 
-    route.get('/:blogId', statusController.FindById)
+    route.get('/:blogId', bookmarkController.findById)
 
-    app.use('/status',route);
+    app.use('/bookmark',route);
 
     route.post('/',
         celebrate({
@@ -20,8 +20,8 @@ export default (app:Router) =>{
                 user: Joi.string().required()
             })
     }), 
-    middlewares.isAuth,
-    statusController.Create);
+    // middlewares.isAuth,
+    bookmarkController.create);
     route.put('/',
         celebrate({
             body: Joi.object({
@@ -31,6 +31,6 @@ export default (app:Router) =>{
                 user: Joi.string().required()
             })
     }), 
-    middlewares.isAuth,
-    statusController.Edit);
+    // middlewares.isAuth,
+    bookmarkController.edit);
 }

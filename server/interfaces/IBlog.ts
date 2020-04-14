@@ -1,5 +1,6 @@
-export interface IBlog {
-    _id: string;
+import { IGenericInterface } from "./IGenericInterface";
+
+export interface IBlog extends IGenericInterface {
     title: string;
     description: string;
     urls: [string];

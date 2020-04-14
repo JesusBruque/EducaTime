@@ -8,9 +8,9 @@ export default (app:Router)=>{
     const courseController = new CourseController;
     app.use('/course',route);
 
-    route.get('/findAll', courseController.FindAll)
+    route.get('/findAll', courseController.findAll)
     
-    route.get('/:courseId', courseController.FindById)
+    route.get('/:courseId', courseController.findById)
 
     route.post('/',
         celebrate({
@@ -28,8 +28,8 @@ export default (app:Router)=>{
                 active: Joi.boolean()
             }),
         }),
-        middlewares.isAuth,
-        courseController.Create);
+        // middlewares.isAuth,
+        courseController.create);
         
     route.put('/',
         celebrate({
@@ -48,6 +48,6 @@ export default (app:Router)=>{
                 updated_for: Joi.string().required()
             }),
         }),
-        middlewares.isAuth,
-        courseController.Edit);
+        // middlewares.isAuth,
+        courseController.edit);
 }

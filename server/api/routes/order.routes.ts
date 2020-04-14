@@ -8,9 +8,9 @@ export default (app:Router) => {
     const orderController = new OrderController;
     app.use('/order',route);
 
-    route.get('/findAll', orderController.FindAll)
+    route.get('/findAll', orderController.findAll)
     
-    route.get('/:orderId', orderController.FindById)
+    route.get('/:orderId', orderController.findById)
 
     route.post('/',
         celebrate({
@@ -24,6 +24,6 @@ export default (app:Router) => {
                 description: Joi.string()
             }),
         }),
-        middlewares.isAuth,
-        orderController.Create);
+        // middlewares.isAuth,
+        orderController.create);
 }

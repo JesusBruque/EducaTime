@@ -1,7 +1,6 @@
-import { ICourse } from "./ICourse";
+import { IGenericInterface } from "./IGenericInterface";
 
-export interface ILection {
-    _id: string;
+export interface ILection extends IGenericInterface {
     title: string;
     description: string;
     video: string;

@@ -1,8 +1,7 @@
-import { IOrder } from "./IOrder";
+import { IGenericInterface } from "./IGenericInterface";
 
-export interface IUsuario {
-    _id: string;
-    order: IOrder
+export interface IUsuario extends IGenericInterface {
+    order: string;
     email: string;
     username: string;
     password: string;
@@ -12,7 +11,6 @@ export interface IUsuario {
     encryptPassword(password: string): Promise<{ salt: Buffer, hashedPassword: string, err: Error }>;
 }
 
-export interface IUsuarioDTO {
-    _id: string;
+export interface IUsuarioDTO extends IGenericInterface{
     email: string;
 }

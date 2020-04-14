@@ -4,7 +4,7 @@ import lectionRoutes from './routes/lection.routes';
 import blogRoutes from './routes/blog.routes';
 import courseRoutes from './routes/course.routes';
 import orderRoutes from './routes/order.routes';
-import statusRoutes from './routes/status.routes';
+import bookmarkRoutes from './routes/bookmark.routes';
 
 export default () => {
     const app = Router();
@@ -13,7 +13,7 @@ export default () => {
     blogRoutes(app);
     courseRoutes(app);
     orderRoutes(app);
-    statusRoutes(app);
+    bookmarkRoutes(app);
     blogRoutes(app);
     return app;
 };

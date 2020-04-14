@@ -1,9 +1,9 @@
-import { IStatus } from '../interfaces/IStatus';
+import { IBookmark } from '../interfaces/IBookmark';
 import mongoose from 'mongoose';
 import mongooseHistory from 'mongoose-history'
 
 var Schema = mongoose.Schema;
-var statusSchema = new Schema({
+var bookmarkSchema = new Schema({
     bookmark: {
       type: Number
     },
@@ -24,5 +24,5 @@ var statusSchema = new Schema({
     },
 }, { versionKey: '_version' })
 
-statusSchema.plugin(mongooseHistory);
-export default mongoose.model<IStatus & mongoose.Document>('Status', statusSchema);
+bookmarkSchema.plugin(mongooseHistory);
+export default mongoose.model<IBookmark & mongoose.Document>('Bookmark', bookmarkSchema);

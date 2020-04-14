@@ -1,5 +1,6 @@
-export interface IOrder{
-    _id: string;
+import { IGenericInterface } from "./IGenericInterface";
+
+export interface IOrder extends IGenericInterface{
     place_date: string; // Fecha de pago
     course:String;
     user: String;

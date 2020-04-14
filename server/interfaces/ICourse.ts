@@ -1,5 +1,6 @@
-export interface ICourse{
-    _id: string;
+import { IGenericInterface } from "./IGenericInterface";
+
+export interface ICourse extends IGenericInterface{
     title: string; // Nombre del curso
     description: string;
     video: string; // Chequear esto (video promo)

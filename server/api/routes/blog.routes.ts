@@ -7,8 +7,8 @@ const route = Router();
 export default (app: Router) => {
     const blogController = new BlogController;
     app.use('/blog', route);
-    route.get('/findAll', blogController.FindAll)
-    route.get('/:blogId', blogController.FindById)
+    route.get('/findAll', blogController.findAll)
+    route.get('/:blogId', blogController.findById)
     route.post('/',
         celebrate({
             body: Joi.object({
@@ -21,8 +21,8 @@ export default (app: Router) => {
                 tags: Joi.array().required(),
             }),
         }),
-        middlewares.isAuth,
-        blogController.Create);
+        // middlewares.isAuth,
+        blogController.create);
     route.put('/',
         celebrate({
             body: Joi.object({
@@ -36,6 +36,6 @@ export default (app: Router) => {
                 _version: Joi.number().integer().required()
             }),
         }),
-        middlewares.isAuth,
-        blogController.Edit);
+        // middlewares.isAuth,
+        blogController.edit);
 }
