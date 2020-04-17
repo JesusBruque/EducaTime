@@ -1,203 +1,37 @@
 import Head from 'next/head'
 
-const Home = () => (
-  <div className="container">
-    <Head>
-      <title>Create Next App</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+const Home = () => {
+  return (
+      <div className="container">
+        <Head>
+            <title>Casor. Academia de formación</title>
+            <meta name={'description'} content={'Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol.'}/>
+            <link rel="icon" href="/assets/logo.svg"/>
+        </Head>
 
-    <main>
-      <h1 className="title">
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
-      </h1>
-
-      <p className="description">
-        Get started by editing <code>pages/index.js</code>
-      </p>
-
-      <div className="grid">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Learn &rarr;</h3>
-          <p>Learn about Next.js in an interactive course with quizzes!</p>
-        </a>
-
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Discover and deploy boilerplate example Next.js projects.</p>
-        </a>
-
-        <a
-          href="https://zeit.co/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          className="card"
-        >
-          <h3>Deploy &rarr;</h3>
-          <p>
-            Instantly deploy your Next.js site to a public URL with ZEIT Now.
-          </p>
-        </a>
+        <main>
+          <svg id="main_field" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 792.07 528.8" stroke={'var(--main-color)'} style={{width:'300px'}}>
+            <rect x="3.84" y="3.84" width="784.39" height="521.11" fill="none" strokeWidth="7.69"/>
+            <rect x="3.84" y="119.61" width="122.41" height="293.65" fill="none" strokeWidth="7.69"/>
+            <rect x="3.84" y="200.11" width="42.66" height="132.66" fill="none" strokeWidth="7.69"/>
+            <path d="M150.9,252.13c18.4,0,33.31,24.4,33.31,54.49s-14.91,54.5-33.31,54.5"
+                  transform="translate(-24.91 -40.19)" fill="none" strokeWidth="7.69"/>
+            <circle cx="87.7" cy="266.44" r="4.08" fill="none"/>
+            <circle cx="396.6" cy="266.48" r="68.56" fill="none" strokeMiterlimit="10"
+                    strokeWidth="7.69"/>
+            <line x1="396.6" y1="3.84" x2="396.6" y2="524.96" fill="none" strokeMiterlimit="10"
+                  strokeWidth="7.69"/>
+            <rect x="690.73" y="159.8" width="122.41" height="293.65" transform="translate(1478.96 573.06) rotate(180)"
+                  fill="none" strokeWidth="7.69"/>
+            <rect x="770.48" y="240.29" width="42.66" height="132.66" transform="translate(1558.71 573.06) rotate(180)"
+                  fill="none" strokeWidth="7.69"/>
+            <path d="M691,361.12c-18.4,0-33.31-24.4-33.31-54.5s14.91-54.49,33.31-54.49"
+                  transform="translate(-24.91 -40.19)" fill="none" strokeWidth="7.69"/>
+            <circle cx="704.38" cy="266.44" r="4.08" fill={'none'}/>
+          </svg>
+        </main>
       </div>
-    </main>
-
-    <footer>
-      <a
-        href="https://zeit.co?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Powered by <img src="/zeit.svg" alt="ZEIT Logo" />
-      </a>
-    </footer>
-
-    <style jsx>{`
-      .container {
-        min-height: 100vh;
-        padding: 0 0.5rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      main {
-        padding: 5rem 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      footer {
-        width: 100%;
-        height: 100px;
-        border-top: 1px solid #eaeaea;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      footer img {
-        margin-left: 0.5rem;
-      }
-
-      footer a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .title a {
-        color: #0070f3;
-        text-decoration: none;
-      }
-
-      .title a:hover,
-      .title a:focus,
-      .title a:active {
-        text-decoration: underline;
-      }
-
-      .title {
-        margin: 0;
-        line-height: 1.15;
-        font-size: 4rem;
-      }
-
-      .title,
-      .description {
-        text-align: center;
-      }
-
-      .description {
-        line-height: 1.5;
-        font-size: 1.5rem;
-      }
-
-      code {
-        background: #fafafa;
-        border-radius: 5px;
-        padding: 0.75rem;
-        font-size: 1.1rem;
-        font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-          DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-      }
-
-      .grid {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-
-        max-width: 800px;
-        margin-top: 3rem;
-      }
-
-      .card {
-        margin: 1rem;
-        flex-basis: 45%;
-        padding: 1.5rem;
-        text-align: left;
-        color: inherit;
-        text-decoration: none;
-        border: 1px solid #eaeaea;
-        border-radius: 10px;
-        transition: color 0.15s ease, border-color 0.15s ease;
-      }
-
-      .card:hover,
-      .card:focus,
-      .card:active {
-        color: #0070f3;
-        border-color: #0070f3;
-      }
-
-      .card h3 {
-        margin: 0 0 1rem 0;
-        font-size: 1.5rem;
-      }
-
-      .card p {
-        margin: 0;
-        font-size: 1.25rem;
-        line-height: 1.5;
-      }
-
-      @media (max-width: 600px) {
-        .grid {
-          width: 100%;
-          flex-direction: column;
-        }
-      }
-    `}</style>
-
-    <style jsx global>{`
-      html,
-      body {
-        padding: 0;
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-          Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-    `}</style>
-  </div>
-)
+  )
+}
 
 export default Home
