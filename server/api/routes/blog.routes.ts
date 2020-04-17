@@ -14,11 +14,11 @@ export default (app: Router) => {
             body: Joi.object({
                 title: Joi.string().required(),
                 description: Joi.string().required(),
-                urls: Joi.array().required(),
-                creation_date: Joi.date(),
+                urls: Joi.array().items(Joi.string()),
+                creation_date: Joi.number().required(),
                 author: Joi.string().required(),
                 active: Joi.boolean().required(),
-                tags: Joi.array().required(),
+                tags: Joi.array().items(Joi.string())
             }),
         }),
         // middlewares.isAuth,
@@ -26,16 +26,21 @@ export default (app: Router) => {
     route.put('/',
         celebrate({
             body: Joi.object({
+                _id: Joi.string().required(),
                 title: Joi.string().required(),
                 description: Joi.string().required(),
-                creation_date: Joi.date().required(),
+                urls: Joi.array().items(Joi.string()),
+                creation_date: Joi.number().required(),
                 author: Joi.string().required(),
                 active: Joi.boolean().required(),
-                tags: Joi.string().required(),
-                updated_for: Joi.string().required(),
+                tags: Joi.array().items(Joi.string()),
+                updated_for: Joi.string().allow("", null),
                 _version: Joi.number().integer().required()
             }),
         }),
         // middlewares.isAuth,
         blogController.edit);
+    route.put('/disable/:idBlog',
+        // middlewares.isAuth,
+        blogController.disable);
 }

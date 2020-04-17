@@ -11,6 +11,7 @@ export interface IUsuario extends IGenericInterface {
     encryptPassword(password: string): Promise<{ salt: Buffer, hashedPassword: string, err: Error }>;
 }
 
-export interface IUsuarioDTO extends IGenericInterface{
+export interface IUsuarioDTO {
+    _id: string;
     email: string;
 }
