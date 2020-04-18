@@ -10,7 +10,7 @@ export default (app: Router) => {
 
     route.get('/findAll', lectionController.findAll)
     
-    route.get('/:blogId', lectionController.findById)
+    route.get('/:lectionId', lectionController.findById)
 
     route.post('/',
         celebrate({

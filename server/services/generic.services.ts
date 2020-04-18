@@ -52,6 +52,7 @@ export default class GenericService {
     }
     public findById = async (objectId: string): Promise<IGenericInterface> => {
         try {
+            console.log(objectId);
             var err, res = await this.mySchema.findById(objectId);
             if (err) throw err;
             if (!res) throw Error("No se ha encontrado " + this.mySchema.modelName);
