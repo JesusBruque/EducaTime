@@ -80,7 +80,7 @@ const precio={
     height:"100%",
     background:"#57A"
 }
-const Course = () => {
+const Course = ({curso}) => {
     return (<Link href={`www.google.com`}>
         <div style={courseStyle} className="caja">
             <div style= {foto} className="vistaPreviaVideo">
@@ -89,7 +89,7 @@ const Course = () => {
             <div style = {contenido} className="Contenido">
                 <div style = {descripcion} className="Descripcion">
                     <div style = {titulo} className="NombreDeCurso">
-                    
+                        {curso.title}
                     </div>
                     <div style={descripcionCurso} className="DescripcionDeCurso">
                     
