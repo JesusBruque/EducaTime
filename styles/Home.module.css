@@ -1,0 +1,45 @@
+.mainTitle{
+    text-align: left;
+    width:fit-content;
+}
+.welcomeSection{
+    margin:0 auto;
+    max-width:1400px;
+}
+.welcomeSection h1{
+    margin-left:auto;
+    font-size:3em;
+    position: relative;
+}
+.welcomeSection h1:after{
+    content:'';
+    position: absolute;
+    height:4px;
+    width:40%;
+    background-color:var(--main-color);
+    bottom:-8px;
+    left:0;
+}
+.startBtn{
+    position:absolute;
+    bottom:50px;
+    left:50%;
+    transform: translateX(-50%);
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing:4px;
+    font-size:1.1em;
+    box-shadow: 0 4px 6px rgba(0,0,0,.2);
+}
+.startBtn:hover{
+    background-color: rgba(235, 235, 235, 0.6) !important;
+}
+/*---- CAMPOR DE FURGOL ----*/
+.mainField{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) perspective(2000px);
+    width:50vw;
+    transform-origin:center;
+}
+

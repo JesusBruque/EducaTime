@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 body{
     margin: 0 auto;
     font-family: 'Lato',sans-serif;
     box-sizing: border-box;
+    margin:0 auto;
 }
 *,*:after,*:before{
     box-sizing:inherit;
@@ -9,4 +11,36 @@ body{
 
 :root{
     --main-color:#30bad6;
+    --black-color:#565656;
+
 }
+main{
+    padding:0 100px 0 15px;
+}
+p, span, .title{
+    max-width:75ch;
+}
+section{
+    min-height:100vh;
+    padding-top:70px;
+}
+.title{
+    text-transform: uppercase;
+    font-weight:bold;
+    color:#565656;
+}
+.csr-btn{
+    padding:8px 15px;
+    text-transform: uppercase;
+    cursor:pointer;
+}
+.csr-btn:focus{
+    outline:none;
+    color:var(--black-color);
+}
+.csr-btn.transparent{
+    background-color: transparent;
+    border-color:solid 2px var(--black-color);
+    font-weight:bold;
+}
+
