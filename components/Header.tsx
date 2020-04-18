@@ -1,7 +1,37 @@
+import React from 'react';
+import headerStyles from '../styles/Header.module.css';
+import Link from "next/link";
 
 const Header = () => {
     return (
-        <div></div>
+        <div id={'casor-header'} className={headerStyles.header}>
+            <div className={headerStyles.top}>
+                <Link href={'/'}>
+                    <img className={headerStyles.logo} src={'/assets/logo_letras.png'} alt={'logo casor en la cabecera'}/>
+                </Link>
+            </div>
+            <div className={headerStyles.lateral}>
+                <div className={'first-icons'}>
+                    <img src={'/assets/menu-icon.png'} alt={'icono para menú'} className={headerStyles.menuIcon} />
+                    <Link href={'/login'}>
+                        <div className={headerStyles.userIcon}>
+                            <img src={'/assets/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
+                        </div>
+                    </Link>
+                </div>
+                <div className={headerStyles.socials}>
+                    <a href={'#'}>
+                        <img src={'/assets/facebook-icon.svg'} alt={'icono de la red social Facebook'}/>
+                    </a>
+                    <a href={'#'}>
+                        <img src={'/assets/twitter-icon.svg'} alt={'icono de la red social Twitter'}/>
+                    </a>
+                    <a href={'#'}>
+                        <img src={'/assets/instagram-icon.svg'} alt={'icono de la red social Instagram'}/>
+                    </a>
+                </div>
+            </div>
+        </div>
     )
 }
 
