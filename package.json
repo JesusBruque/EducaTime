@@ -9,6 +9,7 @@
     "build": "npm run build:next && npm run build:server",
     "start": "NODE_ENV=production node dist/index.js"
   },
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@types/connect-busboy": "0.0.2",
     "@types/express-session": "^1.15.16",
@@ -26,6 +27,7 @@
     "express-session": "^1.17.0",
     "gsap": "^3.2.6",
     "helmet": "^3.21.2",
+    "isomorphic-unfetch": "^3.0.0",
     "locomotive-scroll": "^3.3.11",
     "mongoose": "^5.9.1",
     "mongoose-history": "^0.8.0",
@@ -34,6 +36,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "underscore": "^1.9.2",
+    "unfetch": "^4.1.0",
     "winston": "^3.2.1",
     "xlsx": "^0.15.5"
   },
