@@ -1,20 +1,17 @@
 import gsap from "gsap";
+import ScrollComponent from "./ScrollComponent";
 
 export default class LandingUtilities{
     private scrollElement;
     private animations;
     private readonly htmlElement;
     constructor(element){
-        this.htmlElement = document.querySelector(element);
+        this.scrollElement = new ScrollComponent(element);
         this.animations = [];
     }
 
-    getScrollElement = async() => {
-        let src = await import('locomotive-scroll');
-        this.scrollElement = new src.default({
-            el:this.htmlElement,
-            smooth:true
-        });
+    initHomeScroll = async () => {
+        await this.scrollElement.getScrollElement();
     };
 
     enterAnimations = () => {

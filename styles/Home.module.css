@@ -2,10 +2,7 @@
     text-align: left;
     width:fit-content;
 }
-.welcomeSection{
-    margin:0 auto;
-    max-width:1400px;
-}
+
 .welcomeSection h1{
     margin-left:auto;
     font-size:3em;
@@ -20,6 +17,7 @@
     bottom:-8px;
     left:0;
 }
+
 .startBtn{
     position:absolute;
     bottom:50px;
