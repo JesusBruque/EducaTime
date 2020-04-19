@@ -1,0 +1,69 @@
+.wrapper{
+    position: relative;
+    width: 100%;
+    margin-top:20px;
+    padding-top: 22%;
+    box-shadow: 0px 3px 10px -5px black;;
+}
+.caja {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left:0px;
+    bottom: 0px;
+    padding: 26px 37px 22px;
+    display: grid;
+    grid-template-columns: 28% 72%;
+    grid-template-areas: "foto contenido";
+}
+.VistaPreviaVideo {
+    padding: 0px 10px;
+    grid-area: foto;
+}
+.Contenido{
+    padding: 0px 10px;
+    display:grid;
+    grid-area: contenido;
+    grid-template-rows: 81% 1% 18%;
+    grid-template-areas: "descripcion" "." "stats";
+}
+.Descripcion{
+    padding: 0px 0px 0px 5px;
+    display:grid;
+    grid-area: descripcion;
+    grid-template-rows: 18% 82%;
+    grid-template-areas: "titulo" "descripcionCurso";
+}
+.Stats{
+    display:grid;
+    grid-area: stats;
+    grid-template-columns: 12% 12% auto 15% 15%;
+    grid-template-areas: "rating porCiento . descuento precio";
+}
+.NombreDeCurso{
+    grid-area: titulo;
+}
+.DescripcionDeCurso{
+    grid-area: descripcionCurso;
+}
+.Stats div{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.Rating{
+    grid-area: rating;
+}
+.PorCiento{
+    grid-area: porCiento;
+}
+.Descuento{
+    color:red;
+    grid-area: descuento;
+}
+.Precio{
+    color:white;
+    background-color: rgb(30, 143, 236);
+    grid-area: precio;
+}

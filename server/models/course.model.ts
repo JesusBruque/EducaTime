@@ -16,6 +16,10 @@ var courseSchema = new Schema({
     minlength: 10,
     trim: true
   },
+  thumbnail:{
+    type: String,
+    required: true
+  },
   video: {
     type: String,
     required: true
@@ -38,6 +42,9 @@ var courseSchema = new Schema({
     type: Number,
     required: true,
   },
+  discount: {
+    type: Number
+  },
   last_update: {
     type: String,
     trim: true
@@ -52,6 +59,21 @@ var courseSchema = new Schema({
     type: [String],
     trim: true
   },
+  score: {
+    type: Number,
+    required: true,
+  },
+  reviews: {
+    type: [String]
+  },
+  perCent: {
+    type: String,
+    required: true,
+  },
+  active:{
+    type: Boolean,
+    required: true
+  }
 }, { versionKey: '_version' })
 
 courseSchema.plugin(mongooseHistory);

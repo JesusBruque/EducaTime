@@ -1,6 +1,7 @@
 import Course from '../models/course.model'
 import Lection from '../models/lection.model'
 import GenericService from './generic.services';
+import Review from '../models/review.model';
 
  export default class CourseService extends GenericService{
      constructor(){

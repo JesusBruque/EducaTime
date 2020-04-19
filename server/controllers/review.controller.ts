@@ -1,7 +1,7 @@
 import GenericController from "./generic.controller";
-import ReviewService from "../services/lection.services"
+import ReviewService from "../services/review.services"
 
-export default class LectionController extends GenericController{
+export default class ReviewController extends GenericController{
     constructor(){
         super(new ReviewService());
       }

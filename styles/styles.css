@@ -42,4 +42,6 @@ p, span, .title{
     border-color:solid 2px var(--black-color);
     font-weight:bold;
 }
-
+div{
+    overflow: hidden;
+}

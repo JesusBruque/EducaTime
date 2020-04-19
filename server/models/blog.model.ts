@@ -14,6 +14,10 @@ var blogSchema = new Schema({
   description: {
     type: String
   },
+  thumbnail:{
+    type:String,
+    required:true
+  },
   urls: {
     type: [String],
     required: true,

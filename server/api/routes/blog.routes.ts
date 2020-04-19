@@ -14,6 +14,7 @@ export default (app: Router) => {
             body: Joi.object({
                 title: Joi.string().required(),
                 description: Joi.string().required(),
+                thumbnail: Joi.string().required(),
                 urls: Joi.array().items(Joi.string()),
                 creation_date: Joi.number().required(),
                 author: Joi.string().required(),
@@ -29,6 +30,7 @@ export default (app: Router) => {
                 _id: Joi.string().required(),
                 title: Joi.string().required(),
                 description: Joi.string().required(),
+                thumbnail: Joi.string().required(),
                 urls: Joi.array().items(Joi.string()),
                 creation_date: Joi.number().required(),
                 author: Joi.string().required(),

@@ -1,21 +1,20 @@
 import Course from '../components/Course'
-import Header from '../components/Header';
-import Link from 'next/link';
 import fetch from 'isomorphic-unfetch'
 import {useEffect} from "react";
+import Layout from '../components/Layout'
+import panelStyles from "../styles/Courses.module.css";
 
-const panel={
-    width:"55%"
-}
 const Cursos = ({cursos}) =>{
-
     return (
         <div>
-            <Header/>
-            <p>Nuestros Artìculos</p>
-            {cursos.map(curso => {
-                return <Course curso={curso}/>
-            })}
+            <Layout>
+                <div className = {panelStyles.panel}>
+                    <p className={panelStyles.titulo} >Nuestros Artìculos</p>
+                    {cursos.map(curso => {
+                        return <Course curso={curso}/>
+                    })}
+                </div>
+            </Layout>
         </div>
     )
 };

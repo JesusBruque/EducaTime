@@ -1,13 +1,26 @@
-import Header from '../components/Header';
 import Blog from '../components/Blog'
-import Link from 'next/link';
+import Layout from '../components/Layout'
+import blogsModule from '../styles/Blogs.module.css'
 
-const Blogs=()=>{
+const Blogs=({blogs})=>{
     return (
     <div>
-        <Blog/>
-        <p>Hola Papo</p>
+        <Layout>
+            <p className={blogsModule.titulo}>Blogs</p>
+            <div className={blogsModule.panel}>
+                {blogs.map(blog=>{return <Blog blog= {blog}/>})}
+            </div>
+        </Layout>
     </div>
+    
     )
 };
+
+export async function getServerSideProps(){
+    const res = await fetch('http://localhost:5000/api/blog/findAll');
+    const data = await res.json();
+    const blogs = data.Blog;
+    return { props: { blogs } }
+}
+
 export default Blogs;
