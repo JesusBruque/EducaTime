@@ -8,8 +8,9 @@ export interface ICourse extends IGenericInterface{
     duration: number; // En segundos
     requirements: [string]; // Conocimientos previos necesarios/ideales
     category: [string];
-    fee: number; // Cuota
+    original_fee: number; // Cuota
     discount: number;
+    current_fee: number;
     last_update: string;
     goals: [string]; // Metas
     tags: [string];

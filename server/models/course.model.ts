@@ -38,11 +38,14 @@ var courseSchema = new Schema({
     required: true,
     trim: true
   },
-  fee: {
+  original_fee: {
     type: Number,
     required: true,
   },
   discount: {
+    type: Number
+  },
+  current_fee: {
     type: Number
   },
   last_update: {
@@ -67,8 +70,7 @@ var courseSchema = new Schema({
     type: [String]
   },
   perCent: {
-    type: String,
-    required: true,
+    type: String
   },
   active:{
     type: Boolean,

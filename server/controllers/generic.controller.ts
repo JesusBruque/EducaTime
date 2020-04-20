@@ -27,6 +27,13 @@ export default class GenericController {
     public edit = async (req: Request, res: Response, next: NextFunction) => {
         Logger.debug('Editando : ' + this.serviceString + ".");
         try {
+            if(req.body["current_fee"] && req.body["original_fee"] && req.body["discount"]){
+                req.body.body.current_fee -= (req.body.discount*req.body.original_fee)/100;
+                console.log("Si se imprime mongo");
+            }
+            if(req.body["perCent"] && req.body["score"]){
+                req.body.body.perCent = req.body.score*20; 
+            }
             await this.myService.edit(req.body as IGenericInterface, req.user as IUsuarioDTO);
             return res.status(200).json({ status: 200 });
         } catch (e) {

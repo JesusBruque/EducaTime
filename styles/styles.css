@@ -11,6 +11,8 @@ body{
 :root{
     --main-color:#30bad6;
     --black-color:#565656;
+    --red-color:#fc585d;
+    --background-color: #f0f0f0;
 }
 main{
     padding:70px 100px 0 15px;
