@@ -5,8 +5,9 @@
 
 .welcomeSection h1{
     margin-left:auto;
-    font-size:3em;
+    font-size:4em;
     position: relative;
+    opacity:0;
 }
 .welcomeSection h1:after{
     content:'';
@@ -20,13 +21,18 @@
 
 .startBtn{
     position:absolute;
-    bottom:50px;
+    top:86vh;
     left:50%;
     transform: translateX(-50%);
+}
+.startBtn button{
     font-family: 'Bebas Neue', cursive;
     letter-spacing:4px;
     font-size:1.1em;
-    box-shadow: 0 4px 6px rgba(0,0,0,.2);
+    /*box-shadow: 0 4px 6px rgba(0,0,0,.2);*/
+    transform: perspective(1000px);
+    backface-visibility: hidden;
+    opacity:0;
 }
 .startBtn:hover{
     background-color: rgba(235, 235, 235, 0.6) !important;
@@ -34,10 +40,76 @@
 /*---- CAMPOR DE FURGOL ----*/
 .mainField{
     position:fixed;
-    top:50%;
+    top:50vh;
     left:50%;
-    transform:translate(-50%,-50%) perspective(2000px);
+    transform:translate(-50%,-50%);
     width:50vw;
     transform-origin:center;
+    z-index:-1;
 }
 
+
+/*--- SECCION NIVELES ---*/
+.secondSection{
+    min-height: 250vh;
+    max-width: 1200px;
+    margin:0 auto;
+}
+.levelSection{
+    display:grid;
+    grid-template-columns: repeat(3,220px);
+    grid-template-rows: repeat(3,minmax(160px,max-content));
+    justify-content:end;
+    padding-top:70px;
+}
+.levelRightArrow{
+    grid-area:2/1;
+    justify-self: center;
+}
+.levelDownArrow{
+    grid-area:2/3;
+    align-self: center;
+}
+.levelItem{
+    color:var(--black-color);
+    overflow:hidden;
+}
+.levelItem>div, .levelItem>p{
+    transform: translateY(-150px);
+}
+.levelSection>img{
+    opacity:0;
+}
+.title{
+    font-size:2em;
+    font-weight:bold;
+    text-transform:uppercase;
+}
+.subtitle{
+    font-size:1.3em;
+    font-weight:bold;
+    text-transform:uppercase;
+}
+
+/*--- SECCION VALORES ---*/
+.valorSection{
+    height:200vh;
+    position:relative;
+}
+.valorsGrid{
+    display:grid;
+    grid-template-columns:minmax(30ch, 40ch) min-content minmax(30ch, 40ch) min-content minmax(30ch, 40ch);
+    grid-column-gap:15px;
+    position:absolute;
+}
+.valorsGrid>div{
+    overflow: hidden;
+}
+.valorsGrid>img{
+    opacity:0;
+}
+@media screen and (min-width: 1200px){
+    .levelSection{
+        padding-right:60px;
+    }
+}

@@ -1,8 +1,25 @@
-import React from 'react';
+import React,{useState} from 'react';
 import headerStyles from '../styles/Header.module.css';
 import Link from "next/link";
+import gsap from 'gsap';
 
 const Header = () => {
+    const [menuOpen,setMenuOpen] = useState(false);
+    const openMenu = () => {
+        try{
+            if(!menuOpen){
+                gsap.to('#menu-csr',{duration:.5,scaleY:1,ease:'power3.ou'});
+                gsap.to('#menu-csr .item',{duration:.5,opacity:1,ease:'power3.out',delay:.3});
+                setMenuOpen(true);
+            }else{
+                gsap.to('#menu-csr .item',{duration:.5,opacity:0,ease:'power3.out'});
+                gsap.to('#menu-csr',{duration:.5,scaleY:0,ease:'power3.out',delay:.2});
+                setMenuOpen(false);
+            }
+        }catch(err){
+            console.error(err);
+        }
+    }
     return (
         <div id={'casor-header'} className={headerStyles.header}>
             <div className={headerStyles.top}>
@@ -12,7 +29,7 @@ const Header = () => {
             </div>
             <div className={headerStyles.lateral}>
                 <div className={'first-icons'}>
-                    <img src={'/assets/menu-icon.png'} alt={'icono para menú'} className={headerStyles.menuIcon} />
+                    <img src={'/assets/menu-icon.png'} alt={'icono para menú'} className={headerStyles.menuIcon} onClick={openMenu} />
                     <Link href={'/login'}>
                         <div className={headerStyles.userIcon}>
                             <img src={'/assets/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
