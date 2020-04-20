@@ -5,8 +5,9 @@ import homeStyles from '../styles/Home.module.css';
 import LandingUtilities from "../webUtils/LandingUtilities";
 import gsap from 'gsap';
 import Field from "../components/Field";
+import Entrada from "../components/Entrada";
 
-const Home = () => {
+const Home = (props) => {
 
     useEffect(() => {
         gsap.to('#cortina-entrada img',{opacity:0,duration:.4});
@@ -34,6 +35,7 @@ const Home = () => {
               <link rel="icon" href="/assets/logo.svg"/>
 
           </Head>
+          <Entrada />
           <Layout>
               <section className={homeStyles.welcomeSection} id={'welcome-section'}>
                   <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>

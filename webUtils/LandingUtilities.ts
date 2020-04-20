@@ -38,8 +38,8 @@ export default class LandingUtilities{
         let tweenBtn = gsap.to('#welcome-section .csr-btn',{duration:1,rotateX:90,y:-10,z:-50,ease:'power3.out',paused: true});
         let tweenCampo = gsap.timeline({paused:true});
         tweenCampo.to('#main_field',{duration:1,rotation:44,rotationY:-15,rotationX:38,x:'-90%',y:'-45%',z:50,skewX:-3,skewY:10,ease:'power2.out',force3D:true},"tl");
-        tweenCampo.to(`.element_bb`,{opacity:1,ease:'power3.inOut'},"tl");
-        tweenCampo.to('.element_bb path',{opacity:1,ease:'power3.inOut'},"tl");
+        tweenCampo.to(`.element_bb`,{duration:1,opacity:1,ease:'power3.inOut'},"tl");
+        tweenCampo.to('.element_bb path',{duration:1,opacity:1,ease:'power3.inOut'},"tl");
 
         this.scrollElement.addAnimation({tween:tweenBtn,duration:120,el:document.querySelector('main')});
         this.scrollElement.addAnimation({tween:tweenCampo,duration:window.innerHeight*2,el:document.querySelector('main')});

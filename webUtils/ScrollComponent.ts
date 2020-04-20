@@ -16,6 +16,7 @@ export default class ScrollComponent{
             scrollbarClass:'csr-scrollbar'
         });
     };
+
     addAnimation(animation){
         this.animations.push(animation);
     }

@@ -1,8 +1,15 @@
 import Blog from '../components/Blog'
 import Layout from '../components/Layout'
 import blogsModule from '../styles/Blogs.module.css'
+import {useEffect} from 'react';
+import gsap from "gsap";
 
 const Blogs=({blogs})=>{
+
+    useEffect(() => {
+        gsap.to('#cortina-entrada img',{opacity:0,duration:.4});
+        gsap.to('#cortina-entrada',{duration:1.5,transformOrigin:'bottom',scaleY:0,ease:'power2.inOut'});
+    },[]);
     return (
     <div>
         <Layout>

@@ -10,8 +10,8 @@ const Course = ({curso}) => {
         backgroundRepeat: "no-repeat",
         backgroundSize: (curso.score * 20).toString()+"% 100%",
       }
-    return (<Link href={`www.google.com`}>
-        <div className={courseStyles.wrapper}>
+    return (
+        <div className={`${courseStyles.wrapper} curso-item`} key={curso._id} data-scroll data-scroll-call={'loadBlog'} data-scroll-position={'bottom'}>
             <div className={courseStyles.caja + " caja"}>
                 <div className={courseStyles.VistaPreviaVideo}>
                     <img src= {curso.thumbnail} width="100%" height="100%"/>
@@ -33,8 +33,7 @@ const Course = ({curso}) => {
                             
                         </div>
                          <div className={courseStyles.Score}>
-                            {curso.score-((curso.score*10)%10)/10}{"."+(curso.score*10)%10}
-                            
+                             {curso.score.toFixed(1)}
                          </div>
                     </div>
                     <div className={courseStyles.PorCiento}>
@@ -51,7 +50,7 @@ const Course = ({curso}) => {
             </div>
             </div>
         </div>
-    </Link>)
+    )
 };
 
 export default Course;

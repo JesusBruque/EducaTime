@@ -3,8 +3,18 @@ import fetch from 'isomorphic-unfetch'
 import {useEffect} from "react";
 import Layout from '../components/Layout'
 import panelStyles from "../styles/Courses.module.css";
+import CursosUtilities from "../webUtils/CursosUtilities";
 
 const Cursos = ({cursos}) =>{
+
+    useEffect(() => {
+        let cu = new CursosUtilities('main');
+        cu.initCursosScroll().then(() => {
+            cu.enterAnimations();
+            console.log('scroll cargado');
+            console.log(cu.scrollElement);
+        }).catch(err => console.error(err));
+    },[]);
     return (
         <div>
             <Layout>
@@ -13,6 +23,7 @@ const Cursos = ({cursos}) =>{
                     {cursos.map(curso => {
                         return <Course curso={curso}/>
                     })}
+
                 </div>
             </Layout>
         </div>
