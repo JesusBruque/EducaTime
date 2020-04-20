@@ -1,36 +1,32 @@
 import Link from 'next/link';
+import blogStyle from '../styles/Blog.module.css'
 
-const Blog=()=>{
+const Blog=({blog})=>{
     return (
-        <div className="caja">
-            <div className="foto">
-    
-            </div>
-            <div className="contenido">
-                <div className="descripcion">
-                     <div className="titulo">
-    
-                     </div>
-                     <div className="comentario">
-    
-                     </div>
-    
+        <div className={blogStyle.wrapper}>
+            <div className={blogStyle.caja}>
+                <div className={blogStyle.foto}>
+                    <img src={blog.thumbnail} width="100%" height="100%"/>
                 </div>
-                <div className="info">
-                     <div className="autor">
-    
-                     </div>
-                     <div className="fecha">
-    
-                      </div>
-    
+                <div className={blogStyle.contenido}>
+                    <div className={blogStyle.descripcion}>
+                        <div className={blogStyle.titulo}>
+                            {blog.title}
+                        </div>
+                        <div className={blogStyle.comentario}>
+                            {blog.description}
+                        </div>
+                    </div>
+                    <div className={blogStyle.info}>
+                        <div className={blogStyle.autor}>
+                            {blog.author}
+                        </div>
+                        <div className={blogStyle.fecha}>
+                            {blog.creation_date}
+                        </div>
+                    </div>
                 </div>
-    
             </div>
-        <style jsx>{
-        'div{background:#000;} .caja{width:20px; height:20px; position:relative; left:200px;}'
-        }
-        </style>
         </div>)
 };
 

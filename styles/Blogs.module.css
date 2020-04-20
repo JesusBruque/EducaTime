@@ -1,0 +1,14 @@
+.panel{
+    width: 85%;
+    padding: 20px 1% 0px;
+    left:10%;
+    position: relative;
+    display: grid;
+    grid-template-columns: 29% 29% 29%;
+    grid-template-rows: auto;
+    column-gap: 6.5%;
+    row-gap: 50px;
+}
+.title{
+    background-color: green;
+}

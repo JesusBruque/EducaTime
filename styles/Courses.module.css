@@ -1,0 +1,14 @@
+.panel{
+    position:relative;
+    left: 10%;
+    width:87%;
+    padding: 20px 1% 0px;
+    display:grid;
+    grid-template-rows: 60px auto;
+    grid-template-areas: "titulo" ".";
+}
+.titulo{
+    padding-left: 25px;
+    grid-area: "titulo";
+    text-align: left;
+}

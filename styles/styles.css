@@ -16,6 +16,8 @@ body,html{
 :root{
     --main-color:#30bad6;
     --black-color:#565656;
+    --red-color:#fc585d;
+    --background-color: #f0f0f0;
 }
 main{
     position:relative;
@@ -47,7 +49,6 @@ p, span, .title{
     border-color:solid 2px var(--black-color);
     font-weight:bold;
 }
-
 
 /*---- SCROLLBAR ---*/
 html.has-scroll-smooth {
@@ -97,4 +98,3 @@ html.has-scroll-dragging {
 .has-scroll-dragging .c-scrollbar_thumb {
     cursor: grabbing;
 }
-
