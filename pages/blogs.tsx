@@ -1,6 +1,6 @@
 import BlogItem from '../components/BlogItem'
 import Layout from '../components/Layout'
-import blogsModule from '../styles/Blogs.module.css'
+import blogsModule from '../styles/Blog.module.css'
 import utilsStyles from '../styles/Utils.module.css';
 
 import fetch from 'isomorphic-unfetch'
@@ -20,7 +20,7 @@ const Blogs=( {blogs} )=>{
             <div className={utilsStyles.sectionContainer}>
                 <h1 className={`${blogsModule.title} ${utilsStyles.sectionTitle}`}>Blog</h1>
                 <div className={utilsStyles.centeredContainer}>
-                    <BlogGrid blogs={blogs}/>
+                    <BlogGrid blogs={blogs} admin={false}/>
                 </div>
             </div>
         </Layout>
