@@ -1,0 +1,67 @@
+.sectionContainer{
+    padding:0 30px 30px;
+}
+.sectionTitle{
+    text-transform: uppercase;
+    font-weight:bold;
+    color:#565656;
+    font-family: 'LeagueGothic', cursive;
+    letter-spacing: 4px;
+    font-size:3.5em;
+}
+.centeredContainer{
+    display:flex;
+    justify-content: center;
+}
+
+
+.btn{
+    border:none;
+    text-transform:uppercase;
+    padding:8px 15px;
+    display:flex;
+    align-items: center;
+    font-weight:bold;
+    color:var(--black-color);
+    cursor:pointer;
+}
+.btn>img{
+    height:1.5em;
+    margin-right:15px;
+}
+.btn:focus{
+    outline:none;
+}
+.btnRounded{
+    border-radius:25px;
+}
+.btnWhite{
+    background-color: white;
+    box-shadow:0 3px 6px 0 rgba(0,0,0,.2);
+}
+
+.inputContainer{
+    margin:15px 15px calc(.9em + 16px) 15px;
+    position:relative;
+    display:flex;
+    align-items: center;
+    height:fit-content;
+    border:solid 1px var(--black-color);
+}
+.inputContainer>img{
+    height:.9em;
+    box-sizing: content-box;
+    padding:8px;
+}
+.input{
+    background-color:#FFFFFF;
+    padding:8px;
+    border:none;
+    font-family: inherit;
+    font-size:1.1em;
+    height:fit-content;
+    width:100%;
+}
+.input:focus{
+    outline:none;
+}

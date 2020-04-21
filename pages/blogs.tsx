@@ -1,29 +1,34 @@
-import Blog from '../components/Blog'
+import BlogItem from '../components/BlogItem'
 import Layout from '../components/Layout'
 import blogsModule from '../styles/Blogs.module.css'
-import {useEffect} from 'react';
-import gsap from "gsap";
+import utilsStyles from '../styles/Utils.module.css';
 
-const Blogs=({blogs})=>{
+import fetch from 'isomorphic-unfetch'
+import React,{useEffect} from 'react';
+import BlogUtilities from "../webUtils/BlogUtilities";
+import BlogGrid from "../components/BlogGrid";
 
+const Blogs=( {blogs} )=>{
     useEffect(() => {
-        gsap.to('#cortina-entrada img',{opacity:0,duration:.4});
-        gsap.to('#cortina-entrada',{duration:1.5,transformOrigin:'bottom',scaleY:0,ease:'power2.inOut'});
+        let bu = new BlogUtilities('main');
+        bu.initBlogscroll().then(() => {
+            bu.enterAnimations();
+        }).catch(err => console.error(err));
     },[]);
     return (
-    <div>
         <Layout>
-            <p className={blogsModule.titulo}>Blogs</p>
-            <div className={blogsModule.panel}>
-                {blogs.map(blog=>{return <Blog blog= {blog}/>})}
+            <div className={utilsStyles.sectionContainer}>
+                <h1 className={`${blogsModule.title} ${utilsStyles.sectionTitle}`}>Blog</h1>
+                <div className={utilsStyles.centeredContainer}>
+                    <BlogGrid blogs={blogs}/>
+                </div>
             </div>
         </Layout>
-    </div>
     
     )
 };
 
-export async function getServerSideProps(){
+export async function getStaticProps(){
     const res = await fetch('http://localhost:5000/api/blog/findAll');
     const data = await res.json();
     const blogs = data.Blog;

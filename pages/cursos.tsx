@@ -1,9 +1,10 @@
-import Course from '../components/Course'
+import CursoItem from '../components/CursoItem'
 import fetch from 'isomorphic-unfetch'
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import Layout from '../components/Layout'
-import panelStyles from "../styles/Courses.module.css";
 import CursosUtilities from "../webUtils/CursosUtilities";
+import utilsStyles from '../styles/Utils.module.css';
+import CursoGrid from "../components/CursosGrid";
 
 const Cursos = ({cursos}) =>{
 
@@ -11,22 +12,18 @@ const Cursos = ({cursos}) =>{
         let cu = new CursosUtilities('main');
         cu.initCursosScroll().then(() => {
             cu.enterAnimations();
-            console.log('scroll cargado');
-            console.log(cu.scrollElement);
         }).catch(err => console.error(err));
     },[]);
-    return (
-        <div>
-            <Layout>
-                <div className = {panelStyles.panel}>
-                    <p className={panelStyles.titulo} >Nuestros Artìculos</p>
-                    {cursos.map(curso => {
-                        return <Course curso={curso}/>
-                    })}
 
+    return (
+        <Layout>
+            <div className={utilsStyles.sectionContainer}>
+                <h1 className={utilsStyles.sectionTitle}>Nuestros cursos</h1>
+                <div className={utilsStyles.centeredContainer}>
+                    <CursoGrid cursos={cursos}/>
                 </div>
-            </Layout>
-        </div>
+            </div>
+        </Layout>
     )
 };
 
@@ -36,16 +33,5 @@ export async function getServerSideProps(){
     const cursos = data.Course;
     return { props: { cursos } }
 }
-// Cursos.getInitialProps = async function(){
-//     const res = await fetch('http://localhost:5000/api/course/findAll');
-//     console.log(res.type+" sanaco");
-//     const data = await res.json();
-//
-//     console.log(`Show data fetched. Count: ${data.length}`);
-//
-//     return {
-//       props: res
-//     };
-//
-// };
+
 export default Cursos;

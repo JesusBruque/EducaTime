@@ -1,3 +1,7 @@
+.cursosContainer{
+    display:grid;
+    grid-auto-columns: minmax(400px,1200px);
+}
 .wrapper{
     position: relative;
     width: 100%;

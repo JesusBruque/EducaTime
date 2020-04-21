@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import courseStyles from "../styles/Course.module.css";
 
-const Course = ({curso}) => {
+const CursoItem = ({curso}) => {
     // (curso.Rating * 20).toString().concat("% 100%");
     let styles = {
         width: '100%',
@@ -53,4 +53,4 @@ const Course = ({curso}) => {
     )
 };
 
-export default Course;
+export default CursoItem;
