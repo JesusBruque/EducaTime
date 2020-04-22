@@ -1,6 +1,8 @@
-import Link from 'next/link';
 import blogStyle from '../styles/Blog.module.css'
 import moment from "moment";
+import Photo from './PhotoItem'
+import Cuerpo from './Cuerpo'
+import GridItem from './GridItem'
 
 const BlogItem=({blog, admin})=>{
     const handleEdit = () => {
@@ -10,7 +12,9 @@ const BlogItem=({blog, admin})=>{
         console.log('eliminar ', blog);
     }
     return (
+        
         <div className={`${blogStyle.caja} blog-item ${admin ? blogStyle.adminItem : ''}`}>
+        
             <div className={blogStyle.foto}>
                 <img src={blog.thumbnail} width="100%" height="100%"/>
             </div>
@@ -39,7 +43,8 @@ const BlogItem=({blog, admin})=>{
                         <img src={'/assets/icons/delete.svg'} alt={'icono de eliminar'} onClick={handleDelete}/>
                     </div>
             }
-        </div>)
+        </div>
+        )
 };
 
 export default BlogItem;
