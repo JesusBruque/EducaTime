@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import adminStyles from '../styles/Admin.module.css';
+import adminStyles from '../../styles/Admin.module.css';
 import Link from "next/link";
 const AdminNavbar = ({selected}) => {
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from "./Header";
 import Menu from "./Menu";
-import AdminNavbar from "./AdminNavbar";
+import AdminNavbar from "./admin/AdminNavbar";
 import adminStyles from '../styles/Admin.module.css';
 
 const Layout = props => {

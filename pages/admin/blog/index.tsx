@@ -1,15 +1,18 @@
 import fetch from "isomorphic-unfetch";
-import utilsStyles from "../../styles/Utils.module.css";
-import blogsModule from "../../styles/Blog.module.css";
-import BlogGrid from "../../components/BlogGrid";
-import Layout from "../../components/Layout";
+import utilsStyles from "../../../styles/Utils.module.css";
+import blogsModule from "../../../styles/Blog.module.css";
+import BlogGrid from "../../../components/BlogGrid";
+import Layout from "../../../components/Layout";
 import React, {useEffect} from "react";
-import WebUtils from "../../webUtils/WebUtils";
-
-const Blog = ({blogs}) => {
+import WebUtils from "../../../webUtils/WebUtils";
+import Link from "next/link";
+const Index = ({blogs}) => {
     useEffect(() => {
         let wu = new WebUtils('#admin-main--container');
-        wu.initScroll().then(() => {}).catch(err => console.error(err));
+        wu.initScroll().then(() => {
+
+        }).catch(err => console.error(err));
+
     },[]);
 
     return (
@@ -17,10 +20,12 @@ const Blog = ({blogs}) => {
             <div className={utilsStyles.sectionContainer}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <h1 className={`${blogsModule.title} ${utilsStyles.sectionTitle}`}>Blog</h1>
-                    <button className={`${utilsStyles.btn} ${utilsStyles.btnWhite} ${utilsStyles.btnRounded}`}>
-                        <img src={'/assets/icons/add.svg'}/>
-                        <span>Añadir entrada</span>
-                    </button>
+                    <Link href={'/admin/blog/add'}>
+                        <button className={`${utilsStyles.btn} ${utilsStyles.btnWhite} ${utilsStyles.btnRounded}`}>
+                            <img src={'/assets/icons/add.svg'}/>
+                            <span>Añadir entrada</span>
+                        </button>
+                    </Link>
                     <div className={utilsStyles.inputContainer}>
                         <img src={'/assets/icons/search.svg'} alt={'icono de lupa'}/>
                         <input className={utilsStyles.input} placeholder={'Buscar...'}/>
@@ -43,4 +48,4 @@ export async function getServerSideProps(){
 }
 
 
-export default Blog;
+export default Index;
