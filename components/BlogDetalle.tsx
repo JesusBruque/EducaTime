@@ -16,7 +16,8 @@ const BlogDetalle = ({blog}) =>{
                 <div className={blogVista.p}> 
                     {blog.description}
                 </div>}
-                     anchoTitulo={"80"}/>}/>
+                     anchoTitulo={"80"}
+                     final = {null}/>}/>
 
         </div>
     )

@@ -1,15 +1,15 @@
 import estilosGrid from '../styles/GridItems.module.css'
 
-const GridItem=({horizontal,aspect, proporcion,cabecerita,cuerpito})=>{
+const GridItem=({horizontal, aspect, proporcion, cabecerita, cuerpito})=>{
     
     let estiloContenedorA = {
-        gridTemplateColumns: proporcion.toString() + "% auto",
-        gridColumnGap: "20px",
+        gridTemplateColumns: proporcion.toString() + " auto",
+        gridColumnGap: "5%",
         gridTemplateAreas: `'cabecera cuerpo'`
     };
     let estiloContenedorB = {
-        gridTemplateRows: proporcion.toString() + "% auto",
-        gridRowGap: "20px",
+        gridTemplateRows: proporcion.toString() + " auto",
+        gridRowGap: "5%",
         gridTemplateAreas: `
                             'cabecera'
                             'cuerpo'
@@ -32,7 +32,7 @@ const GridItem=({horizontal,aspect, proporcion,cabecerita,cuerpito})=>{
                     {cabecerita}
                 </div>
                 <div style = {estiloHijoCuerpo}>
-                    {cuerpito}
+                    {cuerpito!=null?cuerpito:""}
                 </div>
             </div>
         </div>

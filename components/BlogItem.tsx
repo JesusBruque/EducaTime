@@ -12,7 +12,6 @@ const BlogItem=({blog, admin})=>{
         console.log('eliminar ', blog);
     }
     return (
-        
         <div className={`${blogStyle.caja} blog-item ${admin ? blogStyle.adminItem : ''}`}>
         
             <div className={blogStyle.foto}>
@@ -46,5 +45,11 @@ const BlogItem=({blog, admin})=>{
         </div>
         )
 };
+// export async function getStaticProps(id){
+//     const res = await fetch('http://localhost:5000/api/blog/findById/'+id.toString());
+//     const data = await res.json();
+//     const blogs = data.Blog;
+//     return { props: { blogs } }
+// }
 
 export default BlogItem;
