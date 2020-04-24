@@ -23,18 +23,19 @@
     position:absolute;
     top:86vh;
     left:50%;
-    transform: translateX(-50%);
+    z-index:1050;
+    font-size:1.3em;
 }
 .startBtn button{
     font-family: 'Bebas Neue', cursive;
     letter-spacing:4px;
     font-size:1.1em;
     /*box-shadow: 0 4px 6px rgba(0,0,0,.2);*/
-    transform: perspective(1000px);
+    transform: perspective(1000px) translateX(-50%);
     backface-visibility: hidden;
     opacity:0;
 }
-.startBtn:hover{
+.startBtn button:hover{
     background-color: rgba(235, 235, 235, 0.6) !important;
 }
 /*---- CAMPOR DE FURGOL ----*/

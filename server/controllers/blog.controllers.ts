@@ -21,4 +21,8 @@ export default class BlogControllers extends GenericController {
             return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
         }
     }
+    public uploadImage = async(req:Request,res:Response) =>{
+        console.log('trigger upload image');
+        return res.status(200).json({mensaje:'imagen subida'});
+    }
 }

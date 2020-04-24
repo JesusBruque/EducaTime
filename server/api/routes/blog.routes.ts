@@ -45,4 +45,5 @@ export default (app: Router) => {
     route.put('/disable/:idBlog',
         // middlewares.isAuth,
         blogController.disable);
+    route.post('/uploadImage/:idBlog',blogController.uploadImage)
 }

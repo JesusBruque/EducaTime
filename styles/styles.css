@@ -22,13 +22,6 @@ body,html{
     --red-color:#fc585d;
     --background-color: #f0f0f0;
 }
-main{
-    position:relative;
-    padding:70px 100px 0 15px;
-    margin:0 auto;
-    max-width:1400px;
-    min-height:100vh;
-}
 p, span, .title{
     max-width:75ch;
 }
@@ -53,7 +46,8 @@ p, span, .title{
     font-weight:bold;
 }
 
-/*---- SCROLLBAR ---*/
+/*---------- SCROLLBAR ------------*/
+
 html.has-scroll-smooth {
     overflow: hidden; }
 
@@ -100,4 +94,49 @@ html.has-scroll-dragging {
 }
 .has-scroll-dragging .c-scrollbar_thumb {
     cursor: grabbing;
+}
+
+
+/*------ EDITOR CSS --------*/
+#__next .tox.tox-tinymce{
+    margin:0 auto;
+    max-width:75ch;
+}
+.tox .tox-statusbar{
+    display:none !important;
+}
+
+
+/*----- LOADER -----*/
+#casor-loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:1050;
+}
+#casor-loader--container{
+    position:absolute;
+    z-index:-1;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color: rgba(86,86,86,.3);
+}
+#casor-loader--object{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    display:flex;
+}
+#casor-loader--object .loader-ball{
+    width:15px;
+    height:15px;
+    margin:0 4px;
+    background-color:var(--main-color);
+    /*box-shadow: 0 4px 3px 0 rgba(0,0,0,.2);*/
+    transform-origin:bottom;
 }

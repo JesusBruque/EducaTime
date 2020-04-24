@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import adminStyles from '../../styles/Admin.module.css';
 import Link from "next/link";
+
 const AdminNavbar = ({selected}) => {
 
     useEffect(() => {
@@ -23,7 +24,7 @@ const AdminNavbar = ({selected}) => {
         }
 
         showActiveTab();
-    },[]);
+    },[selected]);
 
     return (
         <nav className={adminStyles.navBar} id={'navBar-admin'}>

@@ -7,35 +7,26 @@ import React, {useEffect} from "react";
 import WebUtils from "../../../webUtils/WebUtils";
 import Link from "next/link";
 const Index = ({blogs}) => {
-    useEffect(() => {
-        let wu = new WebUtils('#admin-main--container');
-        wu.initScroll().then(() => {
-
-        }).catch(err => console.error(err));
-
-    },[]);
 
     return (
-        <Layout admin selected={'blog'}>
-            <div className={utilsStyles.sectionContainer}>
-                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                    <h1 className={`${blogsModule.title} ${utilsStyles.sectionTitle}`}>Blog</h1>
-                    <Link href={'/admin/blog/add'}>
-                        <button className={`${utilsStyles.btn} ${utilsStyles.btnWhite} ${utilsStyles.btnRounded}`}>
-                            <img src={'/assets/icons/add.svg'}/>
-                            <span>Añadir entrada</span>
-                        </button>
-                    </Link>
-                    <div className={utilsStyles.inputContainer}>
-                        <img src={'/assets/icons/search.svg'} alt={'icono de lupa'}/>
-                        <input className={utilsStyles.input} placeholder={'Buscar...'}/>
-                    </div>
-                </div>
-                <div className={utilsStyles.centeredContainer}>
-                    <BlogGrid blogs={blogs} admin={true}/>
+        <div className={utilsStyles.sectionContainer}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <h1 className={`${blogsModule.title} ${utilsStyles.sectionTitle}`}>Blog</h1>
+                <Link href={'/admin/blog/add'}>
+                    <button className={`${utilsStyles.btn} ${utilsStyles.btnWhite} ${utilsStyles.btnRounded}`}>
+                        <img src={'/assets/icons/add.svg'}/>
+                        <span>Añadir entrada</span>
+                    </button>
+                </Link>
+                <div className={utilsStyles.inputContainer}>
+                    <img src={'/assets/icons/search.svg'} alt={'icono de lupa'}/>
+                    <input className={utilsStyles.input} placeholder={'Buscar...'}/>
                 </div>
             </div>
-        </Layout>
+            <div className={utilsStyles.centeredContainer}>
+                <BlogGrid blogs={blogs} admin={true}/>
+            </div>
+        </div>
     )
 };
 

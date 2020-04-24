@@ -7,19 +7,13 @@ import utilsStyles from "../../styles/Utils.module.css";
 
 const Formacion = ({cursos}) => {
 
-    useEffect(() => {
-        let wu = new WebUtils('#admin-main--container');
-        wu.initScroll().then(() => {}).catch(err => console.error(err));
-    },[]);
     return (
-        <Layout admin selected={'formacion'}>
-            <div className={utilsStyles.sectionContainer}>
-                <h1 className={utilsStyles.sectionTitle}>Formación</h1>
-                <div className={utilsStyles.centeredContainer}>
-                    <CursoGrid cursos={cursos}/>
-                </div>
+        <div className={utilsStyles.sectionContainer}>
+            <h1 className={utilsStyles.sectionTitle}>Formación</h1>
+            <div className={utilsStyles.centeredContainer}>
+                <CursoGrid cursos={cursos}/>
             </div>
-        </Layout>
+        </div>
     )
 };
 

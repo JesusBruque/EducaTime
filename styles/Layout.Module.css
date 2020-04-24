@@ -1,0 +1,19 @@
+/*---- ESTILOS LAYOUT ADMIN ----*/
+.adminContainer{
+    padding:30px 215px 30px 15px;
+}
+.adminContainer>div:first-child{
+    background-color: white;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.2);
+    border-radius:20px;
+    padding:15px 30px;
+}
+
+/*---- ESTILOS LAYOUT WEB ---*/
+.webContainer{
+    position:relative;
+    padding:70px 100px 0 15px;
+    margin:0 auto;
+    max-width:1400px;
+    min-height:100vh;
+}
