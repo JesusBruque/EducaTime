@@ -5,6 +5,7 @@ export interface IUsuario extends IGenericInterface {
     email: string;
     username: string;
     password: string;
+    rol:string;
     salt: Buffer;
     updated_for: string;
     validPassword(password: string): Promise<Boolean>;
@@ -14,4 +15,5 @@ export interface IUsuario extends IGenericInterface {
 export interface IUsuarioDTO {
     _id: string;
     email: string;
+    username:string;
 }

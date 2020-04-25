@@ -3,6 +3,10 @@ import headerStyles from '../styles/Header.module.css';
 import Link from "next/link";
 import gsap from 'gsap';
 
+
+type Props = {
+    menu:boolean
+}
 const Header = () => {
     const [menuOpen,setMenuOpen] = useState(false);
     const openMenu = () => {
@@ -19,7 +23,7 @@ const Header = () => {
         }catch(err){
             console.error(err);
         }
-    }
+    };
     return (
         <div id={'casor-header'} className={headerStyles.header}>
             <div className={headerStyles.top}>
@@ -29,22 +33,22 @@ const Header = () => {
             </div>
             <div className={headerStyles.lateral}>
                 <div className={'first-icons'}>
-                    <img src={'/assets/menu-icon.png'} alt={'icono para menú'} className={headerStyles.menuIcon} onClick={openMenu} />
+                    <img src={'/assets/icons/menu-icon.png'} alt={'icono para menú'} className={headerStyles.menuIcon} onClick={openMenu} />
                     <Link href={'/login'}>
                         <div className={headerStyles.userIcon}>
-                            <img src={'/assets/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
+                            <img src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
                         </div>
                     </Link>
                 </div>
                 <div className={headerStyles.socials}>
                     <a href={'#'}>
-                        <img src={'/assets/facebook-icon.svg'} alt={'icono de la red social Facebook'}/>
+                        <img src={'/assets/icons/facebook-icon.svg'} alt={'icono de la red social Facebook'}/>
                     </a>
                     <a href={'#'}>
-                        <img src={'/assets/twitter-icon.svg'} alt={'icono de la red social Twitter'}/>
+                        <img src={'/assets/icons/twitter-icon.svg'} alt={'icono de la red social Twitter'}/>
                     </a>
                     <a href={'#'}>
-                        <img src={'/assets/instagram-icon.svg'} alt={'icono de la red social Instagram'}/>
+                        <img src={'/assets/icons/instagram-icon.svg'} alt={'icono de la red social Instagram'}/>
                     </a>
                 </div>
             </div>

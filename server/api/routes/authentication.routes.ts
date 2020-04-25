@@ -19,4 +19,5 @@ export default (app: Router) => {
     route.delete('/',
         middlewares.isAuth,
         authenticationController.logout);
+
 }

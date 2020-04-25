@@ -25,6 +25,12 @@ body,html{
 p, span, .title{
     max-width:75ch;
 }
+input::placeholder{
+    font-weight: bold;
+}
+form{
+    text-align: center;
+}
 .title{
     text-transform: uppercase;
     font-weight:bold;

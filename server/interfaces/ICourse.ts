@@ -1,4 +1,6 @@
 import { IGenericInterface } from "./IGenericInterface";
+import {IReview} from "./IReview";
+
 
 export interface ICourse extends IGenericInterface{
     title: string; // Nombre del curso
@@ -6,16 +8,20 @@ export interface ICourse extends IGenericInterface{
     thumbnail: string,
     video: string; // Chequear esto (video promo)
     duration: number; // En segundos
-    requirements: [string]; // Conocimientos previos necesarios/ideales
+    requirements: string; // Conocimientos previos necesarios/ideales [ESTO SERÁ FORMATO HTML]
     category: [string];
     original_fee: number; // Cuota
     discount: number;
-    current_fee: number;
-    last_update: string;
-    goals: [string]; // Metas
+    //current_fee: number;
+    last_update: number;
+    goals: string; // Metas [ESTO SERÁ FORMATO HTML]
     tags: [string];
     score:number;
-    reviews: [string];
-    perCent: string;
+    reviews: IReview[];
+    //perCent: string;
     active: boolean;
+    fees:[number];
+    dateStartInscription:number;
+    dateEndInscription:number;
+    teacher:string;
 }

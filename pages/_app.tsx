@@ -5,6 +5,10 @@ import Router, {useRouter} from 'next/Router';
 import WebUtils from "../webUtils/WebUtils";
 import Layout from "../components/Layout";
 import React,{useEffect, useState} from "react";
+import Entrada from "../components/Entrada";
+import dynamic from "next/dist/next-server/lib/dynamic";
+import gsap from "gsap";
+import Field from "../components/Field";
 
 function MyApp({ Component, pageProps }: AppProps) {
     moment.locale('es');
@@ -12,17 +16,20 @@ function MyApp({ Component, pageProps }: AppProps) {
     const router = useRouter();
     const [isAdmin,setIsAdmin] = useState(false);
     const [optionSelected,setOptionSelected] = useState('');
+    const [isLanding,setIsLanding] = useState(false);
 
     let wu = new WebUtils('main');
+
     Router.events.on('routeChangeStart',(err,url) => {
         wu.initLoader();
         wu.startLoader();
     });
-    // Router.events.on('routeChangeComplete',(err,url) => {
-    //     wu.initScroll().then(() => {
-    //         // wu.removeLoader();
-    //     });
-    // });
+
+
+    const loadScroll = () => {
+        wu.initScroll().then(() => wu.removeLoader());
+    };
+
     useEffect(() =>{
         console.log(router);
         if(router.pathname.includes('admin')){
@@ -30,14 +37,20 @@ function MyApp({ Component, pageProps }: AppProps) {
             setOptionSelected(subr);
             setIsAdmin(true);
         }
-        console.log('efecto router');
-        wu.initScroll().then(() => wu.removeLoader());
+        /*---- LANDING ----*/
+        if(router.pathname === '/'){
+            setIsLanding(true);
+        }else{
+            setIsLanding(false);
+            loadScroll();
+        }
     },[setIsAdmin,router]);
     return (
         <div>
-            <Layout admin={isAdmin} selected={optionSelected}>
-                <Component {...pageProps} utils={wu}/>
-            </Layout>
+            {isLanding ? <Component {...pageProps}/> :
+                <Layout admin={isAdmin} selected={optionSelected}>
+                    <Component {...pageProps} utils={wu}/>
+                </Layout>}
         </div>
     )
 }
