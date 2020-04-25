@@ -1,0 +1,31 @@
+.Contenedor{
+    display:grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 40% auto 20%;
+    grid-template-areas: 'left . right';
+}
+.Left{
+    grid-area: left;
+    display: grid;
+    grid-template-rows: 58% 42%;
+    grid-template-areas: 'up' 'down';
+}
+.Right{
+    grid-area: right;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-areas: 'upA' 'downA';
+}
+.Up{
+    grid-area: up;
+}
+.Down{
+    grid-area: down;
+}
+.UpA{
+    grid-area: upA;
+}
+.DownA{
+    grid-area: downA;
+}
