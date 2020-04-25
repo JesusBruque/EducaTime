@@ -15,5 +15,4 @@ export interface IUsuario extends IGenericInterface {
 export interface IUsuarioDTO {
     _id: string;
     email: string;
-    username:string;
 }
