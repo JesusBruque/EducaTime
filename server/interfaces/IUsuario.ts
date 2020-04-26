@@ -1,7 +1,6 @@
 import { IGenericInterface } from "./IGenericInterface";
 
 export interface IUsuario extends IGenericInterface {
-    order: string;
     email: string;
     username: string;
     password: string;
@@ -15,4 +14,6 @@ export interface IUsuario extends IGenericInterface {
 export interface IUsuarioDTO {
     _id: string;
     email: string;
+    username:string;
+    rol:string;
 }

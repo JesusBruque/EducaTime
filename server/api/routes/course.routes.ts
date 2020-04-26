@@ -8,9 +8,9 @@ export default (app:Router)=>{
     const courseController = new CourseController;
     app.use('/course',route);
 
-    route.get('/findAll', courseController.findAll)
+    route.get('/findAll', courseController.findAll);
     
-    route.get('/:courseId', courseController.findById)
+    route.get('/:id', courseController.findById);
 
     route.post('/',
         celebrate({

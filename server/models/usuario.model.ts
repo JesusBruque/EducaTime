@@ -6,18 +6,6 @@ import mongooseHistory from 'mongoose-history'
 
 var Schema = mongoose.Schema;
 var usuarioSchema = new Schema({
-  nombre: {
-    type: String,
-    required: true,
-    minlength: 2,
-    trim: true
-  },
-  apellidos: {
-    type: String,
-    required: true,
-    minlength: 2,
-    trim: true
-  },
   password: {
     type: String,
     required: true,
@@ -39,8 +27,10 @@ var usuarioSchema = new Schema({
     minlength: 3,
     trim: true
   },
-  telefono: {
-    type: String
+  rol:{
+    type:String,
+    required:true,
+    enum:['admin','user','teacher']
   },
   salt: {
     type: Buffer,

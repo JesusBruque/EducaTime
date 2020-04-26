@@ -4,19 +4,28 @@ import LoginForm from "../components/LoginForm";
 import Button from "../components/Button";
 import {login} from "../utils/Authentication";
 
-const Login = () => {
+const Login = ({router}) => {
     // const router = useRouter();
 
     const [credentials,setCredentials] = useState({email:'',password:''});
+
     const onSubmit = () => {
+        console.log(credentials);
         login(credentials).then((res) => {
             if (res.data.status === 200) {
-                // router.push('/')
+                let rol = res.data.user.rol;
+                if(rol !== 'admin'){
+                    router.push('/whiteboard/'+rol);
+                }
+                if(rol === 'admin'){
+                    router.push('/admin/formacion');
+                }
             }
         }).catch(err => {
-
+            window.alert('usuario y/o contraseña erróneos.')
         });
     };
+
     const buttons = [<Button key="buttonCliente" type="submit" color={'black'} text={'Iniciar sesión'} styles={{width:'80%',margin:'15px 0'}} />];
 
     return (

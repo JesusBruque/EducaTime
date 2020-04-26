@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <div>
             {isLanding ? <Component {...pageProps}/> :
                 <Layout admin={isAdmin} selected={optionSelected}>
-                    <Component {...pageProps} utils={wu}/>
+                    <Component {...pageProps} utils={wu} router={router}/>
                 </Layout>}
         </div>
     )

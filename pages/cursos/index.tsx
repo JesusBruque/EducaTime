@@ -1,10 +1,10 @@
-import CursoItem from '../components/CursoItem'
+import CursoItem from '../../components/CursoItem'
 import fetch from 'isomorphic-unfetch'
 import React, {useEffect} from "react";
-import Layout from '../components/Layout'
-import CursosUtilities from "../webUtils/CursosUtilities";
-import utilsStyles from '../styles/Utils.module.css';
-import CursoGrid from "../components/CursosGrid";
+import Layout from '../../components/Layout'
+import CursosUtilities from "../../webUtils/CursosUtilities";
+import utilsStyles from '../../styles/Utils.module.css';
+import CursoGrid from "../../components/CursosGrid";
 
 const Cursos = ({cursos}) =>{
 

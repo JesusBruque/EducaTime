@@ -8,22 +8,18 @@ export default async function seed() {
     const salt1 = randomBytes(32);
     const hashedPassword1 = await argon2.hash('admin', { salt: salt1 });
     const salt2 = randomBytes(32);
-    const hashedPassword2 = await argon2.hash('admin', { salt: salt2 });
+    const hashedPassword2 = await argon2.hash('user', { salt: salt2 });
     var users = [
         {
             email: 'admin@admin.com',
-            nombre: 'Pablo',
             username: 'admin1',
-            apellidos: 'Escobar Garibia',
-            telefono: '656611851',
+            rol:'admin',
             password: hashedPassword1,
             salt: salt1,
         }, {
-            email: 'dios@dios.com',
-            nombre: 'Karim',
-            username: 'admin2',
-            apellidos: 'Benzema',
-            telefono: '755123451',
+            email: 'user@suser.com',
+            rol:'user',
+            username: 'user',
             password: hashedPassword2,
             salt: salt2,
         }

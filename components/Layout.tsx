@@ -8,9 +8,9 @@ const Layout = props => {
     return (
         <React.Fragment>
             {!props.admin && <Header/>}
-            <main className={props.admin ? layoutStyles.adminContainer : layoutStyles.webContainer}>
+            <div className={props.admin ? layoutStyles.adminContainer : layoutStyles.webContainer}>
                 {props.children}
-            </main>
+            </div>
             {props.admin && <AdminNavbar selected={props.selected}/>}
         </React.Fragment>
     )
