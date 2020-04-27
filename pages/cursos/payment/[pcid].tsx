@@ -29,7 +29,7 @@ const payCurso = ({router,curso}) => {
             <h1 className={utilsStyles.sectionTitle}>Confirmación del pago</h1>
             <div style={{display:'flex',flexWrap:'wrap',justifyContent:'space-evenly'}}>
                 <div>
-                    <h4 style={{color:'#70a0af'}}>Detalles de pago</h4>
+                    <h4 style={{color:'#70a0af',fontSize:'1.6em'}}>Detalles de pago</h4>
                     <Elements stripe={stripePromise}>
                         <PaymentForm router={router} cursoId={curso._id}/>
                     </Elements>

@@ -27,7 +27,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
     const loadScroll = () => {
-        wu.initScroll().then(() => wu.removeLoader());
+        wu.initScroll().then(() => {
+            wu.showHeader();
+            wu.removeLoader();
+        });
     };
 
     useEffect(() =>{

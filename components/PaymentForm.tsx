@@ -109,7 +109,7 @@ const PaymentForm = ({router,cursoId}) => {
                        name={'email'} validators={['email','required']} error={errors.email} setError={setErrorInput('email')} styles={styleInputs}/>
                 <CardElement id="card-element" options={cardStyle} onChange={handleChange} className={'card-input--element'}/>
 
-                <Button disabled={processing} color={'blue'} text={'Realizar Pago'} type={'submit'} styles={{padding:'8px 15px',width:'fit-content'}}/>
+                <Button disabled={processing} color={'blue'} text={'Realizar Pago'} type={'submit'} styles={{padding:'8px 15px',width:'fit-content',fontSize:'1.2em',color:'white'}}/>
 
             </form>
 
