@@ -3,6 +3,7 @@ import CourseService from "../services/course.services"
 
 export default class CourseController extends GenericController{
     constructor(){
+      console.log("Creando Course Controller ...");
         super(new CourseService());
       }
       //#region 

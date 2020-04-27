@@ -13,6 +13,7 @@ export default class GenericService {
         return this.mySchema.modelName;
     }
     public create = async (myObject: IGenericInterface, user?: IUsuarioDTO): Promise<IGenericInterface> => {
+        console.log("En el creador generico");
         try {
             if (typeof user === "undefined") {
                 var err, result = await new this.mySchema({ ...myObject }).save();

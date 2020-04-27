@@ -14,7 +14,6 @@ const Cursos = ({cursos}) =>{
             cu.enterAnimations();
         }).catch(err => console.error(err));
     },[]);
-
     return (
         <Layout>
             <div className={utilsStyles.sectionContainer}>

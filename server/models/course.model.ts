@@ -12,30 +12,31 @@ var courseSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
-    minlength: 10,
     trim: true
   },
   thumbnail:{
-    type: String,
-    required: true
+    type: String
   },
   video: {
-    type: String,
-    required: true
+    type: String
   },
   duration: {
+    type: Number
+  },
+  target: {
+    type: String,
+    trim: true
+  },
+  requirements: {
+    type: String,
+    trim: true
+  },
+  fees : {
     type: Number,
     required: true
   },
-  requirements: {
-    type: [String],
-    required: true,
-    trim: true
-  },
   category: {
     type: [String],
-    required: true,
     trim: true
   },
   original_fee: {
@@ -54,8 +55,6 @@ var courseSchema = new Schema({
   },
   goals: {
     type: [String],
-    required: true,
-    minlength: 5,
     trim: true
   },
   tags: {
@@ -63,8 +62,7 @@ var courseSchema = new Schema({
     trim: true
   },
   score: {
-    type: Number,
-    required: true,
+    type: Number
   },
   reviews: {
     type: [String]
