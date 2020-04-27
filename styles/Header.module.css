@@ -11,6 +11,7 @@
     align-items: center;
     justify-content: space-between;
     opacity:0;
+    transform: translateX(-60px);
 }
 .logo{
     height:100%;
@@ -29,6 +30,7 @@
     display:grid;
     grid-template-rows: 50% 50%;
     opacity:0;
+    transform: translateX(100%);
 }
 .menuIcon{
     transform: translateY(-50%);

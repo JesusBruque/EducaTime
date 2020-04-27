@@ -67,11 +67,12 @@ export default class GenericController {
     public findById = async (req: Request, res: Response, next: NextFunction) => {
         Logger.debug('Metodo findById : ' + this.serviceString + ".");
         try {
-            const myObject = await this.myService.findById((req.body as IGenericInterface)._id);
+            // const myObject = await this.myService.findById((req.body as IGenericInterface)._id);
+            const myObject = await this.myService.findById(req.params.id);
             return res.status(200).json({ status: 200, [this.serviceString]: myObject });
         } catch (e) {
             Logger.error('Se ha producido un error findById : ' + this.serviceString + ".");
-            Logger.error(e);
+            //Logger.error(e);
             return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
         }
     }

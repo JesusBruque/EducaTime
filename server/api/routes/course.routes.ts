@@ -8,10 +8,10 @@ export default (app:Router)=>{
     const courseController = new CourseController;
     app.use('/course',route);
 
-    route.get('/findAll', courseController.findAll)
+    route.get('/findAll', courseController.findAll);
     
-    route.get('/:courseId', courseController.findById)
-    console.log("Llegando al Course route ...");
+    route.get('/findById/:id', courseController.findById);
+
     route.post('/',
         celebrate({
             body: Joi.object({
@@ -66,4 +66,5 @@ export default (app:Router)=>{
         }),
         // middlewares.isAuth,
         courseController.edit);
+
 }

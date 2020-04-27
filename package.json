@@ -7,7 +7,8 @@
     "build:server": "tsc --project tsconfig.server.json",
     "build:next": "next build",
     "build": "npm run build:next && npm run build:server",
-    "start": "NODE_ENV=production node dist/index.js"
+    "start": "NODE_ENV=production node dist/index.js",
+    "seeds": "ts-node --project tsconfig.server.json server/seeds/index.ts"
   },
   "proxy": "http://localhost:5000",
   "dependencies": {
@@ -15,6 +16,8 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.4.0",
     "@tinymce/tinymce-react": "^3.5.0",
     "@types/connect-busboy": "0.0.2",
     "@types/express-session": "^1.15.16",
@@ -44,6 +47,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-dropzone": "^10.2.2",
+    "stripe": "^8.47.0",
     "underscore": "^1.9.2",
     "unfetch": "^4.1.0",
     "winston": "^3.2.1",

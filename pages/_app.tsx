@@ -27,11 +27,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 
     const loadScroll = () => {
-        wu.initScroll().then(() => wu.removeLoader());
+        wu.initScroll().then(() => {
+            wu.showHeader();
+            wu.removeLoader();
+        });
     };
 
     useEffect(() =>{
-        console.log(router);
         if(router.pathname.includes('admin')){
             let subr = router.pathname.split('/')[2];
             setOptionSelected(subr);
@@ -49,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <div>
             {isLanding ? <Component {...pageProps}/> :
                 <Layout admin={isAdmin} selected={optionSelected}>
-                    <Component {...pageProps} utils={wu}/>
+                    <Component {...pageProps} utils={wu} router={router} query={router.query}/>
                 </Layout>}
         </div>
     )

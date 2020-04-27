@@ -13,7 +13,7 @@ const LoginForm :FunctionComponent<Props> = (props) => {
     const { userInfo, setUserInfo, buttons, onSubmit } = props;
     const [errors, setErrors] = useState(props.errors || Object);
     const inputs = [
-        { property: 'usuario', placeHolder: 'Usuario', name: 'usuario', type: 'text', validators: ['required'] ,icon:'/assets/icons/user-icon.svg'},
+        { property: 'email', placeHolder: 'Usuario', name: 'email', type: 'text', validators: ['required'] ,icon:'/assets/icons/user-icon.svg'},
         { property: 'password', placeHolder: 'Contraseña', name: 'password', type: 'password', validators: ['required'],icon:'/assets/icons/lock.svg' }
     ];
     return (

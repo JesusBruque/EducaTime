@@ -5,9 +5,20 @@
     text-transform: uppercase;
     font-weight:bold;
     color:#565656;
-    font-family: 'LeagueGothic', cursive;
-    letter-spacing: 4px;
-    font-size:3.5em;
+    /*font-family: 'LeagueGothic', cursive;*/
+    letter-spacing: 2px;
+    font-size:3em;
+    position:relative;
+    width:fit-content;
+}
+.sectionTitle:after{
+    content: '';
+    position: absolute;
+    bottom:-4px;
+    width:45%;
+    height:4px;
+    background-color:var(--main-color);
+    left:0;
 }
 .centeredContainer{
     display:flex;

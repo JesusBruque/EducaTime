@@ -57,6 +57,10 @@ export default class WebUtils{
         }
 
     };
+    showHeader = () => {
+        gsap.to('#casor-header>div:first-child',{duration:1.5,x:0,opacity:1,ease:'power2.out'});
+        gsap.to('#casor-header>div:last-child',{duration:1,opacity:1,x:'0%',ease:'power3.out'});
+    }
 
     enterHomeAnimations = () => {
         let initialMove = gsap.timeline();
@@ -64,9 +68,6 @@ export default class WebUtils{
         let x = - document.querySelector('#main_field').getBoundingClientRect().width *0.76;
         initialMove.to('#main_field',{duration:.1,rotation:20,rotationY:-16,rotationX:34,x:x,y:y,z:-50,skewX:-3,skewY:5,ease:'power2.out',force3D:true});
         initialMove.to('.field_border',{duration:1.5,strokeDashoffset:0,ease:'power2.inOut'},"sc");
-
-        initialMove.fromTo('#casor-header>div:first-child',{opacity:0,x:-60},{duration:1.5,x:0,opacity:1,ease:'power2.out'},"sc");
-        initialMove.fromTo('#casor-header>div:last-child',{opacity:0,x:'100%'},{duration:1,opacity:1,x:'0%',ease:'power3.out'},"sc");
         initialMove.fromTo('#welcome-section .title',{opacity:0,y:-100},{duration:1.5,opacity:1,y:0,ease:'power2.out'},"sc");
 
         initialMove.to('#main_field .field_element',{duration:1.5,strokeDashoffset:0,ease:'power2.inOut'},"tr");

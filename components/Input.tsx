@@ -15,24 +15,26 @@ type Props = {
     label?: string,
     error?: Object,
     setError?: Dispatch<any>,
+    className?:string,
+    styles?:Object
 }
 
-const Input: FunctionComponent<Props> = ({ value, setValue, validators, customValidations, icon, label, error, setError, type, name, placeHolder, required }) => {
+const Input: FunctionComponent<Props> = ({ value, setValue, validators, customValidations, icon, label, error, setError, type, name, placeHolder, required,className,styles}) => {
     const handleChanges = (e) => {
         const val = e.target.value;
-        setValue(val)
+        setValue(val);
         if ((validators || customValidations) && setError) {
-            const err = validateInput(val, validators, customValidations)
-            setError(err)
+            const err = validateInput(val, validators, customValidations);
+            setError(err);
         }
     };
     const handleBlur = (e) => {
         handleChanges(e);
     }
     return (
-        <div className={`${inputStyles.inputContainer} ${icon ? inputStyles.iconInput : ''}`}>
+        <div className={`${inputStyles.inputContainer} ${icon ? inputStyles.iconInput : ''} ${className}`} style={styles}>
             {label && <label htmlFor={name}>{label}</label>}
-            {icon && <img src={icon} className={inputStyles.iconElement} alt={'icono del input'} />}
+            {icon && <img src={icon} className={inputStyles.iconElement} alt={'icono del input'}/>}
             <input
                 onBlur={handleBlur}
                 name={name}

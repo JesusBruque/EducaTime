@@ -9,18 +9,18 @@ export default class AuthenticationController {
     }
     public login = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            Logger.debug('Inicio proceso de login')
+            Logger.debug('Inicio proceso de login');
             const { email, password } = req.body;
             if (email && password) {
                 const { user, correct } = await this.authenticationService.login(email, password);
                 if (correct) {
                     req.login(user, function (err) {
                         if (err) throw err;
-                        Logger.debug('Logueado correctamente.')
+                        Logger.debug('Logueado correctamente.');
                         return res.status(200).json({ status: 200, user: user, message: "Inicio de sesión correcto." });
                     })
                 } else
-                    return res.status(401).json({ status: 400, message: 'Los datos introducidos no son correctos.' });
+                    return res.status(400).json({ status: 400, message: 'Los datos introducidos no son correctos.' });
             } else
                 return res.status(400).json({ status: 400, message: 'Datos incorrectos.' });
         } catch (e) {

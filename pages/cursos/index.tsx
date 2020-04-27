@@ -1,10 +1,10 @@
-import CursoItem from '../components/CursoItem'
+import CursoItem from '../../components/CursoItem'
 import fetch from 'isomorphic-unfetch'
 import React, {useEffect} from "react";
-import Layout from '../components/Layout'
-import CursosUtilities from "../webUtils/CursosUtilities";
-import utilsStyles from '../styles/Utils.module.css';
-import CursoGrid from "../components/CursosGrid";
+import Layout from '../../components/Layout'
+import CursosUtilities from "../../webUtils/CursosUtilities";
+import utilsStyles from '../../styles/Utils.module.css';
+import CursoGrid from "../../components/CursosGrid";
 
 const Cursos = ({cursos}) =>{
 
@@ -15,14 +15,12 @@ const Cursos = ({cursos}) =>{
         }).catch(err => console.error(err));
     },[]);
     return (
-        <Layout>
-            <div className={utilsStyles.sectionContainer}>
-                <h1 className={utilsStyles.sectionTitle}>Nuestros cursos</h1>
-                <div className={utilsStyles.centeredContainer}>
-                    <CursoGrid cursos={cursos}/>
-                </div>
+        <div className={utilsStyles.sectionContainer}>
+            <h1 className={utilsStyles.sectionTitle}>Nuestros cursos</h1>
+            <div className={utilsStyles.centeredContainer}>
+                <CursoGrid cursos={cursos}/>
             </div>
-        </Layout>
+        </div>
     )
 };
 
