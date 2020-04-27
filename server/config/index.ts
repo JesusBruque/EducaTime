@@ -29,5 +29,8 @@ export default {
         prefix: '/api'
     },
     upload_dir: process.env.upload_dir,
-    mode: process.env.mode
+    mode: process.env.mode,
+    email_user:process.env.EMAIL_USER,
+    email_pass:process.env.EMAIL_PASSWORD,
+    email_host:process.env.EMAIL_HOST,
 }

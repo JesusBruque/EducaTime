@@ -46,4 +46,6 @@ export default (app:Router) => {
             curso:Joi.string().required()
         }).unknown(true)
     }),orderController.handleAfterPayment);
+
+
 }
