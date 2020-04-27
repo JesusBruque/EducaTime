@@ -26,4 +26,24 @@ export default (app:Router) => {
         }),
         // middlewares.isAuth,
         orderController.create);
+
+    /*--- PAYMENTS ---*/
+    route.post('/createPaymentIntent',
+        celebrate({
+            body:Joi.object({
+                id:Joi.string().required()
+            }),
+        }),
+        orderController.paymentIntent);
+
+    route.post('/hndlAftrPayment',celebrate({
+        body:Joi.object({
+            amount:Joi.number().required(),
+            client_secret:Joi.string().required(),
+            id:Joi.string().required(),
+            receipt_email:Joi.string().required(),
+            status:Joi.string().required(),
+            curso:Joi.string().required()
+        }).unknown(true)
+    }),orderController.handleAfterPayment);
 }

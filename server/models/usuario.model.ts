@@ -40,7 +40,9 @@ var usuarioSchema = new Schema({
   updated_for: {
     type: Schema.Types.ObjectId,
     ref: 'Usuario',
-  }
+  },
+  cursos:[String],
+  favoritos:[String]
 }, { versionKey: '_version' });
 
 usuarioSchema.plugin(mongooseHistory);

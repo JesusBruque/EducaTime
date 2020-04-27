@@ -31,7 +31,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
 
     useEffect(() =>{
-        console.log(router);
         if(router.pathname.includes('admin')){
             let subr = router.pathname.split('/')[2];
             setOptionSelected(subr);
@@ -49,7 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <div>
             {isLanding ? <Component {...pageProps}/> :
                 <Layout admin={isAdmin} selected={optionSelected}>
-                    <Component {...pageProps} utils={wu} router={router}/>
+                    <Component {...pageProps} utils={wu} router={router} query={router.query}/>
                 </Layout>}
         </div>
     )

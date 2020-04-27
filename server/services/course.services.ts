@@ -2,6 +2,7 @@ import Course from '../models/course.model'
 import Lection from '../models/lection.model'
 import GenericService from './generic.services';
 import Review from '../models/review.model';
+import {ICourse} from "../interfaces/ICourse";
 
  export default class CourseService extends GenericService{
      constructor(){
@@ -21,7 +22,8 @@ import Review from '../models/review.model';
          } catch (e) {
              throw e;
          }
-     }
+     };
+
      private lectionEraser = async (courseId: string)=>{
          try {
              await Lection.deleteMany({course:courseId});
@@ -29,48 +31,5 @@ import Review from '../models/review.model';
          } catch (error) {
              throw error;
          }
-     }
-     //#region 
-    //  public create = async(courseObject:ICourse, user: IUsuarioDTO):Promise<ICourse>=>{
-    //     try {
-    //         var err, result = await new CursoItem({ ...courseObject, updated_for: user._id }).save();
-    //         if (err) throw err;
-    //         if (!result) throw Error("No se ha creado el curso.")
-    //         return result;
-    //      } catch (error) {
-    //          throw (error);
-    //      }
-    //  }
-
-    //  public edit = async (course: ICourse, user: IUsuarioDTO): Promise<ICourse> => {
-    //     try {
-    //         var err, res = await CursoItem.findOneAndUpdate({ _id: course._id }, { ...course, updated_for: user._id });
-    //         if (err) throw err;
-    //         if (!res) throw Error("No se ha editado el curso")
-    //         return res;
-    //     } catch (e) {
-    //         throw e;
-    //     }
-    // }
-    // public findById = async (courseId: string): Promise<ICourse> => {
-    //     try {
-    //         var err, res = await CursoItem.findById(courseId);
-    //         if (err) throw err;
-    //         if (!res) throw Error ("No se ha encontrado el curso");
-    //         return res;
-    //     } catch (e) {
-    //         throw e;
-    //     }
-    // }
-    // public findAll = async (): Promise<ICourse[]> => {
-    //     try {
-    //         var err, res = await CursoItem.find({});
-    //         if (err) throw err;
-    //         if (!res) throw Error ("No se han encontrado cursos")
-    //         return res;
-    //     } catch (e) {
-    //         throw e;
-    //     }
-    // }
-    //#endregion
+     };
  }

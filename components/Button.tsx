@@ -8,9 +8,10 @@ type Props = {
     type?: "button" | "submit" | "reset",
     icon?: string
     styles?:{}
+    disabled?:boolean
 }
 
-const Button: FunctionComponent<Props> = ({ color, text, action, type, icon, styles }) => {
+const Button: FunctionComponent<Props> = ({ color, text, action, type, icon, styles,disabled }) => {
 
     function getColor(color: string) {
         switch (color) {
@@ -24,7 +25,7 @@ const Button: FunctionComponent<Props> = ({ color, text, action, type, icon, sty
     }
 
     return (
-        <button type={type ? type : 'button'} onClick={action} className={`${(buttonStyles.btn)}  ${(icon ? buttonStyles.icon : '')}`} style={Object.assign({},getColor(color),styles)}>
+        <button disabled={disabled} type={type ? type : 'button'} onClick={action} className={`${(buttonStyles.btn)}  ${(icon ? buttonStyles.icon : '')}`} style={Object.assign({},getColor(color),styles)}>
             {icon && <img src={icon} alt={'icono del input'}/>}
             {text}
         </button>

@@ -67,7 +67,6 @@ export default class GenericController {
     public findById = async (req: Request, res: Response, next: NextFunction) => {
         Logger.debug('Metodo findById : ' + this.serviceString + ".");
         try {
-            console.log(req.body);
             // const myObject = await this.myService.findById((req.body as IGenericInterface)._id);
             const myObject = await this.myService.findById(req.params.id);
             return res.status(200).json({ status: 200, [this.serviceString]: myObject });

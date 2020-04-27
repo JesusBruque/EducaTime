@@ -10,7 +10,7 @@ export default (app:Router)=>{
 
     route.get('/findAll', courseController.findAll);
     
-    route.get('/:id', courseController.findById);
+    route.get('/findById/:id', courseController.findById);
 
     route.post('/',
         celebrate({
@@ -60,4 +60,5 @@ export default (app:Router)=>{
         }),
         // middlewares.isAuth,
         courseController.edit);
+
 }

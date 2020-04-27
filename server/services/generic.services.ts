@@ -12,7 +12,7 @@ export default class GenericService {
     public name() {
         return this.mySchema.modelName;
     }
-    public create = async (myObject: IGenericInterface, user?: IUsuarioDTO): Promise<IGenericInterface> => {
+    public create = async (myObject: any, user?: IUsuarioDTO): Promise<IGenericInterface> => {
         try {
             if (typeof user === "undefined") {
                 var err, result = await new this.mySchema({ ...myObject }).save();
@@ -52,7 +52,6 @@ export default class GenericService {
     }
     public findById = async (objectId: string): Promise<IGenericInterface> => {
         try {
-            console.log(objectId);
             var err, res = await this.mySchema.findById(objectId);
             if (err) throw err;
             if (!res) throw Error("No se ha encontrado " + this.mySchema.modelName);

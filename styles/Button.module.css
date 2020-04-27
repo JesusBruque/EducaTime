@@ -45,3 +45,8 @@
     margin-bottom:8px;
 }
 
+.btn:disabled{
+    background-color: #dcdcdc !important;
+    cursor:default;
+    opacity:.7;
+}

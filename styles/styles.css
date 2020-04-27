@@ -51,7 +51,22 @@ form{
     border-color:solid 2px var(--black-color);
     font-weight:bold;
 }
-
+/*--- FORMULARIO PAGO ---*/
+.card-input--element{
+    background-color: #eef8ff;
+    padding:15px;
+    margin:15px 15px calc(.9em + 16px) 15px;
+    border-radius:25px;
+}
+#payment-form{
+    width:450px;
+}
+#payment-form input::placeholder{
+    font-weight: normal;
+}
+#payment-form>div>img{
+    padding:2px;
+}
 /*---------- SCROLLBAR ------------*/
 
 html.has-scroll-smooth {

@@ -1,57 +1,54 @@
 import GenericController from "./generic.controller";
 import OrderService from "../services/order.services"
+import {Request, Response} from "express";
+import Logger from "../loaders/logger";
+import CourseService from "../services/course.services";
+import AuthenticationService from "../services/authentication.services";
 
 
 export default class OrderController extends GenericController{
+    private orderService;
+    private userService;
     constructor(){
         super(new OrderService());
+        this.orderService = new OrderService();
+        this.userService = new AuthenticationService();
       }
-    //#region
-    // public Create = async (req:Request,res:Response , next: NextFunction)=>{
-    //     Logger.debug("Creando orden.")
-    //     try {
-    //         const order = await this.orderService.create(req.body as IOrder, req.user as IUsuarioDTO);
-    //         return res.status(200).json({status:200, order:"order"});
-    //     } catch (error) {
-    //         console.error("Ha ocurrido un error al crear una orden.");
-    //         console.error(error);
-    //         return res.status(400).json({ status:400, mensaje: "Se ha producido un error inesperado. Contacte con el administrador." });
-    //     }
-    // }
-    // /*
-    // public Edit = async (req: Request, res: Response, next: NextFunction) => {
-    //     Logger.debug('Editando un blog');
-    //     try {
-    //         const order = await this.orderService.edit(req.body as IBlog, req.user as IUsuarioDTO);
-    //         return res.status(200).json({ status: 200, blog: blog });
-    //     } catch (e) {
-    //         Logger.error('Se ha producido un error editando una empresa');
-    //         Logger.error(e);
-    //         return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
-    //     }
-    // }
-    // */
-    // public FindAll = async (req: Request, res: Response, next: NextFunction) => {
-    //     Logger.debug('Metodo findAll orders');
-    //     try {
-    //         const orders = await this.orderService.findAll();
-    //         return res.status(200).json({ status: 200, orders: orders });
-    //     } catch (e) {
-    //         Logger.error('Se ha producido un error findAll orders');
-    //         Logger.error(e);
-    //         return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
-    //     }
-    // }
-    // public FindById = async (req: Request, res: Response, next: NextFunction) => {
-    //     Logger.debug('Metodo findById order');
-    //     try {
-    //         const order = await this.orderService.findById(req.params.blogId);
-    //         return res.status(200).json({ status: 200, order: order });
-    //     } catch (e) {
-    //         Logger.error('Se ha producido un error findById order');
-    //         Logger.error(e);
-    //         return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
-    //     }
-    // }
-    //#endregion
+    public paymentIntent = async(req:Request,res:Response) => {
+        Logger.debug(req.body.id);
+        Logger.debug('Intentando un pago.');
+        try{
+            /*aqui voy a tener el id del curso que tengo que pagar... Vamos a llamar al findById y vamos a coger esa cantidad para el pago.*/
+            let courseId = req.body.id;
+            const paymentResponse = await this.orderService.paymentIntent(courseId);
+            const orderObject = {date:Date.now(),course:courseId,paid:false,fee:paymentResponse.amount,currency:"EUR",client_secret:paymentResponse.client_secret,payment_id:paymentResponse.id,description:"Creación de la orden de pago."}
+            await this.orderService.create(orderObject);
+            /*--- Ya tengo la orden de pago creada y voy a devolver al cliente la clave secreta ---*/
+            return res.status(200).json({status:200,clientSecret:paymentResponse.client_secret});
+        }catch(e){
+            Logger.error('Error al crear un intento de pago.');
+            Logger.error(e);
+            return res.status(400).json({status:400});
+        }
+    };
+
+    public handleAfterPayment = async(req:Request,res:Response) => {
+        Logger.debug('Función tras un pago.');
+        try{
+            let paymentInfo = req.body;
+            let user = await this.userService.findByEmail(paymentInfo.receipt_email);
+            if(!user._id){
+                user = await this.userService.registerUser(user);
+            }
+            console.log(user._id);
+            await this.userService.addCursoToUser(user._id,paymentInfo.curso);
+            const order = await this.orderService.updateOrderByPaymentId(paymentInfo,user._id);
+            /*--- QUEDA ENVIAR EL EMAIL CON LAS CREDENCIALES---*/
+            return res.status(200).json({status:200,order:order});
+        }catch(e){
+            Logger.error('Error al obtener un intento de pago.');
+            Logger.error(e);
+            return res.status(400).json({status:400});
+        }
+    }
 }

@@ -16,14 +16,12 @@ const Cursos = ({cursos}) =>{
     },[]);
 
     return (
-        <Layout>
-            <div className={utilsStyles.sectionContainer}>
-                <h1 className={utilsStyles.sectionTitle}>Nuestros cursos</h1>
-                <div className={utilsStyles.centeredContainer}>
-                    <CursoGrid cursos={cursos}/>
-                </div>
+        <div className={utilsStyles.sectionContainer}>
+            <h1 className={utilsStyles.sectionTitle}>Nuestros cursos</h1>
+            <div className={utilsStyles.centeredContainer}>
+                <CursoGrid cursos={cursos}/>
             </div>
-        </Layout>
+        </div>
     )
 };
 
