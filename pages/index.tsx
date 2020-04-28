@@ -38,7 +38,7 @@ const Home = (props) => {
 
           </Head>
           <Entrada />
-          <Layout>
+          <div>
               <section className={homeStyles.welcomeSection} id={'welcome-section'}>
                   <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
                   <div  data-scroll data-scroll-sticky data-scroll-target={'main'} className={homeStyles.startBtn}>
@@ -119,8 +119,7 @@ const Home = (props) => {
                       </div>
                   </div>
               </section>
-          </Layout>
-          <Field />
+          </div>
 
           <script noModule src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.6.0/polyfill.min.js"
                   crossOrigin="anonymous" />

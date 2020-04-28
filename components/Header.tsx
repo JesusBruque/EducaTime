@@ -1,13 +1,13 @@
-import React,{useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import headerStyles from '../styles/Header.module.css';
 import Link from "next/link";
 import gsap from 'gsap';
-
+import {logout,check} from '../utils/Authentication';
 
 type Props = {
     menu:boolean
 }
-const Header = () => {
+const Header = (props) => {
     const [menuOpen,setMenuOpen] = useState(false);
     const openMenu = () => {
         try{
@@ -24,6 +24,13 @@ const Header = () => {
             console.error(err);
         }
     };
+    const handleLogout = () => {
+        logout().then(() => {
+            props.router.push('/login');
+            props.setUser(null);
+        });
+    };
+
     return (
         <div id={'casor-header'} className={headerStyles.header}>
             <div className={headerStyles.top}>
@@ -34,11 +41,19 @@ const Header = () => {
             <div className={headerStyles.lateral}>
                 <div className={'first-icons'}>
                     <img src={'/assets/icons/menu-icon.png'} alt={'icono para menú'} className={headerStyles.menuIcon} onClick={openMenu} />
-                    <Link href={'/login'}>
-                        <div className={headerStyles.userIcon}>
-                            <img src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
-                        </div>
-                    </Link>
+                    {
+                        !props.user ?
+                            <Link href={'/login'}>
+                                <div className={headerStyles.userIcon}>
+                                    <img src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
+                                </div>
+                            </Link>
+                            :
+                            <div>
+                                <img src={'/assets/icons/stand-by.svg'} alt={'icono de logout'} onClick={handleLogout} className={headerStyles.exitIcon}/>
+                            </div>
+
+                    }
                 </div>
                 <div className={headerStyles.socials}>
                     <a href={'#'}>
@@ -54,6 +69,6 @@ const Header = () => {
             </div>
         </div>
     )
-}
+};
 
 export default Header;

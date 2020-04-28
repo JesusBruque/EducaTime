@@ -1,60 +1,44 @@
-import { AppProps } from 'next/app'
 import '../styles/styles.css';
 import moment from 'moment';
-import Router, {useRouter} from 'next/Router';
+import React, {useEffect, useState} from "react";
 import WebUtils from "../webUtils/WebUtils";
-import Layout from "../components/Layout";
-import React,{useEffect, useState} from "react";
-import Entrada from "../components/Entrada";
-import dynamic from "next/dist/next-server/lib/dynamic";
-import gsap from "gsap";
-import Field from "../components/Field";
+import Router, {useRouter} from "next/router";
+import axios from 'axios';
+import {check} from "../utils/Authentication";
+import App,{AppProps} from "next/app";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps,pageUser }) {
     moment.locale('es');
-
+    const [user,setUser] = useState(pageUser);
     const router = useRouter();
-    const [isAdmin,setIsAdmin] = useState(false);
-    const [optionSelected,setOptionSelected] = useState('');
-    const [isLanding,setIsLanding] = useState(false);
-
     let wu = new WebUtils('main');
-
-    Router.events.on('routeChangeStart',(err,url) => {
+    Router.events.on('routeChangeStart',() => {
         wu.initLoader();
         wu.startLoader();
     });
 
-
     const loadScroll = () => {
         wu.initScroll().then(() => {
-            wu.showHeader();
             wu.removeLoader();
+            wu.showHeader();
         });
     };
 
-    useEffect(() =>{
-        if(router.pathname.includes('admin')){
-            let subr = router.pathname.split('/')[2];
-            setOptionSelected(subr);
-            setIsAdmin(true);
-        }
-        /*---- LANDING ----*/
-        if(router.pathname === '/'){
-            setIsLanding(true);
-        }else{
-            setIsLanding(false);
-            loadScroll();
-        }
-    },[setIsAdmin,router]);
-    return (
-        <div>
-            {isLanding ? <Component {...pageProps}/> :
-                <Layout admin={isAdmin} selected={optionSelected}>
-                    <Component {...pageProps} utils={wu} router={router} query={router.query}/>
-                </Layout>}
-        </div>
-    )
-}
+    useEffect(() => {
+        loadScroll();
+    },[router]);
 
+    return (<Component {...pageProps} router={router} user={user} setUser={setUser}/>)
+}
+MyApp.getInitialProps = async (ctx) => {
+    let pageProps = {};
+    let user;
+    if (App.getInitialProps ) {
+        pageProps = await App.getInitialProps(ctx);
+    }
+    if(ctx.ctx.req && ctx.ctx.req.user){
+        user = ctx.ctx.req.user;
+    }
+    return { ...pageProps,pageUser:user };
+};
 export default MyApp

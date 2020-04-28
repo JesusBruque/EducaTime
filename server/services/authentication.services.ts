@@ -11,7 +11,6 @@ export default class AuthenticationService {
         var correct: Boolean = false;
         try {
             var err, user = await Usuario.findOne({ $or: [{ username: email }, { email: email }] }).select("+password");
-            console.log(user);
             if (err) throw err;
             if (user)
                 correct = await user.validPassword(password);

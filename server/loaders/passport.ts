@@ -12,7 +12,8 @@ export default async () => {
             if (user) {
                 done(err, {
                     _id: user._id,
-                    email: user.email
+                    email: user.email,
+                    rol:user.rol
                 });
 
             } else done(err, null);

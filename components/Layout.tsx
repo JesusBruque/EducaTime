@@ -1,19 +1,20 @@
-import React,{useState,useEffect} from 'react';
+import React from 'react';
 import Header from "./Header";
-import Menu from "./Menu";
-import AdminNavbar from "./admin/AdminNavbar";
 import layoutStyles from '../styles/Layout.module.css';
-const Layout = props => {
+import Field from "./Field";
 
+const Layout = (props) => {
+
+    const isLanding = props.router.pathname === '/';
     return (
         <React.Fragment>
-            {!props.admin && <Header/>}
-            <main className={props.admin ? layoutStyles.adminContainer : layoutStyles.webContainer}>
+            <Header user={props.user} router={props.router} setUser={props.setUser}/>
+            <main className={layoutStyles.webContainer}>
                 {props.children}
             </main>
-            {props.admin && <AdminNavbar selected={props.selected}/>}
+            {isLanding && <Field />}
         </React.Fragment>
     )
-}
+};
 
 export default Layout;
