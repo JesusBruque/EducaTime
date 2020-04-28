@@ -31,7 +31,7 @@ const CursoItem = ({curso}) => {
                                             </div>
                                         </div>
                                         <div className={courseStyles.Score}>
-                                            {curso.score.toFixed(1)}
+                                            {curso.score && curso.score.toFixed(1)}
                                         </div>
                                     </div>
                                     <div className={courseStyles.PorCiento}>

@@ -32,7 +32,7 @@ const AddCourse = (props) => {
         console.log(credentials);
         create({...credentials, dateStartInscription: tempA, dateEndInscription: tempB, dateEndCourse: tempC}).then(()=>{
             alert("Se ha creado el curso con exito");
-            window.open('/admin/formacion');
+            props.router.push('/admin/formacion');
             }
             )
     }
@@ -59,7 +59,7 @@ const AddCourse = (props) => {
                                            /**/         original_fee: "",
                                            /**/         fees: "",
                                            /**/         discount: '0',
-                                           /**/         profesor: "",
+                                           /**/         teacher: "",
                                            /**/         active: 'false'});
     
 
@@ -98,7 +98,7 @@ const AddCourse = (props) => {
                 <h2> Fecha de fin de curso: <input type="date" name="finCurso" value = {credentials.dateEndCourse} onChange={(e)=> setCredentials({...credentials, dateEndCourse : e.target.value}) }></input></h2>
                 <h2> Coste del curso: <input type="number" min="1" step="0.01" name = "precio" value= {credentials.original_fee} onChange={(e)=>setCredentials({...credentials, original_fee : e.target.value})} required/></h2>
                 <h2> Cuantos plazos de pago: <input type="number" min="1" max = "5" step="1" name = "plazos" value= {credentials.fees} onChange={(e)=> setCredentials({...credentials, fees : e.target.value})} required/></h2>
-                <h2> Profesor asociado: <input type="text" name="profes" value= {credentials.profesor} onChange={(e)=>setCredentials({...credentials, profesor : e.target.value})}></input></h2>
+                <h2> Profesor asociado: <input type="text" name="profes" value= {credentials.teacher} onChange={(e)=>setCredentials({...credentials, teacher : e.target.value})}></input></h2>
                 <Button color= {"blue"} text= {"Crear curso"} action= { ()=> CreateCourse()} type={"submit"}/>
             </div>
             {/*<DragNDrop styles={{height:'200px',width:'200px'}}  onlyImages={true}>*/}

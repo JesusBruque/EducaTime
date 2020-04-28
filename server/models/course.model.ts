@@ -70,6 +70,9 @@ var courseSchema = new Schema({
   perCent: {
     type: String
   },
+  teacher:{
+    type: String
+  },
   active:{
     type: Boolean,
     required: true

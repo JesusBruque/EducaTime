@@ -14,5 +14,5 @@ export const create = (credentials: {
              original_fee:string ,
              fees: string, 
              discount: string,
-             profesor: string,
+             teacher: string,
              active: string }) => axios.post(COURSE_URL, credentials);
