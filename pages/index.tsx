@@ -15,6 +15,7 @@ const Home = (props) => {
         gsap.to('#cortina-entrada img',{opacity:0,duration:.4});
         gsap.to('#cortina-entrada',{duration:1.5,transformOrigin:'bottom',scaleY:0,ease:'power2.inOut',onComplete: () => {
                 lu.initScroll().then(() => {
+                    lu.showHeader();
                     lu.enterHomeAnimations();
                     lu.initHomeScrollAnimations();
 
