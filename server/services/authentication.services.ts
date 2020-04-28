@@ -66,7 +66,7 @@ export default class AuthenticationService {
 
     private registerEmail = (userCredentials :  {username:string,pass:string,email:string}) => {
         return `
-        <body style="background-color:#bcbcbc">
+        <body>
             <table width="600" style='text-align:center;font-family:Verdana;border-collapse:collapse;margin:0 auto;background-color: #ffffff'>
                 <tr>
                     <td style='padding:30px 0;margin-bottom:30px;border-bottom:solid 1px #565656'><img src="https://www.boorpret.com/images/work/casor/logo_casor.png"  alt="'logo de CASOR" width='160' /></td>
@@ -75,17 +75,17 @@ export default class AuthenticationService {
                     <td style="padding:15px;font-weight:bold;">¡Enhorabuena, ya tiene acceso a nuestra plataforma!</td>
                 </tr>
                 <tr>
-                    <td>
-                        <table style="background-color: #dcdcdc; color:#565656;padding:30px;width:100%;font-size:.9em">
+                    <td style="padding-bottom:15px">
+                        <table style="text-align:center;background-color: #dcdcdc; color:#565656;padding:30px;width:100%;font-size:.9em">
                             <tr><td colSpan="2" style='padding:15px;border-bottom:solid 1px grey;'>Crendenciales de acceso</td></tr>
-                            <tr><td style="font-weight:bold;padding:15px;">Usuario: </td> <td style='padding:15px;'>${userCredentials.username}</td></tr>
-                            <tr style=';padding-top:8px;'><td style="font-weight:bold;">Contraseña: </td><td >${userCredentials.pass}</td></tr>
+                            <tr><td style="font-weight:bold;padding:15px;">Usuario: </td> <td style='padding:15px;text-align:left'>${userCredentials.username}</td></tr>
+                            <tr style=';padding-top:8px;'><td style="font-weight:bold;">Contraseña: </td><td style="text-align: left">${userCredentials.pass}</td></tr>
                             <tr><td colSpan="2" style='font-size:.8em;font-weight:bold;padding-top:30px;'>Recomendamos cambiar la contraseña tras su primer acceso.</td></tr>
                         </table>
                     </td>
                 </tr>
                 <tr>
-                    <td style='padding-top:15px;color:darkgrey;font-size:9px;border-top:solid 1px #bcbcbc'>
+                    <td style='padding:15px;color:darkgrey;font-size:9px;border-top:solid 1px #bcbcbc'>
                     Este email se ha enviado a ${userCredentials.email} por su compra de un curso en academiaformaciondeportiva.com. Si no es usted pongáse en contacto con 
                     nuestro departamento técnico <a href="mailto:info@boorpret.com">info@boorpret.com</a>
                     </td>

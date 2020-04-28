@@ -60,7 +60,7 @@ export default class WebUtils{
     showHeader = () => {
         gsap.to('#casor-header>div:first-child',{duration:1.5,x:0,opacity:1,ease:'power2.out'});
         gsap.to('#casor-header>div:last-child',{duration:1,opacity:1,x:'0%',ease:'power3.out'});
-    }
+    };
 
     enterHomeAnimations = () => {
         let initialMove = gsap.timeline();
