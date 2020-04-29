@@ -9,5 +9,5 @@ export default class CourseController extends GenericController{
       console.log("Creando Course Controller ...");
         super(new CourseService());
         this.courseService = new CourseService();
-      }
+    }
 }

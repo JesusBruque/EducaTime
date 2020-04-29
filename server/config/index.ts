@@ -33,4 +33,7 @@ export default {
     email_user:process.env.EMAIL_USER,
     email_pass:process.env.EMAIL_PASSWORD,
     email_host:process.env.EMAIL_HOST,
+
+    iam_id_key:process.env.AMAZON_KEY_ID,
+    iam_secret_key:process.env.AMAZON_SECRET_ID
 }

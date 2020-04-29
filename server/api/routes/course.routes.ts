@@ -2,10 +2,13 @@ import { Router } from 'express';
 import { celebrate, Joi } from 'celebrate';
 import CourseController from '../../controllers/course.controller'
 import middlewares from '../middlewares';
+import FilesController from "../../controllers/files.controller";
+import {file} from "@babel/types";
 const route = Router();
 
 export default (app:Router)=>{
     const courseController = new CourseController;
+    const fileController = new FilesController;
     app.use('/course',route);
 
     route.get('/findAll', courseController.findAll);
@@ -39,7 +42,7 @@ export default (app:Router)=>{
                 teacher: Joi.string().allow(null,""),
             }),
         }),
-        // middlewares.isAuth,
+        // [middlewares.isAuth,middlewares.filesUpload],
         courseController.create);
         
     route.put('/',
@@ -66,5 +69,8 @@ export default (app:Router)=>{
         }),
         // middlewares.isAuth,
         courseController.edit);
+
+    route.post('/post_file',fileController.uploadFile);
+    route.get('/get_file/:filename',fileController.retrieveFile);
 
 }

@@ -32,7 +32,7 @@ var courseSchema = new Schema({
     trim: true
   },
   fees : {
-    type: Number,
+    type: [{fee:Number,dateExpires:Number}],
     required: true
   },
   category: {
@@ -54,7 +54,7 @@ var courseSchema = new Schema({
     trim: true
   },
   goals: {
-    type: [String],
+    type: String,
     trim: true
   },
   tags: {
@@ -76,7 +76,8 @@ var courseSchema = new Schema({
   active:{
     type: Boolean,
     required: true
-  }
+  },
+  webinar:String
 }, { versionKey: '_version' })
 
 courseSchema.plugin(mongooseHistory);

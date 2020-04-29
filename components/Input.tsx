@@ -30,7 +30,7 @@ const Input: FunctionComponent<Props> = ({ value, setValue, validators, customVa
     };
     const handleBlur = (e) => {
         handleChanges(e);
-    }
+    };
     return (
         <div className={`${inputStyles.inputContainer} ${icon ? inputStyles.iconInput : ''} ${className}`} style={styles}>
             {label && <label htmlFor={name}>{label}</label>}

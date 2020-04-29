@@ -9,8 +9,9 @@ export default class WebUtils{
     }
 
     initScroll = async () => {
-        if(document.querySelector('.csr-scrollbar')){
+        if(document.querySelector('.csr-scrollbar') && this.scrollElement && this.scrollElement.scrollElement){
             document.querySelector('.csr-scrollbar').remove();
+            this.scrollElement.scrollElement.destroy();
         }
         if(document.querySelector(this.element) && document.querySelector(this.element).getBoundingClientRect().height > window.innerHeight){
             this.scrollElement = new ScrollComponent(this.element);

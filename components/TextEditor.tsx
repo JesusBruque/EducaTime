@@ -1,8 +1,9 @@
 import {Editor} from "@tinymce/tinymce-react/lib/cjs/main/ts";
 import fetch from "isomorphic-unfetch";
 import React, {useState} from 'react';
+import WebUtils from "../webUtils/WebUtils";
 
-const TextEditor = (props) => {
+const TextEditor = (props:{onChange:(content)=>void,files:boolean,utils:WebUtils,height:number,initialValue:string,basic:boolean}) => {
 
     const [dragging,setDragging] = useState(false);
     const [files,setFiles] = useState([]);
@@ -26,20 +27,21 @@ const TextEditor = (props) => {
         e.stopPropagation();
         setDragging(false);
         let items = e.dataTransfer.files;
-        if ( items && items.length > 0) {
-            let newFiles = [...files];
-            for(let i = 0; i<items.length;i++){
-                if(props.onlyImages && !items[i].type.includes('image')){
-                    return false;
-                }
-                newFiles.push(items[i]);
-            }
-            props.handleDrop && props.handleDrop(e.dataTransfer.files);
-
-            setFiles(newFiles);
-            e.dataTransfer.clearData();
-            counter = 0;
-        }
+        // if ( items && items.length > 0) {
+        //     let newFiles = [...files];
+        //     for(let i = 0; i<items.length;i++){
+        //         if(props.onlyImages && !items[i].type.includes('image')){
+        //             return false;
+        //         }
+        //         newFiles.push(items[i]);
+        //     }
+        //     props.handleDrop && props.handleDrop(e.dataTransfer.files);
+        //
+        //     setFiles(newFiles);
+        //     e.dataTransfer.clearData();
+        //     counter = 0;
+        // }
+        console.log(items);
     };
 
     const loadedEditor = (ed) => {
@@ -50,30 +52,33 @@ const TextEditor = (props) => {
             });
         });
     };
+    const handleChange = (content) => {
+        props.onChange(content);
+    };
+
+    const editorToolbar = `undo redo | formatselect | bold italic backcolor | 
+                            alignleft aligncenter alignright alignjustify | 
+                                bullist numlist outdent indent | removeformat | help1 ${props.files ? 'image' : ''} `;
+
+    const editorPlugins = ['advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help wordcount',`${props.files ? 'image' : ''}`]
 
 
     return (
         <Editor apiKey={'aa13c29c42l5mpi8281hguqa32m1bynlerbb4ioo57rbmsi3'}
+                initialValue={props.initialValue}
                 init={{
-                    height: 500,
+                    height: props.height,
                     language:'es',
                     menubar: 'insert',
-                    plugins: [
-                        'advlist autolink lists link image charmap print preview anchor',
-                        'searchreplace visualblocks code fullscreen',
-                        'insertdatetime media table paste code help wordcount',
-                        'image'
-                    ],
-                    toolbar:
-                        'undo redo | formatselect | bold italic backcolor | \
-                        alignleft aligncenter alignright alignjustify | \
-                        bullist numlist outdent indent | removeformat | help1 image ',
-                    image_caption: true,
+                    plugins: editorPlugins,
+                    toolbar:editorToolbar,
+                    image_caption: props.files,
                     image_upload_url:'',
-                    images_upload_handler:uploadImage,
+                    images_upload_handler:props.files ? uploadImage : null,
                     setup: loadedEditor
                 }}
-                onActivate={() => {console.log('activado')}}
+                onEditorChange={handleChange}
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
         />

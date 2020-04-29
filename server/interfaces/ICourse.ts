@@ -1,7 +1,10 @@
 import { IGenericInterface } from "./IGenericInterface";
 import {IReview} from "./IReview";
 
-
+type fee = {
+    fee:number,
+    date:number
+}
 export interface ICourse extends IGenericInterface{
     title: string; // Nombre del curso
     thumbnail: string,
@@ -21,9 +24,10 @@ export interface ICourse extends IGenericInterface{
     reviews: IReview[];
     //perCent: string;
     active: boolean;
-    fees:[number]; //Esto es un array de plazos dónde guardaremos en cada posición la cantidad correspondiente. (La suma de todos no podrá superar el precio).
+    fees:fee[]; //Esto es un array de plazos dónde guardaremos en cada posición la cantidad correspondiente. (La suma de todos no podrá superar el precio).
     dateStartInscription:number;
     dateEndInscription:number;
     dateEndCourse: number;
     teacher:string;
+    webinar:string;
 }

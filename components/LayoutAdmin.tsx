@@ -1,22 +1,22 @@
 import AdminNavbar from "./admin/AdminNavbar";
-import React from "react";
+import React, {useEffect} from "react";
 import layoutStyles from '../styles/Layout.module.css';
 
-const LayoutAdmin = () => {
-
-    // const checkAdmin = async () => {
-    //     if(router.pathname.split('/')[1] === 'admin' && (!user.user || user.user.rol !== 'admin')){
-    //         await router.push('/login');
-    //         console.log('no es administrador y está intentado acceder a una vista de admin');
-    //     }
-    // };
+const LayoutAdmin = (props) => {
 
     return (
         <React.Fragment>
-            <main className={layoutStyles.adminContainer}>
+            {
+                props.user && props.user.rol === 'admin' ?
+                    <React.Fragment>
+                        <main className={layoutStyles.adminContainer}>
+                            {props.children}
+                        </main>
+                        <AdminNavbar selected={props.selected}/>
+                    </React.Fragment>
+                : null
+            }
 
-            </main>
-            <AdminNavbar selected={'formacion'}/>
         </React.Fragment>
     )
 

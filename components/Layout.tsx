@@ -6,6 +6,7 @@ import Field from "./Field";
 const Layout = (props) => {
 
     const isLanding = props.router.pathname === '/';
+
     return (
         <React.Fragment>
             <Header user={props.user} router={props.router} setUser={props.setUser}/>

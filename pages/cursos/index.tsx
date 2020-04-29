@@ -17,6 +17,7 @@ const Cursos = (props) =>{
     },[]);
     return (
         <Layout router={props.router} user={props.user} setUser={props.setUser}>
+            <img src={'https://casor-s3.s3.eu-west-3.amazonaws.com/nguyen-thu-hoai-v0H-vn0BixI-unsplash.jpg'} alt={'imagen'}/>
             <div className={utilsStyles.sectionContainer}>
                 <h1 className={utilsStyles.sectionTitle}>Nuestros cursos</h1>
                 <div className={utilsStyles.centeredContainer}>
