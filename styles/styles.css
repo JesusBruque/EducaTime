@@ -9,7 +9,6 @@ body,html{
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    position:fixed;
     font-size:12px;
     user-select: none;
 }
@@ -21,6 +20,9 @@ body,html{
     --black-color:#565656;
     --red-color:#fc585d;
     --background-color: #f0f0f0;
+
+    /*--- PLAYER ----*/
+    --plyr-color-main:var(--main-color);
 }
 p, span, .title{
     max-width:75ch;
@@ -30,6 +32,10 @@ input::placeholder{
 }
 form{
     text-align: center;
+}
+main{
+    position: relative;
+    z-index:3;
 }
 .title{
     text-transform: uppercase;

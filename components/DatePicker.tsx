@@ -32,6 +32,8 @@ const DatePicker : FunctionComponent<Props> = ({minDate,maxDate,rangeDate,select
 
 
     useEffect(() => {
+        console.log(minDate);
+
         if(!rangeDate && startDate){
             selectDateEvent(startDate._date.format('DD/MM/YYYY'),null);
         }

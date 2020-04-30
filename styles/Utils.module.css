@@ -96,6 +96,11 @@
 }
 .dropDownAdd>span{
     padding:8px 15px;
+    border:solid 1px white;
+    transition: border .24s ease-in-out;
+}
+.dropDownAdd>span:hover{
+    border:solid 1px var(--main-color);
 }
 .calendarPickerInput{
     position:absolute;

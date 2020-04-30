@@ -22,6 +22,9 @@
     flex-direction:column;
     align-items: flex-end;
 }
+.videoTrailerContainer{
+    border:solid 1px var(--black-color);
+}
 .cursoInfoDescription{
 
 }
@@ -30,7 +33,7 @@
 }
 .cursoInfoDescriptionValue{
     border:solid 1px var(--black-color);
-    padding:15px;
+    padding:0 15px;
     height:150px;
     overflow:scroll;
 }
@@ -67,4 +70,26 @@
     left:0;
     position: absolute;
     top:0;
+}
+.bloquesInfo{
+    position: relative;
+    display:flex;
+    flex-direction: column;
+    padding-left:8px;
+}
+.bloquesInfo:before{
+    content:'';
+    background-color: var(--black-color);
+    width:2px;
+    height:100%;
+    left:0;
+    position: absolute;
+    top:0;
+}
+
+.bloquesInfo>input{
+    margin:4px 0;
+}
+.bloquesInfo:before{
+
 }

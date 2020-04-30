@@ -1,4 +1,5 @@
 import '../styles/styles.css';
+import 'plyr/dist/plyr.css';
 import moment from 'moment';
 import React, {useEffect, useState} from "react";
 import WebUtils from "../webUtils/WebUtils";
@@ -18,18 +19,13 @@ function MyApp({ Component, pageProps,pageUser }) {
         console.log(url);
     });
 
-    const loadScroll = () => {
-        wu.initScroll().then(() => {
-            wu.removeLoader();
-            wu.showHeader();
-        });
-    };
 
     useEffect(() => {
         if((!user || user.rol !=='admin') && router.pathname.includes('admin')){
             router.push('/login');
         }
-        loadScroll();
+        wu.removeLoader();
+        wu.showHeader();
     },[router]);
 
     return <Component  {...pageProps} router={router} user={user} setUser={setUser} utils={wu}/>

@@ -18,7 +18,7 @@ const Index = (props) => {
                     <Link href={'/admin/formacion/add'}>
                         <button className={`${utilsStyles.btn} ${utilsStyles.btnWhite} ${utilsStyles.btnRounded}`}>
                             <img src={'/assets/icons/add.svg'}/>
-                            <span>Añadir entrada</span>
+                            <span>Añadir curso</span>
                         </button>
                     </Link>
                     <div className={utilsStyles.inputContainer}>

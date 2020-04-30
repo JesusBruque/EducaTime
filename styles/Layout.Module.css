@@ -1,6 +1,7 @@
 /*---- ESTILOS LAYOUT ADMIN ----*/
 .adminContainer{
-    padding:30px 215px 30px 15px;
+    padding:30px 0 30px 15px;
+    margin-right: 215px;
 }
 .adminContainer>div:first-child{
     background-color: white;

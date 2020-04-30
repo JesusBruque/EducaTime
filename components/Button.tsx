@@ -18,7 +18,7 @@ const Button: FunctionComponent<Props> = ({ color, text, action, type, icon, sty
             case 'black':
                 return { backgroundColor: 'var(--black-color)',color:'var(--main-color)' };
             case 'blue':
-                return { backgroundColor: 'var(--main-color)',color:'var(--black-color)' };
+                return { backgroundColor: 'var(--main-color)',color:'white' };
             default:
                 return { backgroundColor: color }
         }

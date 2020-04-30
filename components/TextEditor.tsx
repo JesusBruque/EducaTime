@@ -3,7 +3,7 @@ import fetch from "isomorphic-unfetch";
 import React, {useState} from 'react';
 import WebUtils from "../webUtils/WebUtils";
 
-const TextEditor = (props:{onChange:(content)=>void,files:boolean,utils:WebUtils,height:number,initialValue:string,basic:boolean}) => {
+const TextEditor = (props:{onChange:(content)=>void,files:boolean,height:number,initialValue:string,basic:boolean,utils:WebUtils}) => {
 
     const [dragging,setDragging] = useState(false);
     const [files,setFiles] = useState([]);
@@ -47,9 +47,7 @@ const TextEditor = (props:{onChange:(content)=>void,files:boolean,utils:WebUtils
     const loadedEditor = (ed) => {
         props.utils.initLoader();
         ed.on('init', () => {
-            props.utils.initScroll().then(() => {
-                props.utils.removeLoader();
-            });
+            props.utils.removeLoader();
         });
     };
     const handleChange = (content) => {
@@ -57,11 +55,11 @@ const TextEditor = (props:{onChange:(content)=>void,files:boolean,utils:WebUtils
     };
 
     const editorToolbar = `undo redo | formatselect | bold italic backcolor | 
-                            alignleft aligncenter alignright alignjustify | 
+                            ${props.basic ? '' : 'alignleft aligncenter alignright alignjustify'} | 
                                 bullist numlist outdent indent | removeformat | help1 ${props.files ? 'image' : ''} `;
 
     const editorPlugins = ['advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen',
-                            'insertdatetime media table paste code help wordcount',`${props.files ? 'image' : ''}`]
+                            'insertdatetime media table paste code help wordcount',`${props.files ? 'image' : ''}`];
 
 
     return (
@@ -70,7 +68,7 @@ const TextEditor = (props:{onChange:(content)=>void,files:boolean,utils:WebUtils
                 init={{
                     height: props.height,
                     language:'es',
-                    menubar: 'insert',
+                    menubar: props.basic ? '' : 'insert',
                     plugins: editorPlugins,
                     toolbar:editorToolbar,
                     image_caption: props.files,

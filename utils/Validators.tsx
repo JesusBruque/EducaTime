@@ -36,7 +36,7 @@ export const hasErrors = (errors: Object): boolean => {
     return res;
 };
 
-const genericValidator = (value: any, validator: string) => {
+export const genericValidator = (value: any, validator: string) => {
     let res = '';
     switch (validator) {
         case 'required':
@@ -44,6 +44,12 @@ const genericValidator = (value: any, validator: string) => {
             break;
         case 'email':
             res = email(value);
+            break;
+        case 'positive':
+            res = positive(value);
+            break;
+        case 'notEmpty':
+            res = notEmpty(value);
             break;
     }
     return res;
@@ -64,13 +70,25 @@ const hasTrue = (object: Object): boolean => {
 
 const required = (value: any) => {
     if ((typeof value) === 'object') {
-        return hasTrue(value) ? '' : 'Este campo es obligatorio.'
+        return hasTrue(value) ? '' : 'Este campo es obligatorio.';
     }
-    if (!value || value === '') return 'Este campo es obligatorio.'
+    if (!value || value === '') return 'Este campo es obligatorio.';
     return '';
 };
-const email = (value: string) => {
+export const email = (value: string) => {
     const esEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(value);
     if (!esEmail) return 'Hay que introducir un email válido.'
+    return '';
+};
+const positive = (value:number) => {
+    if(value<=0){
+        return 'Este campo debe ser mayor que 0.';
+    }
+    return '';
+};
+const notEmpty = (value:any[]) => {
+    if(value.length<=0){
+        return 'No puede estar vacío';
+    }
     return '';
 };
