@@ -23,6 +23,13 @@ export default class CourseController extends GenericController{
             curso = await this.courseService.create(curso).catch(err => {throw err});
             await this.courseService.addLectionsToCourse(curso._id,lections).catch(err => {throw err});
 
+            /*--- SI NOS LLEGA UN course.teacher:
+            * - Comprobamos si el email ya existe.
+            *   - Si existe y tiene rol teacher --> no hacemos nada puesto que ya se está enlazando en la creación del curso.
+            *   - Si existe y NO tiene rol teacher --> Añádimos al usuario el rol teacher.
+            *   - Si no existe, creamos el usuario con el rol teacher y le enviamos un email con el usuario y la pass.
+            * */
+
             return res.status(200).json({status:200,curso:curso});
         }catch(e){
             Logger.error('Error al crear un curso.');

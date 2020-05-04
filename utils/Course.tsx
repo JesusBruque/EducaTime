@@ -47,7 +47,12 @@ export default class Course{
 
 export const create = (curso:Course) => axios.post(COURSE_URL,curso);
 
-export const uploadCourseFile = (cursoId:string,data) => axios.post(COURSE_URL + '/post_file/'+cursoId,data);
+export const uploadCourseFile = (cursoId:string,data) => axios({
+    method:'post',
+    url:COURSE_URL + '/post_file/'+cursoId,
+    data:data,
+    onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
+});
 
 export const validate = async (curso: Course) => {
     return new Promise((resolve,reject) => {

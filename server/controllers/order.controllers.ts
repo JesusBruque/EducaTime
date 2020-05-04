@@ -42,7 +42,6 @@ export default class OrderController extends GenericController{
             console.log(user._id);
             await this.userService.addCursoToUser(user._id,paymentInfo.curso);
             const order = await this.orderService.updateOrderByPaymentId(paymentInfo,user._id);
-            /*--- QUEDA ENVIAR EL EMAIL CON LAS CREDENCIALES---*/
             return res.status(200).json({status:200,order:order});
         }catch(e){
             Logger.error('Error al obtener un intento de pago.');

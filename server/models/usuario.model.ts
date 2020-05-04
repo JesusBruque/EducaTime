@@ -27,11 +27,11 @@ var usuarioSchema = new Schema({
     minlength: 3,
     trim: true
   },
-  rol:{
+  roles:[{
     type:String,
     required:true,
     enum:['admin','user','teacher']
-  },
+  }],
   salt: {
     type: Buffer,
     required: true,
