@@ -1,8 +1,7 @@
-import blogStyle from '../styles/Blog.module.css'
+import blogStyle from '../../styles/Blog.module.css'
 import moment from "moment";
-import Photo from './PhotoItem'
-import Cuerpo from './Cuerpo'
-import GridItem from './GridItem'
+import Cuerpo from '../Cuerpo'
+import GridItem from '../GridItem'
 
 const BlogItem=({blog, admin})=>{
     const handleEdit = () => {

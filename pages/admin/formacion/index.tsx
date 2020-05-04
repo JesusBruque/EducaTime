@@ -1,5 +1,5 @@
 import Layout from "../../../components/Layout";
-import CursoGrid from "../../../components/CursosGrid";
+import CursoGrid from "../../../components/cursos/CursosGrid";
 import fetch from "isomorphic-unfetch";
 import React, {useEffect} from "react";
 import WebUtils from "../../../webUtils/WebUtils";

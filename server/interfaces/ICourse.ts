@@ -1,5 +1,4 @@
 import { IGenericInterface } from "./IGenericInterface";
-import {IReview} from "./IReview";
 
 type fee = {
     fee:number,
@@ -21,7 +20,7 @@ export interface ICourse extends IGenericInterface{
     last_update: number;
     tags: [string];
     score:number;
-    reviews: IReview[];
+    reviews: string[];
     //perCent: string;
     active: boolean;
     fees:fee[]; //Esto es un array de plazos dónde guardaremos en cada posición la cantidad correspondiente. (La suma de todos no podrá superar el precio).

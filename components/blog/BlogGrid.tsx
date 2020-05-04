@@ -1,6 +1,6 @@
 import BlogItem from "./BlogItem";
 import React from "react";
-import blogsModule from "../styles/Blog.module.css";
+import blogsModule from "../../styles/Blog.module.css";
 
 
 const BlogGrid =  ({blogs,admin}) => {

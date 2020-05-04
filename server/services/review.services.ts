@@ -10,7 +10,7 @@ export default class ReviewService extends GenericService {
         
     }
     public create= async (myObject: IGenericInterface, user?: IUsuarioDTO): Promise<IGenericInterface> => {
-        this.addRating(myObject._id);
+        await this.addRating(myObject._id);
         return this.create(myObject,user);
     }
     private addRating = async (reviewId: string)=>{
@@ -19,13 +19,6 @@ export default class ReviewService extends GenericService {
         curso.reviews.push(reviewId);
        //  Actualizando el score guay
         curso.score += parseFloat(((rev.score - curso.score)/(curso.reviews.length+1)).toFixed(3));
-
-        // let suma = 0;
-        // for (let i = 0; i < curso.reviews.length; i++) {
-        //     suma += (await Review.findById(curso.reviews[i])).score;
-        // }
-        // curso.score = suma/curso.reviews.length;
-
-        curso.perCent = (curso.score*20).toString() + "%";
+        await curso.save();
     }
 }

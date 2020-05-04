@@ -1,8 +1,9 @@
 import React, {FunctionComponent, useEffect} from "react";
+import ReactDOM from 'react-dom';
 import Plyr from "plyr";
 import styles from '../styles/Video.module.css';
 import utilStyles from '../styles/Utils.module.css';
-import {faTimes,faPlay,faVolumeUp,faVolumeDown,faVolumeMute,faExpand,faCompress} from "@fortawesome/free-solid-svg-icons";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 type Props = {
@@ -11,20 +12,24 @@ type Props = {
     onClose:() => void,
     title:string
 }
+
 const VideoComponent: FunctionComponent<Props> = (props) => {
+    let element = document.createElement('div');
 
+    useEffect(() => {
+        console.log('efecto video');
+        if(!document.getElementById('video-container')){
+            element.id = 'video-container';
+            document.querySelector('#__next').appendChild(element);
+        }
+        const player = new Plyr('#player',{controls:['play','play-large','progress','fullscreen','volume','current-time','mute']});
+        player.once('canplay', () => {
+            player.play();
+        });
+    },[]);
 
-   useEffect(() => {
-       const player = new Plyr('#player',{controls:['play','play-large','progress','fullscreen','volume','current-time','mute']});
-       player.once('canplay', () => {
-           player.play();
-       });
-   },[]);
-
-
-
-    return (
-        <div className={styles.videoContainer}>
+    const videoContent = () => {
+        return <div className={styles.videoContainer}>
             <div className={utilStyles.background}></div>
             <div className={styles.videoMarco}>
                 <div className={styles.videoHeader}>
@@ -36,7 +41,9 @@ const VideoComponent: FunctionComponent<Props> = (props) => {
                 </video>
             </div>
         </div>
-    )
+    };
+
+    return ReactDOM.createPortal(videoContent(),document.getElementById('video-container'));
 };
 
 export default VideoComponent;

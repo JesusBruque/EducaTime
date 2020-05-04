@@ -5,7 +5,7 @@ import { IUsuario, IUsuarioDTO } from '../interfaces/IUsuario';
 export default async () => {
     passport.serializeUser(function (user: IUsuarioDTO, done) {
         done(null, user._id);
-    })
+    });
     passport.deserializeUser(function (id, done) {
         Usuario.findById(id, function (err, user: IUsuario) {
             if (err) throw err;
@@ -13,7 +13,7 @@ export default async () => {
                 done(err, {
                     _id: user._id,
                     email: user.email,
-                    rol:user.rol
+                    roles:user.roles
                 });
 
             } else done(err, null);

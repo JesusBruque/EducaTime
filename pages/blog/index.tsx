@@ -1,14 +1,14 @@
-import BlogItem from '../components/BlogItem'
-import Layout from '../components/Layout'
-import blogsModule from '../styles/Blog.module.css'
-import utilsStyles from '../styles/Utils.module.css';
+import BlogItem from '../../components/blog/BlogItem'
+import Layout from '../../components/Layout'
+import blogsModule from '../../styles/Blog.module.css'
+import utilsStyles from '../../styles/Utils.module.css';
 
 import fetch from 'isomorphic-unfetch'
 import React,{useEffect} from 'react';
-import BlogUtilities from "../webUtils/BlogUtilities";
-import BlogGrid from "../components/BlogGrid";
+import BlogUtilities from "../../webUtils/BlogUtilities";
+import BlogGrid from "../../components/blog/BlogGrid";
 
-const Blogs=( {blogs} )=>{
+const Blogs=(props )=>{
     useEffect(() => {
         let bu = new BlogUtilities('main');
         bu.initBlogscroll().then(() => {
@@ -16,15 +16,15 @@ const Blogs=( {blogs} )=>{
         }).catch(err => console.error(err));
     },[]);
     return (
-        <Layout>
+        <Layout user={props.user} router={props.router} setUser={props.setUser}>
             <div className={utilsStyles.sectionContainer}>
                 <h1 className={`${blogsModule.title} ${utilsStyles.sectionTitle}`}>Blog</h1>
                 <div className={utilsStyles.centeredContainer}>
-                    <BlogGrid blogs={blogs} admin={false}/>
+                    <BlogGrid blogs={props.blogs} admin={false}/>
                 </div>
             </div>
         </Layout>
-    
+
     )
 };
 

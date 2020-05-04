@@ -12,6 +12,7 @@ type lection = {
     title:string
 }
 export default class Course{
+    public _id:string;
     public title:string;
     public thumbnail:string;
     public description:string;
@@ -26,8 +27,10 @@ export default class Course{
     public active:boolean;
     public lections:lection[];
     public webinar:string;
+    public score:number;
 
     constructor(){
+        this._id = null;
         this.title = '';
         this.thumbnail = null;
         this.video = null;
@@ -45,7 +48,10 @@ export default class Course{
     }
 }
 
-export const create = (curso:Course) => axios.post(COURSE_URL,curso);
+export const create = (curso:Course) => {
+    delete curso['_id'];
+    return axios.post(COURSE_URL,curso);
+};
 
 export const uploadCourseFile = (cursoId:string,data) => axios({
     method:'post',
