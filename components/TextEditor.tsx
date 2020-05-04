@@ -46,6 +46,7 @@ const TextEditor = (props:{onChange:(content)=>void,files:boolean,height:number,
 
     const loadedEditor = (ed) => {
         props.utils.initLoader();
+        props.utils.startLoader();
         ed.on('init', () => {
             props.utils.removeLoader();
         });

@@ -15,10 +15,7 @@ export default class FilesServices{
         this.s3 = new AWS.S3();
     }
 
-    /*--- PARA SUBIR IMAGENES VAMOS A PONER UN PREFIJO /public/blogImages*/
-    /*--- PARA SUBIR LOS VIDEOS DE LOS CURSOS VAMOS HACERLO POR STREAM CONTROLANDO LO QUE ENVIAMOS ---*/
-    public uploadFile = async (file,targetName): Promise<string> => {
-        console.log('preparing to upload...');
+    public uploadFile = async (file,targetName,res): Promise<string> => {
         const putParams = {
             Bucket      : 'casor-s3',
             Key         : targetName,
@@ -29,8 +26,10 @@ export default class FilesServices{
         return new Promise((resolve,reject) => {
             this.s3.upload(putParams,options,(err,data) => {
                 if(err) reject(err);
-                console.log(data);
                 resolve(data.Location);
+            }).on('httpUploadProgress',(evt) => {
+                console.log('EVENTO ON PROGRESSS --> ',evt);
+                // res.write(evt);
             });
         });
     };

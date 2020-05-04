@@ -19,7 +19,7 @@ export default class WebUtils{
             this.scrollElement.runAnimations();
         }
     };
-    initLoader = () => {
+    initLoader = (text?:string) => {
         if(!document.querySelector('#casor-loader')){
             let loader = document.createElement('div');
             loader.id='casor-loader';
@@ -32,10 +32,21 @@ export default class WebUtils{
                 loaderBall.classList.add('loader-ball');
                 loaderObject.appendChild(loaderBall);
             }
-
+            let loaderText;
+            if(text){
+                loaderText = document.createElement('p');
+                loaderText.innerHTML = text;
+                loaderText.id = 'casor-loader--text';
+            }
             loader.appendChild(loaderContainer);
             loader.appendChild(loaderObject);
+            if(text) loader.appendChild(loaderText);
             document.querySelector('body').appendChild(loader);
+        }
+    };
+    changeTextLoader = (text:string)=>{
+        if(document.getElementById('casor-loader--text')){
+            document.getElementById('casor-loader--text').innerHTML = text;
         }
     };
     startLoader = () => {

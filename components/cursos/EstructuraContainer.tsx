@@ -23,12 +23,13 @@ const EstructureAddCourse = (props:Props) => {
 
     const handleChangeLection = (value,i) => {
         let newLections = [...props.cursoInfo.lections];
-        newLections[i] = value;
+        newLections[i].title = value;
         props.setCursoInfo({...props.cursoInfo,lections: newLections});
     };
     const removeLection = (i) => {
         let newLections = [...props.cursoInfo.lections];
         newLections.splice(i,1);
+        console.log(newLections);
         props.setCursoInfo({...props.cursoInfo,lections: newLections});
     };
     const handleChangeWebinar = (e) => {

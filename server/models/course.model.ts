@@ -25,11 +25,13 @@ var courseSchema = new Schema({
   },
   target: {
     type: String,
-    trim: true
+    trim: true,
+    required:true
   },
   requirements: {
     type: String,
-    trim: true
+    trim: true,
+    required:true
   },
   fees : {
     type: [{fee:Number,dateExpires:Number}],
@@ -46,16 +48,14 @@ var courseSchema = new Schema({
   discount: {
     type: Number
   },
-  current_fee: {
-    type: Number
-  },
   last_update: {
     type: String,
     trim: true
   },
   goals: {
     type: String,
-    trim: true
+    trim: true,
+    required:true
   },
   tags: {
     type: [String],
@@ -67,9 +67,6 @@ var courseSchema = new Schema({
   reviews: {
     type: [String]
   },
-  perCent: {
-    type: String
-  },
   teacher:{
     type: String
   },
@@ -78,7 +75,7 @@ var courseSchema = new Schema({
     required: true
   },
   webinar:String
-}, { versionKey: '_version' })
+}, { versionKey: '_version' });
 
 courseSchema.plugin(mongooseHistory);
 export default mongoose.model<ICourse & mongoose.Document>('Course', courseSchema);

@@ -15,13 +15,12 @@ export default class OrderController extends GenericController{
         this.userService = new AuthenticationService();
       }
     public paymentIntent = async(req:Request,res:Response) => {
-        Logger.debug(req.body.id);
         Logger.debug('Intentando un pago.');
         try{
             /*aqui voy a tener el id del curso que tengo que pagar... Vamos a llamar al findById y vamos a coger esa cantidad para el pago.*/
             let courseId = req.body.id;
             const paymentResponse = await this.orderService.paymentIntent(courseId);
-            const orderObject = {date:Date.now(),course:courseId,paid:false,fee:paymentResponse.amount,currency:"EUR",client_secret:paymentResponse.client_secret,payment_id:paymentResponse.id,description:"Creación de la orden de pago."}
+            const orderObject = {date:Date.now(),course:courseId,paid:false,fee:paymentResponse.amount,currency:"EUR",client_secret:paymentResponse.client_secret,payment_id:paymentResponse.id,description:"Creación de la orden de pago."};
             await this.orderService.create(orderObject);
             /*--- Ya tengo la orden de pago creada y voy a devolver al cliente la clave secreta ---*/
             return res.status(200).json({status:200,clientSecret:paymentResponse.client_secret});

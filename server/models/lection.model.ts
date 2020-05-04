@@ -12,16 +12,13 @@ var lectionSchema = new Schema({
   },
   description: {
     type: String,
-    required: true
   },
   video: {
     type: String,
-    required: true,
     trim: true
   },
   duration: {
     type: Number,
-    required: true,
     minlength: 1
   },
   order: {

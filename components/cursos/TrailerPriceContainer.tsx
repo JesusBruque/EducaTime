@@ -17,6 +17,7 @@ type Props ={
     handleInfoCursoChange:(content,property:string) => void,
     setVideoPlaying:Dispatch<any>
 }
+
 const TrailerPriceCourse = (props:Props) => {
     const [showFeeDropDown,setShowFeeDropDown] = useState(false);
     const [feeEditing,setFeeEditing] = useState(null);
@@ -25,7 +26,7 @@ const TrailerPriceCourse = (props:Props) => {
         let newFees = [];
         setShowFeeDropDown(false);
         for(let i =0;i<numRows;i++){
-            newFees.push({fee:parseFloat((props.cursoInfo.original_fee/numRows).toFixed(2)),date:moment().format('DD/MM/YYYY')})
+            newFees.push({fee:parseFloat((props.cursoInfo.original_fee/numRows).toFixed(2)),date:moment().unix()*1000})
         }
         props.setCursoInfo({...props.cursoInfo,fees:newFees});
     };
@@ -33,7 +34,8 @@ const TrailerPriceCourse = (props:Props) => {
     const handleChangeFee = (i,property,value) => {
         setFeeEditing(null);
         let newFees = [...props.cursoInfo.fees];
-        newFees[i][property] = value;
+        newFees[i][property] = property==='date' ? moment(value,'DD/MM/YYYY').unix()*1000 : parseFloat(value);
+        console.log(newFees);
         props.setCursoInfo({...props.cursoInfo,fees:newFees});
     };
 
@@ -126,13 +128,13 @@ const TrailerPriceCourse = (props:Props) => {
                                         </div>
                                         <div style={{marginTop:'4px'}}>
                                             <span style={{marginRight:'4px'}}>Fecha:</span>
-                                            <span onClick={() => setFeeEditing(i)} style={{color:'var(--black-color)'}}>{fee.date}</span>
+                                            <span onClick={() => setFeeEditing(i)} style={{color:'var(--black-color)'}}>{moment(fee.date).format('DD/MM/YYYY')}</span>
                                             {
                                                 feeEditing === i &&
                                                 <div style={{position:'relative'}}>
                                                     <div className={utilsStyles.background} onClick={()=>setFeeEditing(null)}></div>
                                                     <div className={utilsStyles.calendarPickerInput}>
-                                                        <DatePicker rangeDate={false} selectDateEvent={(date ) => handleChangeFee(i,'date',date)} minDate={i === 0 ? moment().format('DD/MM/YYYY') : props.cursoInfo.fees[i-1].date} />
+                                                        <DatePicker rangeDate={false} selectDateEvent={(date ) => handleChangeFee(i,'date',date)} minDate={i === 0 ? moment().format('DD/MM/YYYY') : moment(props.cursoInfo.fees[i-1].date).format('DD/MM/YYYY')} />
                                                     </div>
                                                 </div>
                                             }

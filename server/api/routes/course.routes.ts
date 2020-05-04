@@ -3,7 +3,6 @@ import { celebrate, Joi } from 'celebrate';
 import CourseController from '../../controllers/course.controller'
 import middlewares from '../middlewares';
 import FilesController from "../../controllers/files.controller";
-import {file} from "@babel/types";
 const route = Router();
 
 export default (app:Router)=>{
@@ -17,33 +16,30 @@ export default (app:Router)=>{
 
     route.post('/',
         celebrate({
-            body: Joi.object({
+            body:Joi.object({
                 title: Joi.string().required(),
-                description: Joi.string().allow(null,""),
-                thumbnail: Joi.string().allow(null,""),
-                video: Joi.string().allow(null,""),
+                description: Joi.string().required(),
+                thumbnail: Joi.string().required(),
+                video: Joi.string().required(),
                 duration: Joi.number().allow(null,""),
-                requirements: Joi.string().allow(null,""),
-                target: Joi.string().allow(null,""),
+                requirements: Joi.string().required(),
+                target: Joi.string().required(),
                 category: Joi.array().allow(null),
                 original_fee: Joi.number().required(),
                 discount: Joi.number().required(),
-                last_update: Joi.string(),
-                goals: Joi.string().allow(null,""),
+                goals: Joi.string().required(),
                 tags: Joi.array().allow(null),
                 score: Joi.number().allow(null,""),
-                fees: Joi.number().allow(null,""),
+                fees: Joi.array().items(Joi.object({fee:Joi.number(),date:Joi.number()}).allow(null)).allow(null),
                 reviews: Joi.array().allow(null),
-                perCent: Joi.string().allow(null,""),
                 active: Joi.boolean().required(),
-                dateStartInscription: Joi.number().allow(null,""),
-                dateEndInscription: Joi.number().required(),
-                dateEndCourse: Joi.number().required(),
                 teacher: Joi.string().allow(null,""),
-            }),
+                lections:Joi.array().items(Joi.object({title:Joi.string()})),
+                webinar:Joi.string().allow(null,"")
+            })
         }),
-        // [middlewares.isAuth,middlewares.filesUpload],
-        courseController.create);
+        middlewares.isAdmin,
+        courseController.createCourse);
         
     route.put('/',
         celebrate({
@@ -65,12 +61,12 @@ export default (app:Router)=>{
                 perCent: Joi.string(),
                 active: Joi.boolean(),
                 updated_for: Joi.string().required()
-            }),
+            }).unknown(true),
         }),
         // middlewares.isAuth,
         courseController.edit);
 
-    route.post('/post_file',fileController.uploadFile);
+    route.post('/post_file/:cursoId',middlewares.isAdmin,courseController.uploadCourseFile);
     route.get('/get_file/:filename',fileController.retrieveFile);
 
 }

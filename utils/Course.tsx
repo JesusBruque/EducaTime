@@ -6,7 +6,7 @@ const COURSE_URL = 'http://localhost:5000/api/course';
 
 type fee = {
     fee:number,
-    date:any
+    date:number
 };
 type lection = {
     title:string
@@ -44,47 +44,43 @@ export default class Course{
         this.webinar = null;
     }
 }
-function setDates(curso:Course){
-    if(curso.fees.length> 0){
-        curso.fees.forEach(fee => fee.date=moment(fee.date,'DD/MM/YYYY').unix()*1000);
-    }
-}
-export const create = (curso:Course) => {
-    setDates(curso);
-    console.log(curso);
-    return axios.post(COURSE_URL, curso);
-};
 
-export const validate = (curso: Course) => {
-    let validations = {
-        title:genericValidator(curso.title,'required'),
-        thumbnail:genericValidator(curso.thumbnail,'required'),
-        video:genericValidator(curso.video,'required'),
-        description:genericValidator(curso.description,'required'),
-        target: genericValidator(curso.target,'required'),
-        original_fee: genericValidator(curso.original_fee,'positive'),
-        goals:genericValidator(curso.goals,'required'),
-        requirements:genericValidator(curso.requirements,'required'),
-        teacher:email(curso.teacher),
-        lections:!curso.webinar ? genericValidator(curso.lections,'notEmpty') : '',
-        webinar:curso.lections.length<=0 ? genericValidator(curso.webinar,'required') : ''
-    };
+export const create = (curso:Course) => axios.post(COURSE_URL,curso);
 
-    let errors = [];
-    for (let property in validations){
-        if(validations[property] !== '') errors.push({[getPropertyName(property)]:validations[property]});
-    }
+export const uploadCourseFile = (cursoId:string,data) => axios.post(COURSE_URL + '/post_file/'+cursoId,data);
 
-    if(curso.fees.length > 0){
-        if(!validateFees(curso.fees,curso.original_fee)){
-            errors.push({plazos:'Los plazos y el precio no se corresponden.'});
+export const validate = async (curso: Course) => {
+    return new Promise((resolve,reject) => {
+        let validations = {
+            title:genericValidator(curso.title,'required'),
+            thumbnail:genericValidator(curso.thumbnail,'required'),
+            video:genericValidator(curso.video,'required'),
+            description:genericValidator(curso.description,'required'),
+            target: genericValidator(curso.target,'required'),
+            original_fee: genericValidator(curso.original_fee,'positive'),
+            goals:genericValidator(curso.goals,'required'),
+            requirements:genericValidator(curso.requirements,'required'),
+            teacher:curso.teacher ? email(curso.teacher) : '',
+            lections:!curso.webinar ? genericValidator(curso.lections,'notEmpty') : '',
+            webinar:curso.lections.length<=0 ? genericValidator(curso.webinar,'required') : ''
+        };
+
+        let errors = [];
+        for (let property in validations){
+            if(validations[property] !== '') errors.push({[getPropertyName(property)]:validations[property]});
         }
-        if(!validateDateFees){
-            errors.push({plazos:'Error en los plazos de pagos.'});
-        }
-    }
 
-    return errors;
+        if(curso.fees.length > 0){
+            if(!validateFees(curso.fees,curso.original_fee)){
+                errors.push({plazos:'Los plazos y el precio no se corresponden.'});
+            }
+            if(!validateDateFees){
+                errors.push({plazos:'Error en los plazos de pagos.'});
+            }
+        }
+        errors.length>0 ? reject(errors) : resolve('No hay errores');
+    });
+
 };
 
 const validateFees = (fees:fee[],price) => {
@@ -98,7 +94,7 @@ const validateFees = (fees:fee[],price) => {
 const validateDateFees = (fees:fee[]) => {
     let res = true;
     for(let i=1;i<fees.length;i++){
-        if(moment(fees[i-1].date,'DD/MM/YYY').isAfter(moment(fees[i].date,'DD/MM/YYY'),'date')){
+        if(moment(fees[i-1].date).isAfter(moment(fees[i].date),'date')){
             res = false;
             break;
         }

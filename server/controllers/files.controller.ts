@@ -8,13 +8,13 @@ export default class FilesController{
         this.fileService = new FilesServices();
     }
     public uploadFile = async (req:Request,res:Response) => {
-        Logger.debug('subiendo foto...');
+        Logger.debug('subiendo fichero...');
         try{
             req.pipe(req.busboy);
             req.busboy.on('file',async (fieldname,file,filename) => {
-                const fileLocation : string = await this.fileService.uploadFile(file, filename);
+                const fileLocation : string = await this.fileService.uploadFile(file, filename,res);
                 console.log(fileLocation);
-                return res.status(200).json({message:'Éctio al subir el fichero.',file:fileLocation});
+                return res.status(200).json({message:'Éxito al subir el fichero.',file:fileLocation});
             });
         }catch (e) {
             Logger.error('Se ha producido un error añ subir el fichero');
