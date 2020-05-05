@@ -25,7 +25,7 @@ const MainInfoCourse = (props:Props) => {
     return (
         <div className={styles.cursoInfoDescription}>
             <div>
-                <input style={{fontSize:'1.1em',fontWeight:'bold',width:'350px',textTransform:'uppercase'}} type={'text'} value={props.cursoInfo.title} className={styles.inputEditing} onChange={(e) => props.handleInfoCursoChange(e.target.value,'title')} placeholder={'Título del curso'}/>
+                <input style={{fontSize:'1.1em',fontWeight:'bold',width:'350px',textTransform:'uppercase'}} type={'text'} value={props.cursoInfo.title} className={utilsStyles.inputEditing} onChange={(e) => props.handleInfoCursoChange(e.target.value,'title')} placeholder={'Título del curso'}/>
             </div>
             <div>
                 <div>

@@ -7,7 +7,7 @@ import LayoutAdmin from "../../../components/LayoutAdmin";
 const Index = (props) => {
 
     return (
-        <LayoutAdmin user={props.user} router={props.router} selected={'blog'}>
+        <LayoutAdmin user={props.user} router={props.router} selected={'blog'} setUser={props.setUser} utils={props.utils}>
             <div className={utilsStyles.sectionContainer}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <h1 className={`${utilsStyles.sectionTitle}`}>Blog</h1>

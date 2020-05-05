@@ -11,8 +11,10 @@ var blogSchema = new Schema({
     minlength: 5,
     trim: true
   },
+  subtitle:String,
   description: {
-    type: String
+    type: String,
+    required:true
   },
   thumbnail:{
     type:String,

@@ -83,11 +83,11 @@ const TrailerPriceCourse = (props:Props) => {
                 </div>
                 <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'8px'}}>
                     <div className={styles.line} style={{color:'var(--red-color)'}}>
-                        <input style={{fontSize:'1.1em',color:'var(--red-color)'}} type={'number'} value={props.cursoInfo.discount} className={styles.inputEditing} onChange={(e) => props.handleInfoCursoChange(e.target.value,'discount')}/>
+                        <input style={{fontSize:'1.1em',color:'var(--red-color)'}} type={'number'} value={props.cursoInfo.discount} className={utilsStyles.inputEditing} onChange={(e) => props.handleInfoCursoChange(e.target.value,'discount')}/>
                         <span>% Dto.</span>
                     </div>
                     <div className={styles.line} style={{fontSize:'1.2em',fontWeight:'bold',color:'var(--black-color)'}}>
-                        <input style={{fontSize:'1.1em',fontWeight:'bold'}} type={'number'} value={props.cursoInfo.original_fee} className={styles.inputEditing} onChange={(e) => props.handleInfoCursoChange(e.target.value,'original_fee')}/>
+                        <input style={{fontSize:'1.1em',fontWeight:'bold'}} type={'number'} value={props.cursoInfo.original_fee} className={utilsStyles.inputEditing} onChange={(e) => props.handleInfoCursoChange(e.target.value,'original_fee')}/>
                         <span>€</span>
                     </div>
                 </div>
@@ -123,7 +123,7 @@ const TrailerPriceCourse = (props:Props) => {
                                     <div className={styles.feeRow} key={i}>
                                         <div>
                                             <span style={{marginRight:'4px'}}>Cantidad:</span>
-                                            <input type={'number'} value={fee.fee} className={`${styles.inputEditing}`} onChange={(e) => handleChangeFee(i,'fee',e.target.value)}/>
+                                            <input type={'number'} value={fee.fee} className={`${utilsStyles.inputEditing}`} onChange={(e) => handleChangeFee(i,'fee',e.target.value)}/>
                                             <span>€</span>
                                         </div>
                                         <div style={{marginTop:'4px'}}>

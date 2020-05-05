@@ -1,5 +1,4 @@
 import {Editor} from "@tinymce/tinymce-react/lib/cjs/main/ts";
-import fetch from "isomorphic-unfetch";
 import React, {useState} from 'react';
 import WebUtils from "../webUtils/WebUtils";
 
@@ -9,9 +8,9 @@ const TextEditor = (props:{onChange:(content)=>void,files:boolean,height:number,
     const [files,setFiles] = useState([]);
     let counter = 0;
 
-    const uploadImage = async () => {
-        const response = await fetch('http://localhost:5000/api/blog/uploadImage/10',{method:'POST'});
-        console.log(response);
+    const uploadImage = async (blobInfo, success, failure) => {
+        setFiles([...files,blobInfo.blob()]);
+        success(URL.createObjectURL(blobInfo.blob()));
     };
     const handleDrag = (e) => {
         e.preventDefault();

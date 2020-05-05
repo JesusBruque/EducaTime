@@ -46,16 +46,6 @@
     margin-left:4px;
 }
 
-.inputEditing{
-    border:none;
-    border-bottom:solid 1px var(--black-color);
-    padding:4px;
-    color:var(--black-color);
-    width:calc(4em + 8px);
-}
-.inputEditing:focus{
-    outline:none;
-}
 .feeRow{
     position: relative;
     padding:0 8px;

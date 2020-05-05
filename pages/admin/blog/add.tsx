@@ -1,39 +1,33 @@
-import Layout from "../../../components/Layout";
 import utilsStyles from "../../../styles/Utils.module.css";
-import React, {useEffect, useRef, useState} from "react";
-import blogsModule from "../../../styles/Blog.module.css";
-import WebUtils from "../../../webUtils/WebUtils";
-import DragNDrop from "../../../components/DragNDrop";
-import dynamic from "next/dynamic";
+import React, {useState} from "react";
+import LayoutAdmin from "../../../components/LayoutAdmin";
+import Blog from "../../../utils/Blog";
+import Button from "../../../components/Button";
+import AddBlogForm from "../../../components/blog/AddBlogForm";
 
 const AddBlog = (props) => {
 
-    const alloyRef = useRef(null);
-    const [mainImage,setMainImage] = useState(null);
-    const TextEditor = dynamic(() =>import('../../../components/TextEditor'), { ssr:false});
-    useEffect(() => {
-       props.utils.initLoader();
-       props.utils.initScroll().then(() => {
-           props.utils.removeLoader();
-       });
-       console.log('efecto tecto');
-    },[]);
+    const [blogInfo,setBlogInfo] = useState(new Blog());
+    const [contentFiles,setContentFiles] = useState([]);
+    const [blogThumbnail,setBlogThumbnail] = useState(null);
+
+    const CreateBlog = () => {
+
+    };
+
     return (
-        <div className={utilsStyles.sectionContainer}>
-            <h1 className={`${blogsModule.title} ${utilsStyles.sectionTitle}`}>Añadir Entrada</h1>
-            <div>
-                <label>
-                    <div className={blogsModule.addImageContainer}>
-                        <input type='file' name={'upload-image'} style={{display:'none'}}/>
-                        <img src={'/assets/icons/camera.svg'} alt='icono de camára'/>
-                    </div>
-                </label>
+        <LayoutAdmin router={props.router} user={props.user} setUser={props.setUser} utils={props.utils} selected={'blog'}>
+            <div className={utilsStyles.sectionContainer}>
+                <div style={{display:'flex',justifyContent:'space-between',flexWrap:'wrap',alignItems:'center'}}>
+                    <h1 className={`${utilsStyles.sectionTitle}`}>Añadir Entrada</h1>
+                    <Button color={'blue'} text={'Guardar entrada'} action={CreateBlog}/>
+                </div>
+                <div>
+                   <AddBlogForm blog={blogInfo} setBlog={setBlogInfo} utils={props.utils} files={contentFiles} setFiles={setContentFiles} blogFile={blogThumbnail} setBlogFile={setBlogThumbnail}/>
+                </div>
+
             </div>
-            {/*<DragNDrop styles={{height:'200px',width:'200px'}}  onlyImages={true}>*/}
-            {/*    {mainImage && <img src={URL.createObjectURL(mainImage)}/>}*/}
-            {/*</DragNDrop>*/}
-            <TextEditor utils={props.utils}/>
-        </div>
+        </LayoutAdmin>
     )
 }
 
