@@ -65,7 +65,7 @@ const AddCourse = (props) => {
 
 
     return (
-        <LayoutAdmin user={props.user} router={props.router} selected={'formacion'}>
+        <LayoutAdmin user={props.user} setUser={props.setUser} router={props.router} selected={'formacion'} utils={props.utils} >
             <div className={utilsStyles.sectionContainer}>
                 <div style={{display:'flex',justifyContent:'space-between',flexWrap:'wrap',alignItems:'center'}}>
                     <h1 className={`${utilsStyles.sectionTitle}`}>Añadir Curso</h1>

@@ -6,6 +6,7 @@ import CourseService from "../services/course.services"
 import Logger from '../loaders/logger'
 import LectionService from "../services/lection.services";
 import FilesServices from "../services/files.services";
+import { Json } from "aws-sdk/clients/marketplacecatalog";
 
 export default class CourseController extends GenericController{
     private courseService : CourseService;
@@ -27,14 +28,9 @@ export default class CourseController extends GenericController{
             /*-- CREANDO CURSO Y LECCIONES --*/
             curso = await this.courseService.create(curso).catch(err => {throw err});
             await this.courseService.addLectionsToCourse(curso._id,lections).catch(err => {throw err});
-
-            /*--- SI NOS LLEGA UN course.teacher:
-            * - Comprobamos si el email ya existe.
-            *   - Si existe y tiene rol teacher --> no hacemos nada puesto que ya se está enlazando en la creación del curso.
-            *   - Si existe y NO tiene rol teacher --> Añádimos al usuario el rol teacher.
-            *   - Si no existe, creamos el usuario con el rol teacher y le enviamos un email con el usuario y la pass.
-            * */
-
+            if(curso.teacher){
+                await this.manageTeacher(curso.teacher, curso.title, curso.description);
+            }
             return res.status(200).json({status:200,curso:curso});
         }catch(e){
             Logger.error('Error al crear un curso.');
@@ -42,22 +38,21 @@ export default class CourseController extends GenericController{
             return res.status(400).json({status:400});
         }
     };
-    
-    private manageTeacher = async (email, res:Response) => {
+    private manageTeacher = async (email: string, titulo: string, descripcion: string) => {
         try{
             var err, user = await this.authenticationService.findByEmail(email);
             if (err) throw err;
-            if (user){
-                if(user.roles.includes('teacher')){
-
-                }else{
-                    this.authenticationService.addRolTeacherToUser(user._id);
+            if (user._id){
+                if(!(user.roles.includes('teacher'))){
+                    await this.authenticationService.addRolTeacherToUser(user._id);
                 }
             }
+            else{
+                await this.authenticationService.registerTeacher(user);
+            }
+            await this.authenticationService.sendCourseAssignmentEmail(email, user.username, titulo, descripcion);
         }catch(e){
-            Logger.error('Error al gestionar entrada de email de profesor.');
-            Logger.error(e);
-            return res.status(400).json({status:400});
+            throw e;
         }
     }
     public uploadCourseFile = async (req:Request,res:Response) => {

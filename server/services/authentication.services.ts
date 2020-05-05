@@ -35,11 +35,17 @@ export default class AuthenticationService {
     };
 
     public registerUser = async(user:IUsuarioDTO): Promise<IUsuarioDTO> => {
+        return this.register(user,'user');
+    }
+    public registerTeacher = async(user:IUsuarioDTO): Promise<IUsuarioDTO> => {
+        return this.register(user,'teacher');
+    }
+    private register = async(user:IUsuarioDTO, rol:string): Promise<IUsuarioDTO> => {
         try{
             const salt = randomBytes(32);
             const pass = Math.random().toString(36).substring(7);
             const hashedPassword = await argon2.hash(pass, { salt: salt });
-            let err, newUser = await new Usuario({email:user.email,username:user.username,roles:['user'],password:hashedPassword,salt:salt}).save();
+            let err, newUser = await new Usuario({email:user.email,username:user.username,roles:[rol],password:hashedPassword,salt:salt}).save();
             if(err) throw err;
             if(!newUser) throw Error("No se ha podido crear el usuario " + user.email);
             await this.sendRegisterEmail(user.username,pass,user.email);
@@ -47,7 +53,7 @@ export default class AuthenticationService {
         }catch(e){
             throw e;
         }
-    };
+    }
     
     public addRolTeacherToUser = async(userId: string) => {
         let err, user = await Usuario.findById(userId);
@@ -64,12 +70,47 @@ export default class AuthenticationService {
         user = await user.save();
         return user;
     };
-
+    public sendCourseAssignmentEmail = async (email: string, username: string, courseTitle: string, courseDescription: string) =>{
+        let html = this.assignmentEmail(email,username, courseTitle, courseDescription);
+        await sendEmail(email,'Nueva tutoría de Curso en CASOR. Academia de formación deportiva.', html);
+    }
     public sendRegisterEmail = async(email:string,pass:string,username:string) => {
         let html = this.registerEmail({username,pass,email});
         await sendEmail(email,'Registro en CASOR. Academia de formación deportiva.', html);
     };
-
+    
+    private assignmentEmail = (email: string, username: string, courseTitle: string, courseDescription: string) => {
+        return `
+        <body>
+            <table width="600" style='text-align:center;font-family:Verdana;border-collapse:collapse;margin:0 auto;background-color: #ffffff'>
+                <tr>
+                    <td style='padding:30px 0;margin-bottom:30px;border-bottom:solid 1px #565656'><img src="https://www.boorpret.com/images/work/casor/logo_casor.png"  alt="'logo de CASOR" width='160' /></td>
+                </tr>
+                <tr>
+                    <td style="padding:15px;font-weight:bold;">Se le ha asignado como tutor de un nuevo curso</td>
+                </tr>
+                <tr>
+                    <td style="padding-bottom:15px">
+                        <table style="text-align:center;background-color: #dcdcdc; color:#565656;padding:30px;width:100%;font-size:.9em">
+                            <tr><td colSpan="2" style='padding:15px;border-bottom:solid 1px grey;'> ${username} </td></tr>
+                            <tr><td style="font-weight:bold;padding:15px;">Curso: </td> <td style='padding:15px;text-align:left'>${courseTitle}</td></tr>
+                            <tr style=';padding-top:8px;'><td style="font-weight:bold;">Descripción: </td><td style="text-align: left">${courseDescription}</td></tr>
+                            <tr><td colSpan="2" style='font-size:.8em;font-weight:bold;padding-top:30px;'><a href = "www.google.com" target="_blank">Acceso directo al curso. ¡Comienza esta nueva eventura!</a></td></tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='padding:15px;color:darkgrey;font-size:9px;border-top:solid 1px #bcbcbc'>
+                    Este email se ha enviado a ${email} por su compra de un curso en academiaformaciondeportiva.com. Si no es usted póngase en contacto con 
+                    nuestro departamento técnico <a href="mailto:info@boorpret.com">info@boorpret.com</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='font-size:8px;color:darkgrey;padding-bottom:30px;'>&copy; Todos los derechos reservados 2019/2020. CASOR. Academia de formación deportiva</td>
+                </tr>
+            </table>
+        </body>`
+    }
     private registerEmail = (userCredentials :  {username:string,pass:string,email:string}) => {
         return `
         <body>
@@ -92,7 +133,7 @@ export default class AuthenticationService {
                 </tr>
                 <tr>
                     <td style='padding:15px;color:darkgrey;font-size:9px;border-top:solid 1px #bcbcbc'>
-                    Este email se ha enviado a ${userCredentials.email} por su compra de un curso en academiaformaciondeportiva.com. Si no es usted pongáse en contacto con 
+                    Este email se ha enviado a ${userCredentials.email} por su compra de un curso en academiaformaciondeportiva.com. Si no es usted pòngase en contacto con 
                     nuestro departamento técnico <a href="mailto:info@boorpret.com">info@boorpret.com</a>
                     </td>
                 </tr>
