@@ -1,7 +1,7 @@
 import utilsStyles from "../../../styles/Utils.module.css";
 import React, {useState} from "react";
 import LayoutAdmin from "../../../components/LayoutAdmin";
-import Blog from "../../../utils/Blog";
+import Blog, {uploadBlogFile} from "../../../utils/Blog";
 import Button from "../../../components/Button";
 import AddBlogForm from "../../../components/blog/AddBlogForm";
 import ErrorsPanel from "../../../components/ErrorsPanel";
@@ -13,16 +13,20 @@ const AddBlog = (props) => {
     const [contentFiles,setContentFiles] = useState([]);
     const [blogThumbnail,setBlogThumbnail] = useState(null);
     const [errors,setErrors] = useState(null);
+
     const CreateBlog = () => {
         validate(blogInfo).then(() => {
             props.utils.initLoader('Subiendo blog...');
             props.utils.startLoader();
-            create(blogInfo).then(() => {
-                props.utils.removeLoader();
-                props.router.push('/admin/blog');
-            }).catch(() =>{
-                window.alert('ERROR CREANDO EL BLOG');
-                props.utils.removeLoader();
+            uploadBlogFile(blogThumbnail).then(res => {
+                blogInfo.thumbnail = res.data.location;
+                create(blogInfo).then(() => {
+                    props.utils.removeLoader();
+                    props.router.push('/admin/blog');
+                }).catch(() =>{
+                    window.alert('ERROR CREANDO EL BLOG');
+                    props.utils.removeLoader();
+                });
             });
         }).catch(errors => {
             setErrors(errors);
@@ -36,7 +40,7 @@ const AddBlog = (props) => {
                     <h1 className={`${utilsStyles.sectionTitle}`}>Añadir Entrada</h1>
                     <Button color={'blue'} text={'Guardar entrada'} action={CreateBlog}/>
                 </div>
-                <div>
+                <div className={utilsStyles.centeredContainer}>
                    <AddBlogForm blog={blogInfo} setBlog={setBlogInfo} utils={props.utils} files={contentFiles} setFiles={setContentFiles} blogFile={blogThumbnail} setBlogFile={setBlogThumbnail}/>
                 </div>
 

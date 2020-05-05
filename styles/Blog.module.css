@@ -10,7 +10,7 @@
 .caja{
     display:grid;
     padding: 16px;
-    grid-template-rows: 60% 40%;
+    grid-template-rows: 6fr 4fr;
     grid-row-gap:8px;
     grid-template-areas: "foto" "contenido";
     box-shadow: 0 3px 6px 0 rgba(0,0,0,.2);
@@ -61,18 +61,35 @@
 
 .foto{
     grid-area: foto;
+    width:100%;
+}
+.foto>img{
+    width:100%;
+    object-fit:cover;
 }
 .contenido{
     grid-area: contenido;
     display: grid;
-    grid-template-rows: 85% 15%;
+    grid-template-rows: 8fr 2fr;
+    overflow:hidden;
     grid-template-areas: "descripcion" "info";
 }
 .descripcion{
     grid-area: descripcion;
     display: grid;
-    grid-template-rows: 15% 85%;
-    grid-template-areas: "titulo" "comentario";
+    grid-template-rows: 1fr 1fr 8fr;
+    grid-row-gap:4px;
+    grid-auto-columns: 100%;
+    overflow:hidden;
+    position:relative;
+}
+.descripcion:after{
+    content:'';
+    position:absolute;
+    bottom:0;
+    height:30px;
+    background-image: linear-gradient(to bottom, transparent, white);
+    width:100%;
 }
 .info{
     grid-area: info;
@@ -80,13 +97,18 @@
     justify-content: space-between;
 }
 .titulo{
-    grid-area: titulo;
+    font-weight:bold;
+    text-transform:uppercase;
 }
-.comentario{
-    grid-area: comentario;
+.subtitulo{
+    color:grey;
+    font-weight:bold;
+    font-size:.9em;
 }
 .autor{
     grid-area: autor;
+    font-weight:bold;
+    text-transform:uppercase;
 }
 .fecha{
     grid-area: fecha;

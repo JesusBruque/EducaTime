@@ -7,8 +7,8 @@ const route = Router();
 export default (app: Router) => {
     const blogController = new BlogController;
     app.use('/blog', route);
-    route.get('/findAll', blogController.findAll)
-    route.get('/:blogId', blogController.findById)
+    route.get('/findAll', blogController.findAll);
+    route.get('/findById/:id', blogController.findById);
     route.post('/',
         celebrate({
             body: Joi.object({

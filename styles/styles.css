@@ -131,6 +131,7 @@ html.has-scroll-dragging {
 #__next .tox.tox-tinymce{
     margin:0 auto;
     max-width:75ch;
+    font-size:1.3em;
 }
 .tox .tox-statusbar{
     display:none !important;

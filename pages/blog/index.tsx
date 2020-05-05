@@ -20,7 +20,7 @@ const Blogs=(props )=>{
             <div className={utilsStyles.sectionContainer}>
                 <h1 className={`${blogsModule.title} ${utilsStyles.sectionTitle}`}>Blog</h1>
                 <div className={utilsStyles.centeredContainer}>
-                    <BlogGrid blogs={props.blogs} admin={false}/>
+                    <BlogGrid blogs={props.blogs} admin={false} router={props.router}/>
                 </div>
             </div>
         </Layout>

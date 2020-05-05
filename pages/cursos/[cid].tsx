@@ -1,5 +1,4 @@
 import {getCourseById} from "../../utils/Curso";
-import Link from "next/link";
 import CursoItem from "../../components/cursos/CursoItem"
 import Course from "../../utils/Course";
 import React, {Dispatch, FunctionComponent, useEffect, useState} from "react";

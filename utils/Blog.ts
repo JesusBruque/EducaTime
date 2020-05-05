@@ -3,6 +3,7 @@ const BLOG_URL = 'http://localhost:5000/api/blog';
 import {genericValidator,email} from "./Validators";
 import moment from 'moment';
 
+export const getBlogById = (blogId:string) => axios.get(BLOG_URL+'/findById/'+blogId);
 export default class Blog{
     public title:string;
     public subtitle:string;
@@ -50,8 +51,6 @@ export const uploadBlogFile = (file:File) => {
     return axios.post(BLOG_URL+'/post_file', data);
 };
 export const create = (blog:Blog) =>{
-    /*-- PRIMERO VAMOS A GUARDAS LOS FICHEROS Y VAMOS A COLOCAR LAS URLS EN SU POSICIÓN */
-    /*-- DESPUES ENVIAMOS EL BLOG PARA GUARDARLO --*/
     return axios.post(BLOG_URL,blog);
 };
 

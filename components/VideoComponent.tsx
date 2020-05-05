@@ -14,14 +14,13 @@ type Props = {
 }
 
 const VideoComponent: FunctionComponent<Props> = (props) => {
-    let element = document.createElement('div');
+    if(!document.getElementById('video-container')){
+        let element = document.createElement('div');
+        element.id = 'video-container';
+        document.querySelector('#__next').appendChild(element);
+    }
 
     useEffect(() => {
-        console.log('efecto video');
-        if(!document.getElementById('video-container')){
-            element.id = 'video-container';
-            document.querySelector('#__next').appendChild(element);
-        }
         const player = new Plyr('#player',{controls:['play','play-large','progress','fullscreen','volume','current-time','mute']});
         player.once('canplay', () => {
             player.play();
