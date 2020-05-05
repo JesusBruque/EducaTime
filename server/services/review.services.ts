@@ -16,7 +16,7 @@ export default class ReviewService extends GenericService {
     private addRating = async (reviewId: string)=>{
         const rev = await (Review.findById(reviewId));
         const curso = await Course.findById(rev.course);
-        curso.reviews.push(reviewId);
+        curso.reviews.push(rev);
        //  Actualizando el score guay
         curso.score += parseFloat(((rev.score - curso.score)/(curso.reviews.length+1)).toFixed(3));
         await curso.save();

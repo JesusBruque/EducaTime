@@ -17,7 +17,7 @@ export default class FilesController{
                 return res.status(200).json({message:'Éxito al subir el fichero.',file:fileLocation});
             });
         }catch (e) {
-            Logger.error('Se ha producido un error añ subir el fichero');
+            Logger.error('Se ha producido un error al subir el fichero');
             Logger.error(e);
             return res.status(400).json({message:'Error al subir un fichero'});
         }

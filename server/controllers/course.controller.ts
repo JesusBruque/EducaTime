@@ -1,5 +1,7 @@
 import {Request,Response} from "express";
 import GenericController from "./generic.controller";
+import Usuario from '../models/usuario.model';
+import AuthenticationService from '../services/authentication.services'
 import CourseService from "../services/course.services"
 import Logger from '../loaders/logger'
 import LectionService from "../services/lection.services";
@@ -7,13 +9,16 @@ import FilesServices from "../services/files.services";
 
 export default class CourseController extends GenericController{
     private courseService : CourseService;
+    private authenticationService : AuthenticationService;
     constructor(){
         super(new CourseService());
         this.courseService = new CourseService();
+        this.authenticationService = new AuthenticationService();
     }
 
     public createCourse = async (req:Request,res:Response) => {
         Logger.debug('Creando curso...');
+        
         try{
             let curso = req.body;
             let lections = curso.lections;
@@ -37,7 +42,24 @@ export default class CourseController extends GenericController{
             return res.status(400).json({status:400});
         }
     };
+    
+    private manageTeacher = async (email, res:Response) => {
+        try{
+            var err, user = await this.authenticationService.findByEmail(email);
+            if (err) throw err;
+            if (user){
+                if(user.roles.includes('teacher')){
 
+                }else{
+                    this.authenticationService.addRolTeacherToUser(user._id);
+                }
+            }
+        }catch(e){
+            Logger.error('Error al gestionar entrada de email de profesor.');
+            Logger.error(e);
+            return res.status(400).json({status:400});
+        }
+    }
     public uploadCourseFile = async (req:Request,res:Response) => {
         Logger.debug('Subiendo fichero...');
         try{
