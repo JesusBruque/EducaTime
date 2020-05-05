@@ -4,15 +4,29 @@ import LayoutAdmin from "../../../components/LayoutAdmin";
 import Blog from "../../../utils/Blog";
 import Button from "../../../components/Button";
 import AddBlogForm from "../../../components/blog/AddBlogForm";
+import ErrorsPanel from "../../../components/ErrorsPanel";
+import {validate,create} from "../../../utils/Blog";
 
 const AddBlog = (props) => {
 
     const [blogInfo,setBlogInfo] = useState(new Blog());
     const [contentFiles,setContentFiles] = useState([]);
     const [blogThumbnail,setBlogThumbnail] = useState(null);
-
+    const [errors,setErrors] = useState(null);
     const CreateBlog = () => {
-
+        validate(blogInfo).then(() => {
+            props.utils.initLoader('Subiendo blog...');
+            props.utils.startLoader();
+            create(blogInfo).then(() => {
+                props.utils.removeLoader();
+                props.router.push('/admin/blog');
+            }).catch(() =>{
+                window.alert('ERROR CREANDO EL BLOG');
+                props.utils.removeLoader();
+            });
+        }).catch(errors => {
+            setErrors(errors);
+        });
     };
 
     return (
@@ -27,6 +41,7 @@ const AddBlog = (props) => {
                 </div>
 
             </div>
+            {errors && <ErrorsPanel errors={errors} close={() => setErrors(null)}/>}
         </LayoutAdmin>
     )
 }

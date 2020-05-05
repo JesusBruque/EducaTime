@@ -1,3 +1,8 @@
+import axios from 'axios';
+const BLOG_URL = 'http://localhost:5000/api/blog';
+import {genericValidator,email} from "./Validators";
+import moment from 'moment';
+
 export default class Blog{
     public title:string;
     public subtitle:string;
@@ -18,5 +23,49 @@ export default class Blog{
         this.author = '';
         this.active = true;
         this.creation_date = Date.now();
+    }
+}
+
+
+export const validate = (blog:Blog) => {
+    return new Promise((resolve,reject) => {
+        let validations = {
+            title:genericValidator(blog.title,'required'),
+            thumbnail:genericValidator(blog.thumbnail,'required'),
+            description:genericValidator(blog.description,'required'),
+            author: genericValidator(blog.author,'required')
+        };
+
+        let errors = [];
+        for (let property in validations){
+            if(validations[property] !== '') errors.push({[getPropertyName(property)]:validations[property]});
+        }
+        errors.length>0 ? reject(errors) : resolve('No hay errores');
+    });
+};
+
+export const uploadBlogFile = (file:File) => {
+    let data = new FormData();
+    data.append('file',file);
+    return axios.post(BLOG_URL+'/post_file', data);
+};
+export const create = (blog:Blog) =>{
+    /*-- PRIMERO VAMOS A GUARDAS LOS FICHEROS Y VAMOS A COLOCAR LAS URLS EN SU POSICIÓN */
+    /*-- DESPUES ENVIAMOS EL BLOG PARA GUARDARLO --*/
+    return axios.post(BLOG_URL,blog);
+};
+
+
+
+function getPropertyName(property){
+    switch (property) {
+        case 'title':
+            return 'Título';
+        case 'description':
+            return 'Descripción';
+        case 'thumbnail':
+            return 'Imagen de portada';
+        case 'authro':
+            return 'Autor';
     }
 }

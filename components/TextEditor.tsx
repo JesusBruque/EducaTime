@@ -2,16 +2,19 @@ import {Editor} from "@tinymce/tinymce-react/lib/cjs/main/ts";
 import React, {useState} from 'react';
 import WebUtils from "../webUtils/WebUtils";
 
-const TextEditor = (props:{onChange:(content)=>void,files:boolean,height:number,initialValue:string,basic:boolean,utils:WebUtils}) => {
+const TextEditor = (props:{onChange:(content)=>void,files:boolean,height:number,initialValue:string,basic:boolean,utils:WebUtils,onLoadImage?:(file:File) => Promise<any>}) => {
 
     const [dragging,setDragging] = useState(false);
     const [files,setFiles] = useState([]);
     let counter = 0;
 
     const uploadImage = async (blobInfo, success, failure) => {
-        setFiles([...files,blobInfo.blob()]);
-        success(URL.createObjectURL(blobInfo.blob()));
-    };
+        // console.log(blobInfo.blob());
+        // success(URL.createObjectURL(blobInfo.blob()));
+            props.onLoadImage(blobInfo.blob()).then(res => {
+                success(res.data.location);
+            }).catch(err => failure(err));
+        };
     const handleDrag = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -72,7 +75,6 @@ const TextEditor = (props:{onChange:(content)=>void,files:boolean,height:number,
                     plugins: editorPlugins,
                     toolbar:editorToolbar,
                     image_caption: props.files,
-                    image_upload_url:'',
                     images_upload_handler:props.files ? uploadImage : null,
                     setup: loadedEditor
                 }}

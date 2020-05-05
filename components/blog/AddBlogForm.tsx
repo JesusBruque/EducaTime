@@ -4,9 +4,9 @@ import WebUtils from "../../webUtils/WebUtils";
 import Blog from "../../utils/Blog";
 import styles from '../../styles/blogs/AddBlog.module.css';
 import utilStyles from '../../styles/Utils.module.css';
-
+import TextEditor from "../TextEditor";
 import moment from "moment";
-import dynamic from "next/dist/next-server/lib/dynamic";
+import {uploadBlogFile} from "../../utils/Blog";
 
 type Props = {
     utils:WebUtils,
@@ -31,7 +31,11 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
         props.setBlog({...props.blog,[property]:value});
     };
 
-    const TextEditor = dynamic(() =>import('../TextEditor'), { ssr:false});
+    const handleLoadFile = (file:File) => {
+        return uploadBlogFile(file);
+    };
+
+
 
     return (
         <div className={styles.formContainer}>
@@ -54,7 +58,7 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
                         <span style={{fontSize:'1em',fontWeight:'bold',textTransform:'uppercase', color:'var(--main-color)'}}>{moment(props.blog.creation_date).format('DD/MM/YYYY')}</span>
                     </div>
                 </div>
-                <TextEditor utils={props.utils} onChange={(content) => handlChangeContent(content)} files={true} height={700} initialValue={''} basic={false}/>
+                <TextEditor utils={props.utils} onChange={(content) => handlChangeContent(content)} files={true} height={700} initialValue={''} basic={false} onLoadImage={handleLoadFile}/>
             </div>
         </div>
     )

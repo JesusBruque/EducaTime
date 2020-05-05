@@ -13,6 +13,7 @@ export default (app: Router) => {
         celebrate({
             body: Joi.object({
                 title: Joi.string().required(),
+                subtitle:Joi.string(),
                 description: Joi.string().required(),
                 thumbnail: Joi.string().required(),
                 urls: Joi.array().items(Joi.string()),
@@ -29,6 +30,7 @@ export default (app: Router) => {
             body: Joi.object({
                 _id: Joi.string().required(),
                 title: Joi.string().required(),
+                subtitle:Joi.string(),
                 description: Joi.string().required(),
                 thumbnail: Joi.string().required(),
                 urls: Joi.array().items(Joi.string()),
@@ -45,5 +47,6 @@ export default (app: Router) => {
     route.put('/disable/:idBlog',
         // middlewares.isAuth,
         blogController.disable);
-    route.post('/uploadImage/:idBlog',blogController.uploadImage)
+
+    route.post('/post_file',middlewares.isAdmin,blogController.uploadBlogFile);
 }
