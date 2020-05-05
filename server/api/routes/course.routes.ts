@@ -3,6 +3,9 @@ import { celebrate, Joi } from 'celebrate';
 import CourseController from '../../controllers/course.controller'
 import middlewares from '../middlewares';
 import FilesController from "../../controllers/files.controller";
+import isAdmin from '../middlewares/isAdmin';
+import isTeacher from '../middlewares/isTeacher';
+import isAuth from '../middlewares/isAuth';
 const route = Router();
 
 export default (app:Router)=>{
@@ -38,7 +41,7 @@ export default (app:Router)=>{
                 webinar:Joi.string().allow(null,"")
             })
         }),
-        middlewares.isAdmin,
+        //isAdmin,
         courseController.createCourse);
         
     route.put('/',
@@ -51,7 +54,7 @@ export default (app:Router)=>{
                 duration: Joi.number(),
                 requirements: Joi.array(),
                 category: Joi.array(),
-                oriinal_fee: Joi.number(),
+                original_fee: Joi.number(),
                 discount: Joi.number(),
                 last_update: Joi.string(),
                 goals: Joi.array(),
@@ -63,10 +66,14 @@ export default (app:Router)=>{
                 updated_for: Joi.string().required()
             }).unknown(true),
         }),
-        // middlewares.isAuth,
+        //isAdmin || isTeacherOfCourse,
         courseController.edit);
 
-    route.post('/post_file/:cursoId',middlewares.isAdmin,courseController.uploadCourseFile);
+    route.post('/post_file/:cursoId',isAdmin,courseController.uploadCourseFile);
     route.get('/get_file/:filename',fileController.retrieveFile);
+
+    /* PROBANDO UPLOADING PROGRESS */
+
+    
 
 }

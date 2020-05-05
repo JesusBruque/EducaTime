@@ -26,7 +26,7 @@ export default class AuthenticationService {
         try {
             let err, user = await Usuario.findOne({email: email});
             if (err) throw err;
-            if (!user) return {_id:null,email:email,rol:null,username:email,cursos:[],favoritos:[]};
+            if (!user) return {_id:null,email:email,roles:null,username:email,cursos:[],favoritos:[]};
             if (user) return user;
         }
         catch(e){
@@ -48,7 +48,14 @@ export default class AuthenticationService {
             throw e;
         }
     };
-
+    
+    public addRolTeacherToUser = async(userId: string) => {
+        let err, user = await Usuario.findById(userId);
+        if(err) throw err;
+        if(!user) throw Error('No se ha encontrado el usuario');
+        user.roles.push('teacher');
+        return user;
+    }
     public addCursoToUser = async(userId:string,curso:string) : Promise<IUsuarioDTO> => {
         let err, user = await Usuario.findById(userId);
         if(err) throw err;

@@ -16,7 +16,7 @@ export default class ReviewService extends GenericService {
     private addRating = async (reviewId: string)=>{
         const rev = await (Review.findById(reviewId));
         const curso = await Course.findById(rev.course);
-        curso.reviews.push(reviewId);
+        curso.reviews.push(rev);
        //  Actualizando el score guay
         curso.score += parseFloat(((rev.score - curso.score)/(curso.reviews.length+1)).toFixed(3));
 
@@ -26,6 +26,6 @@ export default class ReviewService extends GenericService {
         // }
         // curso.score = suma/curso.reviews.length;
 
-        curso.perCent = (curso.score*20).toString() + "%";
+        //curso.perCent = (curso.score*20).toString() + "%";
     }
 }

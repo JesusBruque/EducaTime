@@ -4,7 +4,7 @@ export interface IUsuario extends IGenericInterface {
     email: string;
     username: string;
     password: string;
-    rol:string;
+    roles:[string];
     salt: Buffer;
     updated_for: string;
     cursos:string[];
@@ -17,7 +17,7 @@ export interface IUsuarioDTO {
     _id: string;
     email: string;
     username:string;
-    rol:string;
+    roles:[string];
     cursos:string[];
     favoritos:string[];
 }

@@ -29,7 +29,7 @@ export default class FilesServices{
                 resolve(data.Location);
             }).on('httpUploadProgress',(evt) => {
                 console.log('EVENTO ON PROGRESSS --> ',evt);
-                // res.write(evt);
+                //res.write(evt);
             });
         });
     };
