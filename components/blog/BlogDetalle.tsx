@@ -1,8 +1,8 @@
-import blogVista from '../styles/BlogVista.module.css'
-import GridItem from './GridItem';
-import PhotoItem from './PhotoItem';
-import Cuerpo from './Cuerpo';
-import TituloEspecialBlog from './TituloEspecialBlog'
+import blogVista from '../../styles/BlogVista.module.css'
+import GridItem from '../GridItem';
+import PhotoItem from '../PhotoItem';
+import Cuerpo from '../Cuerpo';
+import TituloEspecialBlog from '../TituloEspecialBlog'
 
 const BlogDetalle = ({blog}) =>{
     let panel = {

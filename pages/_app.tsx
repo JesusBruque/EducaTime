@@ -4,9 +4,6 @@ import moment from 'moment';
 import React, {useEffect, useState} from "react";
 import WebUtils from "../webUtils/WebUtils";
 import Router, {useRouter} from "next/router";
-import App,{AppProps} from "next/app";
-import Login from "./login";
-import {route} from "next/dist/next-server/server/router";
 
 function MyApp({ Component, pageProps,pageUser }) {
     moment.locale('es');
@@ -19,23 +16,23 @@ function MyApp({ Component, pageProps,pageUser }) {
         console.log(url);
     });
 
-
     useEffect(() => {
         if((!user || user.rol !=='admin') && router.pathname.includes('admin')){
             router.push('/login');
         }
+        if(!user && router.pathname.includes('whiteboard')){
+            router.push('/login');
+        }
+
         wu.removeLoader();
         wu.showHeader();
+        console.log(user);
     },[router]);
 
     return <Component  {...pageProps} router={router} user={user} setUser={setUser} utils={wu}/>
 }
 MyApp.getInitialProps = async (ctx) => {
-    // let pageProps = {};
     let user;
-    // if (App.getInitialProps ) {
-    //     pageProps = await App.getInitialProps(ctx);
-    // }
     if(ctx.ctx.req && ctx.ctx.req.user){
         user = ctx.ctx.req.user;
     }

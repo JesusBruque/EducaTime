@@ -39,7 +39,7 @@ export default class AuthenticationService {
             const salt = randomBytes(32);
             const pass = Math.random().toString(36).substring(7);
             const hashedPassword = await argon2.hash(pass, { salt: salt });
-            let err, newUser = await new Usuario({email:user.email,username:user.username,rol:['user'],password:hashedPassword,salt:salt}).save();
+            let err, newUser = await new Usuario({email:user.email,username:user.username,roles:['user'],password:hashedPassword,salt:salt}).save();
             if(err) throw err;
             if(!newUser) throw Error("No se ha podido crear el usuario " + user.email);
             await this.sendRegisterEmail(user.username,pass,user.email);

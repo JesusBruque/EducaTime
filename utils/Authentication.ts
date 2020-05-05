@@ -5,3 +5,22 @@ export const login = (credentials: { email: string, password: string }) => axios
 export const logout = () => axios.delete(AUTHENTICATION_URL);
 export const check = () => axios.get(AUTHENTICATION_URL);
 
+
+
+export class User{
+    public email:string;
+    public username:string;
+    public _id:string;
+    public roles:string[];
+    public cursos:string[];
+    public favoritos:string[];
+
+    constructor(){
+        this.email = '';
+        this.username = '';
+        this._id = '';
+        this.roles = [];
+        this.cursos = [];
+        this.favoritos = [];
+    }
+}

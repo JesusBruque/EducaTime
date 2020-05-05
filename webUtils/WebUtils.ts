@@ -63,7 +63,6 @@ export default class WebUtils{
         // timeLoader.to(balls[3],{duration:.2,scaleY:1,ease:'power4.in'});
     };
     removeLoader = () => {
-        console.log('removing loader');
         if( document.querySelector('#casor-loader')){
             document.querySelector('#casor-loader').remove();
         }

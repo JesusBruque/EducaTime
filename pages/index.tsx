@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import Field from "../components/Field";
 import Entrada from "../components/Entrada";
 import WebUtils from "../webUtils/WebUtils";
+import LayoutAdmin from "../components/LayoutAdmin";
 
 const Home = (props) => {
 
@@ -38,7 +39,7 @@ const Home = (props) => {
 
           </Head>
           <Entrada />
-          <div>
+          <Layout user={props.user} router={props.router} setUser={props.setUser}>
               <section className={homeStyles.welcomeSection} id={'welcome-section'}>
                   <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
                   <div  data-scroll data-scroll-sticky data-scroll-target={'main'} className={homeStyles.startBtn}>
@@ -119,7 +120,9 @@ const Home = (props) => {
                       </div>
                   </div>
               </section>
-          </div>
+          </Layout>
+
+          <Field />
 
           <script noModule src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.6.0/polyfill.min.js"
                   crossOrigin="anonymous" />

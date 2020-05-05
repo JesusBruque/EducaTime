@@ -1,4 +1,4 @@
-import BlogDetalle from '../components/BlogDetalle';
+import BlogDetalle from '../components/blog/BlogDetalle';
 import Layout from '../components/Layout';
 import blogVista from '../styles/BlogVista.module.css'
 

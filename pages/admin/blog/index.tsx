@@ -1,6 +1,6 @@
 import fetch from "isomorphic-unfetch";
 import utilsStyles from "../../../styles/Utils.module.css";
-import BlogGrid from "../../../components/BlogGrid";
+import BlogGrid from "../../../components/blog/BlogGrid";
 import React, {useEffect} from "react";
 import Link from "next/link";
 import LayoutAdmin from "../../../components/LayoutAdmin";

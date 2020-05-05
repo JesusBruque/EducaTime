@@ -18,6 +18,7 @@
     font-weight:bold;
     line-height:calc(1em + 20px);
     z-index:1050;
+    max-height:70vh;
 }
 .videoHeader{
     text-align:center;
@@ -40,5 +41,8 @@
     z-index:2;
     margin:0 auto;
     opacity:0;
+    width:100%;
+}
+.videoContainer video{
     width:100%;
 }
