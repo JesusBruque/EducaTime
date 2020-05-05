@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps,pageUser }) {
     });
 
     useEffect(() => {
-        if((!user || user.rol !=='admin') && router.pathname.includes('admin')){
+        if((!user || !user.roles.includes('admin')) && router.pathname.includes('admin')){
             router.push('/login');
         }
         if(!user && router.pathname.includes('whiteboard')){

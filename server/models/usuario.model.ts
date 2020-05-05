@@ -6,6 +6,14 @@ import mongooseHistory from 'mongoose-history'
 
 var Schema = mongoose.Schema;
 var usuarioSchema = new Schema({
+  name:{
+    type:String,
+    required:true
+  },
+  apellidos:{
+    type:String,
+    required:true
+  },
   password: {
     type: String,
     required: true,

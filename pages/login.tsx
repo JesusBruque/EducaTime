@@ -14,13 +14,8 @@ const Login = (props) => {
         login(credentials).then((res) => {
             if (res.data.status === 200) {
                 props.setUser(res.data.user);
-                let rol = res.data.user.rol;
-                if(rol !== 'admin'){
-                    props.router.push('/whiteboard/'+rol);
-                }
-                if(rol === 'admin'){
-                    props.router.push('/admin/formacion');
-                }
+                let roles = res.data.user.roles;
+                redirect(roles);
             }
         }).catch(err => {
             window.alert('usuario y/o contraseña erróneos.')
@@ -28,8 +23,18 @@ const Login = (props) => {
     };
 
     useEffect(() => {
-        console.log(props);
+        if(props.user){
+            redirect(props.user.roles);
+        }
     },[]);
+
+    const redirect = (roles) => {
+        if(!roles.includes('admin')){
+            props.router.push('/whiteboard/');
+        }else{
+            props.router.push('/admin/formacion');
+        }
+    }
 
     const buttons = [<Button key="buttonCliente" type="submit" color={'black'} text={'Iniciar sesión'} styles={{width:'80%',margin:'15px 0'}} />];
 

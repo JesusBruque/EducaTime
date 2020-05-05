@@ -3,16 +3,20 @@ import Course from "../../utils/Course";
 import styles from '../../styles/cursos/CourseItem.module.css';
 import Link from "next/link";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGlobe} from "@fortawesome/free-solid-svg-icons";
+import {faGlobe,faCreditCard} from "@fortawesome/free-solid-svg-icons";
 import utilsStyles from "../../styles/Utils.module.css";
 import Button from "../Button";
 import Estrella from "../Estrella";
 import {Router} from "next/router";
+import moment from 'moment';
 
 type Props = {
     curso:Course,
     router:Router,
-    setCursoPlaying:Dispatch<any>
+    setCursoPlaying:Dispatch<any>,
+    admin:boolean,
+    reviews?:boolean,
+    fees?:boolean
 }
 
 const CursoItem: FunctionComponent<Props> = (props) => {
@@ -60,7 +64,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
         <div className={styles.courseContainer}>
             <div className={styles.leftContainer}>
                 <div className={styles.imageContainer}>
-                    <img src={curso.thumbnail} alt={'imagen del curso'} onError={(e) => {e.currentTarget.src = 'assets/logo.svg'}} />
+                    <img src={curso.thumbnail} alt={'imagen del curso'} onError={(e) => {e.currentTarget.src = '/assets/logo.svg'}} />
                     <img src={'/assets/icons/play-button.svg'} alt={'icono de play'} style={{opacity:'.9',width:'30px',height:'30px',backgroundColor:'white',cursor:'pointer'}} onClick={() => setCursoPlaying(curso)}/>
                 </div>
                 <div className={styles.gridContainer}>
@@ -76,6 +80,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                     </div>
                     <Button color={'blue'} text={'comprar'} action={() => router.push('/cursos/'+curso._id)} styles={{gridArea:'comprar',width:'100%'}}/>
                 </div>
+                {props.fees && curso.fees.length>1 && <div className={styles.feesCourse}><FontAwesomeIcon icon={faCreditCard} className={utilsStyles.icon}/><span>Pago en {curso.fees.length} plazos</span></div>}
             </div>
             <div>
                 <h3>{curso.title}</h3>
@@ -89,6 +94,29 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                     <div dangerouslySetInnerHTML={{__html:renderInfoCourse()}}></div>
                 </div>
             </div>
+            {
+                props.reviews &&
+                    <div className={styles.reviewsContainer}>
+                        {curso.reviews.length > 0 && curso.reviews.map(review => {
+                            return <div key={review._id}>
+                                <div className={styles.reviewHeader}>
+                                    <div className={utilsStyles.userIcon}>
+                                        <img src={'/assets/icons/user-icon.svg'} alt={'icono de usuario usuarios'}/>
+                                    </div>
+                                    <span>{review.user.name} {review.user.apellidos}</span>
+                                    <span>el {moment(review.date).format('DD/MM/YYYY')}</span>
+                                    <div>
+                                        {renderStars()}
+                                        <span style={{fontWeight:'bold',marginLeft:'4px',color:'var(--black-color)'}}>{curso.score}</span>
+                                    </div>
+                                </div>
+                                <div className={styles.reviewBody}>
+                                    {review.review}
+                                </div>
+                            </div>
+                        })}
+                    </div>
+            }
         </div>
     )
 };

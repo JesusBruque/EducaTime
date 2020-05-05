@@ -85,3 +85,19 @@
     height:1em;
     margin:0 2px;
 }
+
+.feesCourse{
+    font-weight:bold;
+    color:var(--black-color);
+}
+
+.reviewsContainer{
+    margin-bottom:15px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.reviewHeader{
+    display:flex;
+    align-items:center;
+}

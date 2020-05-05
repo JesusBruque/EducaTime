@@ -23,18 +23,6 @@
     color:var(--black-color);
 }
 
-.userIcon{
-    padding:4px;
-    border:solid 3px var(--main-color);
-    border-radius:50%;
-    box-sizing: content-box;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-    width:12px;
-    height:12px;
-}
 .exitIcon{
     height:1.5em;
     cursor:pointer;

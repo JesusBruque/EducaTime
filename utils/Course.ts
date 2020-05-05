@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {genericValidator,email} from "./Validators";
 import moment from 'moment';
+import Review from "./Review";
 
 const COURSE_URL = 'http://localhost:5000/api/course';
 
@@ -28,6 +29,7 @@ export default class Course{
     public lections:lection[];
     public webinar:string;
     public score:number;
+    public reviews:Review[];
 
     constructor(){
         this._id = null;

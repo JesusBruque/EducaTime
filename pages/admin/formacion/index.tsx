@@ -11,7 +11,7 @@ import LayoutAdmin from "../../../components/LayoutAdmin";
 const Index = (props) => {
 
     return (
-        <LayoutAdmin user={props.user} router={props.router} selected={'formacion'}>
+        <LayoutAdmin user={props.user} router={props.router} selected={'formacion'} utils={props.utils} setUser={props.setUser}>
             <div className={utilsStyles.sectionContainer}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <h1 className={utilsStyles.sectionTitle}>Formación</h1>
@@ -27,7 +27,7 @@ const Index = (props) => {
                     </div>
                 </div>
                 <div className={utilsStyles.centeredContainer}>
-                    <CursoGrid cursos={props.cursos}/>
+                    <CursoGrid cursos={props.cursos} router={props.router} admin={true}/>
                 </div>
             </div>
         </LayoutAdmin>

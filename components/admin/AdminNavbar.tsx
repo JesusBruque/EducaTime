@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 import adminStyles from '../../styles/Admin.module.css';
 import Link from "next/link";
+import {logout} from "../../utils/Authentication";
 
-const AdminNavbar = ({selected}) => {
+const AdminNavbar = ({selected, router,setUser}) => {
 
     useEffect(() => {
         /*---PANELES ESTILO BARRA LATERAL ---*/
@@ -25,6 +26,13 @@ const AdminNavbar = ({selected}) => {
 
         showActiveTab();
     },[selected]);
+
+    const handleLogout = () => {
+        logout().then(() => {
+            router.push('/login');
+            setUser(null);
+        });
+    };
 
     return (
         <nav className={adminStyles.navBar} id={'navBar-admin'}>
@@ -49,6 +57,8 @@ const AdminNavbar = ({selected}) => {
                     <span>compras</span>
                 </div>
             </Link>
+
+            <img src={'/assets/icons/on-off-button.svg'} alt={'icono de logout'} className={adminStyles.logoutIcon} onClick={handleLogout}/>
         </nav>
     )
 };

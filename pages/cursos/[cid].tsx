@@ -1,17 +1,36 @@
 import {getCourseById} from "../../utils/Curso";
 import Link from "next/link";
-const Curso = ({curso}) => {
+import CursoItem from "../../components/cursos/CursoItem"
+import Course from "../../utils/Course";
+import React, {Dispatch, FunctionComponent, useEffect, useState} from "react";
+import {Router} from "next/router";
+import Layout from "../../components/Layout";
+import {User} from "../../utils/Authentication";
+import VideoComponent from "../../components/VideoComponent";
+import Head from "next/head";
 
+type Props = {
+    curso:Course,
+    router:Router,
+    user:User
+    setUser:Dispatch<any>
+}
+const Curso : FunctionComponent<Props> = (props) => {
 
+    useEffect(() => {console.log(props.curso)},[]);
+    const [cursoPlaying,setCursoPlaying] = useState(null);
     return (
-        <div>
-            <p>Curso: {curso.title}</p>
-            <Link href={'/cursos/payment/[pcid]'} as={'/cursos/payment/'+curso._id}>
-                <button>
-                    pagar
-                </button>
-            </Link>
-        </div>
+        <React.Fragment>
+            <Head>
+                <title>Casor - {props.curso.title}</title>
+                <meta name={'description'} content={props.curso.description} key={'description'}/>
+                <link rel={'icon'} href={'/assets/logo.svg'}/>
+            </Head>
+            <Layout router={props.router} user={props.user} setUser={props.setUser}>
+                <CursoItem curso={props.curso} router={props.router} setCursoPlaying={setCursoPlaying} admin={false} reviews={true} fees={true}/>
+                {cursoPlaying && <VideoComponent src={cursoPlaying.video} onClose={() => setCursoPlaying(null)} title={cursoPlaying.title}/>}
+            </Layout>
+        </React.Fragment>
     )
 };
 

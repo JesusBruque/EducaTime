@@ -8,6 +8,8 @@ export const check = () => axios.get(AUTHENTICATION_URL);
 
 
 export class User{
+    public name:string;
+    public apellidos:string;
     public email:string;
     public username:string;
     public _id:string;

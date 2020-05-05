@@ -7,12 +7,15 @@ export default class WebUtils{
     constructor(element){
         this.element = element;
     }
-
-    initScroll = async () => {
+    removeScroll = () => {
         if(document.querySelector('.csr-scrollbar') && this.scrollElement && this.scrollElement.scrollElement){
             document.querySelector('.csr-scrollbar').remove();
             this.scrollElement.scrollElement.destroy();
         }
+    };
+
+    initScroll = async () => {
+        this.removeScroll();
         if(document.querySelector(this.element) && document.querySelector(this.element).getBoundingClientRect().height > window.innerHeight){
             this.scrollElement = new ScrollComponent(this.element);
             await this.scrollElement.getScrollElement();

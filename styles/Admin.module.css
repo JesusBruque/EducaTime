@@ -43,3 +43,12 @@
     color:var(--black-color);
     position:relative;
 }
+.logoutIcon{
+    position:absolute;
+    right:15px;
+    bottom:-15px;
+    height:1.2em;
+    width:auto !important;
+    margin-bottom: 0 !important;
+    cursor:pointer;
+}

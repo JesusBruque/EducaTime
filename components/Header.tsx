@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import headerStyles from '../styles/Header.module.css';
+import utilStyles from '../styles/Utils.module.css';
 import Link from "next/link";
 import gsap from 'gsap';
 import {logout,check} from '../utils/Authentication';
@@ -24,12 +25,6 @@ const Header = (props) => {
             console.error(err);
         }
     };
-    const handleLogout = () => {
-        logout().then(() => {
-            props.router.push('/login');
-            props.setUser(null);
-        });
-    };
 
     return (
         <div id={'casor-header'} className={headerStyles.header}>
@@ -49,17 +44,11 @@ const Header = (props) => {
             <Link href={'/contacto'}>
                 <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('contacto') ?  headerStyles.linkActive : ''}`}>contacto</span>
             </Link>
-             {!props.user ?
-                <Link href={'/login'}>
-                    <div className={headerStyles.userIcon}>
-                        <img src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
-                    </div>
-                </Link>
-                :
-                <div>
-                    <img src={'/assets/icons/stand-by.svg'} alt={'icono de logout'} onClick={handleLogout} className={headerStyles.exitIcon}/>
+            <Link href={props.user ? '/whiteboard' : '/login'}>
+                <div className={utilStyles.userIcon}>
+                    <img src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
                 </div>
-             }
+            </Link>
             {/*<div className={headerStyles.top}>*/}
             {/*    <Link href={'/'}>*/}
             {/*        <img className={headerStyles.logo} src={'/assets/logo_letras.png'} alt={'logo casor en la cabecera'}/>*/}
