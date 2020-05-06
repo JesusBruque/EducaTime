@@ -6,6 +6,7 @@ import {Router} from "next/router";
 import Layout from "../../components/Layout";
 import {User} from "../../utils/Authentication";
 import VideoComponent from "../../components/VideoComponent";
+import utilStyles from '../../styles/Utils.module.css';
 import Head from "next/head";
 
 type Props = {
@@ -26,7 +27,9 @@ const Curso : FunctionComponent<Props> = (props) => {
                 <link rel={'icon'} href={'/assets/logo.svg'}/>
             </Head>
             <Layout router={props.router} user={props.user} setUser={props.setUser}>
-                <CursoItem curso={props.curso} router={props.router} setCursoPlaying={setCursoPlaying} admin={false} reviews={true} fees={true}/>
+                <div className={utilStyles.centeredContainer} style={{marginTop:'30px'}}>
+                    <CursoItem curso={props.curso} router={props.router} setCursoPlaying={setCursoPlaying} admin={false} reviews={true} fees={true}/>
+                </div>
                 {cursoPlaying && <VideoComponent src={cursoPlaying.video} onClose={() => setCursoPlaying(null)} title={cursoPlaying.title}/>}
             </Layout>
         </React.Fragment>

@@ -44,7 +44,7 @@ const Header = (props) => {
             <Link href={'/contacto'}>
                 <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('contacto') ?  headerStyles.linkActive : ''}`}>contacto</span>
             </Link>
-            <Link href={props.user ? '/whiteboard' : '/login'}>
+            <Link href={props.user ? (props.user.roles.includes('admin') ? '/admin/formacion' : '/whiteboard') : '/login'}>
                 <div className={utilStyles.userIcon}>
                     <img src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
                 </div>
