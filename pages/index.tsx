@@ -10,6 +10,7 @@ import LayoutAdmin from "../components/LayoutAdmin";
 
 const Home = (props) => {
 
+
     useEffect(() => {
         let lu = new WebUtils('main');
         lu.removeLoader();
@@ -38,7 +39,7 @@ const Home = (props) => {
               <link rel="icon" href="/assets/logo.svg"/>
           </Head>
           <Entrada />
-          <Layout user={props.user} router={props.router} setUser={props.setUser}>
+          <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
               <section className={homeStyles.welcomeSection} id={'welcome-section'}>
                   <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
                   <div  data-scroll data-scroll-sticky data-scroll-target={'main'} className={homeStyles.startBtn}>

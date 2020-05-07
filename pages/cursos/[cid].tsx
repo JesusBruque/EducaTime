@@ -8,12 +8,14 @@ import {User} from "../../utils/Authentication";
 import VideoComponent from "../../components/VideoComponent";
 import utilStyles from '../../styles/Utils.module.css';
 import Head from "next/head";
+import WebUtils from "../../webUtils/WebUtils";
 
 type Props = {
     curso:Course,
     router:Router,
     user:User
-    setUser:Dispatch<any>
+    setUser:Dispatch<any>,
+    utils:WebUtils
 }
 const Curso : FunctionComponent<Props> = (props) => {
 
@@ -26,7 +28,7 @@ const Curso : FunctionComponent<Props> = (props) => {
                 <meta name={'description'} content={props.curso.description} key={'description'}/>
                 <link rel={'icon'} href={'/assets/logo.svg'}/>
             </Head>
-            <Layout router={props.router} user={props.user} setUser={props.setUser}>
+            <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>
                 <div className={utilStyles.centeredContainer} style={{marginTop:'30px'}}>
                     <CursoItem curso={props.curso} router={props.router} setCursoPlaying={setCursoPlaying} admin={false} reviews={true} fees={true}/>
                 </div>

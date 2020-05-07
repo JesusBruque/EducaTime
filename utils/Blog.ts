@@ -50,11 +50,8 @@ export const uploadBlogFile = (file:File) => {
     data.append('file',file);
     return axios.post(BLOG_URL+'/post_file', data);
 };
-export const create = (blog:Blog) =>{
-    return axios.post(BLOG_URL,blog);
-};
-
-
+export const create = (blog:Blog) =>axios.post(BLOG_URL,blog);
+export const edit = (blog:Blog) =>  axios.put(BLOG_URL,blog);
 
 function getPropertyName(property){
     switch (property) {

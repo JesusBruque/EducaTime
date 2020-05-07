@@ -1,4 +1,4 @@
-import React, {Dispatch, FunctionComponent} from 'react';
+import React, {Dispatch, FunctionComponent, useEffect} from 'react';
 import WebUtils from "../../webUtils/WebUtils";
 import Blog from "../../utils/Blog";
 import {uploadBlogFile} from "../../utils/Blog";
@@ -20,8 +20,8 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
     };
 
     const handleFilesCurso = (file) => {
-        props.setBlog({...props.blog,thumbnail:file.name});
         props.setBlogFile(file);
+        props.setBlog({...props.blog,thumbnail:file.name});
     };
     const handleChangeInfoBlog = (property,value) => {
         props.setBlog({...props.blog,[property]:value});
@@ -31,9 +31,8 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
         return uploadBlogFile(file);
     };
 
-
     return (
-        <BlogDetalle blog={props.blog} utils={props.utils} admin={true} handleChangeContent={handleChangeContent} handleFilesCurso={handleFilesCurso} handleChangeInfoBlog={handleChangeInfoBlog} handleLoadFile={handleLoadFile}/>
+        <BlogDetalle blog={props.blog} utils={props.utils} admin={true} blogFile={props.blogFile} handleChangeContent={handleChangeContent} handleFilesCurso={handleFilesCurso} handleChangeInfoBlog={handleChangeInfoBlog} handleLoadFile={handleLoadFile}/>
     )
 };
 

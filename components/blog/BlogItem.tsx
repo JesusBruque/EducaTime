@@ -3,12 +3,10 @@ import moment from "moment";
 import Cuerpo from '../Cuerpo'
 import GridItem from '../GridItem'
 import React from 'react';
+import Link from 'next/link';
 
 const BlogItem = (props) =>{
     const {blog,admin} = props;
-    const handleEdit = () => {
-        console.log('editar ', blog);
-    };
     const handleDelete = () => {
         console.log('eliminar ', blog);
     };
@@ -44,7 +42,9 @@ const BlogItem = (props) =>{
                 {
                     admin &&
                     <div className={blogStyle.actionPanel}>
-                        <img src={'/assets/icons/edit.svg'} alt={'icono de editar'} onClick={handleEdit}/>
+                        <Link href={'/admin/blog/'+ blog._id}>
+                            <img src={'/assets/icons/edit.svg'} alt={'icono de editar'}/>
+                        </Link>
                         <img src={'/assets/icons/delete.svg'} alt={'icono de eliminar'} onClick={handleDelete}/>
                     </div>
                 }

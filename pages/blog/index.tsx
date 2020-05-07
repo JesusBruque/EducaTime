@@ -5,18 +5,11 @@ import utilsStyles from '../../styles/Utils.module.css';
 
 import fetch from 'isomorphic-unfetch'
 import React,{useEffect} from 'react';
-import BlogUtilities from "../../webUtils/BlogUtilities";
 import BlogGrid from "../../components/blog/BlogGrid";
 
 const Blogs=(props )=>{
-    useEffect(() => {
-        let bu = new BlogUtilities('main');
-        bu.initBlogscroll().then(() => {
-            bu.enterAnimations();
-        }).catch(err => console.error(err));
-    },[]);
     return (
-        <Layout user={props.user} router={props.router} setUser={props.setUser}>
+        <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
             <div className={utilsStyles.sectionContainer}>
                 <h1 className={`${blogsModule.title} ${utilsStyles.sectionTitle}`}>Blog</h1>
                 <div className={utilsStyles.centeredContainer}>

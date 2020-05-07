@@ -2,22 +2,14 @@ import CursoItem from '../../components/cursos/CursoItem';
 import fetch from 'isomorphic-unfetch'
 import React, {useEffect} from "react";
 import Layout from '../../components/Layout'
-import CursosUtilities from "../../webUtils/CursosUtilities";
 import utilsStyles from '../../styles/Utils.module.css';
 import CursoGrid from "../../components/cursos/CursosGrid";
 import Head from "next/head";
 
 const Cursos = (props) =>{
 
-    useEffect(() => {
-        let cu = new CursosUtilities('main');
-        cu.initCursosScroll().then(() => {
-            cu.enterAnimations();
-        }).catch(err => console.error(err));
-        console.log(props);
-    },[]);
     return (
-        <Layout router={props.router} user={props.user} setUser={props.setUser}>
+        <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>
             <Head>
                 <title>Casor - Cursos de formación</title>
                 <meta name={'description'} content={'Casor. Cursos de formación para profesionales del sector deportivo.'}/>

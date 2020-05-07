@@ -6,8 +6,6 @@ import {login} from "../utils/Authentication";
 import Layout from "../components/Layout";
 
 const Login = (props) => {
-    // const router = useRouter();
-
     const [credentials,setCredentials] = useState({email:'',password:''});
 
     const onSubmit = () => {
@@ -34,12 +32,12 @@ const Login = (props) => {
         }else{
             props.router.push('/admin/formacion');
         }
-    }
+    };
 
     const buttons = [<Button key="buttonCliente" type="submit" color={'black'} text={'Iniciar sesión'} styles={{width:'80%',margin:'15px 0'}} />];
 
     return (
-        <Layout router={props.router} user={props.user} setUser={props.setUser}>
+        <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>
             <div className={loginStyles.loginContainer}>
                 <img src={'/assets/fondo-1.svg'} alt={'imagen de fondo'}/>
                 <img src={'/assets/fondo-2.svg'} alt={'imagen de fondo'}/>

@@ -8,6 +8,7 @@ export default class WebUtils{
         this.element = element;
     }
     removeScroll = () => {
+        console.log('removeScroll');
         if(document.querySelector('.csr-scrollbar') && this.scrollElement && this.scrollElement.scrollElement){
             document.querySelector('.csr-scrollbar').remove();
             this.scrollElement.scrollElement.destroy();
