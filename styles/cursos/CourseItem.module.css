@@ -91,12 +91,16 @@
 .feesCourse{
     font-weight:bold;
     color:var(--black-color);
+    display:flex;
+    align-items:center;
 }
-
+.feesCourse>svg{
+    margin-right:4px;
+}
 .reviewsContainer{
-    margin-bottom:15px;
     grid-column-start: 1;
     grid-column-end: 3;
+    margin-top:15px;
 }
 
 .reviewHeader{

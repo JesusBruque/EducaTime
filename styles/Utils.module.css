@@ -151,6 +151,10 @@
     grid-template-rows: auto;
     align-items: center;
     grid-column-gap: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color:var(--black-color);
+    font-size:.8em;
 }
 .spanForRadio:after{
     transform: scale(0);

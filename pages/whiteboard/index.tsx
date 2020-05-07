@@ -10,7 +10,7 @@ const userWhiteBoard = (props) => {
         });
     }
     return (
-        <Layout user={props.user} setUser={props.setUser} router={props.router}>
+        <Layout user={props.user} setUser={props.setUser} router={props.router} utils={props.utils}>
             WHITE BOARD USER
             <button onClick={goLogOut}>Salir</button>
         </Layout>

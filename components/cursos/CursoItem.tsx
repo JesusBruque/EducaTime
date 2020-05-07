@@ -116,7 +116,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                 props.reviews &&
                     <div className={styles.reviewsContainer}>
                         {curso.reviews.length > 0 && curso.reviews.map(review => {
-                            return <div key={review._id}>
+                            return <div key={review._id} style={{marginBottom:'15px'}}>
                                 <div className={styles.reviewHeader}>
                                     <div className={utilsStyles.userIcon}>
                                         <img src={'/assets/icons/user-icon.svg'} alt={'icono de usuario usuarios'}/>
@@ -133,6 +133,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                                 </div>
                             </div>
                         })}
+                        {curso.reviews.length === 0  && <h3 style={{textAlign:'center'}}>¡No hay ninguna valoración aún en este curso de formación!</h3>}
                     </div>
             }
         </div>
