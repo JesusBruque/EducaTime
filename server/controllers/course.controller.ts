@@ -26,6 +26,29 @@ export default class CourseController extends GenericController{
           return res.status(400).json({status:400});
       }
     };
+    public editCourse = async (req:Request,res:Response) => {
+        Logger.debug('Editando curso...');
+
+        try{
+            let curso = req.body;
+            console.log(curso);
+            let lections = curso.lections;
+            delete curso['lections'];
+
+            /*-- CREANDO CURSO Y LECCIONES --*/
+            curso = await this.courseService.edit(curso).catch(err => {throw err});
+
+            await this.courseService.addLectionsToCourse(curso._id,lections).catch(err => {throw err});
+            if(curso.teacher){
+                await this.manageTeacher(curso.teacher, curso.title, curso.description);
+            }
+            return res.status(200).json({status:200,curso:curso});
+        }catch(e){
+            Logger.error('Error al crear un curso.');
+            Logger.error(e);
+            return res.status(400).json({status:400});
+        }
+    }
     public createCourse = async (req:Request,res:Response) => {
         Logger.debug('Creando curso...');
         

@@ -12,6 +12,7 @@ var usuarioSchema = new Schema({
   apellidos:{
     type:String
   },
+  titulation:String,
   password: {
     type: String,
     required: true,
@@ -47,7 +48,15 @@ var usuarioSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Usuario',
   },
-  cursos:[String],
+  cursos:[{
+    idCurso:{ type: Schema.Types.ObjectId, ref: 'Course' },
+    feeState:[{paid:Boolean,idFee:{type:Schema.Types.ObjectId,ref:'Course.fees'}}],
+    lections:[{
+      idLection:{ type: Schema.Types.ObjectId, ref: 'Lection' },
+      taskResponses:[{origin:String,url:String}],
+      evaluationResponses:[{origin:String,url:String}]
+    }]
+  }],
   favoritos:[String]
 }, { versionKey: '_version' });
 
@@ -56,7 +65,7 @@ usuarioSchema.plugin(mongooseHistory);
 usuarioSchema.methods.encryptPassword = async function (password: string): Promise<{ salt: Buffer, hashedPassword: string }> {
   try {
     const salt = randomBytes(32);
-    const hashedPassword = await argon2.hash(password, { salt })
+    const hashedPassword = await argon2.hash(password, { salt });
 
     return { salt, hashedPassword };
   } catch (err) {

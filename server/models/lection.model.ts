@@ -13,10 +13,10 @@ var lectionSchema = new Schema({
   description: {
     type: String,
   },
-  video: {
-    type: String,
-    trim: true
-  },
+  videoResources: [{duration:Number,url:String}],
+  teoricalResources:[{url:String}],
+  taskresources:[{url:String}],
+  evaluationResources:[{url:String}],
   duration: {
     type: Number,
     minlength: 1

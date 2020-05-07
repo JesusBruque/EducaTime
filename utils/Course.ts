@@ -83,7 +83,6 @@ export const validate = async (curso: Course) => {
             lections:!curso.webinar ? genericValidator(curso.lections,'notEmpty') : '',
             webinar:curso.lections.length<=0 ? genericValidator(curso.webinar,'required') : ''
         };
-        console.log(validations);
         let errors = [];
         for (let property in validations){
             if(validations[property] !== '') errors.push({[getPropertyName(property)]:validations[property]});
