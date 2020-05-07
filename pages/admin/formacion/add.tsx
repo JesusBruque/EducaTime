@@ -1,5 +1,5 @@
 import utilsStyles from "../../../styles/Utils.module.css";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import moment from "moment";
 import Course, {create, uploadCourseFile, validate} from '../../../utils/Course';
 import LayoutAdmin from "../../../components/LayoutAdmin";
@@ -15,6 +15,7 @@ const AddCourse = (props) => {
     const [cursoFiles,setCursoFiles] = useState({thumbnail:null,video:null});
     const [webinarFile,setWebinarFile] = useState(null);
     const [videoPlaying,setVideoPlaying] = useState(null);
+
 
     const CreateCourse = () => {
         validate(cursoInfo).then(() => {

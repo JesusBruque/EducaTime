@@ -11,10 +11,12 @@ import { Json } from "aws-sdk/clients/marketplacecatalog";
 export default class CourseController extends GenericController{
     private courseService : CourseService;
     private authenticationService : AuthenticationService;
+    private lectionService: LectionService;
     constructor(){
         super(new CourseService());
         this.courseService = new CourseService();
         this.authenticationService = new AuthenticationService();
+        this.lectionService = new LectionService();
     }
     public findById = async(req:Request,res:Response) => {
       try{
@@ -28,23 +30,17 @@ export default class CourseController extends GenericController{
     };
     public editCourse = async (req:Request,res:Response) => {
         Logger.debug('Editando curso...');
-
         try{
             let curso = req.body;
-            console.log(curso);
             let lections = curso.lections;
-            delete curso['lections'];
+            curso.lections = [];
 
-            /*-- CREANDO CURSO Y LECCIONES --*/
-            curso = await this.courseService.edit(curso).catch(err => {throw err});
-
-            await this.courseService.addLectionsToCourse(curso._id,lections).catch(err => {throw err});
-            if(curso.teacher){
-                await this.manageTeacher(curso.teacher, curso.title, curso.description);
-            }
+            /*-- EDITANDO CURSO Y LECCIONES --*/
+            await this.courseService.edit(curso);
+            await this.manageAfterCreateOrEdit(lections,curso);
             return res.status(200).json({status:200,curso:curso});
         }catch(e){
-            Logger.error('Error al crear un curso.');
+            Logger.error('Error al editar un curso.');
             Logger.error(e);
             return res.status(400).json({status:400});
         }
@@ -56,15 +52,11 @@ export default class CourseController extends GenericController{
             let curso = req.body;
             console.log(curso);
             let lections = curso.lections;
-            delete curso['lections'];
+            curso.lections = [];
 
             /*-- CREANDO CURSO Y LECCIONES --*/
             curso = await this.courseService.create(curso).catch(err => {throw err});
-
-            await this.courseService.addLectionsToCourse(curso._id,lections).catch(err => {throw err});
-            if(curso.teacher){
-                await this.manageTeacher(curso.teacher, curso.title, curso.description);
-            }
+            await this.manageAfterCreateOrEdit(lections,curso);
             return res.status(200).json({status:200,curso:curso});
         }catch(e){
             Logger.error('Error al crear un curso.');
@@ -72,6 +64,19 @@ export default class CourseController extends GenericController{
             return res.status(400).json({status:400});
         }
     };
+    private manageAfterCreateOrEdit = async (lections, curso) => {
+        await this.courseService.lectionEraser(curso._id);
+        let pLections = [];
+        lections.forEach((lection,i) => {
+            pLections.push(this.courseService.addLectionToCourse(curso._id,lection,i+1));
+        });
+
+        await Promise.all(pLections).catch(e => {throw e});
+        if(curso.teacher){
+            await this.manageTeacher(curso.teacher, curso.title, curso.description);
+        }
+    };
+
     private manageTeacher = async (email: string, titulo: string, descripcion: string) => {
         try{
             var err, user = await this.authenticationService.findByEmail(email);

@@ -13,7 +13,8 @@ export default async () => {
                 done(err, {
                     _id: user._id,
                     email: user.email,
-                    roles:user.roles
+                    roles:user.roles,
+                    username:user.username
                 });
 
             } else done(err, null);

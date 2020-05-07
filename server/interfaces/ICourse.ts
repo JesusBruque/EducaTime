@@ -1,4 +1,5 @@
 import { IGenericInterface } from "./IGenericInterface";
+import {Model} from "mongoose";
 
 type fee = {
     fee:number,

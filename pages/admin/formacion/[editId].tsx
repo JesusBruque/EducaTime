@@ -4,7 +4,7 @@ import Button from "../../../components/Button";
 import AddCourseForm from "../../../components/cursos/AddCourseForm";
 import VideoComponent from "../../../components/VideoComponent";
 import ErrorsPanel from "../../../components/ErrorsPanel";
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import Course, {getCourseById, validate, edit, uploadCourseFile, create} from "../../../utils/Course";
 
 type Props={
@@ -79,7 +79,7 @@ const editCurso = (props) => {
                 </div>
                 <AddCourseForm utils={props.utils} cursoInfo={cursoInfo} setCursoInfo={setCursoInfo} cursoFiles={cursoFiles} setCursoFiles={setCursoFiles} webinarFile={webinarFile} setWebinarFile={setWebinarFile} setVideoPlaying={setVideoPlaying}/>
             </div>
-            {videoPlaying && <VideoComponent src={URL.createObjectURL(videoPlaying)} autoPlay={true} title={videoPlaying.name} onClose={() => {setVideoPlaying(null); URL.revokeObjectURL(videoPlaying)}} />}
+            {videoPlaying && <VideoComponent src={typeof videoPlaying === 'string' ? videoPlaying : URL.createObjectURL(videoPlaying)} autoPlay={true} title={videoPlaying.name || 'Preview del curso'} onClose={() => {setVideoPlaying(null);typeof videoPlaying !== 'string' && URL.revokeObjectURL(videoPlaying)}} />}
             {errors && <ErrorsPanel errors={errors} close={() => setErrors(null)}/>}
         </LayoutAdmin>
     )
