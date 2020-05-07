@@ -1,4 +1,5 @@
 import Usuario from '../models/usuario.model';
+import Course from '../models/course.model'
 import { IUsuario, IUsuarioDTO } from '../interfaces/IUsuario';
 import argon2 from 'argon2';
 import {randomBytes} from "crypto";
@@ -21,12 +22,50 @@ export default class AuthenticationService {
             throw e;
         }
     };
-
+    public marcaProxPlazo = async(user:IUsuario, courseId: string, plazo: boolean) => {
+        try{
+            let courseIndex = 0;
+            const lc = await (await user).cursos.length;
+            for(var i=0;i<lc;i++){
+                if((await user).cursos[i].idCurso.toString()==courseId){
+                    courseIndex = i;
+                }
+            }
+            const fees = (await user).cursos[courseIndex].feeState;
+            const lf = fees.length;
+            if(plazo){
+                for(var j=0;j<lf;j++){
+                    if(fees[j].paid==false){
+                        fees[j].paid = true;
+                        break;
+                    }
+                }
+            }else{
+                for(var j=0;j<lf;j++){
+                    fees[j].paid = true;
+                }
+            }
+        }
+        catch(e){
+            throw e;
+        }
+    }
+    public findUserByEmail = async(email:string): Promise<IUsuario> => {
+        try {
+            let err, user = await Usuario.findOne({email: email});
+            if (err) throw err;
+            if (!user) return null;
+            if (user) return user;
+        }
+        catch(e){
+            throw e;
+        }
+    };
     public findByEmail = async(email:string): Promise<IUsuarioDTO> => {
         try {
             let err, user = await Usuario.findOne({email: email});
             if (err) throw err;
-            if (!user) return {_id:null,email:email,roles:null,username:email,cursos:[],favoritos:[]};
+            if (!user) return {_id:null,email:email,roles:null,username:email};
             if (user) return user;
         }
         catch(e){
@@ -62,11 +101,31 @@ export default class AuthenticationService {
         user.roles.push('teacher');
         return user;
     }
-    public addCursoToUser = async(userId:string,curso:string) : Promise<IUsuarioDTO> => {
+    public addCursoToUser = async(userId:string,curso:string, plazo:boolean) : Promise<IUsuarioDTO> => {
+        
+        let a = await Course.findById(curso);
+        let plazosPagados = [];
+        let leccionesCurso = [];
+        for(var i = 0;i<a.fees.length;i++){
+            plazosPagados.push({
+                paid: false, idFee: ""
+            });
+        }
+        for(var j=0;j<a.lections.length;j++){
+            leccionesCurso.push(
+                {
+                    idLection: a.lections[j],
+                    taskResponses: [{origin:"",url:""}],
+                    evaluationResponses:[{origin:"",url:""}]
+                });
+        }
+        let courseParams = {
+            idCurso: curso, feeState: plazosPagados, lections: leccionesCurso
+        }
         let err, user = await Usuario.findById(userId);
         if(err) throw err;
         if(!user) throw Error('No se ha encontrado el usuario');
-        user.cursos.push(curso);
+        user.cursos.push(courseParams);
         user = await user.save();
         return user;
     };

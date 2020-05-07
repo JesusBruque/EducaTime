@@ -10,7 +10,7 @@ import Button from "./Button";
 import inputStyles from "../styles/Input.module.css";
 import {Joi} from "celebrate";
 
-const PaymentForm = ({router,cursoId}) => {
+const PaymentForm = ({router,cursoId, plazo}) => {
     const [values,setValues] = useState({email:'',name:''});
     const [errors,setErrors] = useState(Object);
 
@@ -21,6 +21,7 @@ const PaymentForm = ({router,cursoId}) => {
     const [error, setError] = useState(null);
     const [processing, setProcessing] = useState(false);
     const [disabled, setDisabled] = useState(true);
+    const [pagoPlazo, setPagoPlazo] = useState(plazo);
     const [clientSecret, setClientSecret] = useState('');
     const [email, setEmail] = useState('');
     const stripe = useStripe();
@@ -29,8 +30,9 @@ const PaymentForm = ({router,cursoId}) => {
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
         let id = cursoId ? cursoId : router.query.pcid;
-        createPaymentIntent(id).then(res => {
+        createPaymentIntent(id, plazo, values.email).then(res => {
             setClientSecret(res.data.clientSecret);
+            setPagoPlazo(res.data.plazo)
             console.log(res.data);
         }).catch(err => {
             router.push('/cursos');
@@ -82,6 +84,7 @@ const PaymentForm = ({router,cursoId}) => {
         } else {
             const payment = await afterPayment({
                 amount:payload.paymentIntent.amount,
+                plazo: pagoPlazo,
                 client_secret:payload.paymentIntent.client_secret,
                 id:payload.paymentIntent.id,
                 receipt_email:payload.paymentIntent.receipt_email,

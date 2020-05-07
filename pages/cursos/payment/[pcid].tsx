@@ -2,7 +2,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import React,{useEffect, useState} from 'react';
 import PaymentForm from "../../../components/PaymentForm";
-import {getCourseById} from "../../../utils/Curso";
+import {getCourseById} from "../../../utils/Course";
 import utilsStyles from "../../../styles/Utils.module.css";
 import pagoStyles from "../../../styles/Pago.module.css";
 import radioStyle from "../../../styles/Utils.module.css";
@@ -36,7 +36,7 @@ const payCurso = ({router,curso}) => {
         justifyContent: "space-evenly"
     }
     let a = 1;
-const plazosList = curso.fees.map(function (plazo){ return <li>Plazo número {a++}: {plazo.fee}€ a pagar el {plazo.date}</li>});
+const plazosList = curso.fees.map(function (plazo){ return <li>Plazo número {a++}: {plazo.fee}€ a pagar para el {plazo.date}</li>});
     return (
         <div className={utilsStyles.sectionContainer} >
             <h1 className={utilsStyles.sectionTitle}>Confirmación del pago</h1>
@@ -44,7 +44,7 @@ const plazosList = curso.fees.map(function (plazo){ return <li>Plazo número {a+
                 <div>
                     <h4 style={{color:'#70a0af',fontSize:'1.6em'}}>Detalles de pago</h4>
                     <Elements stripe={stripePromise}>
-                        <PaymentForm router={router} cursoId={curso._id}/>
+                        <PaymentForm router={router} cursoId={curso._id} plazo={!unicFee}/>
                     </Elements>
                 </div>
                 <div className={pagoStyles.payResume}>
