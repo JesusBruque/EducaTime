@@ -87,7 +87,7 @@ export const validate = async (curso: Course) => {
             if(!validateFees(curso.fees,curso.original_fee)){
                 errors.push({plazos:'Los plazos y el precio no se corresponden.'});
             }
-            if(!validateDateFees){
+            if(!validateDateFees(curso.fees)){
                 errors.push({plazos:'Error en los plazos de pagos.'});
             }
         }

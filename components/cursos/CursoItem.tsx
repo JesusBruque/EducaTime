@@ -60,6 +60,15 @@ const CursoItem: FunctionComponent<Props> = (props) => {
         return stars;
     }
 
+    const handleBuyButton = () => {
+        if(!props.reviews){
+            router.push('/cursos/'+curso._id);
+        }
+        else{
+            router.push('/cursos/payment/'+curso._id);
+        }
+    }
+
     return (
         <div className={styles.courseContainer}>
             <div className={styles.leftContainer}>
@@ -78,7 +87,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                         {renderStars()}
                         <span style={{fontWeight:'bold',marginLeft:'4px',color:'var(--black-color)'}}>{curso.score}</span>
                     </div>
-                    <Button color={'blue'} text={'comprar'} action={() => router.push('/cursos/'+curso._id)} styles={{gridArea:'comprar',width:'100%'}}/>
+                    <Button color={'blue'} text={'comprar'} action={() => handleBuyButton()} styles={{gridArea:'comprar',width:'100%'}}/>
                 </div>
                 {props.fees && curso.fees.length>1 && <div className={styles.feesCourse}><FontAwesomeIcon icon={faCreditCard} className={utilsStyles.icon}/><span>Pago en {curso.fees.length} plazos</span></div>}
             </div>

@@ -145,3 +145,42 @@
 .inputEditing:focus{
     outline:none;
 }
+.labelForRadio {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    align-items: center;
+    grid-column-gap: 4px;
+}
+.spanForRadio:after{
+    transform: scale(0);
+    transition: transform 0.3s ease-in-out;
+    content: '';
+    background-color: var(--main-color);
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.spanForRadio{
+    z-index: 3;
+    position: relative;
+    grid-area:1 / 1;
+    width: 1em;
+    height: 1em;
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid #cccccc;
+}
+.inputRadio{
+    z-index: 4;
+    grid-area: 1 / 1;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.inputRadio:checked ~ .spanForRadio:after {
+    transform: scale(1);
+}
