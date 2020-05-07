@@ -16,6 +16,15 @@ import fs from 'fs';
          this.lectionService = new LectionService();
          this.fileService = new FilesServices();
      }
+     public findById = async(CourseId:string) : Promise<ICourse> => {
+         try{
+             let err,course = await Course.findById(CourseId).populate('lections');
+             if(err) throw err;
+             return course;
+         }catch (e) {
+             throw e;
+         }
+     };
      public hardDelete = async (courseId: string): Promise<Boolean> => {
          try {
              /*

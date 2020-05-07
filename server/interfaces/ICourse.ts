@@ -29,4 +29,5 @@ export interface ICourse extends IGenericInterface{
     dateEndCourse: number;
     teacher:string;
     webinar:string;
+    lections:string[];
 }

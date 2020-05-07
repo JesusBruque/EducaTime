@@ -1,4 +1,5 @@
 .courseContainer{
+    position:relative;
     display:grid;
     grid-template-columns: 3fr 7fr;
     grid-column-gap: 15px;
@@ -101,4 +102,13 @@
 .reviewHeader{
     display:flex;
     align-items:center;
+}
+.actionsIcons{
+    position: absolute;
+    right:15px;
+    top:8px;
+}
+.actionsIcons>svg{
+    cursor:pointer;
+    margin:0 4px;
 }

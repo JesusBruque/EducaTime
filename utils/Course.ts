@@ -30,6 +30,7 @@ export default class Course{
     public webinar:string;
     public score:number;
     public reviews:Review[];
+    public last_update:number;
 
     constructor(){
         this._id = null;
@@ -54,13 +55,18 @@ export const create = (curso:Course) => {
     delete curso['_id'];
     return axios.post(COURSE_URL,curso);
 };
-
-export const uploadCourseFile = (cursoId:string,data) => axios({
-    method:'post',
-    url:COURSE_URL + '/post_file/'+cursoId,
-    data:data,
-    onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
-});
+export const edit = (curso:Course) => axios.put(COURSE_URL,curso);
+export const getCourseById = (cursoId: string) =>  axios.get(COURSE_URL+'/findById/' + cursoId);
+export const uploadCourseFile = (cursoName:string,file) => {
+    let data = new FormData();
+    data.append('file',file);
+    return axios({
+        method:'post',
+        url:COURSE_URL + '/post_file/'+cursoName,
+        data:data,
+        onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
+    });
+};
 
 export const validate = async (curso: Course) => {
     return new Promise((resolve,reject) => {
@@ -77,7 +83,7 @@ export const validate = async (curso: Course) => {
             lections:!curso.webinar ? genericValidator(curso.lections,'notEmpty') : '',
             webinar:curso.lections.length<=0 ? genericValidator(curso.webinar,'required') : ''
         };
-
+        console.log(validations);
         let errors = [];
         for (let property in validations){
             if(validations[property] !== '') errors.push({[getPropertyName(property)]:validations[property]});
@@ -93,7 +99,6 @@ export const validate = async (curso: Course) => {
         }
         errors.length>0 ? reject(errors) : resolve('No hay errores');
     });
-
 };
 
 const validateFees = (fees:fee[],price) => {
@@ -114,13 +119,12 @@ const validateDateFees = (fees:fee[]) => {
     }
     return res;
 };
-export const validateFiles = (oldFiles: File[],newFiles:File[]) : boolean => {
+export const validateFiles = (newFiles:File[]) : boolean => {
     let result = true;
     let images = 0;
     let videos = 0;
 
     calcFiles(newFiles);
-    calcFiles(oldFiles);
 
     if(images>1 || videos>1){
         result = false

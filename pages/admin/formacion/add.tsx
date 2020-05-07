@@ -16,53 +16,46 @@ const AddCourse = (props) => {
     const [webinarFile,setWebinarFile] = useState(null);
     const [videoPlaying,setVideoPlaying] = useState(null);
 
-    const getFormDataCourse = (file,attr) => {
-        let data = new FormData();
-        data.append('file',file);
-        data.append('attribute',attr);
-        return data;
-    };
     const CreateCourse = () => {
         validate(cursoInfo).then(() => {
             props.utils.initLoader('Subiendo curso...');
             props.utils.startLoader();
-            create(cursoInfo).then((res) => {
-                console.log(res);
-                props.utils.changeTextLoader('Curso subido.');
-                let curso = res.data.curso;
-                /*--AHORA SUBIMOD THUMBNAIL--*/
-                uploadCourseFile(curso._id,getFormDataCourse(cursoFiles.thumbnail,'thumbnail')).then(() => {
+            let uploadThumbnail: Promise<string> = new Promise((resolve, reject) => {
+                uploadCourseFile(cursoInfo.title, cursoFiles.thumbnail).then(res => {
                     props.utils.changeTextLoader('Thumbnail subido.');
-                    setTimeout(()=> props.utils.changeTextLoader('Subiendo video...'),100);
-                    uploadCourseFile(curso._id,getFormDataCourse(cursoFiles.video,'video')).then((res) => {
-                        props.utils.changeTextLoader('Video subido.');
-                        console.log(res.data.curso);
-                        if(webinarFile){
-                            uploadCourseFile(curso._id,getFormDataCourse(webinarFile,'webinar')).then(() => {
-                                props.utils.removeLoader();
-                                props.router.push('/admin/formacion');
-                            });
-                        }else{
-                            props.utils.removeLoader();
-                            props.router.push('/admin/formacion');
-                        }
-                    }).catch(err => {
-                        window.alert('ERROR');
-                        props.utils.removeLoader();
-                    });
-                }).catch(err => {
+                    resolve(res.data.location);
+                }).catch(err => reject(err));
+            });
+            let uploadVideo: Promise<string> = new Promise((resolve, reject) => {
+                props.utils.changeTextLoader('Subiendo video...');
+                uploadCourseFile(cursoInfo.title, cursoFiles.video).then(res => resolve(res.data.location)).catch(err => reject(err));
+            });
+            let uploadWebinar: Promise<string> = new Promise(((resolve, reject) => {
+                if (webinarFile) {
+                    uploadCourseFile(cursoInfo.title, webinarFile).then(res => resolve(res.data.location)).catch(err => reject(err))
+                } else {
+                    resolve('');
+                }
+            }));
+            let filePromises = [uploadThumbnail, uploadVideo, uploadWebinar];
+            Promise.all(filePromises).then(values => {
+                cursoInfo.thumbnail = values[0];
+                cursoInfo.video = values[1];
+                cursoInfo.webinar = values[2];
+                props.utils.changeTextLoader('Subiendo la información del curso...');
+                create(cursoInfo).then(() => {
+                    props.utils.removeLoader();
+                    props.router.push('/admin/formacion');
+                }).catch(() => {
                     window.alert('ERROR');
                     props.utils.removeLoader();
-                });
-            }).catch(err => {
+                })
+            }).catch(() => {
                 window.alert('ERROR');
                 props.utils.removeLoader();
             });
-        }).catch(errors => {
-            setErrors(errors);
-        });
+        }).catch(errors => setErrors(errors));
     };
-
 
     return (
         <LayoutAdmin user={props.user} router={props.router} selected={'formacion'} setUser={props.setUser} utils={props.utils}>

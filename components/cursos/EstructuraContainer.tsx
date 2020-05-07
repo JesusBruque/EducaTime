@@ -58,20 +58,20 @@ const EstructureAddCourse = (props:Props) => {
             </div>
             <div className={styles.bloquesInfo}>
                 {
-                    props.cursoInfo.lections.length > 0 && <input style={{fontSize:'1.1em',width:'100%',fontWeight:'bold'}} type={'text'} value={props.cursoInfo.teacher} className={styles.inputEditing} onChange={(e) => props.handleInfoCursoChange(e.target.value,'teacher')} placeholder={'Email del profesor'}/>
+                    props.cursoInfo.lections && props.cursoInfo.lections.length > 0 && <input style={{fontSize:'1.1em',width:'100%',fontWeight:'bold'}} type={'text'} value={props.cursoInfo.teacher} className={utilsStyles.inputEditing} onChange={(e) => props.handleInfoCursoChange(e.target.value,'teacher')} placeholder={'Email del profesor'}/>
                 }
 
                 {
-                    props.cursoInfo.lections.map((lection,i) => {
+                    props.cursoInfo.lections && props.cursoInfo.lections.map((lection,i) => {
                         return <div style={{width:'100%'}} key={i}>
-                            <input style={{fontSize:'1.1em',width:'150px',fontWeight:'bold'}} type={'text'} value={lection.title} className={styles.inputEditing} onChange={(e) => handleChangeLection(e.target.value,i)} placeholder={'Título del bloque'}/>
+                            <input style={{fontSize:'1.1em',width:'150px',fontWeight:'bold'}} type={'text'} value={lection.title} className={utilsStyles.inputEditing} onChange={(e) => handleChangeLection(e.target.value,i)} placeholder={'Título del bloque'}/>
                             <FontAwesomeIcon icon={faTimes} onClick={() => removeLection(i)} className={utilsStyles.icon}/>
                         </div>
                     })
                 }
 
                 {
-                    props.cursoInfo.lections.length===0 && props.webinarFile && <div className={styles.line}><span>{props.webinarFile.name}</span><FontAwesomeIcon icon={faTimes} style={{marginLeft:'4px'}} onClick={() => props.setWebinarFile(null)} className={utilsStyles.icon}/> <img src={'/assets/icons/play-button.svg'} className={utilsStyles.icon} alt={'icono de play'} onClick={() => props.setVideoPlaying(props.webinarFile)}/></div>
+                    props.cursoInfo.lections && props.cursoInfo.lections.length===0 && props.webinarFile && <div className={styles.line}><span>{props.webinarFile.name}</span><FontAwesomeIcon icon={faTimes} style={{marginLeft:'4px'}} onClick={() => props.setWebinarFile(null)} className={utilsStyles.icon}/> <img src={'/assets/icons/play-button.svg'} className={utilsStyles.icon} alt={'icono de play'} onClick={() => props.setVideoPlaying(props.webinarFile)}/></div>
                 }
 
             </div>

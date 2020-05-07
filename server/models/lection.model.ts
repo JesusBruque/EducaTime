@@ -25,13 +25,8 @@ var lectionSchema = new Schema({
     type: Number,
     required: true
   },
-  course:{
-      type: String,
-      required: true,
-      minlength: 1,
-      trim: true
-  }
-}, { versionKey: '_version' })
+  course:{ type: Schema.Types.ObjectId, ref: 'Course' }
+}, { versionKey: '_version' });
 
 lectionSchema.plugin(mongooseHistory);
 export default mongoose.model<ILection & mongoose.Document>('Lection', lectionSchema);

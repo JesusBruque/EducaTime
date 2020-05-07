@@ -3,7 +3,7 @@ import MyDropzone from "../MyDropzone";
 import utilsStyles from "../../styles/Utils.module.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCreditCard, faGlobe, faTimes} from "@fortawesome/free-solid-svg-icons";
-import React, {Dispatch, useState} from "react";
+import React, {Dispatch, useState, useEffect} from "react";
 import DatePicker from "../DatePicker";
 import Course,{validateFiles} from "../../utils/Course";
 import moment from "moment";
@@ -42,12 +42,12 @@ const TrailerPriceCourse = (props:Props) => {
 
     const handleFilesCurso = (files:File[]) => {
         let newCursoFiles = {...props.cursoFiles};
-        if(!validateFiles([newCursoFiles.thumbnail,newCursoFiles.video],files)) return false;
+        if(!validateFiles(files)) return false;
         files.forEach(file => {
             if(file.type.includes('image')) newCursoFiles.thumbnail = file;
             if(file.type.includes('video')) newCursoFiles.video = file;
         });
-        props.setCursoInfo({...props.cursoInfo,thumbnail:newCursoFiles.thumbnail ? newCursoFiles.thumbnail.name : null,video:newCursoFiles.video ? newCursoFiles.video.name: null });
+        props.setCursoInfo({...props.cursoInfo,thumbnail:newCursoFiles.thumbnail ? newCursoFiles.thumbnail.name: props.cursoInfo.thumbnail,video:newCursoFiles.video ? newCursoFiles.video.name : props.cursoInfo.video});
         props.setCursoFiles(newCursoFiles);
     };
 
@@ -55,6 +55,8 @@ const TrailerPriceCourse = (props:Props) => {
         e.stopPropagation();
         props.setVideoPlaying(file);
     };
+
+    useEffect(() => {console.log(props.cursoFiles); console.log(props.cursoInfo.thumbnail)},[props.cursoFiles]);
 
 
     return (
@@ -65,17 +67,17 @@ const TrailerPriceCourse = (props:Props) => {
                 maxFiles={2}
                 filesAccepted={['image/*','video/*']}
                 onAcceptFile={(files) => handleFilesCurso(files)}
-                disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
+                // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
             >
-                {props.cursoFiles.thumbnail && <img src={URL.createObjectURL(props.cursoFiles.thumbnail)} alt={'imagen de preview del curso'} style={{backgroundColor:'white'}}/>}
-                {props.cursoFiles.video && <img src={'/assets/icons/play-button.svg'} alt={'icono de play'} style={{opacity:'.9',width:'30px',height:'30px',backgroundColor:'white'}} onClick={(e) => showVideo(props.cursoFiles.video,e)} className={utilsStyles.icon}/>}
+                {(props.cursoFiles.thumbnail || props.cursoInfo.thumbnail) &&  <img src={props.cursoFiles.thumbnail ? URL.createObjectURL(props.cursoFiles.thumbnail) :  props.cursoInfo.thumbnail} alt={'imagen de preview del curso'} style={{backgroundColor:'white'}}/> }
+                {(props.cursoFiles.video || props.cursoInfo.video) && <img src={'/assets/icons/play-button.svg'} alt={'icono de play'} style={{opacity:'.9',width:'30px',height:'30px',backgroundColor:'white'}} onClick={(e) => props.cursoFiles.video ? showVideo(props.cursoFiles.video,e) : showVideo(props.cursoInfo.video,e)} className={utilsStyles.icon}/>}
             </MyDropzone>
             <div className={styles.cursoInfoDetailsGrid}>
                 <div style={{display:'flex',justifyContent:'space-between',width:'100%',marginTop:'8px'}}>
-                    <div>
-                        {props.cursoFiles.thumbnail && <div className={styles.line} style={{marginRight:'14px'}}><span style={{marginRight:'4px'}}>Thumbnail:</span><b>{props.cursoFiles.thumbnail.name}</b><FontAwesomeIcon icon={faTimes} className={utilsStyles.icon} onClick={() => props.setCursoFiles({...props.cursoFiles,thumbnail:null})}/></div>}
-                        {props.cursoFiles.video && <div className={styles.line} style={{marginRight:'14px'}}><span style={{marginRight:'4px'}}>Video:</span><b>{props.cursoFiles.video.name}</b><FontAwesomeIcon icon={faTimes} className={utilsStyles.icon} onClick={() => props.setCursoFiles({...props.cursoFiles,video:null})}/></div>}
-                    </div>
+                    {/*<div>*/}
+                    {/*    {props.cursoFiles.thumbnail && <div className={styles.line} style={{marginRight:'14px'}}><span style={{marginRight:'4px'}}>Thumbnail:</span><b>{props.cursoFiles.thumbnail.name}</b><FontAwesomeIcon icon={faTimes} className={utilsStyles.icon} onClick={() => props.setCursoFiles({...props.cursoFiles,thumbnail:null})}/></div>}*/}
+                    {/*    {props.cursoFiles.video && <div className={styles.line} style={{marginRight:'14px'}}><span style={{marginRight:'4px'}}>Video:</span><b>{props.cursoFiles.video.name}</b><FontAwesomeIcon icon={faTimes} className={utilsStyles.icon} onClick={() => props.setCursoFiles({...props.cursoFiles,video:null})}/></div>}*/}
+                    {/*</div>*/}
                     <div className={styles.line}>
                         <FontAwesomeIcon icon={faGlobe} className={utilsStyles.icon}/>
                         <span>Español</span>

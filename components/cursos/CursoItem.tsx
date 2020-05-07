@@ -3,7 +3,7 @@ import Course from "../../utils/Course";
 import styles from '../../styles/cursos/CourseItem.module.css';
 import Link from "next/link";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGlobe,faCreditCard} from "@fortawesome/free-solid-svg-icons";
+import {faGlobe,faCreditCard,faEdit,faTrash} from "@fortawesome/free-solid-svg-icons";
 import utilsStyles from "../../styles/Utils.module.css";
 import Button from "../Button";
 import Estrella from "../Estrella";
@@ -67,10 +67,19 @@ const CursoItem: FunctionComponent<Props> = (props) => {
         else{
             router.push('/cursos/payment/'+curso._id);
         }
-    }
+    };
+
+    const handleEditCourse = () => {
+      router.push('/admin/formacion/'+curso._id);
+    };
+
+    const handleDeleteCourse = () => {
+        console.log('eliminar curso');
+    };
 
     return (
         <div className={styles.courseContainer}>
+            {props.admin && <div className={styles.actionsIcons}><FontAwesomeIcon icon={faEdit} onClick={handleEditCourse}/> <FontAwesomeIcon icon={faTrash} onClick={handleDeleteCourse}/> </div>}
             <div className={styles.leftContainer}>
                 <div className={styles.imageContainer}>
                     <img src={curso.thumbnail} alt={'imagen del curso'} onError={(e) => {e.currentTarget.src = '/assets/logo.svg'}} />
@@ -87,7 +96,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                         {renderStars()}
                         <span style={{fontWeight:'bold',marginLeft:'4px',color:'var(--black-color)'}}>{curso.score}</span>
                     </div>
-                    <Button color={'blue'} text={'comprar'} action={() => handleBuyButton()} styles={{gridArea:'comprar',width:'100%'}}/>
+                    <Button color={'blue'} text={'comprar'} action={() => !props.admin ? handleBuyButton() : ''} styles={{gridArea:'comprar',width:'100%'}}/>
                 </div>
                 {props.fees && curso.fees.length>1 && <div className={styles.feesCourse}><FontAwesomeIcon icon={faCreditCard} className={utilsStyles.icon}/><span>Pago en {curso.fees.length} plazos</span></div>}
             </div>

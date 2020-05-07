@@ -5,8 +5,7 @@ import AddCourseForm from "../../../components/cursos/AddCourseForm";
 import VideoComponent from "../../../components/VideoComponent";
 import ErrorsPanel from "../../../components/ErrorsPanel";
 import React, {useState} from "react";
-import {getCourseById} from "../../../utils/Curso";
-import Course from "../../../utils/Course";
+import Course, {getCourseById, validate, edit, uploadCourseFile, create} from "../../../utils/Course";
 
 type Props={
     curso:Course
@@ -19,8 +18,57 @@ const editCurso = (props) => {
     const [webinarFile,setWebinarFile] = useState(null);
     const [videoPlaying,setVideoPlaying] = useState(null);
 
+
     const editCourse = () => {
-        console.log('editar curso');
+        validate(cursoInfo).then(() => {
+            props.utils.initLoader('Editando curso...');
+            props.utils.startLoader();
+            let uploadThumbnail: Promise<string> = new Promise((resolve, reject) => {
+                if(cursoFiles.thumbnail){
+                    uploadCourseFile(cursoInfo.title, cursoFiles.thumbnail).then(res => {
+                        props.utils.changeTextLoader('Thumbnail subido.');
+                        resolve(res.data.location);
+                    }).catch(err => reject(err));
+                }else{
+                    resolve(cursoInfo.thumbnail);
+                }
+            });
+            let uploadVideo: Promise<string> = new Promise((resolve, reject) => {
+                if(cursoFiles.video){
+                    props.utils.changeTextLoader('Subiendo video...');
+                    uploadCourseFile(cursoInfo.title, cursoFiles.video).then(res => resolve(res.data.location)).catch(err => reject(err));
+                }else{
+                    resolve(cursoInfo.video)
+                }
+            });
+            let uploadWebinar: Promise<string> = new Promise(((resolve, reject) => {
+                if (webinarFile) {
+                    uploadCourseFile(cursoInfo.title, webinarFile).then(res => resolve(res.data.location)).catch(err => reject(err))
+                } else {
+                    resolve('');
+                }
+            }));
+            let filePromises = [uploadThumbnail, uploadVideo, uploadWebinar];
+            Promise.all(filePromises).then(values => {
+                cursoInfo.thumbnail = values[0];
+                cursoInfo.video = values[1];
+                cursoInfo.webinar = values[2];
+                props.utils.changeTextLoader('Editando información del curso...');
+                edit(cursoInfo).then(() => {
+                    props.utils.removeLoader();
+                    props.router.push('/admin/formacion');
+                }).catch(() => {
+                    window.alert('ERROR');
+                    props.utils.removeLoader();
+                })
+            }).catch(() => {
+                window.alert('ERROR');
+                props.utils.removeLoader();
+            });
+        }).catch(errors =>{
+            console.log(errors);
+            setErrors(errors)
+        });
     };
     return (
         <LayoutAdmin router={props.router} user={props.user} setUser={props.setUser} utils={props.utils} selected={'formacion'}>
@@ -39,6 +87,7 @@ const editCurso = (props) => {
 export const getServerSideProps =  async ctx => {
     const res = await getCourseById(ctx.params.editId);
     const curso = res.data.Course;
+    console.log(curso);
     return {props:{curso:curso}}
 };
 export default editCurso;

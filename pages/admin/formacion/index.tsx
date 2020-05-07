@@ -8,8 +8,8 @@ import Button from '../../../components/Button';
 import Link from "next/link";
 import LayoutAdmin from "../../../components/LayoutAdmin";
 
-const Index = (props) => {
 
+const Index = (props) => {
     return (
         <LayoutAdmin user={props.user} router={props.router} selected={'formacion'} utils={props.utils} setUser={props.setUser}>
             <div className={utilsStyles.sectionContainer}>
@@ -27,7 +27,7 @@ const Index = (props) => {
                     </div>
                 </div>
                 <div className={utilsStyles.centeredContainer}>
-                    <CursoGrid cursos={props.cursos} router={props.router} admin={true}/>
+                    {props.cursos.length > 0 ? <CursoGrid cursos={props.cursos} router={props.router} admin={true}/> : <h3 style={{color:'var(--black-color)'}}>Aún no se ha añadido ningún curso de formación!</h3>}
                 </div>
             </div>
         </LayoutAdmin>
