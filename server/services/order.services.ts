@@ -12,51 +12,32 @@ export default class OrderService extends GenericService{
         super(Order);
         this.userService = new AuthenticationService();
     }
-    public paymentIntent = async(courseId:string, plazo:boolean, email: string) => {
+    public paymentIntent = async(courseId:string, plazo:number) => {
         try{
             console.log('PAYMENT INTENT CURSO '+ courseId);
             const course = await Course.findById(courseId) as ICourse;
-            let plazoIndex = 0;
             let courseAmount = 0;
-            if(!plazo){
+            console.log(plazo);
+            if(plazo === null || plazo === undefined){
+                console.log('NO HAY PLAZO COMPADRE');
                 courseAmount = course.original_fee * (1 - (course.discount/100));
             }
             else{
                 try{
-                    let user = this.userService.findUserByEmail(email);
-                    let courseIndex = 0;
-                    var found = false;
-                    const l = await (await user).cursos.length;
-
-                    for(var i=0;i<l;i++){
-                        if((await user).cursos[i].idCurso.toString()==courseId){
-                            courseIndex = i;
-                            found = true;
-                        }
-                    }
-                    if(!found){
-                        plazoIndex = 0;
-                    }
-                    else{
-                        for(var j = 0;j<course.fees.length;j++){
-                            if(!(await user).cursos[courseIndex].feeState[j].paid){
-                                plazoIndex=j;
-                            }
-                        }}
-                    courseAmount = course.fees[plazoIndex].fee * (1 - (course.discount/100));
-
-                }catch(error){
-                    throw error;
+                    courseAmount = course.fees[plazo].fee;
+                }catch(e){
+                    throw e;
                 }
             }
-            //const IVA = courseAmount * 0.21;
-            //const totalAmount = courseAmount + IVA;
-            const totalAmount = courseAmount*1.21;
-            return await stripe.paymentIntents.create({
-                amount:totalAmount*100,
-                currency:"eur",
-                plazo: plazo? plazoIndex+1 : -1
-            });
+
+            if(courseAmount > 0){
+                return await stripe.paymentIntents.create({
+                    amount:courseAmount*100,
+                    currency:"eur"
+                });
+            }else{
+                throw Error('No se ha creado la orden de pago correctamente. Parece que el precio a cobrar no es mayor a 0.');
+            }
         }catch(error){
             throw error;
         }

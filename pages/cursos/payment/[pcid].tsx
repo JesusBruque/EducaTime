@@ -33,6 +33,10 @@ const payCurso = (props) => {
         display: "flex",
         justifyContent: "space-evenly"
     }
+    const handleChangePayment = (opt) => {
+        setunicFee(opt);
+
+    }
     let a = 1;
     const plazosList = curso.fees.map(function (plazo){ return <li style={{fontSize:'.8em'}}>Plazo número {a++}: <b>{plazo.fee}€.</b> Vence el <b style={{color:'var(--red-color)'}}>{moment(plazo.date).format('DD/MM/YYYY')}</b></li>});
     return (
@@ -43,7 +47,7 @@ const payCurso = (props) => {
                     <div>
                         <h4 style={{color:'#70a0af',fontSize:'1.6em'}}>Detalles de pago</h4>
                         <Elements stripe={stripePromise}>
-                            <PaymentForm router={router} cursoId={curso._id} plazo={!unicFee}/>
+                            <PaymentForm router={router} cursoId={curso._id} plazo={unicFee ? null : 0}/>
                         </Elements>
                     </div>
                     <div className={pagoStyles.payResume}>
@@ -52,12 +56,12 @@ const payCurso = (props) => {
                         <div style={tipoDePago}>
                             <label className={radioStyle.labelForRadio}>
                                 <span>Pago único</span>
-                                <input onChange={()=>{setunicFee(true)}} className= {radioStyle.inputRadio} type="radio" name="tipoDePago" checked={unicFee}/>
+                                <input onChange={()=>handleChangePayment(true)} className= {radioStyle.inputRadio} type="radio" name="tipoDePago" checked={unicFee}/>
                                 <span className = {radioStyle.spanForRadio}></span>
                             </label>
                             <label className={radioStyle.labelForRadio}>
                                 <span>Pago a plazos</span>
-                                <input onChange={()=>{setunicFee(false)}} className= {radioStyle.inputRadio} type="radio" name="tipoDePago" checked={!unicFee}/>
+                                <input onChange={()=>handleChangePayment(false)} className= {radioStyle.inputRadio} type="radio" name="tipoDePago" checked={!unicFee}/>
                                 <span className = {radioStyle.spanForRadio}></span>
                             </label>
                         </div>

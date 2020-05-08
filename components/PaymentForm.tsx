@@ -21,25 +21,9 @@ const PaymentForm = ({router,cursoId, plazo}) => {
     const [error, setError] = useState(null);
     const [processing, setProcessing] = useState(false);
     const [disabled, setDisabled] = useState(true);
-    const [pagoPlazo, setPagoPlazo] = useState(plazo);
-    const [clientSecret, setClientSecret] = useState('');
-    const [email, setEmail] = useState('');
+
     const stripe = useStripe();
     const elements = useElements();
-
-    useEffect(() => {
-        // Create PaymentIntent as soon as the page loads
-        let id = cursoId ? cursoId : router.query.pcid;
-        createPaymentIntent(id, plazo, values.email).then(res => {
-            setClientSecret(res.data.clientSecret);
-            setPagoPlazo(res.data.plazo)
-            console.log(res.data);
-        }).catch(err => {
-            router.push('/cursos');
-            console.error(err);
-        });
-
-    }, []);
 
     const cardStyle = {
         style: {
@@ -60,8 +44,6 @@ const PaymentForm = ({router,cursoId, plazo}) => {
         }
     };
     const handleChange = async (event) => {
-        // Listen for changes in the CardElement
-        // and display any errors as the customer types their card details
         setDisabled(event.empty);
         setError(event.error ? event.error.message : "");
     };
@@ -69,6 +51,10 @@ const PaymentForm = ({router,cursoId, plazo}) => {
     const handleSubmit = async ev => {
         ev.preventDefault();
         setProcessing(true);
+        let id = cursoId ? cursoId : router.query.pcid;
+        console.log(plazo);
+        const paymentResponse = await createPaymentIntent(id, plazo).catch(() => router.push('/cursos'));
+        const clientSecret = paymentResponse.data.clientSecret;
         const payload = await stripe.confirmCardPayment(clientSecret, {
             receipt_email: values.email,
             payment_method: {
@@ -84,7 +70,7 @@ const PaymentForm = ({router,cursoId, plazo}) => {
         } else {
             const payment = await afterPayment({
                 amount:payload.paymentIntent.amount,
-                plazo: pagoPlazo,
+                plazo: plazo,
                 client_secret:payload.paymentIntent.client_secret,
                 id:payload.paymentIntent.id,
                 receipt_email:payload.paymentIntent.receipt_email,

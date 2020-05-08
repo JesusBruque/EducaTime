@@ -2,6 +2,7 @@ import { IGenericInterface } from "./IGenericInterface";
 import {Model} from "mongoose";
 
 type fee = {
+    _id:string
     fee:number,
     date:number
 }

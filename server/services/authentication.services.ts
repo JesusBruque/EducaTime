@@ -22,28 +22,20 @@ export default class AuthenticationService {
             throw e;
         }
     };
-    public marcaProxPlazo = async(user:IUsuario, courseId: string, plazo: boolean) => {
+    public marcaProxPlazo = async(user:IUsuario, courseId: string, plazo: number) => {
         try{
             let courseIndex = 0;
-            const lc = await (await user).cursos.length;
-            for(var i=0;i<lc;i++){
-                if((await user).cursos[i].idCurso.toString()==courseId){
+            const lc = user.cursos.length;
+            for(let i=0;i<lc;i++){
+                if(user.cursos[i].idCurso.toString()==courseId){
                     courseIndex = i;
                 }
             }
-            const fees = (await user).cursos[courseIndex].feeState;
-            const lf = fees.length;
+            const fees = user.cursos[courseIndex].feeState;
             if(plazo){
-                for(var j=0;j<lf;j++){
-                    if(fees[j].paid==false){
-                        fees[j].paid = true;
-                        break;
-                    }
-                }
+                fees[plazo] ? fees[plazo].paid = true : () => {throw Error('No existe el plazo indicado')};
             }else{
-                for(var j=0;j<lf;j++){
-                    fees[j].paid = true;
-                }
+                fees.map(f => f.paid = true);
             }
         }
         catch(e){
@@ -101,24 +93,18 @@ export default class AuthenticationService {
         user.roles.push('teacher');
         return user;
     }
-    public addCursoToUser = async(userId:string,curso:string, plazo:boolean) : Promise<IUsuarioDTO> => {
+    public addCursoToUser = async(userId:string,curso:string, plazo?:number) : Promise<IUsuarioDTO> => {
         
         let a = await Course.findById(curso);
         let plazosPagados = [];
         let leccionesCurso = [];
-        for(var i = 0;i<a.fees.length;i++){
-            plazosPagados.push({
-                paid: false, idFee: ""
-            });
-        }
-        for(var j=0;j<a.lections.length;j++){
-            leccionesCurso.push(
-                {
-                    idLection: a.lections[j],
-                    taskResponses: [{origin:"",url:""}],
-                    evaluationResponses:[{origin:"",url:""}]
-                });
-        }
+        a.fees.forEach((fee,i) => {
+            plazosPagados.push({paid:(plazo===null || plazo===undefined || i === plazo),idFee:fee._id});
+        });
+        a.lections.forEach(lection => {
+            leccionesCurso.push({idLection:lection,taskResponses:[],evaluationResponses:[]})
+        });
+
         let courseParams = {
             idCurso: curso, feeState: plazosPagados, lections: leccionesCurso
         }
