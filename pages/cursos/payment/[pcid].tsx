@@ -43,7 +43,7 @@ const payCurso = (props) => {
                     <div>
                         <h4 style={{color:'#70a0af',fontSize:'1.6em'}}>Detalles de pago</h4>
                         <Elements stripe={stripePromise}>
-                            <PaymentForm router={router} cursoId={curso._id}/>
+                            <PaymentForm router={router} cursoId={curso._id} plazo={!unicFee}/>
                         </Elements>
                     </div>
                     <div className={pagoStyles.payResume}>

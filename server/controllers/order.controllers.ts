@@ -19,11 +19,13 @@ export default class OrderController extends GenericController{
         try{
             /*aqui voy a tener el id del curso que tengo que pagar... Vamos a llamar al findById y vamos a coger esa cantidad para el pago.*/
             let courseId = req.body.id;
-            const paymentResponse = await this.orderService.paymentIntent(courseId);
-            const orderObject = {date:Date.now(),course:courseId,paid:false,fee:paymentResponse.amount,currency:"EUR",client_secret:paymentResponse.client_secret,payment_id:paymentResponse.id,description:"Creación de la orden de pago."};
+            let plazo = req.body.plazo;
+            const paymentResponse = await this.orderService.paymentIntent(courseId,plazo);
+            const desc = paymentResponse.plazo !=-1 ? "Plazo número ".concat(paymentResponse.plazo.toString()) : "Pago único";
+            const orderObject = {date:Date.now(),course:courseId,paid:false,fee:paymentResponse.amount,currency:"EUR",client_secret:paymentResponse.client_secret,payment_id:paymentResponse.id,description: "Creación de la orden de pago." + desc + "."};
             await this.orderService.create(orderObject);
             /*--- Ya tengo la orden de pago creada y voy a devolver al cliente la clave secreta ---*/
-            return res.status(200).json({status:200,clientSecret:paymentResponse.client_secret});
+            return res.status(200).json({status:200,clientSecret:paymentResponse.client_secret, plazo: paymentResponse.plazo==-1? false:true});
         }catch(e){
             Logger.error('Error al crear un intento de pago.');
             Logger.error(e);
@@ -35,12 +37,13 @@ export default class OrderController extends GenericController{
         Logger.debug('Función tras un pago.');
         try{
             let paymentInfo = req.body;
-            let user = await this.userService.findByEmail(paymentInfo.receipt_email);
+            let user = await this.userService.findUserByEmail(paymentInfo.receipt_email);
             if(!user._id){
                 user = await this.userService.registerUser(user);
             }
             console.log(user._id);
-            await this.userService.addCursoToUser(user._id,paymentInfo.curso);
+            await this.userService.addCursoToUser(user._id,paymentInfo.curso,paymentInfo.plazo);
+            await this.userService.marcaProxPlazo(user, paymentInfo.curso, paymentInfo.plazo)
             const order = await this.orderService.updateOrderByPaymentId(paymentInfo,user._id);
             return res.status(200).json({status:200,order:order});
         }catch(e){
