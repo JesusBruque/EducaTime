@@ -18,7 +18,7 @@ const CursoGrid: FunctionComponent<Props> = (props) => {
             {cursos.map(curso =>{
                 return <CursoItem key={curso._id} curso={curso} router={router} setCursoPlaying={setCursoPlaying} admin={admin}/>
             })}
-            {cursoPlaying && <VideoComponent src={cursoPlaying.video} onClose={() => setCursoPlaying(null)} title={cursoPlaying.title}/>}
+            {cursoPlaying && <VideoComponent src={cursoPlaying.video} onClose={() => setCursoPlaying(null)} title={cursoPlaying.title} hls={true}/>}
         </React.Fragment>
     )
 };

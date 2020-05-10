@@ -22,18 +22,19 @@ const AddCourse = (props) => {
             props.utils.initLoader('Subiendo curso...');
             props.utils.startLoader();
             let uploadThumbnail: Promise<string> = new Promise((resolve, reject) => {
-                uploadCourseFile(cursoInfo.title, cursoFiles.thumbnail).then(res => {
+                uploadCourseFile(cursoInfo.title, cursoFiles.thumbnail,false,false).then(res => {
                     props.utils.changeTextLoader('Thumbnail subido.');
                     resolve(res.data.location);
                 }).catch(err => reject(err));
             });
+
             let uploadVideo: Promise<string> = new Promise((resolve, reject) => {
                 props.utils.changeTextLoader('Subiendo video...');
-                uploadCourseFile(cursoInfo.title, cursoFiles.video).then(res => resolve(res.data.location)).catch(err => reject(err));
+                uploadCourseFile(cursoInfo.title, cursoFiles.video,true,false).then(res => resolve(res.data.location)).catch(err => reject(err));
             });
             let uploadWebinar: Promise<string> = new Promise(((resolve, reject) => {
                 if (webinarFile) {
-                    uploadCourseFile(cursoInfo.title, webinarFile).then(res => resolve(res.data.location)).catch(err => reject(err))
+                    uploadCourseFile(cursoInfo.title, webinarFile,true,true).then(res => resolve(res.data.location)).catch(err => reject(err))
                 } else {
                     resolve('');
                 }

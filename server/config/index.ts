@@ -35,5 +35,10 @@ export default {
     email_host:process.env.EMAIL_HOST,
 
     iam_id_key:process.env.AMAZON_KEY_ID,
-    iam_secret_key:process.env.AMAZON_SECRET_ID
+    iam_secret_key:process.env.AMAZON_SECRET_ID,
+    cdn_url:process.env.AMAZON_CLOUDFRONT_URL,
+
+    amazon_pair_id:process.env.AMAZON_KEY_PAR_ID,
+    amazon_private_key:process.env.AMAZON_PRIVATE_KEY,
+    amazon_public_key:process.env.AMAZON_PUBLIC_KEY
 }

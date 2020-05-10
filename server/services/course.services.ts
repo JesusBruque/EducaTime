@@ -8,6 +8,7 @@ import FilesServices from "./files.services";
 import Logger from "../loaders/logger";
 import fs from 'fs';
 import {ILection} from "../interfaces/ILection";
+import config from "../config";
 import mongoose from 'mongoose';
 
  export default class CourseService extends GenericService{
@@ -63,10 +64,11 @@ import mongoose from 'mongoose';
          }
      };
 
-     public uploadFile = async (courseName:string,file,filename,res) => {
+     public uploadFile = async (courseName:string,file,filename,video,needAuth) => {
          try{
-             const fileLocation : string = await this.fileService.uploadFile(file,`public/${courseName}/${filename}`,res);
-             Logger.debug('fichero subido...');
+             console.log(file);
+             const fileLocation : string = await this.fileService.uploadFile(file,courseName,filename,video,needAuth);
+             Logger.debug('fichero subido...', fileLocation);
              return fileLocation;
          }catch(e){
              throw e;

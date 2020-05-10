@@ -57,13 +57,17 @@ export const create = (curso:Course) => {
 };
 export const edit = (curso:Course) => axios.put(COURSE_URL,curso);
 export const getCourseById = (cursoId: string) =>  axios.get(COURSE_URL+'/findById/' + cursoId);
-export const uploadCourseFile = (cursoName:string,file) => {
+export const uploadCourseFile = (cursoName:string,file, video:boolean,needAuth:boolean) => {
     let data = new FormData();
     data.append('file',file);
     return axios({
         method:'post',
-        url:COURSE_URL + '/post_file/'+cursoName,
+        url:`${COURSE_URL}/post_file/${cursoName}`,
         data:data,
+        params:{
+            video:video,
+            needAuth:needAuth
+        },
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };

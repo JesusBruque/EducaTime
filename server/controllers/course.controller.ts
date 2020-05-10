@@ -102,7 +102,7 @@ export default class CourseController extends GenericController{
             let fileLocation:string;
             /*--- DETECCION DE FICHERO Y SUBIDA A S3 ---*/
             req.busboy.on('file',async (fieldname,file,filename) => {
-                fileLocation = await this.courseService.uploadFile(cursoId,file, filename,res).catch(err => {throw err});
+                fileLocation = await this.courseService.uploadFile(cursoId,file, filename,req.query.video,req.query.needAuth).catch(err => {throw err});
                 console.log('Send 200 status--->',new Date());
                 return res.status(200).json({location:fileLocation});
             });

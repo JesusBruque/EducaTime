@@ -75,6 +75,7 @@ export default (app:Router)=>{
 
     /* PROBANDO UPLOADING PROGRESS */
 
-    
+    route.get('/get_signed_url',fileController.getSignedUrl);
+    route.get('/get_signed_cookies',fileController.getSignedCookie);
 
 }
