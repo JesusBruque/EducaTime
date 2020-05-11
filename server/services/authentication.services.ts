@@ -72,7 +72,6 @@ export default class AuthenticationService {
             throw e;
         }
     };
-
     public registerUser = async(user:IUsuarioDTO): Promise<IUsuarioDTO> => {
         return this.register(user,'user');
     }
@@ -93,7 +92,6 @@ export default class AuthenticationService {
             throw e;
         }
     }
-    
     public addRolTeacherToUser = async(userId: string) => {
         let err, user = await Usuario.findById(userId);
         if(err) throw err;
@@ -137,7 +135,6 @@ export default class AuthenticationService {
         let html = this.registerEmail({username,pass,email});
         await sendEmail(email,'Registro en CASOR. Academia de formación deportiva.', html);
     };
-    
     private assignmentEmail = (email: string, username: string, courseTitle: string, courseDescription: string) => {
         return `
         <body>
