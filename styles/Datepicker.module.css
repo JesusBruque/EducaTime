@@ -92,11 +92,17 @@
 .day:not(.notClick).startDate.inRange.hoveredDate{
     color:white;
 }
+.day:not(.notClick).inRange.hoveredDate{
+    color:white;
+}
 .day:not(.notClick).inRange.hoveredDate:after{
     background-color:black;
     transform: translate(-50%,-50%) scale(1);
     opacity:1;
     z-index:-1;
+}
+.day.endDate{
+    color:white;
 }
 .day.endDate:after{
     background-color:black;

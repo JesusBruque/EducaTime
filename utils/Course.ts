@@ -72,6 +72,7 @@ export const uploadCourseFile = (cursoName:string,file, video:boolean,needAuth:b
     });
 };
 
+export const getCoursesByTeacher = () => axios.get(COURSE_URL + '/getCoursesByTeacher');
 export const validate = async (curso: Course) => {
     return new Promise((resolve,reject) => {
         let validations = {

@@ -45,6 +45,7 @@ export default class LectionService extends GenericService{
             throw e;
         }
     };
+
     //#region 
     // public create = async(lectionObject:ILection, user: IUsuarioDTO):Promise<ILection>=>{
     //     try {

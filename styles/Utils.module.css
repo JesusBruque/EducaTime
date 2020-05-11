@@ -188,3 +188,15 @@
 .inputRadio:checked ~ .spanForRadio:after {
     transform: scale(1);
 }
+.timeLeft{
+    padding:4px;
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    font-weight:bold;
+    color:white;
+    line-height:1em;
+}
+.timeLeft>svg{
+    height:1.1em;
+}

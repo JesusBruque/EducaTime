@@ -6,7 +6,8 @@ import gsap from 'gsap';
 import {logout,check} from '../utils/Authentication';
 
 type Props = {
-    user:boolean
+    user:boolean,
+
 }
 const Header = (props) => {
     const [menuOpen,setMenuOpen] = useState(false);
@@ -27,8 +28,7 @@ const Header = (props) => {
     };
 
     return (
-        <div id={'casor-header'} className={headerStyles.header}>
-
+        <div id={'casor-header'} className={`${headerStyles.header} ${props.whiteboard ? headerStyles.headerWhiteBoard : ''}`}>
             <Link href={'/nosotros'}>
                 <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('nosotros') ?  headerStyles.linkActive : ''}`}>nosotros</span>
             </Link>

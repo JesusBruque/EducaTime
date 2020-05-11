@@ -11,6 +11,9 @@
     justify-content: space-evenly;
     z-index:99;
 }
+.headerWhiteBoard{
+    background-color: #f0f0f0;
+}
 .logo{
     height:75%;
     object-fit: contain;

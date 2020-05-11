@@ -65,6 +65,7 @@ export default class LectionController extends GenericController{
             return res.status(400).json({status:400});
         }
       }
+
       //#region 
     // public Create=async(req:Request,res:Response , next: NextFunction)=>{
     //     Logger.debug("Creando leccion.")

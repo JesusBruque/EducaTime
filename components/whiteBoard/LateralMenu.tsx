@@ -1,50 +1,76 @@
 import React, {FunctionComponent, useEffect} from 'react';
 import {User} from "../../utils/Authentication";
 import Course from "../../utils/Course";
+import styles from '../../styles/whiteBoard/LateralMenu.module.css';
 
 type Props={
-    onClickOption:() => void,
-    user:User,
+    onClickOption:(e) => void,
+    user:any,
     teacherCourses?:Course[],
-    taskPend?:{}[],
+    taskPend?:number,
+    paymentPend?:number,
+    optionSelected:string,
+    cursoIndex?:number,
+    cursoTeacherIndex?:number,
+    tasksToReview?:number
 }
 
-const LateralMenu: FunctionComponent<Props> = (props) => {
+const  LateralMenu: FunctionComponent<Props> = (props) => {
 
     useEffect(()=> {
-        console.log(props.user);
-    },[]);
+        console.log(props.cursoIndex);
+    },[props.cursoIndex]);
     return (
-        <div>
-            {
-                props.user.roles.includes('user') &&
+        <div className={styles.lateralMenu}>
+            <div>
+                {
+                    props.user.roles.includes('user') &&
                     <React.Fragment>
-                        <div>
-                            <span>Mis cursos</span>
-                            <div>
-                                {/*{props.user.cursos.map(curso => {return <span>{curso.title}</span>})}*/}
+                        <div style={{marginBottom:'15px'}}>
+                            <span className={`${styles.mainTitle} ${props.optionSelected === 'cursos' ? styles.optionSelected : ''}`} onClick={props.onClickOption} data-option={'cursos'}>Mis cursos</span>
+                            <div className={`${styles.childs}`}>
+                                {props.user.cursos.map((userCourse,i) => {
+                                    return <div key={i}  className={`${styles.childrenContainer} ${props.cursoIndex === i ? styles.open : ''}`}>
+                                        <span className={`${styles.title} ${props.cursoIndex === i ? styles.optionSelected : ''} `}  onClick={props.onClickOption} data-option={'cursos'} data-option-index={i}>{userCourse.idCurso.title}</span>
+                                        <div className={`${styles.childs} ${styles.bloques} ${props.cursoIndex === i ? styles.open : ''}`}>
+                                            {userCourse.idCurso.lections.map((lection,i) => {
+                                                return <div key={i}><span className={`${styles.subTitle}`}>{lection.title}</span></div>
+                                            })}
+                                        </div>
+                                    </div>
+                                })}
                             </div>
                         </div>
                         <div>
-                            <span>Mis tareas</span>
+                            <span className={`${styles.mainTitle} ${props.optionSelected === 'tareas' ? styles.optionSelected : ''} ${!props.taskPend ? styles.optionDisabled : ''}`} onClick={!props.taskPend ? () => {} : props.onClickOption} data-option={'tareas'}>Mis tareas</span>
+                            {props.taskPend>0 && <span className={styles.numberIndicator}>{props.taskPend}</span>}
                         </div>
                         <div>
-                            <span>Pagos pendientes</span>
+                            <span className={`${styles.mainTitle} ${props.optionSelected === 'pagos' ? styles.optionSelected : ''} ${!props.paymentPend ? styles.optionDisabled : ''}`} onClick={!props.paymentPend ? ()=>{}:props.onClickOption} data-option={'pagos'}>Pagos pendientes</span>
+                            {props.paymentPend>0 && <span className={styles.numberIndicator}>{props.paymentPend}</span>}
                         </div>
                     </React.Fragment>
-            }
-            {
-                props.user.roles.includes('teacher') &&
+                }
+                {
+                    props.user.roles.includes('teacher') && props.teacherCourses &&
                     <React.Fragment>
                         <div>
-                            <span>Mis cursos (Profesor)</span>
-                            <div></div>
+                            <span className={`${styles.mainTitle} ${props.optionSelected === 'cursos-teacher' ? styles.optionSelected : ''} ${(!props.teacherCourses || props.teacherCourses.length < 1) ? styles.optionDisabled : ''}`} onClick={(!props.teacherCourses || props.teacherCourses.length < 1) ? () => {} : props.onClickOption} data-option={'cursos-teacher'}>Mis cursos (Profesor)</span>
+                            <div className={`${styles.childs}`}>
+                                {props.teacherCourses.map((teacherCourse,i) => {
+                                    return <div key={i}  className={`${styles.childrenContainer} ${props.cursoTeacherIndex === i ? styles.open : ''}`}>
+                                        <span className={`${styles.title} ${props.cursoTeacherIndex === i ? styles.optionSelected : ''} `}  onClick={props.onClickOption} data-option={'cursos-teacher'} data-option-index={i}>{teacherCourse.title}</span>
+                                    </div>
+                                })}
+                            </div>
                         </div>
                         <div>
-                            <span>Tareas por corregir</span>
+                            <span className={`${!props.tasksToReview ? styles.optionDisabled : ''} ${styles.mainTitle}`} onClick={!props.tasksToReview ? ()=>{}:props.onClickOption} data-option={'tareas-teacher'}>Tareas por corregir</span>
+                            {props.tasksToReview>0 && <span className={styles.numberIndicator}>{props.tasksToReview}</span>}
                         </div>
                     </React.Fragment>
-            }
+                }
+            </div>
         </div>
     )
 }
