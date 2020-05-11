@@ -11,8 +11,14 @@
     font-weight:bold;
     font-size:1.2em;
     text-transform:uppercase;
-    line-height:30px;
+    line-height:40px;
     position:relative;
+}
+.title{
+    position:relative;
+}
+.optionSelected{
+    font-weight:bold;
 }
 .optionSelected:before{
     content:'';
@@ -27,6 +33,16 @@
 }
 .optionDisabled{
     opacity:.5;
+}
+.childrenContainer{
+    max-height:25px;
+    overflow-y:hidden;
+    transition: max-height .1s linear;
+}
+.childrenContainer.open{
+    transition: max-height .25s linear;
+    max-height:400px;
+    height:fit-content;
 }
 .childs {
     margin-left: 12px;

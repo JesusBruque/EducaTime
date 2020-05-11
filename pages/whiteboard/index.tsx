@@ -23,10 +23,9 @@ const userWhiteBoard = (props) => {
             getUserData().then(res => {
                 if(res.status === 200){
                     setuserData(res.data.user);
-                    console.log(res.data.user);
+                    setCursoIndex(res.data.user.cursos.length - 1);
                     if(res.data.user.roles.includes('teacher')){
                         getCoursesByTeacher().then(res => {
-                            console.log(res.data.cursos);
                             setCoursesTeaching(res.data.cursos);
                         }).catch(err => console.error(err));
                     }
@@ -53,16 +52,20 @@ const userWhiteBoard = (props) => {
         let ind = e.currentTarget.dataset.optionIndex;
         setContentSelected(opt);
         if(ind){
-            setCursoIndex(ind);
+            setCursoIndex(+ind);
         }else{
-            setCursoIndex(null);
+            if(opt === 'cursos' && userData.cursos.length===1){
+                setCursoIndex(0);
+            }else{
+                setCursoIndex(null);
+            }
         }
     };
     return (
         <Layout user={props.user} setUser={props.setUser} router={props.router} utils={props.utils} whiteboard={true}>
             {userData &&
             <React.Fragment>
-                <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} />
+                <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} />
                 <div className={styles.mainContainer}>
                     {contentSelected === 'cursos' && <CursosContent cursos={userData.cursos} teacher={false} />}
                     {contentSelected === 'tareas' && <TareasContent/>}

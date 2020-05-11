@@ -5,6 +5,8 @@ import DatePicker from "../DatePicker";
 import moment from "moment";
 import styles from '../../styles/whiteBoard/whiteBoard.module.css';
 import MyDropzone from "../MyDropzone";
+import {faClock} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 type Props = {
     curso:any,
@@ -53,24 +55,33 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                     <div className={styles.lectionItem}>
                         <div className={styles.lectionHeader}>
                             <h3  style={{marginRight:'15px'}}>{lection.title}</h3>
-                            <div style={{display:'flex'}}>
-                                <div  style={{marginRight:'8px'}}>
-                                    <span style={{color:'var(--main-color)'}}>Fecha Inicio:</span>
-                                    <b onClick={props.teacher ? () => setDateEditing(i) : () => {}} className={`${props.teacher ? styles.editable : ''}`}>{moment(lection.dateAvailable).format('DD/MM/YYYY')}</b>
-                                </div>
-                                <div>
-                                    <span  style={{color:'var(--main-color)'}}>Fecha Inicio:</span>
-                                    <b onClick={props.teacher ? () => setDateEditing(i) : () => {}} className={`${props.teacher ? styles.editable : ''}`}>{moment(lection.dateEnd).format('DD/MM/YYYY')}</b>
-                                </div>
-                                {
-                                    props.teacher && dateEditing === i && <div style={{position:'relative'}}>
-                                        <div className={utilsStyles.background} onClick={()=>setDateEditing(null)}></div>
-                                        <div className={utilsStyles.calendarPickerInput}>
-                                            <DatePicker rangeDate={true} selectDateEvent={(fechaInicio, fechaFin) => handleChangeDatesLection(i,fechaInicio,fechaFin)} minDate={i === 0 ? moment().format('DD/MM/YYYY') : moment(lection.dateAvailable).format('DD/MM/YYYY')} />
+                            {
+                                props.teacher ?
+                                    <div style={{display:'flex'}}>
+                                        <div  style={{marginRight:'8px'}}>
+                                            <span style={{color:'var(--main-color)'}}>Fecha Inicio:</span>
+                                            <b onClick={props.teacher ? () => setDateEditing(i) : () => {}} className={`${props.teacher ? styles.editable : ''}`}>{moment(lection.dateAvailable).format('DD/MM/YYYY')}</b>
                                         </div>
+                                        <div>
+                                            <span  style={{color:'var(--main-color)'}}>Fecha Inicio:</span>
+                                            <b onClick={props.teacher ? () => setDateEditing(i) : () => {}} className={`${props.teacher ? styles.editable : ''}`}>{moment(lection.dateEnd).format('DD/MM/YYYY')}</b>
+                                        </div>
+                                        {
+                                            props.teacher && dateEditing === i && <div style={{position:'relative'}}>
+                                                <div className={utilsStyles.background} onClick={()=>setDateEditing(null)}></div>
+                                                <div className={utilsStyles.calendarPickerInput}>
+                                                    <DatePicker rangeDate={true} selectDateEvent={(fechaInicio, fechaFin) => handleChangeDatesLection(i,fechaInicio,fechaFin)} minDate={i === 0 ? moment().format('DD/MM/YYYY') : moment(lection.dateAvailable).format('DD/MM/YYYY')} />
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
-                                }
-                            </div>
+                                    :
+                                    <div className={utilsStyles.timeLeft} style={moment().diff( moment(lection.dateEnd),'days')< 5 ? {backgroundColor:'var(--red-color)'} : {backgroundColor:'var(--black-color)'}}>
+                                        <FontAwesomeIcon icon={faClock} color={'white'} style={{marginRight:'4px'}}/>
+                                        <span>(Quedan {moment().diff( moment(lection.dateEnd),'days')} días)</span>
+                                    </div>
+                            }
+
                         </div>
                         <div className={styles.lectionContainer}>
                             <div className={styles.optionsSelector}>

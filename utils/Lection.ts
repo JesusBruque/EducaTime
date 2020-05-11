@@ -49,6 +49,7 @@ export const create = (lection:Lection) => {
 };
 export const edit = (lection:Lection) => axios.put(LECTION_URL,lection);
 export const getCourseById = (cursoId: string) =>  axios.get(LECTION_URL+'/findById/' + cursoId);
+
 export const uploadTeoreticalResourceLectionFile = (lectionName:string,file, video:boolean,needAuth:boolean) => {
     let data = new FormData();
     data.append('file',file);
