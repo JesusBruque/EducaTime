@@ -30,6 +30,6 @@ export interface IUsuarioDTO {
     email: string;
     username:string;
     roles:string[];
-    //cursos:string[];
-    //favoritos:string[];
+    cursos:userCourse[];
+    favoritos:string[];
 }

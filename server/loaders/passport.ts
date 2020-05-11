@@ -14,7 +14,9 @@ export default async () => {
                     _id: user._id,
                     email: user.email,
                     roles:user.roles,
-                    username:user.username
+                    username:user.username,
+                    cursos:user.cursos,
+                    favoritos:user.favoritos
                 });
 
             } else done(err, null);

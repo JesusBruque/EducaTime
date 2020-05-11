@@ -1,6 +1,7 @@
 import AuthenticationService from '../services/authentication.services';
 import { Request, Response, NextFunction } from 'express';
 import Logger from '../loaders/logger'
+import {IUsuarioDTO} from "../interfaces/IUsuario";
 
 export default class AuthenticationController {
     private authenticationService;
@@ -17,7 +18,7 @@ export default class AuthenticationController {
                     req.login(user, function (err) {
                         if (err) throw err;
                         Logger.debug('Logueado correctamente.');
-                        return res.status(200).json({ status: 200, user: user, message: "Inicio de sesión correcto." });
+                        return res.status(200).json({ status: 200, user: user as IUsuarioDTO, message: "Inicio de sesión correcto." });
                     })
                 } else
                     return res.status(400).json({ status: 400, message: 'Los datos introducidos no son correctos.' });
@@ -41,6 +42,17 @@ export default class AuthenticationController {
     public check = async (req: Request, res: Response, next: NextFunction) => {
         try {
             res.status(200).json({ status: 200, user: req.user });
+        } catch (e) {
+            Logger.error(e);
+            return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
+        }
+    }
+
+    public findUserCourses = async (req:Request,res:Response) => {
+        try {
+            let userReq = req.user as IUsuarioDTO;
+            const user = await this.authenticationService.findUserCourses(userReq._id);
+            res.status(200).json({ status: 200, user: user });
         } catch (e) {
             Logger.error(e);
             return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });

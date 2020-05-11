@@ -41,7 +41,6 @@ export default class OrderController extends GenericController{
             if(!user._id){
                 user = await this.userService.registerUser(user);
             }
-            console.log(user._id);
             await this.userService.addCursoToUser(user._id,paymentInfo.curso,paymentInfo.plazo);
             // await this.userService.marcaProxPlazo(user, paymentInfo.curso, paymentInfo.plazo);
             const order = await this.orderService.updateOrderByPaymentId(paymentInfo,user._id);

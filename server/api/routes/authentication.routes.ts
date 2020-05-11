@@ -20,4 +20,6 @@ export default (app: Router) => {
         middlewares.isAuth,
         authenticationController.logout);
 
+    route.get('/findUserCourses',authenticationController.findUserCourses);
+
 }

@@ -4,33 +4,6 @@ import AWS from 'aws-sdk';
 import * as S3 from "aws-sdk/clients/s3";
 import * as MediaConvert from "aws-sdk/clients/mediaconvert";
 
-const privateKey = `----BEGIN RSA PRIVATE KEY-----
-MIIEpAIBAAKCAQEAlPtwQwQdfilka8ItE7xm32a+Lfiv8eaJJu+KysOOW4NpqI5b
-Wk/TelsvWQJ7E4GyplVZrkS+DqZS0tmLgWzV88J1CHhNrQbs6KFY25iDkudffKVf
-iWK0D6WYhSYJ1AXyGx3zQ+FsuNT3LmBJpRU1DoVPh6Dl+/GDCvJPljf5NgLr0nZa
-t8iuByjlaP+EILoNzqOCkrfWBnIs1mmfofePg17DBCktcaMkfrtkxUNAUuKRZId0
-r1W96eSxZjaMoQmi7g/4uACW665LmZpK3iDQkTdh+g7tNLLqQ4FtKeVY+8kxz0L8
-KM7uDiSpi6c16/Zm1frNiOxIOFzmvqkTQGZz2QIDAQABAoIBAGH8ffmV20//KW02
-aS9x2rdUfAEAb7hKSCqzojV6KUdHR1b1SmA74Hu5PYrtdsV9qGJ+AF3+GILKIe9L
-5dVaH94TJ6ZKecwzod3fQPItfVxBkSwKGKvjn0orQAVS32P0BSiQqk8bFMb8SxbV
-fZp2OE80nvo1eQ4b6nRoqq/CYMaEW+q/0cWtnQcbpWmiC2g7+Etj6dfh7CkjzD/l
-PXuXQrO/FdRGQvcbKk8t78/QvuVDcBNDDy8ObNdMTpyam0dVU94ufbJyQHRyyq4U
-Qb6ZmeliwNFfus15y2MhqoZ9mtC99ElgihexXQUBw/ylvhG60y3U6uqLQyNS1iaW
-w40DRgECgYEA/ICiIDMQ3h+4sqUDJF6HPLG+fKF7HCPKKqHXWbNnVemm1ceQc/ZS
-iXnBJuZf8ESk7J1PIiCtvYs68iN3tAT2hl3g1Zwo5M5kD06y9YeoUuLazf9SxvQp
-26MogTvJKgkcUNsHeWZ1xLt+ZZpTLSlLYixkG8P5Sbusl7gMMmAFi3UCgYEAlwu5
-pFg/344oSMe+GiN2F5QUaPwAE1WK/mHj0i9wHcmZ13SvZItKU070Kn+rKPbZvVmi
-7VeOLcIZ17l5JTBoF+LXvNrwq5zj/iPzBci4M+xWoDaZG4ffYhPSSKCFRj0394bU
-MmnPoX4tuBLo4FR65+nHM2NSIP1p1pJqEwcbzlUCgYEAgjHRZsjt6Zpxoatz80zK
-boE3twuMbvYFR/YrFBVtMt9HJvO/iAt6g2hEL8qZrUm3wElchDxVWWZw/mlLT4c/
-lgjR5VKfw1qoPTxXCkLoh9Rw/cao5+z9qEJ4oCozj3kjII3PTMmH7+i9Q6ZPPPoN
-5JD/DVH/OAWM+K3tnAvm0AECgYEAib2TiR9BACiu68/auBNmeZH8GtDTcM4tdlTm
-YKIJ5+AUfrpVx6aOHPJ/DtJlz3FslpPLVAzoBypeTq9Ann1KL54ZhotRte3Yq8U0
-tS2ZbSA0zt17OfPp7ZKNzNU1NBxXkU5O67o6MdbS8m2sGAZyHlK96UrFdnghsB7M
-xJVS8hECgYAvVBadqzBhO6e7rUiciyuo3ZNw8V9Kcnk4glPfagpfKr87f84uafqt
-rNKyh0flCDnA0PaauKK+WbtJBUMpfxYjWObopJr1RsPyQoY8wWNxcnELJH8yVui8
-h/ZnUMbXy4QnEMe36UEZ8Hb6lvMJm5sqn0mor6wD5LIChe2rYEY6mg==
------END RSA PRIVATE KEY-----`;
 
 export default class FilesServices{
     private s3 : S3;
@@ -45,7 +18,6 @@ export default class FilesServices{
         });
         AWS.config.mediaconvert = {endpoint:'https://187dshywc.mediaconvert.eu-west-3.amazonaws.com'};
         this.cloudFront = new AWS.CloudFront({apiVersion: '2019-03-26'});
-        console.log(config.amazon_private_key);
         this.s3 = new AWS.S3();
         this.mediaConvert = new AWS.MediaConvert({apiVersion: '2017-08-29'});
     }

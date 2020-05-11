@@ -4,6 +4,7 @@ import { IUsuario, IUsuarioDTO } from '../interfaces/IUsuario';
 import argon2 from 'argon2';
 import {randomBytes} from "crypto";
 import {sendEmail} from "./email.services";
+import mongoose from "mongoose";
 
 export default class AuthenticationService {
     constructor() { }
@@ -19,6 +20,19 @@ export default class AuthenticationService {
                 return { user: user, correct: true };
             return { user: null, correct: false }
         } catch (e) {
+            throw e;
+        }
+    };
+    public findUserCourses = async (idUsuario:string) => {
+        try{
+            // let err, user = await Usuario.aggregate([
+            //     {$match:{"_id": new mongoose.Types.ObjectId(idUsuario)}},
+            //     {$lookup:{from:'courses',localField:'cursos.idCurso',foreignField:'_id',as:'userCourses'}}
+            // ]);
+            let err,user = await Usuario.findById(idUsuario).populate('cursos').populate('cursos.idCurso');
+            if(err) throw err;
+            return user;
+        }catch(e){
             throw e;
         }
     };
@@ -57,7 +71,7 @@ export default class AuthenticationService {
         try {
             let err, user = await Usuario.findOne({email: email});
             if (err) throw err;
-            if (!user) return {_id:null,email:email,roles:null,username:email};
+            if (!user) return {_id:null,email:email,roles:null,username:email,cursos:[],favoritos:[]};
             if (user) return user;
         }
         catch(e){
@@ -123,6 +137,7 @@ export default class AuthenticationService {
         let html = this.registerEmail({username,pass,email});
         await sendEmail(email,'Registro en CASOR. Academia de formación deportiva.', html);
     };
+
     
     private assignmentEmail = (email: string, username: string, courseTitle: string, courseDescription: string) => {
         return `

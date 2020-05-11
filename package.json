@@ -55,6 +55,7 @@
     "react-dropzone": "^10.2.2",
     "react-video-renderer": "^2.4.3",
     "stripe": "^8.47.0",
+    "swr": "^0.2.0",
     "underscore": "^1.9.2",
     "unfetch": "^4.1.0",
     "winston": "^3.2.1",
