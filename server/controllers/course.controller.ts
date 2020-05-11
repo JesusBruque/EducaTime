@@ -7,6 +7,7 @@ import Logger from '../loaders/logger'
 import LectionService from "../services/lection.services";
 import FilesServices from "../services/files.services";
 import { Json } from "aws-sdk/clients/marketplacecatalog";
+import {IUsuarioDTO} from "../interfaces/IUsuario";
 
 export default class CourseController extends GenericController{
     private courseService : CourseService;
@@ -108,6 +109,19 @@ export default class CourseController extends GenericController{
             });
         }catch(e){
             Logger.error('Error al subir un fichero para un curso.');
+            Logger.error(e);
+            return res.status(400).json({status:400});
+        }
+    }
+
+
+    public findCoursesWhereTeacher = async(req:Request,res:Response) => {
+        try{
+            const user = req.user as IUsuarioDTO;
+            const cursos = await this.courseService.findCoursesWhereTeacher(user.email);
+            return res.status(200).json({cursos:cursos});
+        }catch(e){
+            Logger.error('Error al encontrar los cursos dónde es profesor.');
             Logger.error(e);
             return res.status(400).json({status:400});
         }

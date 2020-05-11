@@ -18,3 +18,13 @@
     max-width:1400px;
     min-height:100vh;
 }
+
+
+/*---- ESTILOS LAYOUT WHITEBOARD ---*/
+.whiteBoardContainer{
+    background-color:#f4f4f4;
+    color:var(--black-color);
+    max-width:100vw;
+    display:grid;
+    grid-template-columns:minmax(max-content,1fr) 9fr;
+}

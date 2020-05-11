@@ -72,7 +72,7 @@ export default (app:Router)=>{
 
     route.post('/post_file/:cursoId',isAdmin,courseController.uploadCourseFile);
     route.get('/get_file/:filename',fileController.retrieveFile);
-
+    route.get('/getCoursesByTeacher',courseController.findCoursesWhereTeacher);
     /* PROBANDO UPLOADING PROGRESS */
 
     route.get('/get_signed_url',fileController.getSignedUrl);

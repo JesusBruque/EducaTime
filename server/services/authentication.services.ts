@@ -1,5 +1,6 @@
 import Usuario from '../models/usuario.model';
-import Course from '../models/course.model'
+import Course from '../models/course.model';
+import Lection from '../models/lection.model';
 import { IUsuario, IUsuarioDTO } from '../interfaces/IUsuario';
 import argon2 from 'argon2';
 import {randomBytes} from "crypto";
@@ -29,7 +30,7 @@ export default class AuthenticationService {
             //     {$match:{"_id": new mongoose.Types.ObjectId(idUsuario)}},
             //     {$lookup:{from:'courses',localField:'cursos.idCurso',foreignField:'_id',as:'userCourses'}}
             // ]);
-            let err,user = await Usuario.findById(idUsuario).populate('cursos').populate('cursos.idCurso');
+            let err,user = await Usuario.findById(idUsuario).populate({path:'cursos.idCurso',model:Course,populate:{path:'lections',model:Lection}});
             if(err) throw err;
             return user;
         }catch(e){

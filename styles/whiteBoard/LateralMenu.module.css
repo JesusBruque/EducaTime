@@ -1,0 +1,43 @@
+.lateralMenu{
+    padding:30px;
+    width:max-content;
+    margin-right:30px;
+}
+.lateralMenu>div{
+    position:sticky;
+    top:100px;
+}
+.mainTitle{
+    font-weight:bold;
+    font-size:1.2em;
+    text-transform:uppercase;
+    line-height:30px;
+    position:relative;
+}
+.optionSelected:before{
+    content:'';
+    position:absolute;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background-color:var(--main-color);
+    top:50%;
+    transform:translateY(-50%);
+    left:-8px;
+}
+.optionDisabled{
+    opacity:.5;
+}
+.childs {
+    margin-left: 12px;
+    position: relative;
+    line-height: 25px;
+}
+.bloques:before{
+    content:'';
+    position:absolute;
+    width:1px;
+    height:100%;
+    left:-6px;
+    background-color:var(--main-color);
+}

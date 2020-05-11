@@ -10,7 +10,8 @@ type Props = {
     router:Router,
     user:User,
     setUser:Dispatch<any>,
-    utils:WebUtils
+    utils:WebUtils,
+    whiteboard?:boolean
 }
 const Layout : FunctionComponent<Props> = (props) => {
 
@@ -21,8 +22,8 @@ const Layout : FunctionComponent<Props> = (props) => {
 
     return (
         <React.Fragment>
-            <Header user={props.user} router={props.router} setUser={props.setUser}/>
-            <main className={layoutStyles.webContainer}>
+            <Header user={props.user} router={props.router} setUser={props.setUser} whiteboard={props.whiteboard}/>
+            <main className={`${layoutStyles.webContainer} ${props.whiteboard ? layoutStyles.whiteBoardContainer : ''}`}>
                 {props.children}
             </main>
         </React.Fragment>

@@ -10,6 +10,7 @@ import fs from 'fs';
 import {ILection} from "../interfaces/ILection";
 import config from "../config";
 import mongoose from 'mongoose';
+import {IUsuarioDTO} from "../interfaces/IUsuario";
 
  export default class CourseService extends GenericService{
      private lectionService:LectionService;
@@ -85,4 +86,15 @@ import mongoose from 'mongoose';
              throw e;
          }
      }
+
+     public findCoursesWhereTeacher = async(email:string) => {
+         try{
+             let err, cursos = await Course.find({teacher:email}).populate('lections').lean();
+             if(err) throw err;
+             return cursos;
+         }catch(e){
+             throw e;
+         }
+     }
+
  }

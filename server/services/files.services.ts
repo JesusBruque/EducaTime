@@ -253,8 +253,8 @@ const mediaConvertParams =  (origen:string,destino:string) => {
                         "Type": "HLS_GROUP_SETTINGS",
                         "HlsGroupSettings": {
                             "ManifestDurationFormat": "INTEGER",
-                            "SegmentLength": 10,
-                            "TimedMetadataId3Period": 10,
+                            "SegmentLength": 2,
+                            "TimedMetadataId3Period": 2,
                             "CaptionLanguageSetting": "OMIT",
                             "Destination": destino,
                             "TimedMetadataId3Frame": "PRIV",

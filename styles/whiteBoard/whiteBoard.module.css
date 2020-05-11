@@ -1,0 +1,47 @@
+.mainContainer{
+    margin:30px;
+    padding:30px;
+    background-color:white;
+    border-radius:20px;
+    box-shadow:0 3px 6px 0 rgba(0,0,0,.16);
+}
+.lectionItem{
+    color:#7b7b7b;
+    margin-bottom:30px;
+}
+.lectionHeader{
+    display:flex;
+    align-items:center;
+}
+
+.optionsSelector{
+    display:flex;
+    align-items:center;
+    margin-bottom:15px;
+}
+.optionsSelector>span{
+    text-transform:uppercase;
+    font-weight:bold;
+    margin-right:30px;
+    cursor:pointer;
+    position:relative;
+}
+
+.optionsSelector .optionSelected:after{
+    content:'';
+    position:absolute;
+    bottom:-4px;
+    width:100%;
+    height:2px;
+    background-color:var(--main-color);
+    left:0;
+}
+
+.lectionItem .editable{
+    position:relative;
+    text-decoration:underline var(--black-color);
+}
+.fileContainer{
+    width:165px;
+    height: 165px;
+}
