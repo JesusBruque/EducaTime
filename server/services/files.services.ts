@@ -72,7 +72,7 @@ export default class FilesServices{
     public uploadFile = async (file,courseName,fileName,video?,needAuth?): Promise<string> => {
         /*-- OBTENGO DONDE VOY A GUARDAR EL FICHERO FINALMENTE EN FUNCION DE SI ES PUBLICO --*/
         let finalDst =`dist/${needAuth === 'true' ? 'private' : 'public'}/${courseName}/${fileName}`;
-        /*--- OBTENGO EL SITIO TEMPORAL O NO E FUNCION DE SI ES VIDEO ----*/
+        /*--- OBTENGO EL SITIO TEMPORAL O NO EN FUNCION DE SI ES VIDEO ----*/
         let clave = video === 'true' ? `src/${courseName}/${fileName}` : finalDst;
         const putParams = {
             Bucket      : 'casor-s3',

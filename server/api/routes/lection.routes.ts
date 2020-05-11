@@ -93,9 +93,8 @@ export default (app: Router) => {
         // middlewares.isAuth,
         lectionController.edit);
         
-    route.post('/post_file/:lectionId',isAdmin || isTeacher,lectionController.uploadHomeworkTask);
+    route.post('/post_file/:lectionId',isAdmin || isTeacher,lectionController.uploadLectionVideo);
+    route.post('/post_file/:lectionId/resources/:resource',isAdmin || isTeacher,lectionController.uploadResource);
     route.post('/post_file/:lectionId/homework/:homeworkId',isAdmin || isTeacher,lectionController.uploadHomeworkTask);
     route.get('/get_file/:filename',fileController.retrieveFile);
-
-
 }

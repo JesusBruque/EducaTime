@@ -14,7 +14,7 @@ var lectionSchema = new Schema({
     type: String,
   },
   video: {
-    type: String
+    type: [String]
   },
   duration: {
     type: Number,

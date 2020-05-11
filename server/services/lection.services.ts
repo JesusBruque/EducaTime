@@ -19,6 +19,22 @@ export default class LectionService extends GenericService{
             throw e;
         }
     };
+    public addVideoLection = async (lectionName: string, videoLocation: string) => {
+        this.mySchema.update(
+            { _id: lectionName },
+            { $push: {video: videoLocation } }
+        );
+    }
+    public uploadResourceFile = async (lectionName:string,resourceName:string,file,filename,video,needAuth) => {
+        try{
+            console.log(file);
+            const fileLocation : string = await this.fileService.uploadFile(file,lectionName+'/resources/'+resourceName,filename,video,needAuth);
+            Logger.debug('fichero subido...', fileLocation);
+            return fileLocation;
+        }catch(e){
+            throw e;
+        }
+    };
     public uploadHomeworkFile = async (lectionName:string,homeworkName:string,file,filename,video,needAuth) => {
         try{
             console.log(file);

@@ -4,7 +4,7 @@ import { IUsuarioDTO } from '../interfaces/IUsuario';
 
 export default class GenericService {
 
-    private mySchema: typeof mongoose.Model;
+    protected mySchema: typeof mongoose.Model;
 
     constructor(import_Schema: typeof mongoose.Model) {
         this.mySchema = import_Schema;
