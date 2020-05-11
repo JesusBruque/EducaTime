@@ -11,6 +11,7 @@ type Props={
     paymentPend?:number,
     optionSelected:string,
     cursoIndex?:number,
+    cursoTeacherIndex?:number,
     tasksToReview?:number
 }
 
@@ -57,8 +58,8 @@ const  LateralMenu: FunctionComponent<Props> = (props) => {
                             <span className={`${styles.mainTitle} ${props.optionSelected === 'cursos-teacher' ? styles.optionSelected : ''} ${(!props.teacherCourses || props.teacherCourses.length < 1) ? styles.optionDisabled : ''}`} onClick={(!props.teacherCourses || props.teacherCourses.length < 1) ? () => {} : props.onClickOption} data-option={'cursos-teacher'}>Mis cursos (Profesor)</span>
                             <div className={`${styles.childs}`}>
                                 {props.teacherCourses.map((teacherCourse,i) => {
-                                    return <div key={i}  className={`${styles.childrenContainer}`}>
-                                        <span className={`${styles.title} `}  onClick={props.onClickOption} data-option={'cursos'}>{teacherCourse.title}</span>
+                                    return <div key={i}  className={`${styles.childrenContainer} ${props.cursoTeacherIndex === i ? styles.open : ''}`}>
+                                        <span className={`${styles.title} ${props.cursoTeacherIndex === i ? styles.optionSelected : ''} `}  onClick={props.onClickOption} data-option={'cursos-teacher'} data-option-index={i}>{teacherCourse.title}</span>
                                     </div>
                                 })}
                             </div>

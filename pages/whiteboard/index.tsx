@@ -17,7 +17,7 @@ const userWhiteBoard = (props) => {
     const [coursesTeaching,setCoursesTeaching] = useState(null);
 
     const [cursoIndex, setCursoIndex] = useState(null);
-
+    const [teacherCursoIndex,setTeacherCursoIndex] = useState(null);
     useEffect(() =>{
         if(props.user){
             getUserData().then(res => {
@@ -51,13 +51,22 @@ const userWhiteBoard = (props) => {
         let opt = e.currentTarget.dataset.option;
         let ind = e.currentTarget.dataset.optionIndex;
         setContentSelected(opt);
-        if(ind){
-            setCursoIndex(+ind);
-        }else{
-            if(opt === 'cursos' && userData.cursos.length===1){
+        if(opt === 'cursos'){
+            setTeacherCursoIndex(null);
+            if(ind){
+                setCursoIndex(+ind);
+            }
+            if(userData.cursos.length===1){
                 setCursoIndex(0);
-            }else{
-                setCursoIndex(null);
+            }
+        }
+        if(opt=== 'cursos-teacher'){
+            setCursoIndex(null);
+            if(ind){
+                setTeacherCursoIndex(+ind);
+            }
+            if(coursesTeaching.length===1){
+                setTeacherCursoIndex(0);
             }
         }
     };
@@ -65,7 +74,7 @@ const userWhiteBoard = (props) => {
         <Layout user={props.user} setUser={props.setUser} router={props.router} utils={props.utils} whiteboard={true}>
             {userData &&
             <React.Fragment>
-                <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} />
+                <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex}/>
                 <div className={styles.mainContainer}>
                     {contentSelected === 'cursos' && <CursosContent cursos={userData.cursos} teacher={false} />}
                     {contentSelected === 'tareas' && <TareasContent/>}
