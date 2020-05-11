@@ -43,7 +43,6 @@ import mongoose from 'mongoose';
              throw e;
          }
      };
-
      public lectionEraser = async (courseId: string)=>{
          try {
              await Lection.deleteMany({course:courseId});
@@ -52,7 +51,6 @@ import mongoose from 'mongoose';
              throw error;
          }
      };
-
      public addLectionToCourse = async(courseId:string,lection:{title:string},order:number) => {
          try{
              let lection1 = await this.lectionService.create({title:lection.title,order:order,course:courseId});
@@ -63,7 +61,6 @@ import mongoose from 'mongoose';
              throw e;
          }
      };
-
      public uploadFile = async (courseName:string,file,filename,video,needAuth) => {
          try{
              console.log(file);
@@ -74,7 +71,6 @@ import mongoose from 'mongoose';
              throw e;
          }
      };
-
      public updateCourseById = async (courseId:string,key:string,value:any) => {
          try{
              let err, course = await Course.findByIdAndUpdate(courseId,{[key]:value});
