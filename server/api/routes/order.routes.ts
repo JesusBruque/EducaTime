@@ -32,8 +32,7 @@ export default (app:Router) => {
         celebrate({
             body:Joi.object({
                 id:Joi.string().required(),
-                plazo: Joi.boolean().required(),
-                email: Joi.string().required()
+                plazo: Joi.number().required().allow(null)
             }),
         }),
         orderController.paymentIntent);
@@ -41,7 +40,7 @@ export default (app:Router) => {
     route.post('/hndlAftrPayment',celebrate({
         body:Joi.object({
             amount:Joi.number().required(),
-            plazo: Joi.boolean().required(),
+            plazo: Joi.number().required().allow(null),
             client_secret:Joi.string().required(),
             id:Joi.string().required(),
             receipt_email:Joi.string().required(),

@@ -68,13 +68,14 @@ export default (app:Router)=>{
             }).unknown(true),
         }),
         //isAdmin || isTeacherOfCourse,
-        courseController.edit);
+        courseController.editCourse);
 
     route.post('/post_file/:cursoId',isAdmin,courseController.uploadCourseFile);
     route.get('/get_file/:filename',fileController.retrieveFile);
 
     /* PROBANDO UPLOADING PROGRESS */
 
-    
+    route.get('/get_signed_url',fileController.getSignedUrl);
+    route.get('/get_signed_cookies',fileController.getSignedCookie);
 
 }

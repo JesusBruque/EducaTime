@@ -71,7 +71,7 @@ const EstructureAddCourse = (props:Props) => {
                 }
 
                 {
-                    props.cursoInfo.lections && props.cursoInfo.lections.length===0 && props.webinarFile && <div className={styles.line}><span>{props.webinarFile.name}</span><FontAwesomeIcon icon={faTimes} style={{marginLeft:'4px'}} onClick={() => props.setWebinarFile(null)} className={utilsStyles.icon}/> <img src={'/assets/icons/play-button.svg'} className={utilsStyles.icon} alt={'icono de play'} onClick={() => props.setVideoPlaying(props.webinarFile)}/></div>
+                    props.cursoInfo.lections && props.cursoInfo.lections.length===0 && (props.webinarFile || props.cursoInfo.webinar)&& <div className={styles.line}><span>{props.webinarFile ? props.webinarFile.name : 'Webinar del curso'}</span><FontAwesomeIcon icon={faTimes} style={{marginLeft:'4px'}} onClick={() => {props.setWebinarFile(null);props.setCursoInfo({...props.cursoInfo,webinar:''})}} className={utilsStyles.icon}/> <img src={'/assets/icons/play-button.svg'} className={utilsStyles.icon} alt={'icono de play'} onClick={() => props.setVideoPlaying(props.webinarFile ? props.webinarFile : props.cursoInfo.webinar)}/></div>
                 }
 
             </div>

@@ -1,11 +1,10 @@
-import BlogItem from '../../components/blog/BlogItem'
 import Layout from '../../components/Layout'
 import blogsModule from '../../styles/Blog.module.css'
 import utilsStyles from '../../styles/Utils.module.css';
-
 import fetch from 'isomorphic-unfetch'
-import React,{useEffect} from 'react';
+import React from 'react';
 import BlogGrid from "../../components/blog/BlogGrid";
+
 
 const Blogs=(props )=>{
     return (

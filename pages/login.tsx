@@ -28,7 +28,7 @@ const Login = (props) => {
 
     const redirect = (roles) => {
         if(!roles.includes('admin')){
-            props.router.push('/whiteboard/');
+            props.router.push('/whiteboard');
         }else{
             props.router.push('/admin/formacion');
         }

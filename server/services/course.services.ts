@@ -7,6 +7,9 @@ import LectionService from "./lection.services";
 import FilesServices from "./files.services";
 import Logger from "../loaders/logger";
 import fs from 'fs';
+import {ILection} from "../interfaces/ILection";
+import config from "../config";
+import mongoose from 'mongoose';
 
  export default class CourseService extends GenericService{
      private lectionService:LectionService;
@@ -16,7 +19,7 @@ import fs from 'fs';
          this.lectionService = new LectionService();
          this.fileService = new FilesServices();
      }
-     public findById = async(CourseId:string) : Promise<ICourse> => {
+     public findById = async (CourseId:string) : Promise<ICourse & mongoose.Document> => {
          try{
              let err,course = await Course.findById(CourseId).populate('lections');
              if(err) throw err;
@@ -41,7 +44,7 @@ import fs from 'fs';
          }
      };
 
-     private lectionEraser = async (courseId: string)=>{
+     public lectionEraser = async (courseId: string)=>{
          try {
              await Lection.deleteMany({course:courseId});
              return true;
@@ -50,25 +53,22 @@ import fs from 'fs';
          }
      };
 
-     public addLectionsToCourse = async(courseId:string,lections:{title:string}[]) => {
+     public addLectionToCourse = async(courseId:string,lection:{title:string},order:number) => {
          try{
-             lections.forEach((lection,i) => {
-                 this.lectionService.create({title:lection.title,order:i+1,course:courseId}).catch(err => {
-                     Logger.error('Error al crear una lección');
-                     Logger.error(err);
-                     throw err;
-                 });
-             });
-             return true;
+             let lection1 = await this.lectionService.create({title:lection.title,order:order,course:courseId});
+             let course = await this.findById(courseId);
+             course.lections.push(lection1._id);
+             course.save();
          }catch (e) {
              throw e;
          }
      };
 
-     public uploadFile = async (courseName:string,file,filename,res) => {
+     public uploadFile = async (courseName:string,file,filename,video,needAuth) => {
          try{
-             const fileLocation : string = await this.fileService.uploadFile(file,`public/${courseName}/${filename}`,res);
-             Logger.debug('fichero subido...');
+             console.log(file);
+             const fileLocation : string = await this.fileService.uploadFile(file,courseName,filename,video,needAuth);
+             Logger.debug('fichero subido...', fileLocation);
              return fileLocation;
          }catch(e){
              throw e;
