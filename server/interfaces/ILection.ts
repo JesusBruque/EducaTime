@@ -8,7 +8,7 @@ type work = {
 export interface ILection extends IGenericInterface {
     title: string;
     description: string;
-    video: string;
+    video: [string];
     duration: number; // En segundos
     order: number;
     course: string;
