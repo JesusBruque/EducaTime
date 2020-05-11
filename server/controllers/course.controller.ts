@@ -77,7 +77,6 @@ export default class CourseController extends GenericController{
             await this.manageTeacher(curso.teacher, curso.title, curso.description);
         }
     };
-
     private manageTeacher = async (email: string, titulo: string, descripcion: string) => {
         try{
             var err, user = await this.authenticationService.findByEmail(email);

@@ -1,9 +1,32 @@
+import {Request,Response} from "express";
 import GenericController from "./generic.controller";
-import LectionService from "../services/lection.services"
+import LectionService from "../services/lection.services";
+import Logger from "../loaders/logger";
 
 export default class LectionController extends GenericController{
+    lectionService: LectionService;
     constructor(){
         super(new LectionService());
+        this.lectionService = new LectionService();
+      }
+      public uploadHomeworkTask = async(req: Request, res: Response) =>{
+        Logger.debug('Subiendo fichero...');
+        try{
+            const lectionId = req.params.lectionId;
+            const homeworkId = req.params.homeworkId;
+            req.pipe(req.busboy);
+            let fileLocation:string;
+            /*--- DETECCION DE FICHERO Y SUBIDA A S3 ---*/
+            req.busboy.on('file',async (fieldname,file,filename) => {
+                fileLocation = await this.lectionService.uploadHomeworkFile(lectionId, homeworkId, file, filename,req.query.video,req.query.needAuth).catch(err => {throw err});
+                console.log('Send 200 status--->',new Date());
+                return res.status(200).json({location:fileLocation});
+            });
+        }catch(e){
+            Logger.error('Error al subir un fichero para una leccion.');
+            Logger.error(e);
+            return res.status(400).json({status:400});
+        }
       }
       //#region 
     // public Create=async(req:Request,res:Response , next: NextFunction)=>{

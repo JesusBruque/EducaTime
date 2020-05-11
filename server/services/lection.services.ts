@@ -1,10 +1,34 @@
 import GenericService from './generic.services';
-import Lection from "../models/lection.model"
+import Lection from "../models/lection.model";
+import Logger from "../loaders/logger";
+import FilesServices from './files.services';
 
 export default class LectionService extends GenericService{
+    fileService: FilesServices;
     constructor(){
         super(Lection);
+        this.fileService = new FilesServices;
     }
+    public uploadFile = async (lectionName:string,file,filename,video,needAuth) => {
+        try{
+            console.log(file);
+            const fileLocation : string = await this.fileService.uploadFile(file,lectionName,filename,video,needAuth);
+            Logger.debug('fichero subido...', fileLocation);
+            return fileLocation;
+        }catch(e){
+            throw e;
+        }
+    };
+    public uploadHomeworkFile = async (lectionName:string,homeworkName:string,file,filename,video,needAuth) => {
+        try{
+            console.log(file);
+            const fileLocation : string = await this.fileService.uploadFile(file,lectionName+'/homework/'+homeworkName,filename,video,needAuth);
+            Logger.debug('fichero subido...', fileLocation);
+            return fileLocation;
+        }catch(e){
+            throw e;
+        }
+    };
     //#region 
     // public create = async(lectionObject:ILection, user: IUsuarioDTO):Promise<ILection>=>{
     //     try {

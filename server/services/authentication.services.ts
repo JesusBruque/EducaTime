@@ -79,7 +79,6 @@ export default class AuthenticationService {
             throw e;
         }
     };
-
     public registerUser = async(user:IUsuarioDTO): Promise<IUsuarioDTO> => {
         return this.register(user,'user');
     }
@@ -100,7 +99,6 @@ export default class AuthenticationService {
             throw e;
         }
     }
-    
     public addRolTeacherToUser = async(userId: string) => {
         let err, user = await Usuario.findById(userId);
         if(err) throw err;

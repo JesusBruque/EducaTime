@@ -2,7 +2,7 @@ import { IGenericInterface } from "./IGenericInterface";
 
 type work = {
     uploadFile:string,
-    userResponses:[{UserID:string, file:string, date:number}],
+    userResponses:[{UserID:string, file:string, date:number, status: string, mark: number}],
     deadline:number
 }
 export interface ILection extends IGenericInterface {
@@ -10,10 +10,10 @@ export interface ILection extends IGenericInterface {
     description: string;
     video: string;
     duration: number; // En segundos
-    order: number; // Verificar
+    order: number;
     course: string;
     teoricalResources:[string];
-    homework:work;
+    homework:[work];
     evaluations:work;
     dateAvailable:number;
     dateEnd:number;

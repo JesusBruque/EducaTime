@@ -13,10 +13,9 @@ var lectionSchema = new Schema({
   description: {
     type: String,
   },
-  videoResources: [{duration:Number,url:String}],
-  teoricalResources:[{url:String}],
-  taskresources:[{url:String}],
-  evaluationResources:[{url:String}],
+  video: {
+    type: String
+  },
   duration: {
     type: Number,
     minlength: 1
@@ -25,7 +24,46 @@ var lectionSchema = new Schema({
     type: Number,
     required: true
   },
-  course:{ type: Schema.Types.ObjectId, ref: 'Course' }
+  course:{ type: Schema.Types.ObjectId, ref: 'Course' },
+  teoricalResources: {
+    type: [String]
+  },
+  homework: {
+    type:[{
+            uploadFile: String, 
+            userResponses:[{
+                  UserID: String, 
+                  file: String, 
+                  date: Number,
+                  status: {
+                    type: String,
+                    enum:['Entregado','En revisión','Calificado']
+                  },
+                  mark: {
+                    type: Number,
+                    max: 10,
+                    min: 0
+                  }
+                }],
+            deadline: Number}]
+  },
+  evaluations: {
+    type:{
+         uploadFile: String, 
+         userResponses:[{
+                UserID: String, 
+                file: String, 
+                date: Number}],
+         deadline: Number
+    }
+  },
+  dateAvailable:{
+    type: Number,
+    required: true
+  },
+  dateEnd:{
+    type: Number
+  }
 }, { versionKey: '_version' });
 
 lectionSchema.plugin(mongooseHistory);
