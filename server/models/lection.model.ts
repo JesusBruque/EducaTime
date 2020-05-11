@@ -58,8 +58,7 @@ var lectionSchema = new Schema({
     }
   },
   dateAvailable:{
-    type: Number,
-    required: true
+    type: Number
   },
   dateEnd:{
     type: Number

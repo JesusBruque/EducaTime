@@ -45,3 +45,28 @@
     width:165px;
     height: 165px;
 }
+
+.taskItem{
+    padding:8px 15px;
+    font-weight:bold;
+    position:relative;
+    background-color:white;
+    box-shadow:0 3px 6px 0 rgba(0,0,0,.16);
+    width:fit-content;
+    margin-bottom:8px;
+}
+.taskItem>a{
+    text-decoration:none;
+    color:var(--black-color);
+}
+.taskItem>a>svg{
+    margin-right:4px;
+}
+.close{
+    position:absolute;
+    right:2px;
+    top:2px;
+    height:1em;
+    width:1em;
+    cursor:pointer;
+}

@@ -50,7 +50,7 @@ export const create = (lection:Lection) => {
 export const edit = (lection:Lection) => axios.put(LECTION_URL,lection);
 export const getCourseById = (cursoId: string) =>  axios.get(LECTION_URL+'/findById/' + cursoId);
 
-export const uploadLectionVideo = (lectionName: string, file, video:boolean,needAuth:boolean) => {
+export const uploadLectionVideo = (lectionName: string, file,cursoId:string) => {
     let data = new FormData();
     data.append('file',file);
     return axios({
@@ -58,28 +58,30 @@ export const uploadLectionVideo = (lectionName: string, file, video:boolean,need
         url:`${LECTION_URL}/post_file/${lectionName}`,
         data:data,
         params:{
-            video:video,
-            needAuth:needAuth
+            courseId:cursoId,
+            video:true,
+            needAuth:true
         },
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
 
-export const uploadTeoreticalResourceLectionFile = (lectionName:string,file, video:boolean,needAuth:boolean) => {
+export const uploadTeoreticalResourceLectionFile = (lectionName:string,file,cursoId:string) => {
     let data = new FormData();
     data.append('file',file);
     return axios({
         method:'post',
-        url:`${LECTION_URL}/post_file/${lectionName}`,
+        url:`${LECTION_URL}/post_file/${lectionName}/resources/teoricos`,
         data:data,
         params:{
-            video:video,
-            needAuth:needAuth
+            courseId:cursoId,
+            video:false,
+            needAuth:true
         },
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
-export const uploadHomeworkLectionFile = (lectionName:string, homeworkName: string, file, needAuth:boolean) => {
+export const uploadHomeworkLectionFile = (lectionName:string, homeworkName: string, file, cursoId:string) => {
     let data = new FormData();
     data.append('file',file);
     return axios({
@@ -87,8 +89,9 @@ export const uploadHomeworkLectionFile = (lectionName:string, homeworkName: stri
         url:`${LECTION_URL}/post_file/${lectionName}/homework/${homeworkName}`,
         data:data,
         params:{
+            courseId:cursoId,
             video: false,
-            needAuth:needAuth
+            needAuth:true
         },
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });

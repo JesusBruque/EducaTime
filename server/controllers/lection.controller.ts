@@ -18,8 +18,9 @@ export default class LectionController extends GenericController{
             /*--- DETECCION DE FICHERO Y SUBIDA A S3 ---*/
             req.busboy.on('file',async (fieldname,file,filename) => {
                 fileLocation = await this.lectionService.uploadFile(lectionId, file, filename,req.query.video,req.query.needAuth).catch(err => {throw err});
+                const lection = await this.lectionService.updateLectionVideos(lectionId,fileLocation);
                 console.log('Send 200 status--->',new Date());
-                return res.status(200).json({location:fileLocation});
+                return res.status(200).json({lection:lection});
             });
         }catch(e){
             Logger.error('Error al subir un fichero para una leccion.');
@@ -37,8 +38,9 @@ export default class LectionController extends GenericController{
             /*--- DETECCION DE FICHERO Y SUBIDA A S3 ---*/
             req.busboy.on('file',async (fieldname,file,filename) => {
                 fileLocation = await this.lectionService.uploadResourceFile(lectionId, resource, file, filename,req.query.video,req.query.needAuth).catch(err => {throw err});
+                const lection = await this.lectionService.updateLectionResources(lectionId,fileLocation);
                 console.log('Send 200 status--->',new Date());
-                return res.status(200).json({location:fileLocation});
+                return res.status(200).json({lection:lection});
             });
         }catch(e){
             Logger.error('Error al subir un fichero para una leccion.');
@@ -47,7 +49,7 @@ export default class LectionController extends GenericController{
         }
       }
       public uploadHomeworkTask = async(req: Request, res: Response) =>{
-        Logger.debug('Subiendo fichero...');
+        Logger.debug('Subiendo tarea...');
         try{
             const lectionId = req.params.lectionId;
             const homeworkId = req.params.homeworkId;
@@ -56,11 +58,12 @@ export default class LectionController extends GenericController{
             /*--- DETECCION DE FICHERO Y SUBIDA A S3 ---*/
             req.busboy.on('file',async (fieldname,file,filename) => {
                 fileLocation = await this.lectionService.uploadHomeworkFile(lectionId, homeworkId, file, filename,req.query.video,req.query.needAuth).catch(err => {throw err});
+                const lection = await this.lectionService.updateLectionTasks(lectionId,fileLocation);
                 console.log('Send 200 status--->',new Date());
-                return res.status(200).json({location:fileLocation});
+                return res.status(200).json({lection:lection});
             });
         }catch(e){
-            Logger.error('Error al subir un fichero para una leccion.');
+            Logger.error('Error al subir una tarea para una leccion.');
             Logger.error(e);
             return res.status(400).json({status:400});
         }

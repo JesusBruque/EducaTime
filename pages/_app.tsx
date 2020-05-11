@@ -13,7 +13,6 @@ function MyApp({ Component, pageProps,pageUser }) {
     Router.events.on('routeChangeStart',(url) => {
         wu.initLoader();
         wu.startLoader();
-        console.log(url);
     });
 
     useEffect(() => {

@@ -19,12 +19,7 @@ export default class LectionService extends GenericService{
             throw e;
         }
     };
-    public addVideoLection = async (lectionName: string, videoLocation: string) => {
-        this.mySchema.update(
-            { _id: lectionName },
-            { $push: {video: videoLocation } }
-        );
-    }
+
     public uploadResourceFile = async (lectionName:string,resourceName:string,file,filename,video,needAuth) => {
         try{
             console.log(file);
@@ -45,6 +40,46 @@ export default class LectionService extends GenericService{
             throw e;
         }
     };
+
+    public updateLectionTasks = async (lectionId:string,taskUrl:string) => {
+        try{
+            let err, lection = await Lection.findById(lectionId);
+            if (err) throw err;
+            let tenDays = 10*24*60*60*1000;
+            // @ts-ignore
+            lection.homework.push({uploadFile:taskUrl,userResponses:[],deadline:(Date.now() + tenDays)});
+            await lection.save();
+            return lection;
+        }catch(e){
+            throw e;
+        }
+    }
+    public updateLectionResources = async (lectionId:string,resourceUrl:string) => {
+        try{
+            let err, lection = await Lection.findById(lectionId);
+            if (err) throw err;
+            console.log(lection);
+            lection.teoricalResources.push(resourceUrl);
+            await lection.save();
+            return lection;
+        }catch(e){
+            throw e;
+        }
+    };
+    public updateLectionVideos = async(lectionId:string,videoUrl:string) => {
+        try{
+            let err, lection = await Lection.findById(lectionId);
+            if (err) throw err;
+            console.log(lection);
+            lection.video.push(videoUrl);
+            await lection.save();
+            return lection;
+        }catch(e){
+            throw e;
+        }
+    }
+
+
 
     //#region 
     // public create = async(lectionObject:ILection, user: IUsuarioDTO):Promise<ILection>=>{

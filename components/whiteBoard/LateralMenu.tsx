@@ -17,9 +17,6 @@ type Props={
 
 const  LateralMenu: FunctionComponent<Props> = (props) => {
 
-    useEffect(()=> {
-        console.log(props.cursoIndex);
-    },[props.cursoIndex]);
     return (
         <div className={styles.lateralMenu}>
             <div>
