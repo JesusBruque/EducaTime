@@ -1,6 +1,7 @@
 import { IGenericInterface } from "./IGenericInterface";
 
 type work = {
+    _id:string;
     uploadFile:string,
     userResponses:[{UserID:string, file:string, date:number, status: string, mark: number}],
     deadline:number

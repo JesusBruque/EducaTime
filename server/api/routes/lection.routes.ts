@@ -97,4 +97,7 @@ export default (app: Router) => {
     route.post('/post_file/:lectionId/resources/:resource',middlewares.isTeacherOfCourse,lectionController.uploadResource);
     route.post('/post_file/:lectionId/homework/:homeworkId', middlewares.isTeacherOfCourse,lectionController.uploadHomeworkTask);
     route.get('/get_file/:filename',fileController.retrieveFile);
+
+    route.put('/updateDates/:lectionId',middlewares.isTeacherOfCourse,lectionController.updateLectionDates);
+    route.put('/updateTaskDate/:taskId',middlewares.isTeacherOfCourse,lectionController.updateHomeworkDeadline);
 }

@@ -26,6 +26,12 @@ const Header = (props) => {
             console.error(err);
         }
     };
+    const goLogOut = () => {
+        logout().then(() => {
+            props.router.push('/login');
+            props.setUser(null);
+        });
+    };
 
     return (
         <div id={'casor-header'} className={`${headerStyles.header} ${props.whiteboard ? headerStyles.headerWhiteBoard : ''}`}>
@@ -49,6 +55,7 @@ const Header = (props) => {
                     <img src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
                 </div>
             </Link>
+            <img src={'/assets/icons/stand-by.svg'} alt={'icono de logout'} onClick={goLogOut} className={headerStyles.exitIcon}/>
             {/*<div className={headerStyles.top}>*/}
             {/*    <Link href={'/'}>*/}
             {/*        <img className={headerStyles.logo} src={'/assets/logo_letras.png'} alt={'logo casor en la cabecera'}/>*/}

@@ -30,22 +30,16 @@ const VideoComponent: FunctionComponent<Props> = (props) => {
             player.play();
         });
 
-        axios.get('http://localhost:5000/api/course/get_signed_cookies',{withCredentials:true}).then(res => {
-            console.log(res);
-            document.cookie =  `"CloudFront-Signature=${ res.data.cookies["CloudFront-Key-Pair-Id"]};domain=https://d2nmzq3hxlvmns.cloudfront.net; path=/;`;
-            document.cookie =  `"CloudFront-Policy= ${ res.data.cookies["CloudFront-Policy"]};domain=https://d2nmzq3hxlvmns.cloudfront.net; path=/;`;
-            document.cookie =  `"CloudFront-Key-Pair-Id=${ res.data.cookies["CloudFront-Key-Pair-Id"]};domain=https://d2nmzq3hxlvmns.cloudfront.net; path=/;`;
-            if(props.hls && Hls.isSupported()){
-                const hls = new Hls({xhrSetup: function(xhr, url) {
-                        console.log(xhr);
-                        xhr.withCredentials = false;
-                    }});
-                hls.loadSource(props.src);
-                hls.attachMedia(sourceRef.current)
-            }else{
-                sourceRef.current.src = props.src;
-            }
-        });
+        if(props.hls && Hls.isSupported()){
+            const hls = new Hls({xhrSetup: function(xhr, url) {
+                    console.log(xhr);
+                    xhr.withCredentials = false;
+                }});
+            hls.loadSource(props.src);
+            hls.attachMedia(sourceRef.current)
+        }else{
+            sourceRef.current.src = props.src;
+        }
     },[]);
 
     const videoContent = () => {
