@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BLOG_URL = 'http://localhost:3000/api/blog';
+const BLOG_URL = 'http://165.22.114.158/api/blog';
 import {genericValidator,email} from "./Validators";
 import moment from 'moment';
 

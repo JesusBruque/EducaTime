@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {genericValidator,email} from "./Validators";
 
-const LECTION_URL = 'http://localhost:3000/api/lection';
+const LECTION_URL = 'http://165.22.114.158/api/lection';
 
 type work = {
     uploadFile:string,

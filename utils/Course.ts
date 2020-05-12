@@ -3,7 +3,7 @@ import {genericValidator,email} from "./Validators";
 import moment from 'moment';
 import Review from "./Review";
 
-const COURSE_URL = 'http://localhost:3000/api/course';
+const COURSE_URL = 'http://165.22.114.158/api/course';
 
 type fee = {
     fee:number,
