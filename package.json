@@ -7,7 +7,7 @@
     "build:server": "tsc --project tsconfig.server.json",
     "build:next": "next build",
     "build": "npm run build:next && npm run build:server",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "NODE_ENV=production node dist/server.js",
     "seeds": "ts-node --project tsconfig.server.json server/seeds/index.ts"
   },
   "proxy": "http://localhost:5000",
