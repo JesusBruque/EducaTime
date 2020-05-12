@@ -26,7 +26,7 @@ const Cursos = (props) =>{
 };
 
 export async function getServerSideProps(){
-    const res = await fetch('http://localhost:5000/api/course/findAll');
+    const res = await fetch('http://localhost:3000/api/course/findAll');
     const data = await res.json();
     const cursos = data.Course;
     return { props: { cursos } }
