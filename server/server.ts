@@ -1,6 +1,5 @@
 import config from './config';
 import Logger from './loaders/logger';
-
 async function startServer(): Promise<void> {
 
     const { app } = await require('./loaders').default();

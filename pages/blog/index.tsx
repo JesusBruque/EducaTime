@@ -20,7 +20,7 @@ const Blogs=(props )=>{
     )
 };
 
-export async function getStaticProps(){
+export async function getServerSideProps(){
     const res = await fetch('http://localhost:5000/api/blog/findAll');
     const data = await res.json();
     const blogs = data.Blog;
