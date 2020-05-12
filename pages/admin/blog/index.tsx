@@ -24,7 +24,7 @@ const Index = (props) => {
                     </div>
                 </div>
                 <div className={utilsStyles.centeredContainer}>
-                    <BlogGrid blogs={props.blogs} admin={true} router={props.router}/>
+                    <BlogGrid blogs={props.blogs} admin={true} router={props.router} utils={props.utils}/>
                 </div>
             </div>
         </LayoutAdmin>

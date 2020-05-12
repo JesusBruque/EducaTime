@@ -102,6 +102,33 @@ export default class FilesServices{
         }
     };
 
+    public removeFiles = async(urls:string[]) => {
+        let objectsToDelete = [];
+        urls.forEach(url => {
+            objectsToDelete.push({Key:url.split(config.cdn_url+'/')[1]});
+        });
+        console.log('ELIMINANDO....',objectsToDelete);
+        const deleteParams = {
+            Bucket      : 'casor-s3',
+            Delete: {
+                Objects:objectsToDelete
+            }
+        };
+        let err, data = await new Promise((resolve,reject) => {
+            this.s3.deleteObjects(deleteParams,(err,data) => {
+                if(err){
+                    console.error(err);
+                    reject(err);
+                }
+                console.log(data);
+                resolve(data);
+            });
+        });
+        if(err) throw err;
+        console.log(data);
+        return data;
+    };
+
 
     public retrieveFile = async (filename) => {
         console.log('preparing to retrieve...');

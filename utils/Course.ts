@@ -3,7 +3,7 @@ import {genericValidator,email} from "./Validators";
 import moment from 'moment';
 import Review from "./Review";
 
-const COURSE_URL = 'http://165.22.114.158/api/course';
+const COURSE_URL = process.env.API_URL+'/api/course';
 
 type fee = {
     fee:number,
@@ -56,6 +56,7 @@ export const create = (curso:Course) => {
     return axios.post(COURSE_URL,curso);
 };
 export const edit = (curso:Course) => axios.put(COURSE_URL,curso);
+export const deleteCourse = (curso:string) => axios.delete(COURSE_URL+'/'+curso);
 export const getCourseById = (cursoId: string) =>  axios.get(COURSE_URL+'/findById/' + cursoId);
 export const uploadCourseFile = (cursoName:string,file, video:boolean,needAuth:boolean) => {
     let data = new FormData();

@@ -27,7 +27,7 @@ const Index = (props) => {
                     </div>
                 </div>
                 <div className={utilsStyles.centeredContainer}>
-                    {props.cursos.length > 0 ? <CursoGrid cursos={props.cursos} router={props.router} admin={true}/> : <h3 style={{color:'var(--black-color)'}}>Aún no se ha añadido ningún curso de formación!</h3>}
+                    {props.cursos.length > 0 ? <CursoGrid utils={props.utils} cursos={props.cursos} router={props.router} admin={true}/> : <h3 style={{color:'var(--black-color)'}}>Aún no se ha añadido ningún curso de formación!</h3>}
                 </div>
             </div>
         </LayoutAdmin>
