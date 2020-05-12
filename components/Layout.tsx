@@ -1,6 +1,6 @@
 import React, {Dispatch, FunctionComponent, useEffect} from 'react';
 import Header from "./Header";
-import layoutStyles from './styles/Layout.module.css';
+import layoutStyles from 'styles/Layout.module.css';
 import {Router} from "next/router";
 import {User} from "../utils/Authentication";
 import WebUtils from "../webUtils/WebUtils";
