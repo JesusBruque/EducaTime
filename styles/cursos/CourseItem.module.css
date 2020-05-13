@@ -111,8 +111,10 @@
     position: absolute;
     right:15px;
     top:8px;
+    display:flex;
 }
 .actionsIcons>svg{
     cursor:pointer;
     margin:0 4px;
+    height:1em;
 }

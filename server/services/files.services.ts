@@ -157,6 +157,16 @@ export default class FilesServices{
             }).catch(err => reject(err));
         });
     }
+
+    public getJobStatus = async (jobId:string) => {
+        return new Promise((resolve,reject) => {
+            this.mediaConvert.getJob({Id:jobId}, (err,data) => {
+                if(err) reject(err);
+                console.log(data);
+                resolve(data)
+            })
+        });
+    }
 }
 
 
