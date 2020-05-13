@@ -24,6 +24,15 @@ export const sendEmail = async (emailTo,subject,htmlMessage) => {
         subject: subject,
         html: htmlMessage,
     };
-    await transporter.sendMail(email);
+    return new Promise((resolve,reject) => {
+        transporter.sendMail(email,(err,data) => {
+            if(err) {
+                console.error(err);
+                reject(err);
+            }
+            resolve(data);
+            console.log(data);
+        });
+    });
 };
 
