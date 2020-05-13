@@ -80,15 +80,15 @@ export default class AuthenticationService {
         }
     };
     public registerUser = async(user:IUsuarioDTO): Promise<IUsuarioDTO> => {
-        return this.register(user,'user');
+        return this.register(user,'user','user');
     }
     public registerTeacher = async(user:IUsuarioDTO): Promise<IUsuarioDTO> => {
-        return this.register(user,'teacher');
+        return this.register(user,'teacher','teacher');
     }
-    private register = async(user:IUsuarioDTO, rol:string): Promise<IUsuarioDTO> => {
+    private register = async(user:IUsuarioDTO, rol:string,pass:string): Promise<IUsuarioDTO> => {
         try{
             const salt = randomBytes(32);
-            const pass = Math.random().toString(36).substring(7);
+            // const pass = Math.random().toString(36).substring(7);
             const hashedPassword = await argon2.hash(pass, { salt: salt });
             let err, newUser = await new Usuario({email:user.email,username:user.username,roles:[rol],password:hashedPassword,salt:salt}).save();
             if(err) throw err;
