@@ -6,7 +6,9 @@ const transport = {
     auth: {
         user:config.email_user,
         pass: config.email_pass
-    }
+    },
+    port: 587,
+    secure: false,
 };
 
 export const sendEmail = async (emailTo,subject,htmlMessage) => {
