@@ -130,7 +130,10 @@ export default class AuthenticationService {
     };
     public sendCourseAssignmentEmail = async (email: string, username: string, courseTitle: string, courseDescription: string) =>{
         let html = this.assignmentEmail(email,username, courseTitle, courseDescription);
-        await sendEmail(email,'Nueva tutoría de Curso en CASOR. Academia de formación deportiva.', html);
+        let err, info = await sendEmail(email,'Nueva tutoría de Curso en CASOR. Academia de formación deportiva.', html);
+        if(err) console.error(err);
+        console.log(info);
+        return info;
     }
     public sendRegisterEmail = async(email:string,pass:string,username:string) => {
         let html = this.registerEmail({username,pass,email});

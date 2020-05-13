@@ -75,6 +75,7 @@ export default class CourseController extends GenericController{
         await Promise.all(pLections).catch(e => {throw e});
         if(curso.teacher){
             await this.manageTeacher(curso.teacher, curso.title, curso.description);
+            console.log('email enviado al profesor.')
         }
     };
     private manageTeacher = async (email: string, titulo: string, descripcion: string) => {
@@ -90,6 +91,7 @@ export default class CourseController extends GenericController{
                 await this.authenticationService.registerTeacher(user);
             }
             await this.authenticationService.sendCourseAssignmentEmail(email, user.username, titulo, descripcion);
+            console.log('El usuario recibirá un email');
         }catch(e){
             throw e;
         }

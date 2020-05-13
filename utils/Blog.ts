@@ -5,6 +5,7 @@ import moment from 'moment';
 
 export const getBlogById = (blogId:string) => axios.get(BLOG_URL+'/findById/'+blogId);
 export default class Blog{
+    public _id:string;
     public title:string;
     public subtitle:string;
     public description:string;

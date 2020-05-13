@@ -19,6 +19,7 @@ export default class WebUtils{
             document.querySelector('html').classList.remove('has-scroll-init');
             document.querySelector('html').classList.remove('has-scroll-smooth');
         }
+        console.log('el scroll se ha debido eliminar');
     };
 
     initScroll = async () => {

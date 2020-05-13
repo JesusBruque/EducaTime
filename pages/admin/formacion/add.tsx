@@ -1,6 +1,5 @@
 import utilsStyles from "../../../styles/Utils.module.css";
 import React, {useEffect, useState} from "react";
-import moment from "moment";
 import Course, {create, uploadCourseFile, validate} from '../../../utils/Course';
 import LayoutAdmin from "../../../components/LayoutAdmin";
 import VideoComponent from "../../../components/VideoComponent";
@@ -23,13 +22,12 @@ const AddCourse = (props) => {
             props.utils.startLoader();
             let uploadThumbnail: Promise<string> = new Promise((resolve, reject) => {
                 uploadCourseFile(cursoInfo.title, cursoFiles.thumbnail,false,false).then(res => {
-                    props.utils.changeTextLoader('Thumbnail subido.');
+                    props.utils.changeTextLoader('Subiendo video...');
                     resolve(res.data.location);
                 }).catch(err => reject(err));
             });
 
             let uploadVideo: Promise<string> = new Promise((resolve, reject) => {
-                props.utils.changeTextLoader('Subiendo video...');
                 uploadCourseFile(cursoInfo.title, cursoFiles.video,true,false).then(res => resolve(res.data.location)).catch(err => reject(err));
             });
             let uploadWebinar: Promise<string> = new Promise(((resolve, reject) => {

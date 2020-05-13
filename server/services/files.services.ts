@@ -152,9 +152,19 @@ export default class FilesServices{
         const params = mediaConvertParams(src,dst);
         return new Promise((resolve,reject) => {
             this.mediaConvert.createJob(params).promise().then((data) =>{
-                console.log('JobCreated!',data);
+                console.log('JobCreated!',data.Job.Settings.OutputGroups);
                 resolve(destino);
             }).catch(err => reject(err));
+        });
+    }
+
+    public getJobStatus = async (jobId:string) => {
+        return new Promise((resolve,reject) => {
+            this.mediaConvert.getJob({Id:jobId}, (err,data) => {
+                if(err) reject(err);
+                console.log(data);
+                resolve(data)
+            })
         });
     }
 }
@@ -273,12 +283,13 @@ const mediaConvertParams =  (origen:string,destino:string) => {
                                     "IFrameOnlyManifest": "EXCLUDE"
                                 }
                             },
-                            "NameModifier": "$fn$"
+                            "NameModifier": "curso_manifest"
                         }
                     ],
                     "OutputGroupSettings": {
                         "Type": "HLS_GROUP_SETTINGS",
                         "HlsGroupSettings": {
+                            "BaseUrl":"video_curso",
                             "ManifestDurationFormat": "INTEGER",
                             "SegmentLength": 2,
                             "TimedMetadataId3Period": 2,
