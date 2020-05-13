@@ -3,6 +3,7 @@ import Lection from "../models/lection.model";
 import Logger from "../loaders/logger";
 import FilesServices from './files.services';
 import mongoose from "mongoose";
+import { ILection } from '../interfaces/ILection';
 
 export default class LectionService extends GenericService{
     fileService: FilesServices;
@@ -10,6 +11,15 @@ export default class LectionService extends GenericService{
         super(Lection);
         this.fileService = new FilesServices;
     }
+    public findById = async (LectionId:string) : Promise<ILection & mongoose.Document> => {
+        try{
+            let err,course = await Lection.findById(LectionId);
+            if(err) throw err;
+            return course;
+        }catch (e) {
+            throw e;
+        }
+    };
     public uploadFile = async (lectionName:string,file,filename,video,needAuth) => {
         try{
             const fileLocation : string = await this.fileService.uploadFile(file,lectionName,filename,video,needAuth);

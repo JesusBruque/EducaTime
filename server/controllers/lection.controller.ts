@@ -9,6 +9,30 @@ export default class LectionController extends GenericController{
         super(new LectionService());
         this.lectionService = new LectionService();
       }
+      public findById = async(req:Request,res:Response) => {
+        try{
+            const lection  = await this.lectionService.findById(req.params.id);
+            return res.status(200).json({Lection:lection});
+        }catch(e){
+            Logger.error('Error obteniendo una leccion por id.');
+            Logger.error(e);
+            return res.status(400).json({status:400});
+        }
+      };
+      public deleteFullLection = async(req: Request, res: Response) =>{
+        Logger.debug('eliminando leccion');
+        try{
+            const lectionId = req.params.lectionId;
+            const lectionOrder = (await this.lectionService.findById(lectionId)).order;
+            // Borrar la carpeta con nombre lectionId y todos sus files
+
+            await this.lectionService.delete(lectionId);
+            Logger.debug('leccion eliminado');
+            return res.status(200).json({status:200, Order: lectionOrder});
+        }catch (e) {
+            return res.status(400).json({status:400});
+        }
+      }
       public uploadLectionVideo = async(req: Request, res: Response) =>{
         Logger.debug('Subiendo fichero...');
         try{

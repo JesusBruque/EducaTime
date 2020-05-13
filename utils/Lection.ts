@@ -48,7 +48,10 @@ export const create = (lection:Lection) => {
     return axios.post(LECTION_URL,lection);
 };
 export const edit = (lection:Lection) => axios.put(LECTION_URL,lection);
-export const getCourseById = (cursoId: string) =>  axios.get(LECTION_URL+'/findById/' + cursoId);
+export const getLectionById = async (lectionId: string) =>  {return axios.get(LECTION_URL+'/findById/' + lectionId);}
+export const deleteLection = async (lection:string) =>{
+    return axios.delete(LECTION_URL+'/'+lection);
+} 
 
 export const updateLectionDates = (fechaInicio,fechaFin,idLection,cursoId) => axios.put(LECTION_URL+'/updateDates/'+idLection,{fechaInicio:fechaInicio,fechaFin:fechaFin},{params:{courseId:cursoId}});
 export const updateTaskDate = (taskId,fechaLimite,cursoId) => axios.put(LECTION_URL+'/updateTaskDate/'+taskId,{fechaLimite:fechaLimite},{params:{courseId:cursoId}});

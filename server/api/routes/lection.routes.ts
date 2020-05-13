@@ -1,8 +1,6 @@
 import { Router } from 'express';
 import { celebrate, Joi } from 'celebrate';
 import LectionController from '../../controllers/lection.controller';
-import isAdmin from '../middlewares/isAdmin';
-import isTeacher from '../middlewares/isTeacher';
 import FilesController from "../../controllers/files.controller";
 import middlewares from '../middlewares';
 const route = Router();
@@ -14,7 +12,9 @@ export default (app: Router) => {
 
     route.get('/findAll', lectionController.findAll)
     
-    route.get('/:lectionId', lectionController.findById)
+    route.get('/findById/:id', lectionController.findById)
+
+    route.delete('/:lectionId',middlewares.isTeacherOfCourse,lectionController.deleteFullLection);
 
     route.post('/',
         celebrate({
