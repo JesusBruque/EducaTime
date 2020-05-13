@@ -9,6 +9,8 @@ import Button from "../Button";
 import Estrella from "../Estrella";
 import {Router} from "next/router";
 import moment from 'moment';
+import {deleteCourse} from "../../utils/Course";
+import WebUtils from "../../webUtils/WebUtils";
 
 type Props = {
     curso:Course,
@@ -16,7 +18,8 @@ type Props = {
     setCursoPlaying:Dispatch<any>,
     admin:boolean,
     reviews?:boolean,
-    fees?:boolean
+    fees?:boolean,
+    utils?:WebUtils
 }
 
 const CursoItem: FunctionComponent<Props> = (props) => {
@@ -74,7 +77,18 @@ const CursoItem: FunctionComponent<Props> = (props) => {
     };
 
     const handleDeleteCourse = () => {
-        console.log('eliminar curso');
+        if(props.utils){
+            props.utils.initLoader();
+            props.utils.startLoader();
+            deleteCourse(curso._id).then(res => {
+                console.log(res);
+                props.utils.removeLoader();
+                router.reload();
+            }).catch(() => {
+                window.alert('error al eliminar un curso!');
+                props.utils.removeLoader();
+            });
+        }
     };
 
     return (

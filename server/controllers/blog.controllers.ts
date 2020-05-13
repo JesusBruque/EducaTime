@@ -37,5 +37,18 @@ export default class BlogControllers extends GenericController {
             Logger.error(e);
             return res.status(400).json({status:400});
         }
+    };
+
+    public deleteBlog = async(req:Request,res:Response) => {
+        Logger.debug('eliminando blog');
+        try{
+            let blogId = req.params.blogId;
+            await this.blogService.deleteBlog(blogId);
+            Logger.debug('blog borrado');
+            return res.status(200).json({status:200});
+        }catch(e){
+            Logger.error(e);
+            return res.status(400).json({status:400});
+        }
     }
 }

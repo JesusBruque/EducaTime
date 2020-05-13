@@ -42,6 +42,90 @@
     text-decoration:underline var(--black-color);
 }
 .fileContainer{
-    width:165px;
+    width:180px;
     height: 165px;
+    text-align:center;
+}
+
+.taskItem{
+    padding:15px 25px;
+    font-weight:bold;
+    position:relative;
+    background-color:white;
+    box-shadow:0 3px 6px 0 rgba(0,0,0,.16);
+    width:fit-content;
+    font-size:1.2em;
+    margin-right:8px;
+}
+.taskItem>a{
+    text-decoration:none;
+    color:var(--black-color);
+}
+.taskItem>a>svg{
+    margin-right:4px;
+}
+.close{
+    position:absolute;
+    right:2px;
+    top:2px;
+    height:1em;
+    width:1em;
+    cursor:pointer;
+}
+
+
+.resourceContainer{
+    background-color:white;
+    box-shadow:0 3px 6px 0 rgba(0,0,0,.16);
+    margin:0 15px;
+    padding:20px 15px;
+    width:180px;
+    height:165px;
+    position:relative;
+    display:grid;
+    align-items:center;
+    justify-items:center;
+}
+.resourceContainer:after{
+    content:'';
+    position:absolute;
+    height:2px;
+    background-color:var(--main-color);
+    width:60%;
+    bottom:10px;
+    left:0;
+}
+.resources{
+    display:flex;
+}
+.resources .resourceContainer>*{
+    display:grid;
+    height:100%;
+    align-items:center;
+    justify-items:center
+}
+.resources .resourceContainer svg{
+    grid-area:1/1;
+    height:55px;
+    width:55px;
+    position:relative;
+    cursor:pointer;
+}
+.resourceContainer img{
+    opacity:.4;
+    grid-area:1/1;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+}
+.webinar{
+    width:350px;
+    height:350px;
+}
+.webinar>svg{
+    height: 100px;
+    grid-area: 1/1;
+    width: 100px !important;
+    position: relative;
+    cursor:pointer;
 }

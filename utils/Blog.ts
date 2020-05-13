@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BLOG_URL = 'http://localhost:5000/api/blog';
+const BLOG_URL = process.env.API_URL + '/api/blog';
 import {genericValidator,email} from "./Validators";
 import moment from 'moment';
 
@@ -52,7 +52,7 @@ export const uploadBlogFile = (file:File) => {
 };
 export const create = (blog:Blog) =>axios.post(BLOG_URL,blog);
 export const edit = (blog:Blog) =>  axios.put(BLOG_URL,blog);
-
+export const deleteBlog = (blog:string) => axios.delete(BLOG_URL+'/'+blog);
 function getPropertyName(property){
     switch (property) {
         case 'title':

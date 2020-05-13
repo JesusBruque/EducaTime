@@ -20,11 +20,7 @@ var blogSchema = new Schema({
     type:String,
     required:true
   },
-  urls: {
-    type: [String],
-    required: true,
-    trim: true
-  },
+  video:String,
   creation_date: {
     type: Number,
     required: true

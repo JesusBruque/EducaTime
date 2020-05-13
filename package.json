@@ -7,7 +7,7 @@
     "build:server": "tsc --project tsconfig.server.json",
     "build:next": "next build",
     "build": "npm run build:next && npm run build:server",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "NODE_ENV=production node dist/server.js",
     "seeds": "ts-node --project tsconfig.server.json server/seeds/index.ts"
   },
   "proxy": "http://localhost:5000",
@@ -49,7 +49,7 @@
     "next": "9.3.4",
     "nodemailer": "^6.4.6",
     "passport": "^0.4.1",
-    "plyr": "^3.6.1",
+    "plyr": "^3.6.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-dropzone": "^10.2.2",

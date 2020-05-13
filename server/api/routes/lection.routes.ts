@@ -1,8 +1,6 @@
 import { Router } from 'express';
 import { celebrate, Joi } from 'celebrate';
 import LectionController from '../../controllers/lection.controller';
-import isAdmin from '../middlewares/isAdmin';
-import isTeacher from '../middlewares/isTeacher';
 import FilesController from "../../controllers/files.controller";
 import middlewares from '../middlewares';
 const route = Router();
@@ -14,7 +12,9 @@ export default (app: Router) => {
 
     route.get('/findAll', lectionController.findAll)
     
-    route.get('/:lectionId', lectionController.findById)
+    route.get('/findById/:id', lectionController.findById)
+
+    route.delete('/:lectionId',middlewares.isTeacherOfCourse,lectionController.deleteFullLection);
 
     route.post('/',
         celebrate({
@@ -93,8 +93,11 @@ export default (app: Router) => {
         // middlewares.isAuth,
         lectionController.edit);
         
-    route.post('/post_file/:lectionId',isAdmin || isTeacher,lectionController.uploadLectionVideo);
-    route.post('/post_file/:lectionId/resources/:resource',isAdmin || isTeacher,lectionController.uploadResource);
-    route.post('/post_file/:lectionId/homework/:homeworkId',isAdmin || isTeacher,lectionController.uploadHomeworkTask);
+    route.post('/post_file/:lectionId', middlewares.isTeacherOfCourse,lectionController.uploadLectionVideo);
+    route.post('/post_file/:lectionId/resources/:resource',middlewares.isTeacherOfCourse,lectionController.uploadResource);
+    route.post('/post_file/:lectionId/homework/:homeworkId', middlewares.isTeacherOfCourse,lectionController.uploadHomeworkTask);
     route.get('/get_file/:filename',fileController.retrieveFile);
+
+    route.put('/updateDates/:lectionId',middlewares.isTeacherOfCourse,lectionController.updateLectionDates);
+    route.put('/updateTaskDate/:taskId',middlewares.isTeacherOfCourse,lectionController.updateHomeworkDeadline);
 }

@@ -9,6 +9,7 @@ export default (app: Router) => {
     app.use('/blog', route);
     route.get('/findAll', blogController.findAll);
     route.get('/findById/:id', blogController.findById);
+    route.delete('/:blogId',blogController.deleteBlog);
     route.post('/',
         celebrate({
             body: Joi.object({

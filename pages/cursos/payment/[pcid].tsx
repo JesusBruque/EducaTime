@@ -32,11 +32,10 @@ const payCurso = (props) => {
     const tipoDePago = {
         display: "flex",
         justifyContent: "space-evenly"
-    }
+    };
     const handleChangePayment = (opt) => {
         setunicFee(opt);
-
-    }
+    };
     let a = 1;
     const plazosList = curso.fees.map(function (plazo){ return <li style={{fontSize:'.8em'}}>Plazo número {a++}: <b>{plazo.fee}€.</b> Vence el <b style={{color:'var(--red-color)'}}>{moment(plazo.date).format('DD/MM/YYYY')}</b></li>});
     return (
@@ -47,7 +46,7 @@ const payCurso = (props) => {
                     <div>
                         <h4 style={{color:'#70a0af',fontSize:'1.6em'}}>Detalles de pago</h4>
                         <Elements stripe={stripePromise}>
-                            <PaymentForm router={router} cursoId={curso._id} plazo={unicFee ? null : 0}/>
+                            <PaymentForm router={router} cursoId={curso._id} plazo={unicFee ? null : 0} utils={props.utils}/>
                         </Elements>
                     </div>
                     <div className={pagoStyles.payResume}>

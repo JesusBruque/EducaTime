@@ -8,10 +8,16 @@ export default class WebUtils{
         this.element = element;
     }
     removeScroll = () => {
-        console.log('removeScroll');
-        if(document.querySelector('.csr-scrollbar') && this.scrollElement && this.scrollElement.scrollElement){
-            document.querySelector('.csr-scrollbar').remove();
+        console.log(this.scrollElement);
+        if(this.scrollElement && this.scrollElement.scrollElement){
             this.scrollElement.scrollElement.destroy();
+        }
+        if(document.querySelector('.csr-scrollbar')){
+            document.querySelector('.csr-scrollbar').remove();
+        }
+        if(document.querySelector('html').classList.contains('has-scroll-init')){
+            document.querySelector('html').classList.remove('has-scroll-init');
+            document.querySelector('html').classList.remove('has-scroll-smooth');
         }
     };
 
