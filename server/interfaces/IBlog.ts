@@ -4,7 +4,7 @@ export interface IBlog extends IGenericInterface {
     title: string;
     description: string;
     thumbnail: string;
-    urls: [string];
+    video: string;
     creation_date: string;
     author: string;
     active: boolean;

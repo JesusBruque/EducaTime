@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {genericValidator,email} from "./Validators";
 
-const LECTION_URL = 'http://localhost:5000/api/lection';
+const LECTION_URL = 'http://165.22.114.158/api/lection';
 
 type work = {
     uploadFile:string,
@@ -49,7 +49,11 @@ export const create = (lection:Lection) => {
 };
 export const edit = (lection:Lection) => axios.put(LECTION_URL,lection);
 export const getCourseById = (cursoId: string) =>  axios.get(LECTION_URL+'/findById/' + cursoId);
-export const uploadTeoreticalResourceLectionFile = (lectionName:string,file, video:boolean,needAuth:boolean) => {
+
+export const updateLectionDates = (fechaInicio,fechaFin,idLection,cursoId) => axios.put(LECTION_URL+'/updateDates/'+idLection,{fechaInicio:fechaInicio,fechaFin:fechaFin},{params:{courseId:cursoId}});
+export const updateTaskDate = (taskId,fechaLimite,cursoId) => axios.put(LECTION_URL+'/updateTaskDate/'+taskId,{fechaLimite:fechaLimite},{params:{courseId:cursoId}});
+
+export const uploadLectionVideo = (lectionName: string, file,cursoId:string) => {
     let data = new FormData();
     data.append('file',file);
     return axios({
@@ -57,13 +61,30 @@ export const uploadTeoreticalResourceLectionFile = (lectionName:string,file, vid
         url:`${LECTION_URL}/post_file/${lectionName}`,
         data:data,
         params:{
-            video:video,
-            needAuth:needAuth
+            courseId:cursoId,
+            video:true,
+            needAuth:true
         },
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
-export const uploadHomeworkLectionFile = (lectionName:string, homeworkName: string, file, needAuth:boolean) => {
+
+export const uploadTeoreticalResourceLectionFile = (lectionName:string,file,cursoId:string) => {
+    let data = new FormData();
+    data.append('file',file);
+    return axios({
+        method:'post',
+        url:`${LECTION_URL}/post_file/${lectionName}/resources/teoricos`,
+        data:data,
+        params:{
+            courseId:cursoId,
+            video:false,
+            needAuth:true
+        },
+        onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
+    });
+};
+export const uploadHomeworkLectionFile = (lectionName:string, homeworkName: string, file, cursoId:string) => {
     let data = new FormData();
     data.append('file',file);
     return axios({
@@ -71,8 +92,9 @@ export const uploadHomeworkLectionFile = (lectionName:string, homeworkName: stri
         url:`${LECTION_URL}/post_file/${lectionName}/homework/${homeworkName}`,
         data:data,
         params:{
+            courseId:cursoId,
             video: false,
-            needAuth:needAuth
+            needAuth:true
         },
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });

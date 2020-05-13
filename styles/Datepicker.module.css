@@ -130,3 +130,7 @@
     opacity:.1;
     cursor:none;
 }
+
+.day.today:after{
+    opacity:1;
+}

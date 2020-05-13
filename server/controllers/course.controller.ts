@@ -125,4 +125,16 @@ export default class CourseController extends GenericController{
             return res.status(400).json({status:400});
         }
     }
+
+    public deleteFullCourse = async(req:Request, res:Response) => {
+        Logger.debug('eliminando curso');
+        try{
+            const courseId = req.params.courseId;
+            await this.courseService.hardDelete(courseId);
+            Logger.debug('curso eliminado');
+            return res.status(200).json({status:200});
+        }catch (e) {
+            return res.status(400).json({status:400});
+        }
+    }
 }

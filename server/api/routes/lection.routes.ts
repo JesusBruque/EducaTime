@@ -93,8 +93,11 @@ export default (app: Router) => {
         // middlewares.isAuth,
         lectionController.edit);
         
-    route.post('/post_file/:lectionId',isAdmin || isTeacher,lectionController.uploadLectionVideo);
-    route.post('/post_file/:lectionId/resources/:resource',isAdmin || isTeacher,lectionController.uploadResource);
-    route.post('/post_file/:lectionId/homework/:homeworkId',isAdmin || isTeacher,lectionController.uploadHomeworkTask);
+    route.post('/post_file/:lectionId', middlewares.isTeacherOfCourse,lectionController.uploadLectionVideo);
+    route.post('/post_file/:lectionId/resources/:resource',middlewares.isTeacherOfCourse,lectionController.uploadResource);
+    route.post('/post_file/:lectionId/homework/:homeworkId', middlewares.isTeacherOfCourse,lectionController.uploadHomeworkTask);
     route.get('/get_file/:filename',fileController.retrieveFile);
+
+    route.put('/updateDates/:lectionId',middlewares.isTeacherOfCourse,lectionController.updateLectionDates);
+    route.put('/updateTaskDate/:taskId',middlewares.isTeacherOfCourse,lectionController.updateHomeworkDeadline);
 }

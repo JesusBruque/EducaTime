@@ -8,16 +8,14 @@ import {createPaymentIntent, afterPayment} from "../utils/Order";
 import Input from "./Input";
 import Button from "./Button";
 import inputStyles from "../styles/Input.module.css";
-import {Joi} from "celebrate";
-
-const PaymentForm = ({router,cursoId, plazo}) => {
+import ErrorsPanel from "./ErrorsPanel";
+const PaymentForm = ({router,cursoId, plazo,utils}) => {
     const [values,setValues] = useState({email:'',name:''});
     const [errors,setErrors] = useState(Object);
 
     const setErrorInput = (property) => (err: string) => setErrors({ ...errors, [property]: err });
     const setValue = (property) => (val: string | number) => setValues({ ...values, [property]: val });
 
-    const [succeeded, setSucceeded] = useState(false);
     const [error, setError] = useState(null);
     const [processing, setProcessing] = useState(false);
     const [disabled, setDisabled] = useState(true);
@@ -50,6 +48,8 @@ const PaymentForm = ({router,cursoId, plazo}) => {
 
     const handleSubmit = async ev => {
         ev.preventDefault();
+        utils.initLoader();
+        utils.startLoader();
         setProcessing(true);
         let id = cursoId ? cursoId : router.query.pcid;
         console.log(plazo);
@@ -65,8 +65,9 @@ const PaymentForm = ({router,cursoId, plazo}) => {
             }
         });
         if (payload.error) {
-            setError(`Pago fállido. ${payload.error.message}`);
+            setError([{'fallo al pagar':payload.error.message}]);
             setProcessing(false);
+            utils.removeLoader();
         } else {
             const payment = await afterPayment({
                 amount:payload.paymentIntent.amount,
@@ -79,7 +80,8 @@ const PaymentForm = ({router,cursoId, plazo}) => {
             console.log(payment);
             setError(null);
             setProcessing(false);
-            setSucceeded(true);
+            utils.removeLoader();
+            router.push('/cursos/payment/succeded');
         }
     };
 
@@ -101,6 +103,7 @@ const PaymentForm = ({router,cursoId, plazo}) => {
                 <Button disabled={processing} color={'blue'} text={'Realizar Pago'} type={'submit'} styles={{padding:'8px 15px',width:'fit-content',fontSize:'1.2em',color:'white'}}/>
 
             </form>
+            {error && <ErrorsPanel errors={error} close={()=>setError(null)}/>}
 
         </React.Fragment>
     )

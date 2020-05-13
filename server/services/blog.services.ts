@@ -27,4 +27,18 @@ export default class BlogService extends GenericService {
             throw e;
         }
     };
+
+    public deleteBlog = async (blogId) => {
+        try{
+            let err, blog = await Blog.findById(blogId);
+            if(err) throw err;
+            let files = [blog.thumbnail];
+            if(blog.video) files.push(blog.video);
+            await this.fileService.removeFiles(files);
+            await Blog.deleteOne({_id:blogId});
+            return true;
+        }catch(e){
+            throw e;
+        }
+    }
 }

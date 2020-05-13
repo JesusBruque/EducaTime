@@ -24,7 +24,7 @@ export default {
     CLIENT_URL: process.env.CLIENT_URL,
     URL: process.env.URL,
 
-    port: 5000,
+    port: 3000,
     api: {
         prefix: '/api'
     },

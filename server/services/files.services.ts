@@ -81,7 +81,7 @@ export default class FilesServices{
         };
         const options= {partSize: 10 * 1024 * 1024, queueSize: 10};
 
-        await new Promise((resolve,reject) => {
+        const fileLocation:string = await new Promise((resolve,reject) => {
             this.s3.upload(putParams,options,(err,data) => {
                 if(err) reject(err);
                 resolve(data.Location);
@@ -98,8 +98,35 @@ export default class FilesServices{
         if(video === 'true'){
             return location + `/dist/${needAuth === 'true' ? 'private' : 'public'}/${courseName}/${fileName.split('.')[0]}.m3u8`;
         }else{
-            return location + '/' + finalDst;
+            return location + fileLocation.split('https://casor-s3.s3.eu-west-3.amazonaws.com')[1];
         }
+    };
+
+    public removeFiles = async(urls:string[]) => {
+        let objectsToDelete = [];
+        urls.forEach(url => {
+            objectsToDelete.push({Key:url.split(config.cdn_url+'/')[1]});
+        });
+        console.log('ELIMINANDO....',objectsToDelete);
+        const deleteParams = {
+            Bucket      : 'casor-s3',
+            Delete: {
+                Objects:objectsToDelete
+            }
+        };
+        let err, data = await new Promise((resolve,reject) => {
+            this.s3.deleteObjects(deleteParams,(err,data) => {
+                if(err){
+                    console.error(err);
+                    reject(err);
+                }
+                console.log(data);
+                resolve(data);
+            });
+        });
+        if(err) throw err;
+        console.log(data);
+        return data;
     };
 
 

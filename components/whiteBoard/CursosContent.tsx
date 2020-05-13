@@ -1,23 +1,39 @@
 import Course from "../../utils/Course";
-import {FunctionComponent} from "react";
+import React,{Dispatch, FunctionComponent,useState,useEffect} from "react";
 import CursoOpen from "./CursoOpen";
+import WebUtils from "../../webUtils/WebUtils";
+import VideoComponent from "../VideoComponent";
+import Webinar from "./CursoWebinar";
 
 
 type Props = {
     cursos:Course[] | any,
-    teacher:boolean
+    teacher:boolean,
+    cargarContenido:boolean,
+    setCargarContenido:Dispatch<boolean>,
+    utils:WebUtils,
+    cursoIndex:number,
+    cursoTeacherIndex:number
 }
 const CursosContent: FunctionComponent<Props> = (props) => {
+    const [curso,setCurso] = useState(null);
+    useEffect( () => {
+        if(props.cursoIndex!== null){
+            setCurso(props.cursos[props.cursoIndex].idCurso)
+        }
+        if(props.cursoTeacherIndex!== null){
+            setCurso(props.cursos[props.cursoTeacherIndex]);
+        }
+        console.log(curso);
+    },[props.cursoIndex,props.cursoTeacherIndex]);
     return (
         <div>
             {
                 props.cursos.length < 1 && <div><h3><b>No tienes cursos para ver!</b></h3></div>
             }
             {
-                props.cursos.length > 0 && props.cursos.length > 1 && <div>{props.cursos.map(curso => {return <div>{props.teacher ? curso.title : curso.idCurso.title}</div>})}</div>
-            }
-            {
-                props.cursos.length > 0 && props.cursos.length === 1 && <CursoOpen curso={props.teacher ? props.cursos[0] : props.cursos[0].idCurso} teacher={props.teacher}/>
+                props.cursos.length > 0 && curso && (curso.lections.length>0 && !curso.webinar ? <CursoOpen curso={curso} setCurso={setCurso} teacher={props.teacher} cargarContenido={props.cargarContenido} setCargarContenido={props.setCargarContenido} utils={props.utils}/>
+                                                                                               : <Webinar curso={curso}/>)
             }
         </div>
     )

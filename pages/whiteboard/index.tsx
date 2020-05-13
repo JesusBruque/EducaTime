@@ -10,40 +10,43 @@ import CursosContent from "../../components/whiteBoard/CursosContent";
 import TareasContent from "../../components/whiteBoard/TareasContent";
 import PagosContent from "../../components/whiteBoard/PagosContent";
 
+
 const userWhiteBoard = (props) => {
 
     const [userData, setuserData] = useState(null);
     const [contentSelected,setContentSelected] = useState('cursos');
     const [coursesTeaching,setCoursesTeaching] = useState(null);
 
-    const [cursoIndex, setCursoIndex] = useState(null);
+    const [cursoIndex, setCursoIndex] = useState(0);
     const [teacherCursoIndex,setTeacherCursoIndex] = useState(null);
+
+    const [cargarContenido,setCargarContenido] = useState(false);
+    const [contentLoaded,setContentLoaded] = useState(false);
     useEffect(() =>{
+        props.utils.initLoader();
+        props.utils.startLoader();
         if(props.user){
             getUserData().then(res => {
                 if(res.status === 200){
+                    props.utils.removeLoader();
+                    setContentLoaded(true);
                     setuserData(res.data.user);
-                    setCursoIndex(res.data.user.cursos.length - 1);
                     if(res.data.user.roles.includes('teacher')){
                         getCoursesByTeacher().then(res => {
                             setCoursesTeaching(res.data.cursos);
                         }).catch(err => console.error(err));
                     }
                 }else{
+                    props.utils.removeLoader();
                     window.alert('ERROR');
                 }
             }).catch(err => console.error(err));
         }else{
+            props.utils.removeLoader();
+            console.log('eee');
             props.router.push('/login');
         }
-    },[]);
-
-    const goLogOut = () => {
-        logout().then(() => {
-            props.router.push('/login');
-            props.setUser(null);
-        });
-    };
+    },[cargarContenido]);
 
     const handleChangeContent = (e) => {
         e.stopPropagation();
@@ -51,6 +54,7 @@ const userWhiteBoard = (props) => {
         let opt = e.currentTarget.dataset.option;
         let ind = e.currentTarget.dataset.optionIndex;
         setContentSelected(opt);
+        setCargarContenido(!cargarContenido);
         if(opt === 'cursos'){
             setTeacherCursoIndex(null);
             if(ind){
@@ -76,11 +80,11 @@ const userWhiteBoard = (props) => {
             <React.Fragment>
                 <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex}/>
                 <div className={styles.mainContainer}>
-                    {contentSelected === 'cursos' && <CursosContent cursos={userData.cursos} teacher={false} />}
-                    {contentSelected === 'tareas' && <TareasContent/>}
-                    {contentSelected === 'pagos' && <PagosContent />}
-                    {contentSelected === 'cursos-teacher' && <CursosContent cursos={coursesTeaching} teacher={true} />}
-                    {contentSelected === 'tareas-teacher' && <TareasContent />}
+                    {contentLoaded && contentSelected === 'cursos' && <CursosContent cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={userData.cursos} teacher={false} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
+                    {contentLoaded && contentSelected === 'tareas' && <TareasContent/>}
+                    {contentLoaded && contentSelected === 'pagos' && <PagosContent />}
+                    {contentLoaded && contentSelected === 'cursos-teacher' && <CursosContent cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={coursesTeaching} teacher={true} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils}/>}
+                    {contentLoaded && contentSelected === 'tareas-teacher' && <TareasContent />}
                 </div>
             </React.Fragment>}
             {/*<button onClick={goLogOut}>salir</button>*/}

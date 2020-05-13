@@ -2,11 +2,28 @@ import blogStyle from '../../styles/Blog.module.css'
 import moment from "moment";
 import React from 'react';
 import Link from 'next/link';
-
+import Blog,{deleteBlog} from '../../utils/Blog';
+import WebUtils from "../../webUtils/WebUtils";
+import {Router} from "next/router";
+type Props = {
+    blog:Blog,
+    admin:boolean,
+    utils?:WebUtils,
+    router:Router
+}
 const BlogItem = (props) =>{
-    const {blog,admin} = props;
+    const {blog,admin,utils} = props;
     const handleDelete = () => {
-        console.log('eliminar ', blog);
+        if(utils){
+            utils.initLoader();
+            utils.startLoader();
+            deleteBlog(blog._id).then(() => {
+                utils.removeLoader();
+                props.router.reload();
+            }).catch(() => {
+                utils.removeLoader();
+            });
+        }
     };
     const goToDetail = () => {
         if(!admin){

@@ -16,24 +16,24 @@ type Props = {
     minDate?:string,
     maxDate?:string,
     rangeDate:boolean,
-    selectDateEvent:(fechaInicio:string,fechaFin:string) => any
+    selectDateEvent:(fechaInicio:string,fechaFin:string) => any,
+    dateSelected?:string,
 }
 
-const DatePicker : FunctionComponent<Props> = ({minDate,maxDate,rangeDate,selectDateEvent}) => {
+const DatePicker : FunctionComponent<Props> = ({minDate,maxDate,rangeDate,selectDateEvent,dateSelected}) => {
 
     const [monthActive,setMonthActive] =useState(moment().month());
     const [yearActive,setYearActive] = useState(moment().year());
-    const [startDate,setStartDate] = useState(null);
-    const [endDate,setEndDate] = useState(null);
+    const [startDate,setStartDate] = useState( null);
+    const [endDate,setEndDate] = useState( null);
     const [hoverDate,setHoverDate] = useState(null);
 
     const minMoment = moment(minDate,"DD/MM/YYYY");
     const maxMoment = moment(maxDate, "DD/MM/YYYY");
+    const selectedMoment = moment(dateSelected,"DD/MM/YYYY");
 
 
     useEffect(() => {
-        console.log(minDate);
-
         if(!rangeDate && startDate){
             selectDateEvent(startDate._date.format('DD/MM/YYYY'),null);
         }
@@ -93,6 +93,7 @@ const DatePicker : FunctionComponent<Props> = ({minDate,maxDate,rangeDate,select
 
     const getStylesDay = (day) => {
         let styles = dateStyles.day;
+        day._date.isSame(moment(),'date') ? styles = styles.concat(' ',dateStyles.today) : '';
         !day._thisMonth ?  styles = styles.concat(' ',dateStyles.disabled) : '';
         day._notClick ? styles = styles.concat(' ',dateStyles.notClick) : '';
         if (startDate &&  moment.isMoment(startDate._date)){
