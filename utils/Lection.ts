@@ -52,7 +52,15 @@ export const getLectionById = async (lectionId: string) =>  {return axios.get(LE
 export const deleteLection = async (lection:string) =>{
     return axios.delete(LECTION_URL+'/'+lection);
 } 
-
+export const deleteTeoricalResources = (lectionId:string,teoricalResourceIds:[string]) =>{
+    axios.delete(LECTION_URL+'/deleteTeoricalResources/'+teoricalResourceIds); 
+}
+export const deleteHomeworks = (lectionId:string,homeworkIds:[string]) =>{
+    axios.delete(LECTION_URL+'/deleteHomeworks/'+homeworkIds); 
+}
+export const deleteEvaluation = (lectionId:string,evaluationId:[string]) =>{
+    axios.delete(LECTION_URL+'/deleteEvaluation/'+evaluationId); 
+}
 export const updateLectionDates = (fechaInicio,fechaFin,idLection,cursoId) => axios.put(LECTION_URL+'/updateDates/'+idLection,{fechaInicio:fechaInicio,fechaFin:fechaFin},{params:{courseId:cursoId}});
 export const updateTaskDate = (taskId,fechaLimite,cursoId) => axios.put(LECTION_URL+'/updateTaskDate/'+taskId,{fechaLimite:fechaLimite},{params:{courseId:cursoId}});
 
@@ -71,7 +79,6 @@ export const uploadLectionVideo = (lectionName: string, file,cursoId:string) => 
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
-
 export const uploadTeoreticalResourceLectionFile = (lectionName:string,file,cursoId:string) => {
     let data = new FormData();
     data.append('file',file);
@@ -102,6 +109,37 @@ export const uploadHomeworkLectionFile = (lectionName:string, homeworkName: stri
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
+export const uploadEvaluationLectionFile = (lectionName:string, file, cursoId:string) => {
+    let data = new FormData();
+    data.append('file',file);
+    return axios({
+        method:'post',
+        url:`${LECTION_URL}/post_file/${lectionName}/evaluation`,
+        data:data,
+        params:{
+            courseId:cursoId,
+            video:true,
+            needAuth:true
+        },
+        onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
+    });
+}
+export const uploadHomeworkResponseFile = (lectionName: string, userId: string, homeworkId: string, file) =>{
+    let data = new FormData();
+    data.append('file',file);
+    return axios({
+        method:'post',
+        url:`${LECTION_URL}/post_file/${lectionName}/homework/${homeworkId}/${userId}`,
+        data:data,
+        params:{
+            video: false,
+            needAuth:true
+        },
+        onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
+    });
+    const taskResponse = {lectionId: lectionName, userId: userId, homeworkId: homeworkId};
+    return axios.post(LECTION_URL+'/post_file/uploadHomeworkResponse/'+taskResponse);
+}
 export const validate = async (lection: Lection) => {
     return new Promise((resolve,reject) => {
         let validations = {

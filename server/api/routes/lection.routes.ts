@@ -15,7 +15,9 @@ export default (app: Router) => {
     route.get('/findById/:id', lectionController.findById)
 
     route.delete('/:lectionId',middlewares.isTeacherOfCourse,lectionController.deleteFullLection);
-
+    route.delete('/deleteTeoricalResources/:teoricalResourceIds[]', middlewares.isTeacherOfCourse, lectionController.deleteTeoricalResources);
+    route.delete('/deleteHomeworks/:homeworkIds', middlewares.isTeacherOfCourse, lectionController.deleteHomeworks);
+    route.delete('/deleteEvaluation/:evaluationId', middlewares.isTeacherOfCourse, lectionController.deleteEvaluation);
     route.post('/',
         celebrate({
             body: Joi.object({
@@ -93,9 +95,12 @@ export default (app: Router) => {
         // middlewares.isAuth,
         lectionController.edit);
         
+    route.post('/post_file/:lectionId/evaluation', middlewares.isTeacherOfCourse,lectionController.uploadEvaluationResource);
     route.post('/post_file/:lectionId', middlewares.isTeacherOfCourse,lectionController.uploadLectionVideo);
-    route.post('/post_file/:lectionId/resources/:resource',middlewares.isTeacherOfCourse,lectionController.uploadResource);
+    route.post('/post_file/:lectionId/resources/teoricos',middlewares.isTeacherOfCourse,lectionController.uploadResource);
     route.post('/post_file/:lectionId/homework/:homeworkId', middlewares.isTeacherOfCourse,lectionController.uploadHomeworkTask);
+    route.post('post_file/:lectionName/homework/:homeworkId/:userId', middlewares.isAuth, lectionController.uploadHomeworkResponse);
+
     route.get('/get_file/:filename',fileController.retrieveFile);
 
     route.put('/updateDates/:lectionId',middlewares.isTeacherOfCourse,lectionController.updateLectionDates);
