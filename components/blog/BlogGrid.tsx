@@ -1,8 +1,17 @@
 import BlogItem from "./BlogItem";
-import React from "react";
+import React, {FunctionComponent} from "react";
 import blogsModule from "../../styles/Blog.module.css";
-
-const BlogGrid =  ({blogs,admin,router,utils}) => {
+import WebUtils from "../../webUtils/WebUtils";
+import Blog from "../../utils/Blog";
+import {Router} from "next/router";
+type Props = {
+    blogs:Blog[],
+    admin:boolean,
+    router:Router,
+    utils?:WebUtils
+}
+const BlogGrid: FunctionComponent<Props> =  (props) => {
+    const {blogs,admin,router,utils} = props;
     return (
         <React.Fragment>
             {blogs.length === 0 && <h3>¡Aún no tenemos entradas disponibles!</h3>}
