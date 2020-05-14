@@ -109,7 +109,7 @@ export const uploadHomeworkLectionFile = (lectionName:string, homeworkName: stri
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
-export const uploadEvaluationLectionFile = (lectionName:string, file, cursoId:string) => {
+export const uploadEvaluationLectionFile = (lectionName:string, evaluationName: string, file, cursoId:string) => {
     let data = new FormData();
     data.append('file',file);
     return axios({

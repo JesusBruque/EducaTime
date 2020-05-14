@@ -7,7 +7,7 @@ import styles from '../../styles/whiteBoard/whiteBoard.module.css';
 import MyDropzone from "../MyDropzone";
 import {faClock,faFileDownload,faTimes,faFile, faPlayCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {uploadHomeworkLectionFile,uploadTeoreticalResourceLectionFile,uploadLectionVideo,updateLectionDates,updateTaskDate} from '../../utils/Lection';
+import {uploadHomeworkLectionFile,uploadTeoreticalResourceLectionFile,uploadLectionVideo,updateLectionDates,updateTaskDate, uploadEvaluationLectionFile} from '../../utils/Lection';
 import VideoComponent from "../VideoComponent";
 import WebUtils from "../../webUtils/WebUtils";
 type Props = {
@@ -98,8 +98,24 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
             });
         })
     };
-    const handleEvaluations = (files) => {
-        console.log(files);
+    const handleEvaluations = (files, lectionName,i) => {
+        files.forEach((file) => {
+            props.utils.initLoader();
+            props.utils.startLoader();
+            uploadEvaluationLectionFile(lectionName,'evaluacion',file,curso._id).then((res)=>{
+                props.utils.removeLoader();
+                let lections = [...curso.lections];
+                if(res.status===200){
+                    lections[i] = res.data.lection;
+                    setCurso({...curso,lections:lections});
+                    props.setCargarContenido(!props.cargarContenido);
+                }
+                else window.alert('ERRORRRR');
+            }).catch(err => {
+                console.error(err);
+                props.utils.removeLoader();
+            });
+        })
     };
     const handleVideosLections = (files,lectionName,i) => {
         files.forEach((file) => {
@@ -265,7 +281,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                         <MyDropzone
                                             text={'Arrastra o pincha para añadir los ficheros.'}
                                             image={'/assets/icons/file.svg'}
-                                            onAcceptFile={(files) => handleEvaluations(files)}
+                                            onAcceptFile={(files) => handleEvaluations(files, lection._id, i)}
                                             // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
                                         />
                                     </div>

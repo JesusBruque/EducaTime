@@ -192,8 +192,7 @@ export default class LectionService extends GenericService{
             lection.teoricalResources.map(file => files.push(file.url));
             lection.video.map(file => files.push(file.url));
             lection.homework.map(task => {files.push(task.uploadFile); task.userResponses.map(response => files.push(response.file))});
-            files.push(lection.evaluations.uploadFile); 
-            lection.evaluations.userResponses.map(response => files.push(response.file));
+            lection.evaluations.map(evaluation=>{files.push(evaluation.uploadFile);evaluation.userResponses.map(response => files.push(response.file));});
             return files;
         }catch(e){
             throw e;

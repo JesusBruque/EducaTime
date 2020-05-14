@@ -74,11 +74,11 @@ export default class CourseController extends GenericController{
 
         await Promise.all(pLections).catch(e => {throw e});
         if(curso.teacher){
-            await this.manageTeacher(curso.teacher, curso.title, curso.description);
+            await this.manageTeacher(curso._id, curso.teacher, curso.title, curso.description);
             console.log('email enviado al profesor.')
         }
     };
-    private manageTeacher = async (email: string, titulo: string, descripcion: string) => {
+    private manageTeacher = async (cursoId: string, email: string, titulo: string, descripcion: string) => {
         try{
             var err, user = await this.authenticationService.findByEmail(email);
             if (err) throw err;
@@ -90,6 +90,7 @@ export default class CourseController extends GenericController{
             else{
                 await this.authenticationService.registerTeacher(user);
             }
+            await this.authenticationService.addCursoToTeacher(user._id,cursoId);
             await this.authenticationService.sendCourseAssignmentEmail(email, user.username, titulo, descripcion);
             console.log('El usuario recibirá un email');
         }catch(e){

@@ -128,6 +128,28 @@ export default class AuthenticationService {
         user = await user.save();
         return user;
     };
+    public addCursoToTeacher = async(userId:string, cursoId: string):Promise<IUsuarioDTO> =>{
+        
+        let a = await Course.findById(cursoId);
+        let plazosPagados = [];
+        let leccionesCurso = [];
+        a.fees.forEach((fee,i) => {
+            plazosPagados.push({paid:true,idFee:fee._id});
+        });
+        a.lections.forEach(lection => {
+            leccionesCurso.push({idLection:lection,taskResponses:[],evaluationResponses:[]})
+        });
+
+        let courseParams = {
+            idCurso: cursoId, feeState: plazosPagados, lections: leccionesCurso
+        }
+        let err, user = await Usuario.findById(userId);
+        if(err) throw err;
+        if(!user) throw Error('No se ha encontrado el usuario');
+        user.cursos.push(courseParams);
+        user = await user.save();
+        return user;
+    }
     public sendCourseAssignmentEmail = async (email: string, username: string, courseTitle: string, courseDescription: string) =>{
         let html = this.assignmentEmail(email,username, courseTitle, courseDescription);
         let err, info = await sendEmail(email,'Nueva tutoría de Curso en CASOR. Academia de formación deportiva.', html);
