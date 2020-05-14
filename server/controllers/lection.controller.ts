@@ -194,11 +194,11 @@ export default class LectionController extends GenericController{
         }
       }
       public deleteHomeworks = async(req: Request, res: Response) =>{
-        Logger.debug('eliminando recursos teoricos');
+        Logger.debug('eliminando tareas ');
         try{
-            const lectionId = req.params.lectionId;
+            const lectionId:string = req.query.lectionId as string;
             const files = [];
-            files.concat(req.params.homeworkIds);
+            files.concat(req.query.homeworks);
             const lection = (await this.lectionService.findById(lectionId));
         
             files.forEach(task=>{
@@ -213,9 +213,10 @@ export default class LectionController extends GenericController{
                     }
                 }
             });
+            await lection.save();
             await this.lectionService.deleteAnyResources(lectionId, files);
             Logger.debug('recurso teorico eliminado');
-            return res.status(200).json({status:200});
+            return res.status(200).json({status:200, lection: lection});
         }catch (e) {
             return res.status(400).json({status:400});
         }

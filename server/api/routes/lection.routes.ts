@@ -14,9 +14,9 @@ export default (app: Router) => {
     
     route.get('/findById/:id', lectionController.findById)
 
+    route.delete('/deleteHomeworks', middlewares.isTeacherOfCourse, lectionController.deleteHomeworks);
     route.delete('/:lectionId',middlewares.isTeacherOfCourse,lectionController.deleteFullLection);
     route.delete('/deleteTeoricalResources/:teoricalResourceIds[]', middlewares.isTeacherOfCourse, lectionController.deleteTeoricalResources);
-    route.delete('/deleteHomeworks/:homeworkIds', middlewares.isTeacherOfCourse, lectionController.deleteHomeworks);
     route.delete('/deleteEvaluation/:evaluationId', middlewares.isTeacherOfCourse, lectionController.deleteEvaluation);
     route.post('/',
         celebrate({

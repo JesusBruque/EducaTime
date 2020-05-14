@@ -19,7 +19,7 @@ export default class Lection{
     public course: string;
     public teoricalResources:string[];
     public homework:work[];
-    public evaluations:work;
+    public evaluations:work[];
     public dateAvailable:number;
     public dateEnd:number;
     public active:boolean;
@@ -55,11 +55,11 @@ export const deleteLection = async (lection:string) =>{
 export const deleteTeoricalResources = (lectionId:string,teoricalResourceIds:[string]) =>{
     axios.delete(LECTION_URL+'/deleteTeoricalResources/'+teoricalResourceIds); 
 }
-export const deleteHomeworks = (lectionId:string,homeworkIds:[string]) =>{
-    axios.delete(LECTION_URL+'/deleteHomeworks/'+homeworkIds); 
+export const deleteHomeworks = (cursoId:string,lectionId:string,homeworkIds:[string]) =>{
+    return axios.delete(LECTION_URL+'/deleteHomeworks/',{params:{courseId:cursoId, lectionId: lectionId, homeworks:homeworkIds}}); 
 }
-export const deleteEvaluation = (lectionId:string,evaluationId:[string]) =>{
-    axios.delete(LECTION_URL+'/deleteEvaluation/'+evaluationId); 
+export const deleteEvaluation = (cursoId:string,lectionId:string,evaluationId:[string]) =>{
+    axios.delete(LECTION_URL+'/deleteEvaluation/'+evaluationId,{params:{courseId:cursoId}}); 
 }
 export const updateLectionDates = (fechaInicio,fechaFin,idLection,cursoId) => axios.put(LECTION_URL+'/updateDates/'+idLection,{fechaInicio:fechaInicio,fechaFin:fechaFin},{params:{courseId:cursoId}});
 export const updateTaskDate = (taskId,fechaLimite,cursoId) => axios.put(LECTION_URL+'/updateTaskDate/'+taskId,{fechaLimite:fechaLimite},{params:{courseId:cursoId}});
@@ -203,21 +203,22 @@ const validateHomework = (homework:work[]) => {
     });
     return true;
 };
-const validateEvaluations = (evals: work) =>{
-    if(typeof(evals.uploadFile)!=='string'){
-        return false;
-    }
-    if(typeof(evals.deadline)!=='number' || evals.deadline<=0){
-        return false;
-    }
-    if(evals.userResponses){
-        evals.userResponses.forEach(r => {
-            if(typeof(r.UserID)!=='string' || typeof(r.file)!=='string' || typeof(r.status)!=='string' || typeof(r.mark)!=='number' ||typeof(r.date)!=='number' || r.mark>10 || r.mark<0 || r.date < 0){
-                return false;
-            }
-        } )
-    }
-    return true;
+const validateEvaluations = (eva: work[]) =>{
+    eva.forEach(evals=>{
+        if(typeof(evals.uploadFile)!=='string'){
+            return false;
+        }
+        if(typeof(evals.deadline)!=='number' || evals.deadline<=0){
+            return false;
+        }
+        if(evals.userResponses){
+            evals.userResponses.forEach(r => {
+                if(typeof(r.UserID)!=='string' || typeof(r.file)!=='string' || typeof(r.status)!=='string' || typeof(r.mark)!=='number' ||typeof(r.date)!=='number' || r.mark>10 || r.mark<0 || r.date < 0){
+                    return false;
+                }
+            } )
+        }});
+        return true;
 }
 function getPropertyName(property){
     switch (property) {
