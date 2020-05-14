@@ -226,11 +226,10 @@ export default class LectionController extends GenericController{
             const lectionId = req.params.lectionId;
             const files = [];
             const lection = (await this.lectionService.findById(lectionId));
-            files.push(lection.evaluations.uploadFile);
-            lection.evaluations.userResponses.forEach(response=>{
-                files.push(response.file);
-            });
-            lection.evaluations = null; 
+            lection.evaluations.map(evaluation => {files.push(evaluation.uploadFile); evaluation.userResponses.map(response => files.push(response.file))});
+
+            lection.evaluations = null;
+            await lection.save();
             await this.lectionService.deleteAnyResources(lectionId, files);
             Logger.debug('evaluacion eliminada');
             return res.status(200).json({status:200});

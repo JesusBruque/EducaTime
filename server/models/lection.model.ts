@@ -49,7 +49,7 @@ var lectionSchema = new Schema({
             deadline: Number}]
   },
   evaluations: {
-    type:{
+    type:[{
         name:String,
         uploadFile: String, 
         userResponses:[{
@@ -57,7 +57,7 @@ var lectionSchema = new Schema({
                 file: String, 
                 date: Number}],
         deadline: Number
-    }
+    }]
   },
   dateAvailable:{
     type: Number
