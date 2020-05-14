@@ -74,17 +74,17 @@ export const uploadCourseFile = (cursoName:string,file, video:boolean,needAuth:b
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
-// export const deleteLections = async (cursoId: string, lectionIds:[string]) =>{
-//     const course = (await getCourseById(cursoId)).data.Course;
-//     lectionIds.forEach(lectionId=>{
-//         var order = (await deleteLection(lectionId)).data.Order;
-//         course.lections.splice(order,1);
-//         for(var i = 0;i<course.lections.length;i++){
-//             var le = (await getLectionById(course.lections[order+i])).data.Lection;
-//             le.order--;
-//         }
-//     });
-// }
+export const deleteLections = async (cursoId: string, lectionIds:[string]) =>{
+    const course = (await getCourseById(cursoId)).data.Course;
+    lectionIds.forEach(async lectionId=>{
+        var order = (await deleteLection(lectionId)).data.Order;
+        course.lections.splice(order,1);
+        for(var i = 0;i<course.lections.length;i++){
+            var le = (await getLectionById(course.lections[order+i])).data.Lection;
+            le.order--;
+        }
+    });
+}
 export const getCoursesByTeacher = () => axios.get(COURSE_URL + '/getCoursesByTeacher');
 export const validate = async (curso: Course) => {
     return new Promise((resolve,reject) => {
