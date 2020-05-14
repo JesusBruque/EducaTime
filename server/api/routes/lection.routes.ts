@@ -37,17 +37,17 @@ export default (app: Router) => {
                                                                                             status: Joi.string(), 
                                                                                             mark: Joi.number()
                                                                                         })).allow(null),
-                                                    deadline: Joi.number().required()})).allow(null),
-                evaluations: Joi.object({
-                                uploadFile:Joi.string().required(),
-                                userResponses:Joi.array().items(Joi.object({
-                                                                    UserID: Joi.string(), 
-                                                                    file: Joi.string(), 
-                                                                    date: Joi.number(), 
-                                                                    status: Joi.string(), 
-                                                                    mark: Joi.number()
-                                                        })).allow(null),
-                                deadline: Joi.number().required()}).allow(null),
+                                                    deadline: Joi.number().required()}).allow(null)),
+                evaluations: Joi.array().items(Joi.object({
+                                                    uploadFile:Joi.string().required(),
+                                                    userResponses:Joi.array().items(Joi.object({
+                                                                                        UserID: Joi.string(), 
+                                                                                        file: Joi.string(), 
+                                                                                        date: Joi.number(), 
+                                                                                        status: Joi.string(), 
+                                                                                        mark: Joi.number()
+                                                                            })).allow(null),
+                                                    deadline: Joi.number().required()}).allow(null)), 
                 dateAvailable: Joi.number().required(),
                 dateEnd: Joi.number().required(),
                 active: Joi.boolean()
@@ -75,17 +75,17 @@ export default (app: Router) => {
                                                                                             status: Joi.string(), 
                                                                                             mark: Joi.number()
                                                                                         })).allow(null),
-                                                    deadline: Joi.number().required()})).allow(null),
-                evaluations: Joi.object({
-                                uploadFile:Joi.string().required(),
-                                userResponses:Joi.array().items(Joi.object({
-                                                                    UserID: Joi.string(), 
-                                                                    file: Joi.string(), 
-                                                                    date: Joi.number(), 
-                                                                    status: Joi.string(), 
-                                                                    mark: Joi.number()
-                                                        })).allow(null),
-                                deadline: Joi.number().required()}).allow(null),
+                                                    deadline: Joi.number().required()}).allow(null)),
+                evaluations: Joi.array().items(Joi.object({
+                                                    uploadFile:Joi.string().required(),
+                                                    userResponses:Joi.array().items(Joi.object({
+                                                                                        UserID: Joi.string(), 
+                                                                                        file: Joi.string(), 
+                                                                                        date: Joi.number(), 
+                                                                                        status: Joi.string(), 
+                                                                                        mark: Joi.number()
+                                                                            })).allow(null),
+                                                    deadline: Joi.number().required()}).allow(null)), 
                 dateAvailable: Joi.number().required(),
                 dateEnd: Joi.number().required(),
                 active: Joi.boolean(),

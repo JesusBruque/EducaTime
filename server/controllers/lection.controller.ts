@@ -40,7 +40,7 @@ export default class LectionController extends GenericController{
         }
       }
       public uploadEvaluationResource = async(req: Request, res: Response) =>{
-        Logger.debug('Subiendo fichero...');
+        Logger.debug('Subiendo fichero de evaluacion...');
         try{
             const lectionId = req.params.lectionId;
             req.pipe(req.busboy);
@@ -99,7 +99,7 @@ export default class LectionController extends GenericController{
         }
       }
       public uploadHomeworkResponse = async(req: Request, res: Response) => {
-        Logger.debug('Subiendo tarea...');
+        Logger.debug('Validando respuesta tarea...');
         try{
             const lectionId = req.params.lectionId;
             const homeworkId = req.params.homeworkId;
@@ -108,7 +108,9 @@ export default class LectionController extends GenericController{
             if(err1) throw err1;
             const countH = (await lection).homework.length;
             for(let i=0; i < countH;i++){
+                Logger.debug('Buscando tarea...');
                 if((await lection).homework[i]._id==homeworkId){
+                    Logger.debug('Encontrada tarea...');
                     const countR = (await lection).homework[i].userResponses.length;
                     for(let j=0; j < countR;j++){
                         if((await lection).homework[i].userResponses[j].UserID==userId){
@@ -118,6 +120,7 @@ export default class LectionController extends GenericController{
                             return res.status(999).json({message:'Ha expirado el período hábil para entregar respuestas a esta tarea.', homeworkId: homeworkId, deadliine: (await lection).homework[i].deadline});
                         }
                     }
+                    Logger.debug('Subiendo tarea...');
                     req.pipe(req.busboy);
                     let fileLocation:string;
                     /*--- DETECCION DE FICHERO Y SUBIDA A S3 ---*/

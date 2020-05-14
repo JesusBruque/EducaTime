@@ -118,7 +118,7 @@ export const uploadEvaluationLectionFile = (lectionName:string, file, cursoId:st
         data:data,
         params:{
             courseId:cursoId,
-            video:true,
+            video:false,
             needAuth:true
         },
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}

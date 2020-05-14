@@ -76,14 +76,15 @@ export const uploadCourseFile = (cursoName:string,file, video:boolean,needAuth:b
 };
 export const deleteLections = async (cursoId: string, lectionIds:[string]) =>{
     const course = (await getCourseById(cursoId)).data.Course;
-    lectionIds.forEach(lectionId=>{
-        var order = (await deleteLection(lectionId)).data.Order;
+    lectionIds.forEach(async lectionId=>{
+        const order = await (await deleteLection(lectionId)).data.Order;
         course.lections.splice(order,1);
         for(var i = 0;i<course.lections.length;i++){
             var le = (await getLectionById(course.lections[order+i])).data.Lection;
             le.order--;
         }
     });
+    return course.lections;
 }
 export const getCoursesByTeacher = () => axios.get(COURSE_URL + '/getCoursesByTeacher');
 export const validate = async (curso: Course) => {
