@@ -1,7 +1,7 @@
 import { ICourse } from '../interfaces/ICourse';
 import mongoose from 'mongoose';
 import mongooseHistory from 'mongoose-history'
-
+import Lection from './lection.model';
 var Schema = mongoose.Schema;
 var courseSchema = new Schema({ 
   title: {
@@ -79,4 +79,9 @@ var courseSchema = new Schema({
 }, { versionKey: '_version' });
 
 courseSchema.plugin(mongooseHistory);
+
+courseSchema.pre('remove',function(next){
+  Lection.remove({course:this._id});
+  next();
+});
 export default mongoose.model<ICourse & mongoose.Document>('Course', courseSchema);

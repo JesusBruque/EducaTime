@@ -24,8 +24,7 @@ export const isTeacherOfCourse = async(req,res,next) => {
     }else{
         return res.status(403).json({
             'status': 403,
-            'message': 'Para entrar aquí tienes que iniciar seaekruvbhjerbvhjervhjervhrevrghevrhgjghrghvweghkesión.',
-            'req':req
+            'message': 'Para entrar aquí tienes que iniciar seaekruvbhjerbvhjervhjervhrevrghevrhgjghrghvweghkesión.'
         });
     }
 };

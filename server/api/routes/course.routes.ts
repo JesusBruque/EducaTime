@@ -3,9 +3,6 @@ import { celebrate, Joi } from 'celebrate';
 import CourseController from '../../controllers/course.controller'
 import middlewares from '../middlewares';
 import FilesController from "../../controllers/files.controller";
-import isAdmin from '../middlewares/isAdmin';
-import isTeacher from '../middlewares/isTeacher';
-import isAuth from '../middlewares/isAuth';
 const route = Router();
 
 export default (app:Router)=>{
@@ -16,7 +13,7 @@ export default (app:Router)=>{
     route.get('/findAll', courseController.findAll);
     
     route.get('/findById/:id', courseController.findById);
-
+    route.delete('/:courseId',middlewares.isAdmin,courseController.deleteFullCourse);
     route.post('/',
         celebrate({
             body:Joi.object({
@@ -41,7 +38,7 @@ export default (app:Router)=>{
                 webinar:Joi.string().allow(null,"")
             })
         }),
-        //isAdmin,
+        middlewares.isAdmin,
         courseController.createCourse);
         
     route.put('/',
@@ -67,15 +64,17 @@ export default (app:Router)=>{
                 active: Joi.boolean(),
             }).unknown(true),
         }),
-        //isAdmin || isTeacherOfCourse,
+        middlewares.isAdmin,
         courseController.editCourse);
 
-    route.post('/post_file/:cursoId',isAdmin,courseController.uploadCourseFile);
+    route.post('/post_file/:cursoId',middlewares.isAdmin,courseController.uploadCourseFile);
     route.get('/get_file/:filename',fileController.retrieveFile);
     route.get('/getCoursesByTeacher',courseController.findCoursesWhereTeacher);
     /* PROBANDO UPLOADING PROGRESS */
 
-    route.get('/get_signed_url',fileController.getSignedUrl);
-    route.get('/get_signed_cookies',fileController.getSignedCookie);
+    // route.get('/get_signed_url',fileController.getSignedUrl);
+    // route.get('/get_signed_cookies',fileController.getSignedCookie);
+
+
 
 }

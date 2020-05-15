@@ -14,7 +14,7 @@ var lectionSchema = new Schema({
     type: String,
   },
   video: {
-    type: [String]
+    type: [{nombre:String,url:String}]
   },
   duration: {
     type: Number,
@@ -26,10 +26,11 @@ var lectionSchema = new Schema({
   },
   course:{ type: Schema.Types.ObjectId, ref: 'Course' },
   teoricalResources: {
-    type: [String]
+    type: [{name:String,url:String}]
   },
   homework: {
     type:[{
+            name:String,
             uploadFile: String, 
             userResponses:[{
                   UserID: String, 
@@ -48,14 +49,15 @@ var lectionSchema = new Schema({
             deadline: Number}]
   },
   evaluations: {
-    type:{
-         uploadFile: String, 
-         userResponses:[{
+    type:[{
+        name:String,
+        uploadFile: String, 
+        userResponses:[{
                 UserID: String, 
                 file: String, 
                 date: Number}],
-         deadline: Number
-    }
+        deadline: Number
+    }]
   },
   dateAvailable:{
     type: Number

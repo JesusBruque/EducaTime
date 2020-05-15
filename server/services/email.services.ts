@@ -6,7 +6,9 @@ const transport = {
     auth: {
         user:config.email_user,
         pass: config.email_pass
-    }
+    },
+    port: 587,
+    secure: false,
 };
 
 export const sendEmail = async (emailTo,subject,htmlMessage) => {
@@ -24,6 +26,15 @@ export const sendEmail = async (emailTo,subject,htmlMessage) => {
         subject: subject,
         html: htmlMessage,
     };
-    await transporter.sendMail(email);
+    return new Promise((resolve,reject) => {
+        transporter.sendMail(email,(err,data) => {
+            if(err) {
+                console.error(err);
+                reject(err);
+            }
+            resolve(data);
+            console.log(data);
+        });
+    });
 };
 

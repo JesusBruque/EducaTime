@@ -11,6 +11,7 @@ import {ILection} from "../interfaces/ILection";
 import config from "../config";
 import mongoose from 'mongoose';
 import {IUsuarioDTO} from "../interfaces/IUsuario";
+import {file} from "@babel/types";
 
  export default class CourseService extends GenericService{
      private lectionService:LectionService;
@@ -31,14 +32,23 @@ import {IUsuarioDTO} from "../interfaces/IUsuario";
      };
      public hardDelete = async (courseId: string): Promise<Boolean> => {
          try {
-             /*
-             Asesorar si habria que eliminar todos los archivos de video del servidor.
-             */
-            this.lectionEraser(courseId);
-             
-             var err, res = await Course.findByIdAndDelete(courseId);
-             if (err) throw err;
-             if (!res) throw Error("No se ha borrado el curso");
+            let filesToDelete = [];
+            let err, lections = await Lection.find({course:courseId}).lean();
+            if(err) throw err;
+            lections.forEach(lection => {
+               filesToDelete.concat(this.lectionService.getLectionFiles(lection._id));
+            });
+
+             let error, curso = await Course.findById(courseId);
+             if(error) throw error;
+             filesToDelete.push(curso.video);
+             filesToDelete.push(curso.thumbnail);
+             curso.remove();
+             await this.fileService.removeFiles(filesToDelete);
+             Logger.debug('ficheros eliminados');
+             // var err, res = await Course.findByIdAndDelete(courseId);
+             // if (err) throw err;
+             // if (!res) throw Error("No se ha borrado el curso");
              return true;
          } catch (e) {
              throw e;
@@ -82,7 +92,6 @@ import {IUsuarioDTO} from "../interfaces/IUsuario";
              throw e;
          }
      }
-
      public findCoursesWhereTeacher = async(email:string) => {
          try{
              let err, cursos = await Course.find({teacher:email}).populate('lections').lean();
@@ -92,5 +101,4 @@ import {IUsuarioDTO} from "../interfaces/IUsuario";
              throw e;
          }
      }
-
  }

@@ -74,10 +74,11 @@ export default class CourseController extends GenericController{
 
         await Promise.all(pLections).catch(e => {throw e});
         if(curso.teacher){
-            await this.manageTeacher(curso.teacher, curso.title, curso.description);
+            await this.manageTeacher(curso._id, curso.teacher, curso.title, curso.description);
+            console.log('email enviado al profesor.')
         }
     };
-    private manageTeacher = async (email: string, titulo: string, descripcion: string) => {
+    private manageTeacher = async (cursoId: string, email: string, titulo: string, descripcion: string) => {
         try{
             var err, user = await this.authenticationService.findByEmail(email);
             if (err) throw err;
@@ -89,7 +90,9 @@ export default class CourseController extends GenericController{
             else{
                 await this.authenticationService.registerTeacher(user);
             }
+            await this.authenticationService.addCursoToTeacher(user._id,cursoId);
             await this.authenticationService.sendCourseAssignmentEmail(email, user.username, titulo, descripcion);
+            console.log('El usuario recibirá un email');
         }catch(e){
             throw e;
         }
@@ -122,6 +125,18 @@ export default class CourseController extends GenericController{
         }catch(e){
             Logger.error('Error al encontrar los cursos dónde es profesor.');
             Logger.error(e);
+            return res.status(400).json({status:400});
+        }
+    }
+
+    public deleteFullCourse = async(req:Request, res:Response) => {
+        Logger.debug('eliminando curso');
+        try{
+            const courseId = req.params.courseId;
+            await this.courseService.hardDelete(courseId);
+            Logger.debug('curso eliminado');
+            return res.status(200).json({status:200});
+        }catch (e) {
             return res.status(400).json({status:400});
         }
     }

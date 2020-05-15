@@ -1,10 +1,11 @@
-import Layout from "../../components/Layout";
 
-const Compras = () => {
+import LayoutAdmin from "../../components/LayoutAdmin";
+
+const Compras = (props) => {
     return (
-        <Layout admin selected={'compras'}>
+        <LayoutAdmin selected={'compras'} router={props.router} utils={props.utils} user={props.user} setUser={props.setUser}>
             PAGINA DE COMPRAS
-        </Layout>
+        </LayoutAdmin>
     )
 }
 export default Compras;

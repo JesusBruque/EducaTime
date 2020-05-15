@@ -43,7 +43,7 @@ const MainInfoCourse = (props:Props) => {
                             inputEditing === 'description' ?
                                 <TextEditor utils={props.utils} onChange={(content) =>props.handleInfoCursoChange(content,'description')} files={false} height={300} initialValue={props.cursoInfo.description} basic={true}/>
                                 :
-                                <div dangerouslySetInnerHTML={{__html: props.cursoInfo.description}} className={styles.cursoInfoDescriptionValue}></div>
+                                <div dangerouslySetInnerHTML={{__html: props.cursoInfo.description}} className={styles.cursoInfoDescriptionValue} onClick={() =>handleChangeEditing('description')}></div>
                         }
                     </div>
                 </div>
@@ -62,7 +62,7 @@ const MainInfoCourse = (props:Props) => {
                             inputEditing === 'target' ?
                                 <TextEditor utils={props.utils} onChange={(content) =>props.handleInfoCursoChange(content,'target')} files={false} height={300} initialValue={props.cursoInfo.target} basic={true}/>
                                 :
-                                <div dangerouslySetInnerHTML={{__html: props.cursoInfo.target}} className={styles.cursoInfoDescriptionValue}></div>
+                                <div dangerouslySetInnerHTML={{__html: props.cursoInfo.target}} className={styles.cursoInfoDescriptionValue} onClick={() =>handleChangeEditing('target')}></div>
                         }
                     </div>
                 </div>
@@ -80,7 +80,7 @@ const MainInfoCourse = (props:Props) => {
                         inputEditing === 'goals' ?
                             <TextEditor utils={props.utils} onChange={(content) => props.handleInfoCursoChange(content,'goals')} files={false}  height={300} initialValue={props.cursoInfo.goals} basic={true}/>
                             :
-                            <div dangerouslySetInnerHTML={{__html: props.cursoInfo.goals}} className={styles.cursoInfoDescriptionValue}></div>
+                            <div dangerouslySetInnerHTML={{__html: props.cursoInfo.goals}} className={styles.cursoInfoDescriptionValue} onClick={() =>handleChangeEditing('goals')}></div>
                     }
                 </div>
                 <div>
@@ -97,7 +97,7 @@ const MainInfoCourse = (props:Props) => {
                         inputEditing === 'requirements' ?
                             <TextEditor utils={props.utils} onChange={(content) => props.handleInfoCursoChange(content,'requirements')} files={false} height={300} initialValue={props.cursoInfo.requirements} basic={true}/>
                             :
-                            <div dangerouslySetInnerHTML={{__html: props.cursoInfo.requirements}} className={styles.cursoInfoDescriptionValue}></div>
+                            <div dangerouslySetInnerHTML={{__html: props.cursoInfo.requirements}} className={styles.cursoInfoDescriptionValue} onClick={() =>handleChangeEditing('requirements')}></div>
                     }
                 </div>
             </div>

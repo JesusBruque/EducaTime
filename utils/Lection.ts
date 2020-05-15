@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {genericValidator,email} from "./Validators";
 
-const LECTION_URL = 'http://localhost:5000/api/lection';
+const LECTION_URL = process.env.API_URL+'/api/lection';
 
 type work = {
     uploadFile:string,
@@ -19,7 +19,7 @@ export default class Lection{
     public course: string;
     public teoricalResources:string[];
     public homework:work[];
-    public evaluations:work;
+    public evaluations:work[];
     public dateAvailable:number;
     public dateEnd:number;
     public active:boolean;
@@ -48,8 +48,19 @@ export const create = (lection:Lection) => {
     return axios.post(LECTION_URL,lection);
 };
 export const edit = (lection:Lection) => axios.put(LECTION_URL,lection);
-export const getCourseById = (cursoId: string) =>  axios.get(LECTION_URL+'/findById/' + cursoId);
-
+export const getLectionById = async (lectionId: string) =>  {return axios.get(LECTION_URL+'/findById/' + lectionId);}
+export const deleteLection = async (lection:string) =>{
+    return axios.delete(LECTION_URL+'/'+lection);
+} 
+export const deleteTeoricalResources = (lectionId:string,teoricalResourceIds:[string]) =>{
+    axios.delete(LECTION_URL+'/deleteTeoricalResources/'+teoricalResourceIds); 
+}
+export const deleteHomeworks = (cursoId:string,lectionId:string,homeworkIds:[string]) =>{
+    return axios.delete(LECTION_URL+'/deleteHomeworks/',{params:{courseId:cursoId, lectionId: lectionId, homeworks:homeworkIds}}); 
+}
+export const deleteEvaluation = (cursoId:string,lectionId:string,evaluationId:[string]) =>{
+    axios.delete(LECTION_URL+'/deleteEvaluation/'+evaluationId,{params:{courseId:cursoId}}); 
+}
 export const updateLectionDates = (fechaInicio,fechaFin,idLection,cursoId) => axios.put(LECTION_URL+'/updateDates/'+idLection,{fechaInicio:fechaInicio,fechaFin:fechaFin},{params:{courseId:cursoId}});
 export const updateTaskDate = (taskId,fechaLimite,cursoId) => axios.put(LECTION_URL+'/updateTaskDate/'+taskId,{fechaLimite:fechaLimite},{params:{courseId:cursoId}});
 
@@ -68,7 +79,6 @@ export const uploadLectionVideo = (lectionName: string, file,cursoId:string) => 
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
-
 export const uploadTeoreticalResourceLectionFile = (lectionName:string,file,cursoId:string) => {
     let data = new FormData();
     data.append('file',file);
@@ -99,6 +109,37 @@ export const uploadHomeworkLectionFile = (lectionName:string, homeworkName: stri
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
+export const uploadEvaluationLectionFile = (lectionName:string, evaluationName: string, file, cursoId:string) => {
+    let data = new FormData();
+    data.append('file',file);
+    return axios({
+        method:'post',
+        url:`${LECTION_URL}/post_file/${lectionName}/evaluation`,
+        data:data,
+        params:{
+            courseId:cursoId,
+            video:false,
+            needAuth:true
+        },
+        onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
+    });
+}
+export const uploadHomeworkResponseFile = (lectionName: string, userId: string, homeworkId: string, file) =>{
+    let data = new FormData();
+    data.append('file',file);
+    return axios({
+        method:'post',
+        url:`${LECTION_URL}/post_file/${lectionName}/homework/${homeworkId}/${userId}`,
+        data:data,
+        params:{
+            video: false,
+            needAuth:true
+        },
+        onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
+    });
+    const taskResponse = {lectionId: lectionName, userId: userId, homeworkId: homeworkId};
+    return axios.post(LECTION_URL+'/post_file/uploadHomeworkResponse/'+taskResponse);
+}
 export const validate = async (lection: Lection) => {
     return new Promise((resolve,reject) => {
         let validations = {
@@ -162,21 +203,22 @@ const validateHomework = (homework:work[]) => {
     });
     return true;
 };
-const validateEvaluations = (evals: work) =>{
-    if(typeof(evals.uploadFile)!=='string'){
-        return false;
-    }
-    if(typeof(evals.deadline)!=='number' || evals.deadline<=0){
-        return false;
-    }
-    if(evals.userResponses){
-        evals.userResponses.forEach(r => {
-            if(typeof(r.UserID)!=='string' || typeof(r.file)!=='string' || typeof(r.status)!=='string' || typeof(r.mark)!=='number' ||typeof(r.date)!=='number' || r.mark>10 || r.mark<0 || r.date < 0){
-                return false;
-            }
-        } )
-    }
-    return true;
+const validateEvaluations = (eva: work[]) =>{
+    eva.forEach(evals=>{
+        if(typeof(evals.uploadFile)!=='string'){
+            return false;
+        }
+        if(typeof(evals.deadline)!=='number' || evals.deadline<=0){
+            return false;
+        }
+        if(evals.userResponses){
+            evals.userResponses.forEach(r => {
+                if(typeof(r.UserID)!=='string' || typeof(r.file)!=='string' || typeof(r.status)!=='string' || typeof(r.mark)!=='number' ||typeof(r.date)!=='number' || r.mark>10 || r.mark<0 || r.date < 0){
+                    return false;
+                }
+            } )
+        }});
+        return true;
 }
 function getPropertyName(property){
     switch (property) {

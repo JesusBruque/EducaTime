@@ -1,5 +1,5 @@
 import axios from 'axios';
-const AUTHENTICATION_URL = 'http://localhost:5000/api/authentication';
+const AUTHENTICATION_URL = `${process.env.API_URL}/api/authentication`;
 axios.defaults.withCredentials = true;
 export const login = (credentials: { email: string, password: string }) => axios.post(AUTHENTICATION_URL, credentials);
 export const logout = () => axios.delete(AUTHENTICATION_URL);
