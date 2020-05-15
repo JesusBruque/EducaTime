@@ -5,14 +5,22 @@ import mongoose from 'mongoose';
 import mongooseHistory from 'mongoose-history'
 
 var Schema = mongoose.Schema;
+var schemaOptions = {
+  toObject: {
+    virtuals: true
+  }
+  , toJSON: {
+    virtuals: true
+  }
+}
 var usuarioSchema = new Schema({
-  name:{
-    type:String
+  name: {
+    type: String
   },
-  apellidos:{
-    type:String
+  apellidos: {
+    type: String
   },
-  titulation:String,
+  titulation: String,
   password: {
     type: String,
     required: true,
@@ -34,10 +42,10 @@ var usuarioSchema = new Schema({
     minlength: 3,
     trim: true
   },
-  roles:[{
-    type:String,
-    required:true,
-    enum:['admin','user','teacher']
+  roles: [{
+    type: String,
+    required: true,
+    enum: ['admin', 'user', 'teacher']
   }],
   salt: {
     type: Buffer,
@@ -48,19 +56,40 @@ var usuarioSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Usuario',
   },
-  cursos:[{
-    idCurso:{ type: Schema.Types.ObjectId, ref: 'Course' },
-    feeState:[{paid:Boolean,idFee:{type:Schema.Types.ObjectId,ref:'Course.fees'}}],
-    lections:[{
-      idLection:{ type: Schema.Types.ObjectId, ref: 'Lection' },
-      taskResponses:[{origin:String,url:String}],
-      evaluationResponses:[{origin:String,url:String}]
+  cursos: [{
+    idCurso: { type: Schema.Types.ObjectId, ref: 'Course' },
+    feeState: [{ paid: Boolean, idFee: { type: Schema.Types.ObjectId, ref: 'Course.fees' } }],
+    lections: [{
+      idLection: { type: Schema.Types.ObjectId, ref: 'Lection' },
+      taskResponses: [{ origin: String, url: String }],
+      evaluationResponses: [{ origin: String, url: String }]
     }]
   }],
-  favoritos:[String]
-}, { versionKey: '_version' });
+  favoritos: [String]
+}, {
+  toObject: {
+    virtuals: true
+  }
+  , toJSON: {
+    virtuals: true
+  }, versionKey: '_version'
+});
 
 usuarioSchema.plugin(mongooseHistory);
+
+usuarioSchema.virtual('paymentPend').get(function () {
+  let res = 0;
+  for (let i = 0; i < this.cursos.length; i++) {
+    const infoCurso = this.cursos[i];
+    if (infoCurso.feeState && infoCurso.feeState.length > 0) {
+      for (let j = 0; j < infoCurso.feeState.length; j++) {
+        const fee = infoCurso.feeState[j];
+        if (fee.paid === false) res++;
+      }
+    }
+  }
+  return res;
+});
 
 usuarioSchema.methods.encryptPassword = async function (password: string): Promise<{ salt: Buffer, hashedPassword: string }> {
   try {

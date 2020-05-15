@@ -3,8 +3,8 @@ import Course from '../models/course.model';
 import Lection from '../models/lection.model';
 import { IUsuario, IUsuarioDTO } from '../interfaces/IUsuario';
 import argon2 from 'argon2';
-import {randomBytes} from "crypto";
-import {sendEmail} from "./email.services";
+import { randomBytes } from "crypto";
+import { sendEmail } from "./email.services";
 import mongoose from "mongoose";
 
 export default class AuthenticationService {
@@ -17,6 +17,7 @@ export default class AuthenticationService {
             if (err) throw err;
             if (user)
                 correct = await user.validPassword(password);
+            console.log(user.paymentPend)
             if (correct)
                 return { user: user, correct: true };
             return { user: null, correct: false }
@@ -24,145 +25,145 @@ export default class AuthenticationService {
             throw e;
         }
     };
-    public findUserCourses = async (idUsuario:string) => {
-        try{
+    public findUserCourses = async (idUsuario: string) => {
+        try {
             // let err, user = await Usuario.aggregate([
             //     {$match:{"_id": new mongoose.Types.ObjectId(idUsuario)}},
             //     {$lookup:{from:'courses',localField:'cursos.idCurso',foreignField:'_id',as:'userCourses'}}
             // ]);
-            let err,user = await Usuario.findById(idUsuario).populate({path:'cursos.idCurso',model:Course,populate:{path:'lections',model:Lection}});
-            if(err) throw err;
+            let err, user = await Usuario.findById(idUsuario).populate({ path: 'cursos.idCurso', model: Course, populate: { path: 'lections', model: Lection } });
+            if (err) throw err;
             return user;
-        }catch(e){
+        } catch (e) {
             throw e;
         }
     };
-    public marcaProxPlazo = async(user:IUsuario, courseId: string, plazo: number) => {
-        try{
+    public marcaProxPlazo = async (user: IUsuario, courseId: string, plazo: number) => {
+        try {
             let courseIndex = 0;
             const lc = user.cursos.length;
-            for(let i=0;i<lc;i++){
-                if(user.cursos[i].idCurso.toString()==courseId){
+            for (let i = 0; i < lc; i++) {
+                if (user.cursos[i].idCurso.toString() == courseId) {
                     courseIndex = i;
                 }
             }
             const fees = user.cursos[courseIndex].feeState;
-            if(plazo){
-                fees[plazo] ? fees[plazo].paid = true : () => {throw Error('No existe el plazo indicado')};
-            }else{
+            if (plazo) {
+                fees[plazo] ? fees[plazo].paid = true : () => { throw Error('No existe el plazo indicado') };
+            } else {
                 fees.map(f => f.paid = true);
             }
         }
-        catch(e){
+        catch (e) {
             throw e;
         }
     }
-    public findUserByEmail = async(email:string): Promise<IUsuario> => {
+    public findUserByEmail = async (email: string): Promise<IUsuario> => {
         try {
-            let err, user = await Usuario.findOne({email: email});
+            let err, user = await Usuario.findOne({ email: email });
             if (err) throw err;
             if (!user) return null;
             if (user) return user;
         }
-        catch(e){
+        catch (e) {
             throw e;
         }
     };
-    public findByEmail = async(email:string): Promise<IUsuarioDTO> => {
+    public findByEmail = async (email: string): Promise<IUsuarioDTO> => {
         try {
-            let err, user = await Usuario.findOne({email: email});
+            let err, user = await Usuario.findOne({ email: email });
             if (err) throw err;
-            if (!user) return {_id:null,email:email,roles:null,username:email,cursos:[],favoritos:[]};
+            if (!user) return { _id: null, email: email, roles: null, username: email, cursos: [], favoritos: [] };
             if (user) return user;
         }
-        catch(e){
+        catch (e) {
             throw e;
         }
     };
-    public registerUser = async(user:IUsuarioDTO): Promise<IUsuarioDTO> => {
-        return this.register(user,'user');
+    public registerUser = async (user: IUsuarioDTO): Promise<IUsuarioDTO> => {
+        return this.register(user, 'user');
     }
-    public registerTeacher = async(user:IUsuarioDTO): Promise<IUsuarioDTO> => {
-        return this.register(user,'teacher');
+    public registerTeacher = async (user: IUsuarioDTO): Promise<IUsuarioDTO> => {
+        return this.register(user, 'teacher');
     }
-    private register = async(user:IUsuarioDTO, rol:string): Promise<IUsuarioDTO> => {
-        try{
+    private register = async (user: IUsuarioDTO, rol: string): Promise<IUsuarioDTO> => {
+        try {
             const salt = randomBytes(32);
             const pass = Math.random().toString(36).substring(7);
             const hashedPassword = await argon2.hash(pass, { salt: salt });
-            let err, newUser = await new Usuario({email:user.email,username:user.username,roles:[rol],password:hashedPassword,salt:salt}).save();
-            if(err) throw err;
-            if(!newUser) throw Error("No se ha podido crear el usuario " + user.email);
-            await this.sendRegisterEmail(user.username,pass,user.email);
+            let err, newUser = await new Usuario({ email: user.email, username: user.username, roles: [rol], password: hashedPassword, salt: salt }).save();
+            if (err) throw err;
+            if (!newUser) throw Error("No se ha podido crear el usuario " + user.email);
+            await this.sendRegisterEmail(user.username, pass, user.email);
             return newUser;
-        }catch(e){
+        } catch (e) {
             throw e;
         }
     }
-    public addRolTeacherToUser = async(userId: string) => {
+    public addRolTeacherToUser = async (userId: string) => {
         let err, user = await Usuario.findById(userId);
-        if(err) throw err;
-        if(!user) throw Error('No se ha encontrado el usuario');
+        if (err) throw err;
+        if (!user) throw Error('No se ha encontrado el usuario');
         user.roles.push('teacher');
         return user;
     }
-    public addCursoToUser = async(userId:string,curso:string, plazo?:number) : Promise<IUsuarioDTO> => {
-        
+    public addCursoToUser = async (userId: string, curso: string, plazo?: number): Promise<IUsuarioDTO> => {
+
         let a = await Course.findById(curso);
         let plazosPagados = [];
         let leccionesCurso = [];
-        a.fees.forEach((fee,i) => {
-            plazosPagados.push({paid:(plazo===null || plazo===undefined || i === plazo),idFee:fee._id});
+        a.fees.forEach((fee, i) => {
+            plazosPagados.push({ paid: (plazo === null || plazo === undefined || i === plazo), idFee: fee._id });
         });
         a.lections.forEach(lection => {
-            leccionesCurso.push({idLection:lection,taskResponses:[],evaluationResponses:[]})
+            leccionesCurso.push({ idLection: lection, taskResponses: [], evaluationResponses: [] })
         });
 
         let courseParams = {
             idCurso: curso, feeState: plazosPagados, lections: leccionesCurso
         }
         let err, user = await Usuario.findById(userId);
-        if(err) throw err;
-        if(!user) throw Error('No se ha encontrado el usuario');
+        if (err) throw err;
+        if (!user) throw Error('No se ha encontrado el usuario');
         user.cursos.push(courseParams);
         user = await user.save();
         return user;
     };
-    public addCursoToTeacher = async(userId:string, cursoId: string):Promise<IUsuarioDTO> =>{
-        
+    public addCursoToTeacher = async (userId: string, cursoId: string): Promise<IUsuarioDTO> => {
+
         let a = await Course.findById(cursoId);
         let plazosPagados = [];
         let leccionesCurso = [];
-        a.fees.forEach((fee,i) => {
-            plazosPagados.push({paid:true,idFee:fee._id});
+        a.fees.forEach((fee, i) => {
+            plazosPagados.push({ paid: true, idFee: fee._id });
         });
         a.lections.forEach(lection => {
-            leccionesCurso.push({idLection:lection,taskResponses:[],evaluationResponses:[]})
+            leccionesCurso.push({ idLection: lection, taskResponses: [], evaluationResponses: [] })
         });
 
         let courseParams = {
             idCurso: cursoId, feeState: plazosPagados, lections: leccionesCurso
         }
         let err, user = await Usuario.findById(userId);
-        if(err) throw err;
-        if(!user) throw Error('No se ha encontrado el usuario');
+        if (err) throw err;
+        if (!user) throw Error('No se ha encontrado el usuario');
         user.cursos.push(courseParams);
         user = await user.save();
         return user;
     }
-    public sendCourseAssignmentEmail = async (email: string, username: string, courseTitle: string, courseDescription: string) =>{
-        let html = this.assignmentEmail(email,username, courseTitle, courseDescription);
-        let err, info = await sendEmail(email,'Nueva tutoría de Curso en CASOR. Academia de formación deportiva.', html);
-        if(err) console.error(err);
+    public sendCourseAssignmentEmail = async (email: string, username: string, courseTitle: string, courseDescription: string) => {
+        let html = this.assignmentEmail(email, username, courseTitle, courseDescription);
+        let err, info = await sendEmail(email, 'Nueva tutoría de Curso en CASOR. Academia de formación deportiva.', html);
+        if (err) console.error(err);
         console.log(info);
         return info;
     }
-    public sendRegisterEmail = async(email:string,pass:string,username:string) => {
-        let html = this.registerEmail({username,pass,email});
-        await sendEmail(email,'Registro en CASOR. Academia de formación deportiva.', html);
+    public sendRegisterEmail = async (email: string, pass: string, username: string) => {
+        let html = this.registerEmail({ username, pass, email });
+        await sendEmail(email, 'Registro en CASOR. Academia de formación deportiva.', html);
     };
 
-    
+
     private assignmentEmail = (email: string, username: string, courseTitle: string, courseDescription: string) => {
         return `
         <body>
@@ -195,7 +196,7 @@ export default class AuthenticationService {
             </table>
         </body>`
     }
-    private registerEmail = (userCredentials :  {username:string,pass:string,email:string}) => {
+    private registerEmail = (userCredentials: { username: string, pass: string, email: string }) => {
         return `
         <body>
             <table width="600" style='text-align:center;font-family:Verdana;border-collapse:collapse;margin:0 auto;background-color: #ffffff'>
