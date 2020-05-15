@@ -13,9 +13,8 @@
 /*---- ESTILOS LAYOUT WEB ---*/
 .webContainer{
     position:relative;
-    padding:70px 15px;
+    padding:70px 0 0;
     margin:0 auto;
-    max-width:1400px;
     min-height:100vh;
 }
 

@@ -78,7 +78,7 @@ const userWhiteBoard = (props) => {
         <Layout user={props.user} setUser={props.setUser} router={props.router} utils={props.utils} whiteboard={true}>
             {userData &&
             <React.Fragment>
-                <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex}/>
+                <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} />
                 <div className={styles.mainContainer}>
                     {contentLoaded && contentSelected === 'cursos' && <CursosContent cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={userData.cursos} teacher={false} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
                     {contentLoaded && contentSelected === 'tareas' && <TareasContent/>}

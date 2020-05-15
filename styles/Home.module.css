@@ -1,116 +1,196 @@
-.mainTitle{
-    text-align: left;
-    width:fit-content;
+.homeSection{
+    display:flex;
+    justify-content:space-around;
+    align-items: center;
+    min-height:calc(100vh - 140px);
+    max-width:1450px;
+    color:var(--black-color);
+    padding:0 30px;
+    position:relative;
+    background-color:white;
 }
 
-.welcomeSection h1{
+/*--- PRIMERA SECCION ---*/
+.portadaImage{
+    height:480px;
+    width:360px;
+}
+.portadaImage>img{
+    width:100%;
+    object-fit:contain;
+}
+.mainClaimer{
+    text-align: left;
+}
+
+.mainClaimer h1{
     margin-left:auto;
-    font-size:4em;
+    font-size:2em;
     position: relative;
     opacity:0;
+    margin-bottom:30px;
 }
-.welcomeSection h1:after{
-    content:'';
-    position: absolute;
-    height:4px;
-    width:40%;
-    background-color:var(--main-color);
-    bottom:-8px;
-    left:0;
-}
-
-.startBtn{
-    position:absolute;
-    top:86vh;
-    left:50%;
-    z-index:1050;
+.mainClaimer p{
     font-size:1.3em;
+    margin-bottom:30px;
+    max-width:50ch;
 }
-.startBtn button{
-    font-family: 'Bebas Neue', cursive;
-    letter-spacing:4px;
-    font-size:1.1em;
-    /*box-shadow: 0 4px 6px rgba(0,0,0,.2);*/
-    transform: perspective(1000px) translateX(-50%);
-    backface-visibility: hidden;
-    opacity:0;
-}
-.startBtn button:hover{
-    background-color: rgba(235, 235, 235, 0.6) !important;
-}
-/*---- CAMPOR DE FURGOL ----*/
-.mainField{
-    position:fixed;
-    top:50vh;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:50vw;
-    transform-origin:center;
-    z-index:-1;
+.mainClaimer .startBtn>button{
+    font-size: 1.15em;
 }
 
 
-/*--- SECCION NIVELES ---*/
-.secondSection{
-    min-height: 250vh;
-    max-width: 1200px;
-    margin:0 auto;
-}
-.levelSection{
-    display:grid;
-    grid-template-columns: repeat(3,220px);
-    grid-template-rows: repeat(3,minmax(160px,max-content));
-    justify-content:end;
-    padding-top:70px;
-}
-.levelRightArrow{
-    grid-area:2/1;
-    justify-self: center;
-}
-.levelDownArrow{
-    grid-area:2/3;
-    align-self: center;
-}
-.levelItem{
+/*SEGUNDA SECCIION*/
+.cursoClaimer{
+    text-align:right;
     color:var(--black-color);
-    overflow:hidden;
 }
-.levelItem>div, .levelItem>p{
-    transform: translateY(-150px);
-}
-.levelSection>img{
-    opacity:0;
-}
-.title{
+.cursoClaimer>h2{
     font-size:2em;
-    font-weight:bold;
-    text-transform:uppercase;
 }
-.subtitle{
+.cursoClaimer>p{
     font-size:1.3em;
-    font-weight:bold;
-    text-transform:uppercase;
 }
-
-/*--- SECCION VALORES ---*/
-.valorSection{
-    height:200vh;
+.cursosGrid{
+    display:flex;
     position:relative;
 }
-.valorsGrid{
-    display:grid;
-    grid-template-columns:minmax(30ch, 40ch) min-content minmax(30ch, 40ch) min-content minmax(30ch, 40ch);
-    grid-column-gap:15px;
+.cursosGrid>div{
+    transform:scale(.9);
+    z-index:4;
+    position:relative;
+}
+.cursosGrid>div:first-child{
+    transform:translateX(25%) scale(.8);
+    z-index:3;
+}
+.cursosGrid>div:last-child{
+    transform:translateX(-25%) scale(.8);
+    z-index:3;
+}
+.cursosGrid:after{
     position:absolute;
+    content:'';
+    left:0;
+    height:100%;
+    width:100%;
+    top:0;
+    background-image:linear-gradient(to right, rgba(255,255,255,.7),rgba(255,255,255,0),rgba(255,255,255,.7));
+    z-index:4;
 }
-.valorsGrid>div{
-    overflow: hidden;
+
+/*----- TERCERA SECCION ----*/
+.casorInfo{
+    display:flex;
+    flex-direction:column;
 }
-.valorsGrid>img{
-    opacity:0;
+.casorInfoItem{
+    display:flex;
+    margin:30px 0;
 }
-@media screen and (min-width: 1200px){
-    .levelSection{
-        padding-right:60px;
-    }
+.casorInfoItem>div{
+    display:flex;
+    flex-direction: column;
+}
+.casorInfoItem>div>span:first-child{
+    font-weight:bold;
+    font-size:1.6em;
+    margin-bottom:4px;
+}
+.casorInfoItem>div>span:last-child{
+    font-size:1.2em;
+    max-width:40ch;
+}
+.casorInfoItem>img{
+    height:50px;
+    margin-right:50px;
+}
+.movilContent>img{
+    width:400px;
+    object-fit:contain;
+}
+.movilContent>h4{
+    font-size:2em;
+
+}
+
+
+/*-- UTLIMA SECCION --*/
+.valors{
+    flex-direction:column;
+    position:relative;
+    padding: 15px 0 50px;
+    background-color:transparent;
+}
+.valors>h3{
+    font-size:2em;
+}
+.valorsItems{
+    display:grid;
+    grid-template-columns:auto auto auto;
+    grid-column-gap:15px;
+    grid-template-rows: auto auto;
+    grid-row-gap:15px;
+    width:100%;
+    justify-items:center;
+}
+.valorsItems>div{
+    align-self:center;
+    height:100%;
+}
+.valorsItemsItem {
+    display: grid;
+    justify-items:center;
+}
+.valorsItemsItem:nth-child(4n){
+    grid-area:2/1/2/3;
+}
+.valorsItemsItem:nth-child(5n){
+    grid-area:2/2/2/4;
+}
+.valorsItemsItem>img{
+    grid-area:1/1;
+}
+.valorsItemsItem>div{
+    grid-area:1/1;
+    display:flex;
+    flex-direction: column;
+    max-width:35ch;
+}
+.valorsItemsItem .valorsTitle{
+    font-weight:bold;
+    font-size:1.3em;
+}
+
+.fixedTarget{
+    height:200vh;
+    position:absolute;
+    top:-100vh;
+    width:100%;
+}
+.backgroundSection{
+    position:absolute;
+    left:-50px;
+    top:-100vh;
+    width:calc(100% + 100px);
+    height:100vh;
+    z-index:-1;
+}
+.backgroundSection>img{
+    width:100%;
+    height:100%;
+    position:relative;
+    opacity:.6;
+    z-index:1;
+    object-fit: cover;
+}
+.backgroundSection:before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(255,255,255,.7);
+    z-index:2;
 }
