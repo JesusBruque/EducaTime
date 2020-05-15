@@ -1,9 +1,14 @@
 import Course from "../../utils/Course";
 import Estrella from "../Estrella";
-import React from "react";
+import React, {FunctionComponent} from "react";
 import styles from '../../styles/cursos/CourseItem.module.css';
 
-const CursoMobile = (curso: Course) => {
+type Props = {
+    curso: Course
+}
+const CursoMobile : FunctionComponent<Props> = (props) => {
+
+    const {curso} = props;
 
     const renderStars = () => {
         let stars = [];

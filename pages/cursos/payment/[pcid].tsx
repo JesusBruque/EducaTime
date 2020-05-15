@@ -8,7 +8,7 @@ import pagoStyles from "../../../styles/Pago.module.css";
 import radioStyle from "../../../styles/Utils.module.css";
 import moment from 'moment';
 import Layout from "../../../components/Layout";
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+const stripePromise = loadStripe("pk_test_h8X3p5zwiygmbpvGOFkRDWh000GKTO0Rln");
 
 const payCurso = (props) => {
     const {curso, router} =props;
