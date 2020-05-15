@@ -7,7 +7,7 @@ import styles from '../../styles/whiteBoard/whiteBoard.module.css';
 import MyDropzone from "../MyDropzone";
 import {faClock,faFileDownload,faTimes,faFile, faPlayCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {deleteHomeworks,uploadHomeworkLectionFile,uploadTeoreticalResourceLectionFile,uploadLectionVideo,updateLectionDates,updateTaskDate, uploadEvaluationLectionFile} from '../../utils/Lection';
+import {deleteHomework,uploadHomeworkLectionFile,uploadTeoreticalResourceLectionFile,uploadLectionVideo,updateLectionDates,updateTaskDate, uploadEvaluationLectionFile} from '../../utils/Lection';
 import VideoComponent from "../VideoComponent";
 import WebUtils from "../../webUtils/WebUtils";
 type Props = {
@@ -22,8 +22,8 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
     const {curso,setCurso} = props;
     const [videoPlaying,setVideoPlaying] = useState(null);
 
-    const handleDeleteTarea = (i,lectionId,tareas) =>{
-        deleteHomeworks(curso._id,lectionId,tareas).then((res)=>{
+    const handleDeleteTarea = (i,lectionId,tarea) =>{
+        deleteHomework(curso._id,lectionId,tarea).then((res)=>{
             console.log(res);
             if(res.status==200){
                 let lections = [...curso.lections];
@@ -245,7 +245,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                                     <a href={tarea.uploadFile} target={'_blank'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'}/>
                                                         <span>TAREA - {('0'+j).slice(-2)}</span>
                                                     </a>
-                                                    {props.teacher && <FontAwesomeIcon icon={faTimes} onClick={() => handleDeleteTarea(i,lection._id,[tarea._id])} className={styles.close}/>}
+                                                    {props.teacher && <FontAwesomeIcon icon={faTimes} onClick={() => handleDeleteTarea(i,lection._id,tarea._id)} className={styles.close}/>}
                                                 </div>
                                                 {
                                                     !props.teacher && <div className={utilsStyles.timeLeft} style={moment(tarea.deadline).diff( moment(),'days')< 5 ? {backgroundColor:'var(--red-color)'} : {backgroundColor:'var(--black-color)'}}>

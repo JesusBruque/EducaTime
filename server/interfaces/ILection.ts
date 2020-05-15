@@ -14,9 +14,9 @@ export interface ILection extends IGenericInterface {
     duration: number; // En segundos
     order: number;
     course: string;
-    teoricalResources:[{name:string,url:string}];
-    homework:[work];
-    evaluations:[work];
+    teoricalResources:[{_id?:string,name:string,url:string}];
+    homework:work[];
+    evaluations:work[];
     dateAvailable:number;
     dateEnd:number;
 }

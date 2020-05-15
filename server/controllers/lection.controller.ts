@@ -149,8 +149,7 @@ export default class LectionController extends GenericController{
             Logger.error(e);
             return res.status(400).json({status:400});
         }
-      };
-
+      }
       public updateHomeworkDeadline = async(req:Request,res:Response) => {
         try{
             const lection = await this.lectionService.updateHomeworkDeadline(req.params.taskId,req.body.fechaLimite);
@@ -164,7 +163,7 @@ export default class LectionController extends GenericController{
       public deleteFullLection = async(req: Request, res: Response) =>{
         Logger.debug('eliminando leccion');
         try{
-            const lectionId = req.params.lectionId;
+            const lectionId = req.body.lectionId;
             const lectionOrder = (await this.lectionService.findById(lectionId)).order;
 
             await this.lectionService.hardDelete(lectionId);
@@ -175,46 +174,48 @@ export default class LectionController extends GenericController{
             return res.status(400).json({status:400});
         }
       }
-      public deleteTeoricalResources = async(req: Request, res: Response) =>{
-        Logger.debug('eliminando recursos teoricos');
+      public deleteTeoricalResource = async(req: Request, res: Response) =>{
+        Logger.debug('eliminando recurso teorico');
         try{
             const lectionId = req.params.lectionId;
-            const files = [];
-            files.concat(req.params.teoricalResourceIds);
             const lection = (await this.lectionService.findById(lectionId));
-            files.forEach(file=>{
-                var sliced = lection.teoricalResources.findIndex(file);
-                lection.teoricalResources.slice(sliced,1);
-            });
-            await this.lectionService.deleteAnyResources(lectionId, files);
+            const teoricalResourceId = req.body.teoricalResourceId;
+            const files = [];
+            for (let i = 0; i < lection.teoricalResources.length; i++) {
+                if(lection.teoricalResources[i]._id==teoricalResourceId){
+                    files.concat(lection.teoricalResources[i].url);
+                    lection.teoricalResources[i] = null;
+                    lection.teoricalResources.slice(i,1);
+                    break;
+                }
+            }
+            await this.lectionService.deleteAnyResources(files);
             Logger.debug('recurso teorico eliminado');
             return res.status(200).json({status:200});
         }catch (e) {
             return res.status(400).json({status:400});
         }
       }
-      public deleteHomeworks = async(req: Request, res: Response) =>{
-        Logger.debug('eliminando tareas ');
+      public deleteHomework = async(req: Request, res: Response) =>{
+        Logger.debug('eliminando tareas...');
         try{
             const lectionId:string = req.query.lectionId as string;
-            const files = [];
-            files.concat(req.query.homeworks);
             const lection = (await this.lectionService.findById(lectionId));
-        
-            files.forEach(task=>{
-                for(var i=0;i<lection.homework.length;i++){
-                    if(lection.homework[i].uploadFile===task){
-                        files.push(lection.homework[i].uploadFile);
-                        lection.homework[i].userResponses.forEach(response=>{
-                            files.push(response.file);
-                        });
-                        lection.homework[i] = null;
-                        lection.homework.slice(i,1);
-                    }
+            const homeworkId: string = req.query.homeworkId as string;
+            var files = [];
+            Logger.debug('Iniciando variables correcto');
+            for(var i=0;i<lection.homework.length;i++){
+                if(lection.homework[i]._id==homeworkId){
+                    Logger.debug('Encontro la tarea');
+                    files.push(lection.homework[i].uploadFile);
+                    lection.homework[i] = null;
+                    lection.homework = lection.homework.slice(i,1);
+                    break;
                 }
-            });
+            }
             await lection.save();
-            await this.lectionService.deleteAnyResources(lectionId, files);
+            Logger.debug('Termino el ciclo');
+            await this.lectionService.deleteAnyResources(files);
             Logger.debug('recurso teorico eliminado');
             return res.status(200).json({status:200, lection: lection});
         }catch (e) {
@@ -222,16 +223,24 @@ export default class LectionController extends GenericController{
         }
       }
       public deleteEvaluation = async(req: Request, res: Response) =>{
-        Logger.debug('eliminando recursos teoricos');
+        Logger.debug('eliminando evaluacion');
         try{
             const lectionId = req.params.lectionId;
-            const files = [];
             const lection = (await this.lectionService.findById(lectionId));
-            lection.evaluations.map(evaluation => {files.push(evaluation.uploadFile); evaluation.userResponses.map(response => files.push(response.file))});
+            const evaluationId = req.body.evaluationId;
+            const files = [];
 
-            lection.evaluations = null;
+            for(var i=0;i<lection.evaluations.length;i++){
+                if(lection.evaluations[i]._id==evaluationId){
+                    files.push(lection.evaluations[i].uploadFile);
+                    lection.evaluations[i] = null;
+                    lection.evaluations.slice(i,1);
+                    break;
+                }
+            }
+
             await lection.save();
-            await this.lectionService.deleteAnyResources(lectionId, files);
+            await this.lectionService.deleteAnyResources(files);
             Logger.debug('evaluacion eliminada');
             return res.status(200).json({status:200});
         }catch (e) {

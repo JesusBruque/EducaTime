@@ -77,7 +77,7 @@ export const uploadCourseFile = (cursoName:string,file, video:boolean,needAuth:b
 export const deleteLections = async (cursoId: string, lectionIds:[string]) =>{
     const course = (await getCourseById(cursoId)).data.Course;
     lectionIds.forEach(async lectionId=>{
-        var order = (await deleteLection(lectionId)).data.Order;
+        var order = (await deleteLection(cursoId,lectionId)).data.Order;
         course.lections.splice(order,1);
         for(var i = 0;i<course.lections.length;i++){
             var le = (await getLectionById(course.lections[order+i])).data.Lection;
