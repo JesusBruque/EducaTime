@@ -7,6 +7,7 @@ import Field from "../components/Field";
 import Entrada from "../components/Entrada";
 import WebUtils from "../webUtils/WebUtils";
 import LayoutAdmin from "../components/LayoutAdmin";
+import Button from "../components/Button";
 
 const Home = (props) => {
 
@@ -41,9 +42,23 @@ const Home = (props) => {
           <Entrada />
           <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
               <section className={homeStyles.welcomeSection} id={'welcome-section'}>
-                  <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
-                  <div  data-scroll data-scroll-sticky data-scroll-target={'main'} className={homeStyles.startBtn}>
-                      <button className={`csr-btn transparent`}>Comienza Ya</button>
+                  <div>
+                  </div>
+                  <div>
+                      <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
+                      <p>Disfruta de la formación online flexible y de calidad, una oportunidad para progresar con los mejores</p>
+                      <div  data-scroll data-scroll-sticky data-scroll-target={'main'} className={homeStyles.startBtn}>
+                          <Button text={'Comineza ya'} color={'blue'} action={()=> props.router('/cursos')} />
+                      </div>
+                  </div>
+              </section>
+              <section>
+                  <div>
+                      <h2>Accede ya a nuestros cursos.</h2>
+                      <p>Únete a nuestra comunidad con la compra de uno de nuestros cursos, y disfruta ya de las ventajas, hazme CASOR.</p>
+                  </div>
+                  <div>
+                      <div></div>
                   </div>
               </section>
               <section id={'secondSection'} className={homeStyles.secondSection}>
@@ -121,8 +136,6 @@ const Home = (props) => {
                   </div>
               </section>
           </Layout>
-
-          <Field />
 
           <script noModule src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.6.0/polyfill.min.js"
                   crossOrigin="anonymous" />
