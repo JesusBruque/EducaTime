@@ -185,7 +185,7 @@ export default class LectionController extends GenericController{
                 if(lection.teoricalResources[i]._id==teoricalResourceId){
                     files.concat(lection.teoricalResources[i].url);
                     lection.teoricalResources[i] = null;
-                    lection.teoricalResources.slice(i,1);
+                    lection.teoricalResources = lection.teoricalResources.splice(i,1);
                     break;
                 }
             }
@@ -209,7 +209,7 @@ export default class LectionController extends GenericController{
                     Logger.debug('Encontro la tarea');
                     files.push(lection.homework[i].uploadFile);
                     lection.homework[i] = null;
-                    lection.homework = lection.homework.slice(i,1);
+                    lection.homework = lection.homework.splice(i,1);
                     break;
                 }
             }
@@ -234,7 +234,7 @@ export default class LectionController extends GenericController{
                 if(lection.evaluations[i]._id==evaluationId){
                     files.push(lection.evaluations[i].uploadFile);
                     lection.evaluations[i] = null;
-                    lection.evaluations.slice(i,1);
+                    lection.evaluations = lection.evaluations.splice(i,1);
                     break;
                 }
             }
