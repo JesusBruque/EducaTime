@@ -35,9 +35,9 @@ const Header = (props) => {
 
     return (
         <div id={'casor-header'} className={`${headerStyles.header} ${props.whiteboard ? headerStyles.headerWhiteBoard : ''}`}>
-            <Link href={'/nosotros'}>
-                <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('nosotros') ?  headerStyles.linkActive : ''}`}>nosotros</span>
-            </Link>
+            {/*<Link href={'/nosotros'}>*/}
+            {/*    <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('nosotros') ?  headerStyles.linkActive : ''}`}>nosotros</span>*/}
+            {/*</Link>*/}
             <Link href={'/cursos'}>
                 <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('cursos') ?  headerStyles.linkActive : ''}`}>formación</span>
             </Link>
@@ -47,9 +47,9 @@ const Header = (props) => {
             <Link href={'/blog'}>
                 <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('blog') ?  headerStyles.linkActive : ''}`}>blog</span>
             </Link>
-            <Link href={'/contacto'}>
-                <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('contacto') ?  headerStyles.linkActive : ''}`}>contacto</span>
-            </Link>
+            {/*<Link href={'/contacto'}>*/}
+            {/*    <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('contacto') ?  headerStyles.linkActive : ''}`}>contacto</span>*/}
+            {/*</Link>*/}
             <Link href={props.user ? (props.user.roles.includes('admin') ? '/admin/formacion' : '/whiteboard') : '/login'}>
                 <div className={`${utilStyles.userIcon} ${props.user ? utilStyles.userBlue : ''}`}>
                     <img src={props.user ? '/assets/icons/user-icon.svg' : '/assets/icons/user.svg'} alt={'icono para el acceso de los usuarios'}/>

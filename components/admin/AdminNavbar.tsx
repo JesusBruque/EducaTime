@@ -51,12 +51,12 @@ const AdminNavbar = ({selected, router,setUser}) => {
                     <span>blog</span>
                 </div>
             </Link>
-            <Link href={'/admin/compras'}>
-                <div className={`${adminStyles.navItem} ${selected === 'compras' ?  adminStyles.active : ''}`} data-item={'compras'}>
-                    <img src={'/assets/check-menu.svg'} alt={'icono de compras'}/>
-                    <span>compras</span>
-                </div>
-            </Link>
+            {/*<Link href={'/admin/compras'}>*/}
+            {/*    <div className={`${adminStyles.navItem} ${selected === 'compras' ?  adminStyles.active : ''}`} data-item={'compras'}>*/}
+            {/*        <img src={'/assets/check-menu.svg'} alt={'icono de compras'}/>*/}
+            {/*        <span>compras</span>*/}
+            {/*    </div>*/}
+            {/*</Link>*/}
 
             <img src={'/assets/icons/on-off-button.svg'} alt={'icono de logout'} className={adminStyles.logoutIcon} onClick={handleLogout}/>
         </nav>

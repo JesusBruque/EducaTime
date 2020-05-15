@@ -98,13 +98,13 @@
 .resources{
     display:flex;
 }
-.resources .resourceContainer>*{
+.resources .resourceContainer>a,.resources .resourceContainer>div{
     display:grid;
     height:100%;
     align-items:center;
     justify-items:center
 }
-.resources .resourceContainer svg{
+.resources .resourceContainer a svg, .resources .resourceContainer div svg{
     grid-area:1/1;
     height:55px;
     width:55px;

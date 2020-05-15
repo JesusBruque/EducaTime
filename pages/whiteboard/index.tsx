@@ -33,7 +33,6 @@ const userWhiteBoard = (props) => {
                     setUserData(res.data.user);
                     if (res.data.user.roles.includes('teacher')) {
                         getCoursesByTeacher().then(res => {
-                            setContentSelected('cursos-teacher');
                             setCoursesTeaching(res.data.cursos);
                         }).catch(err => console.error(err));
                     }
@@ -48,12 +47,6 @@ const userWhiteBoard = (props) => {
             props.router.push('/login');
         }
     }, [cargarContenido]);
-
-    useEffect(() => {
-        if(coursesTeaching && !teacherCursoIndex){
-            setTeacherCursoIndex(0);
-        }
-    },[coursesTeaching, teacherCursoIndex,setTeacherCursoIndex]);
 
     const handleChangeContent = (e) => {
         e.stopPropagation();

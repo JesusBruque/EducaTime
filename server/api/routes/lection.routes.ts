@@ -18,6 +18,7 @@ export default (app: Router) => {
     route.delete('/:lectionId',middlewares.isTeacherOfCourse,lectionController.deleteFullLection);
     route.delete('/deleteTeoricalResource/:teoricalResourceId', middlewares.isTeacherOfCourse, lectionController.deleteTeoricalResource);
     route.delete('/deleteEvaluation/:evaluationId', middlewares.isTeacherOfCourse, lectionController.deleteEvaluation);
+    route.delete('/deteVideoResource/:videoId',middlewares.isTeacherOfCourse,lectionController.deleteVideoResource);
     route.post('/',
         celebrate({
             body: Joi.object({

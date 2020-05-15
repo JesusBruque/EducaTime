@@ -53,13 +53,16 @@ export const deleteLection = async (cursoId:string,lection:string) =>{
     return axios.delete(LECTION_URL+'/'+lection,{params:{courseId:cursoId}});
 } 
 export const deleteTeoricalResources = (cursoId:string,lectionId:string,teoricalResourceId:string) =>{
-    return axios.delete(LECTION_URL+'/deleteTeoricalResources/'+teoricalResourceId,{params:{courseId:cursoId}}); 
+    return axios.delete(LECTION_URL+'/deleteTeoricalResource/'+teoricalResourceId,{params:{courseId:cursoId,lectionId: lectionId}});
+};
+export const deleteVideoResource = (cursoId:string,lectionId:string,resourceId:string) => {
+    return axios.delete(LECTION_URL+'/deteVideoResource/'+resourceId,{params:{courseId:cursoId,lectionId: lectionId}});
 }
 export const deleteHomework = (cursoId:string,lectionId:string,homeworkId:string) =>{
     return axios.delete(LECTION_URL+'/deleteHomework/',{params:{courseId:cursoId, lectionId: lectionId, homeworkId:homeworkId}}); 
 }
 export const deleteEvaluation = (cursoId:string,lectionId:string,evaluationId:string) =>{
-    axios.delete(LECTION_URL+'/deleteEvaluation/'+evaluationId,{params:{courseId:cursoId, lectionId: lectionId}}); 
+    return axios.delete(LECTION_URL+'/deleteEvaluation/'+evaluationId,{params:{courseId:cursoId, lectionId: lectionId}});
 }
 export const updateLectionDates = (fechaInicio,fechaFin,idLection,cursoId) => axios.put(LECTION_URL+'/updateDates/'+idLection,{fechaInicio:fechaInicio,fechaFin:fechaFin},{params:{courseId:cursoId}});
 export const updateTaskDate = (taskId,fechaLimite,cursoId) => axios.put(LECTION_URL+'/updateTaskDate/'+taskId,{fechaLimite:fechaLimite},{params:{courseId:cursoId}});

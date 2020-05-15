@@ -7,7 +7,7 @@ import styles from '../../styles/whiteBoard/whiteBoard.module.css';
 import MyDropzone from "../MyDropzone";
 import {faClock,faFileDownload,faTimes,faFile, faPlayCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {deleteHomework,uploadHomeworkLectionFile,uploadTeoreticalResourceLectionFile,uploadLectionVideo,updateLectionDates,updateTaskDate, uploadEvaluationLectionFile} from '../../utils/Lection';
+import {deleteVideoResource,deleteEvaluation,deleteTeoricalResources,deleteHomework,uploadHomeworkLectionFile,uploadTeoreticalResourceLectionFile,uploadLectionVideo,updateLectionDates,updateTaskDate, uploadEvaluationLectionFile} from '../../utils/Lection';
 import VideoComponent from "../VideoComponent";
 import WebUtils from "../../webUtils/WebUtils";
 type Props = {
@@ -36,8 +36,52 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         }).catch((error)=>{
             console.error(error);
         })
+    };
+    const handleDeleteTeoricalResource = (i,lectionId,tareaId) => {
+        props.utils.initLoader();
+        props.utils.startLoader();
+        deleteTeoricalResources(curso._id,lectionId,tareaId).then((res)=>{
+            console.log(res);
+            if(res.status==200){
+                let lections = [...curso.lections];
+                lections[i] = res.data.lection;
+                setCurso({...curso,lections:lections});
+                props.setCargarContenido(!props.cargarContenido);
+            }
+        }).catch((error)=>{
+            console.error(error);
+        })
+    };
+    const handleDeleteVideoResource = (i,lectionId,resourceId) => {
+        props.utils.initLoader();
+        props.utils.startLoader();
+        deleteVideoResource(curso._id,lectionId,resourceId).then((res)=>{
+            console.log(res);
+            if(res.status==200){
+                let lections = [...curso.lections];
+                lections[i] = res.data.lection;
+                setCurso({...curso,lections:lections});
+                props.setCargarContenido(!props.cargarContenido);
+            }
+        }).catch((error)=>{
+            console.error(error);
+        })
+    };
+    const handleDeleteEvaluation = (i,lectionId,evalId) => {
+        props.utils.initLoader();
+        props.utils.startLoader();
+        deleteEvaluation(curso._id,lectionId,evalId).then((res)=>{
+            console.log(res);
+            if(res.status==200){
+                let lections = [...curso.lections];
+                lections[i] = res.data.lection;
+                setCurso({...curso,lections:lections});
+                props.setCargarContenido(!props.cargarContenido);
+            }
+        }).catch((error)=>{
+            console.error(error);
+        })
     }
-
     const initiateContentSelected = () => {
         let selections = [];
         curso.lections.map((lection,i) => {
@@ -135,6 +179,8 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
     };
     const handleVideosLections = (files,lectionName,i) => {
         files.forEach((file) => {
+            props.utils.initLoader();
+            props.utils.startLoader();
             uploadLectionVideo(lectionName,file,curso._id).then((res)=>{
                 props.utils.removeLoader();
                 let lections = [...curso.lections];
@@ -217,12 +263,13 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                 {contentSelected[i].optionSelected === 'RT' &&
                                 <div className={`${styles.resources} ${styles.teoricalResources}`}>
                                     {
-                                        lection.teoricalResources && lection.teoricalResources.length > 0  ? lection.teoricalResources.map((resourceUrl,i)  => {
-                                                return <div className={styles.resourceContainer} key={i}>
-                                                    <a href={resourceUrl} target={'_blank'}>
+                                        lection.teoricalResources && lection.teoricalResources.length > 0  ? lection.teoricalResources.map((resourceUrl,j)  => {
+                                                return <div className={styles.resourceContainer} key={j}>
+                                                    <a href={resourceUrl.url} target={'_blank'}>
                                                         <img src={curso.thumbnail} alt={'thumbnail del curso'}/>
                                                         <FontAwesomeIcon icon={faFile} color={'var(--main-color)'}/>
                                                     </a>
+                                                    {props.teacher && <FontAwesomeIcon icon={faTimes} onClick={() => handleDeleteTeoricalResource(i,lection._id,resourceUrl._id)} className={styles.close}/>}
                                                 </div>
                                             })
                                             :
@@ -292,7 +339,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                                     <a href={tarea.uploadFile} target={'_blank'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'}/>
                                                         <span>EVALUACION - {('0'+j).slice(-2)}</span>
                                                     </a>
-                                                    {props.teacher && <FontAwesomeIcon icon={faTimes} onClick={() => console.log('eliminar tarea!!')} className={styles.close}/>}
+                                                    {props.teacher && <FontAwesomeIcon icon={faTimes} onClick={() => handleDeleteEvaluation(i,lection._id,tarea._id)} className={styles.close}/>}
                                                 </div>
                                                 {
                                                     !props.teacher && <div className={utilsStyles.timeLeft} style={moment(tarea.deadline).diff( moment(),'days')< 5 ? {backgroundColor:'var(--red-color)'} : {backgroundColor:'var(--black-color)'}}>
@@ -332,10 +379,13 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                 {contentSelected[i].optionSelected === 'RA' &&
                                 <div className={`${styles.resources} ${styles.videoResources}`}>
                                     {
-                                        lection.video && lection.video.length > 0  ? lection.video.map((videoUrl,i)  => {
-                                                return <div  className={styles.resourceContainer} key={i}>
-                                                    <img src={curso.thumbnail} alt={'curso thumbnail'} />
-                                                    <FontAwesomeIcon icon={faPlayCircle} color={'var(--main-color)'}  onClick={() => {setVideoPlaying({video:videoUrl,title:lection.title + '- video: ' + ('0'+i).slice(-2)})}}/>
+                                        lection.video && lection.video.length > 0  ? lection.video.map((videoUrl,j)  => {
+                                                return <div  className={styles.resourceContainer} key={j}>
+                                                    <div>
+                                                        <img src={curso.thumbnail} alt={'curso thumbnail'} />
+                                                        <FontAwesomeIcon icon={faPlayCircle} color={'var(--main-color)'}  onClick={() => {setVideoPlaying({video:videoUrl.url,title:lection.title + '- video: ' + ('0'+i).slice(-2)})}}/>
+                                                    </div>
+                                                    {props.teacher && <FontAwesomeIcon icon={faTimes} onClick={() => handleDeleteVideoResource(i,lection._id,videoUrl._id)} className={styles.close}/>}
                                                 </div>
                                         })
                                             :
@@ -344,6 +394,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                     {
                                         props.teacher && <div className={styles.fileContainer}>
                                             <MyDropzone
+                                                filesAccepted={['video/*']}
                                                 text={'Arrastra o pincha para añadir los ficheros.'}
                                                 image={'/assets/icons/file.svg'}
                                                 onAcceptFile={(files) => handleVideosLections(files,lection._id,i)}

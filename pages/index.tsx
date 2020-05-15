@@ -180,7 +180,7 @@ const Home = (props) => {
   )
 };
 export async function getServerSideProps(){
-    const res = await fetch('http://localhost:3000/api/course/findById/5ebd2d4c1474d90c2c7f5932');
+    const res = await fetch('http://localhost:3000/api/course/findById/5ebe5b126d5f7c27fee434e7');
     const data = await res.json();
     const cursos = data.Course;
     return { props: { cursos } }

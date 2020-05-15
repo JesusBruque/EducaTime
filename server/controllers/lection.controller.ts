@@ -177,9 +177,9 @@ export default class LectionController extends GenericController{
       public deleteTeoricalResource = async(req: Request, res: Response) =>{
         Logger.debug('eliminando recurso teorico');
         try{
-            const lectionId = req.params.lectionId;
+            const lectionId = req.query.lectionId as string;
             const lection = (await this.lectionService.findById(lectionId));
-            const teoricalResourceId = req.body.teoricalResourceId;
+            const teoricalResourceId = req.params.teoricalResourceId;
             const files = [];
             for (let i = 0; i < lection.teoricalResources.length; i++) {
                 if(lection.teoricalResources[i]._id==teoricalResourceId){
@@ -191,7 +191,7 @@ export default class LectionController extends GenericController{
             await lection.save();
             await this.lectionService.deleteAnyResources(files);
             Logger.debug('recurso teorico eliminado');
-            return res.status(200).json({status:200});
+            return res.status(200).json({status:200, lection: lection});
         }catch (e) {
             return res.status(400).json({status:400});
         }
@@ -221,12 +221,36 @@ export default class LectionController extends GenericController{
             return res.status(400).json({status:400});
         }
       }
+      public deleteVideoResource = async(req:Request,res:Response) => {
+          Logger.debug('eliminando evaluacion');
+          try{
+              const lectionId = req.query.lectionId as string;
+              const lection = (await this.lectionService.findById(lectionId));
+              const videoId = req.params.videoId;
+              const files = [];
+
+              for(var i=0;i<lection.evaluations.length;i++){
+                  if(lection.video[i]._id==videoId){
+                      files.push(lection.video[i].url);
+                      lection.video.splice(i,1);
+                      break;
+                  }
+              }
+
+              await lection.save();
+              await this.lectionService.deleteAnyResources(files);
+              Logger.debug('video eliminado');
+              return res.status(200).json({status:200, lection: lection});
+          }catch (e) {
+              return res.status(400).json({status:400});
+          }
+      }
       public deleteEvaluation = async(req: Request, res: Response) =>{
         Logger.debug('eliminando evaluacion');
         try{
-            const lectionId = req.params.lectionId;
+            const lectionId = req.query.lectionId as string;
             const lection = (await this.lectionService.findById(lectionId));
-            const evaluationId = req.body.evaluationId;
+            const evaluationId = req.params.evaluationId;
             const files = [];
 
             for(var i=0;i<lection.evaluations.length;i++){
@@ -240,7 +264,7 @@ export default class LectionController extends GenericController{
             await lection.save();
             await this.lectionService.deleteAnyResources(files);
             Logger.debug('evaluacion eliminada');
-            return res.status(200).json({status:200});
+            return res.status(200).json({status:200, lection: lection});
         }catch (e) {
             return res.status(400).json({status:400});
         }
