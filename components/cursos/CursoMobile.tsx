@@ -29,6 +29,9 @@ const CursoMobile = (curso: Course) => {
                     <h4>{curso.title}</h4>
                     <span>{curso.description}</span>
                 </div>
+                <div className={styles.finalBtn}>
+                    <span>Compra</span>
+                </div>
             </div>
         </div>
     )

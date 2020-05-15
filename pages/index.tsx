@@ -8,6 +8,7 @@ import Entrada from "../components/Entrada";
 import WebUtils from "../webUtils/WebUtils";
 import LayoutAdmin from "../components/LayoutAdmin";
 import Button from "../components/Button";
+import fetch from "isomorphic-unfetch";
 
 const Home = (props) => {
 
@@ -23,11 +24,11 @@ const Home = (props) => {
                     lu.initHomeScrollAnimations();
 
                     /*--- ALTO GRID VALORES ---*/
-                    let ac = document.querySelector('#main_field').getBoundingClientRect().height;
-                    let t =  ac*0.4;
-                    console.log(ac);
-                    document.getElementById('valorsGrid').style.gridTemplateRows = `${ac/2.3}px minmax(215px,min-content)`;
-                    document.getElementById('valorsGrid').style.top = `${t}px`;
+                    // let ac = document.querySelector('#main_field').getBoundingClientRect().height;
+                    // let t =  ac*0.4;
+                    // console.log(ac);
+                    // document.getElementById('valorsGrid').style.gridTemplateRows = `${ac/2.3}px minmax(215px,min-content)`;
+                    // document.getElementById('valorsGrid').style.top = `${t}px`;
                 });
             }});
     },[]);
@@ -145,5 +146,10 @@ const Home = (props) => {
       </div>
   )
 };
-
+export async function getServerSideProps(){
+    const res = await fetch('http://localhost:3000/api/course/findAll');
+    const data = await res.json();
+    const cursos = data.Course;
+    return { props: { cursos } }
+}
 export default Home
