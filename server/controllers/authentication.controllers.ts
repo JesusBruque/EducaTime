@@ -18,6 +18,7 @@ export default class AuthenticationController {
                     req.login(user, function (err) {
                         if (err) throw err;
                         Logger.debug('Logueado correctamente.');
+                        Reflect.deleteProperty(user, 'password')
                         return res.status(200).json({ status: 200, user: user as IUsuarioDTO, message: "Inicio de sesión correcto." });
                     })
                 } else

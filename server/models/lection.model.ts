@@ -51,12 +51,12 @@ var lectionSchema = new Schema({
   evaluations: {
     type:[{
         name:String,
-         uploadFile: String, 
-         userResponses:[{
+        uploadFile: String, 
+        userResponses:[{
                 UserID: String, 
                 file: String, 
                 date: Number}],
-         deadline: Number
+        deadline: Number
     }]
   },
   dateAvailable:{

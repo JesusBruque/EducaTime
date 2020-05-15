@@ -3,10 +3,12 @@ import Head from 'next/head'
 import Layout from "../components/Layout";
 import homeStyles from '../styles/Home.module.css';
 import gsap from 'gsap';
-import Field from "../components/Field";
 import Entrada from "../components/Entrada";
 import WebUtils from "../webUtils/WebUtils";
 import LayoutAdmin from "../components/LayoutAdmin";
+import Button from "../components/Button";
+import fetch from "isomorphic-unfetch";
+import CursoMobile from "../components/cursos/CursoMobile";
 
 const Home = (props) => {
 
@@ -22,13 +24,14 @@ const Home = (props) => {
                     lu.initHomeScrollAnimations();
 
                     /*--- ALTO GRID VALORES ---*/
-                    let ac = document.querySelector('#main_field').getBoundingClientRect().height;
-                    let t =  ac*0.4;
-                    console.log(ac);
-                    document.getElementById('valorsGrid').style.gridTemplateRows = `${ac/2.3}px minmax(215px,min-content)`;
-                    document.getElementById('valorsGrid').style.top = `${t}px`;
+                    // let ac = document.querySelector('#main_field').getBoundingClientRect().height;
+                    // let t =  ac*0.4;
+                    // console.log(ac);
+                    // document.getElementById('valorsGrid').style.gridTemplateRows = `${ac/2.3}px minmax(215px,min-content)`;
+                    // document.getElementById('valorsGrid').style.top = `${t}px`;
                 });
             }});
+        console.log(props.cursos);
     },[]);
 
     return (
@@ -40,89 +43,133 @@ const Home = (props) => {
           </Head>
           <Entrada />
           <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
-              <section className={homeStyles.welcomeSection} id={'welcome-section'}>
-                  <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
-                  <div  data-scroll data-scroll-sticky data-scroll-target={'main'} className={homeStyles.startBtn}>
-                      <button className={`csr-btn transparent`}>Comienza Ya</button>
+              <section className={homeStyles.homeSection} id={'welcome-section'}>
+                  <div className={homeStyles.portadaImage}>
+                      <img src={'/assets/landing/balon_portada.jpg'} alt={'foto de portada'}/>
                   </div>
-              </section>
-              <section id={'secondSection'} className={homeStyles.secondSection}>
-                  <div className={homeStyles.levelSection} data-scroll data-scroll-sticky data-scroll-target={'#secondSection'}>
-                      <div className={homeStyles.levelItem} id={'level-1'} style={{gridArea:'1/1'}}>
-                          <div className={homeStyles.title}>Nivel I</div>
-                          <div className={homeStyles.subtitle}>Entrenador de fútbol</div>
-                          <p className={homeStyles.description}>
-                              Dedicando nuestro tiempo a satisfacer las necesidades de nuestros alumnos/as,
-                              asegurando el desarrollo a través de oportunidades basadas en la aportación profesional y el cumplimiento de expectativas
-                          </p>
-                      </div>
-                      <img src={'assets/level-right-arrow.svg'} alt={'flecha indicadora de avance'} className={homeStyles.levelRightArrow}/>
-                      <div className={homeStyles.levelItem} id={'level-2'} style={{gridArea:'2/2'}}>
-                          <div className={homeStyles.title}>Nivel II</div>
-                          <div className={homeStyles.subtitle}>Entrenador de fútbol</div>
-                          <p className={homeStyles.description}>
-                              Dedicando nuestro tiempo a satisfacer las necesidades de nuestros alumnos/as,
-                              asegurando el desarrollo a través de oportunidades basadas en la aportación profesional y el cumplimiento de expectativas
-                          </p>
-                      </div>
-                      <img src={'assets/level-down-arrow.svg'} alt={'flecha indicadora de avance'} className={homeStyles.levelDownArrow}/>
-                      <div className={homeStyles.levelItem} id={'level-3'} style={{gridArea:'3/3'}}>
-                          <div className={homeStyles.title}>Nivel III</div>
-                          <div className={homeStyles.subtitle}>Entrenador de fútbol</div>
-                          <p className={homeStyles.description}>
-                              Dedicando nuestro tiempo a satisfacer las necesidades de nuestros alumnos/as,
-                              asegurando el desarrollo a través de oportunidades basadas en la aportación profesional y el cumplimiento de expectativas
-                          </p>
+                  <div className={homeStyles.mainClaimer}>
+                      <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional al alcance de todos</h1>
+                      <p data-scroll data-scroll-speed={2}>Disfruta de la formación online flexible y de calidad, una oportunidad para progresar con los mejores</p>
+                      <div data-scroll data-scroll-speed={3} className={homeStyles.startBtn}>
+                          <Button text={'Comienza ya'} color={'blue'} action={()=> props.router('/cursos')} />
                       </div>
                   </div>
               </section>
-
-              <section id={'thirdSection'} className={homeStyles.valorSection}>
-                  <div data-scroll data-scroll-sticky data-scroll-target={'#thirdSection'} className={homeStyles.valorsGrid} id={'valorsGrid'}>
-                      <img src={'assets/line-coop.svg'} alt={'linea indicadora de un valor'} style={{gridArea:'1/2'}}/>
-                      <div style={{gridArea:'1/1',textAlign:'right'}} className={'val_right'}>
-                          <div className={homeStyles.subtitle}>COOPERACIÓN:</div>
-                          <div className={homeStyles.description}>
-                              Sentimiento de pertenencia y confianza, potenciando el talento colectivo y compartiendo conocimientos
+              <section className={homeStyles.homeSection}>
+                  <div className={homeStyles.cursoClaimer}>
+                      <h2>Accede ya a nuestros cursos.</h2>
+                      <p>Únete a nuestra comunidad con la compra de uno de nuestros cursos, y disfruta ya de las ventajas, hazme CASOR.</p>
+                  </div>
+                  <div>
+                      <div className={homeStyles.cursosGrid}>
+                          <CursoMobile curso={props.cursos}/>
+                          <CursoMobile curso={props.cursos}/>
+                          <CursoMobile curso={props.cursos}/>
+                      </div>
+                  </div>
+              </section>
+              <section className={homeStyles.homeSection} id={'info-section'} style={{height:'120vh'}}>
+                  <div className={homeStyles.casorInfo}>
+                      <div className={homeStyles.casorInfoItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                          <img src={'/assets/icons/calendar.svg'} alt={'icono de calendario'}/>
+                          <div>
+                              <span>Pago a plazos</span>
+                              <span>En Academia Casor pagar por plazos es posible. Alguno de nuestros cursos cuentan con esta opción, accediendo al contenido de manera escalonada.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                          <img src={'/assets/icons/graduated.svg'} alt={'icono de graduación'}/>
+                          <div>
+                              <span>Evaluación y certificación</span>
+                              <span>Al finalizar cada curso, los profesores pondrán a prueba lo aprendido durante el curso por parte de los alumnos  y certificarán los conocimientos adquiridos de los mismos.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                          <img src={'/assets/icons/education.svg'} alt={'icono de profesores'}/>
+                          <div>
+                              <span>Profesores</span>
+                              <span>Nuestros profesores se encargarán  de gestionar los bloques de contenido proporcionando el mejor aprendizaje.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                          <img src={'/assets/icons/to-do.svg'} alt={'icono de tareas'}/>
+                          <div>
+                              <span>Tareas</span>
+                              <span>El seguimiento con tareas facilitaran al alumno a asentar los conceptos de la materia impartida.</span>
                           </div>
                       </div>
 
-                      <img src={'assets/line-cal.svg'} alt={'linea indicadora de un valor'} style={{gridArea:'1/4'}}/>
-                      <div style={{gridArea:'1/5'}} className={'val_left'}>
-                          <div className={homeStyles.subtitle}>CALIDAD:</div>
-                          <div className={homeStyles.description}>
-                              Buscando la excelencia a través de la implantación de nuevas herramientas educativas y procesos de evaluación, utilizando las nuevas tecnologías y tendencias en el deporte
+                  </div>
+                  <div className={homeStyles.movilContent} data-scroll data-scroll-speed={2} data-scroll-delay={0.06}>
+                      <img src={'/assets/landing/movil_web.png'} alt={'imagen de casor en el móvil'}/>
+                      <h4>Accede desde cualquier dispositivo</h4>
+                  </div>
+              </section>
+              <section className={`${homeStyles.homeSection} ${homeStyles.valors}`} id={'valors-section'} data-scroll data-scroll-offset={'bottom'}>
+                  <div id={'fixed-target'} className={homeStyles.fixedTarget}></div>
+                  <div className={homeStyles.backgroundSection} data-scroll data-scroll-sticky data-scroll-target={'#fixed-target'}>
+                      <img src={'/assets/landing/porteria_bg.jpg'} alt={'fondo de una porteria'}/>
+                  </div>
+                  <h3 data-scroll data-scroll-speed={2} data-scroll-delay={0.06}>¿Por qué elegir <span style={{color:'var(--main-color)'}}>Academia Casor</span>?</h3>
+                  <div className={homeStyles.valorsItems}>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                          <img src={'/assets/landing/porteria.svg'} alt={'icono de una porteria'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle}>Cooperación:</span>
+                              <span>Sentimiento de pertenencia y confianza, potenciando el talento colectivo y compartiendo conocimientos.</span>
                           </div>
                       </div>
-
-                      <img src={'assets/line-prof.svg'} alt={'linea indicadora de un valor'}  style={{gridArea:'2/4',justifySelf:'end',alignSelf:'center'}}/>
-                      <div  style={{gridArea:'2/5',alignSelf:'center'}} className={'val_left'}>
-                          <div className={homeStyles.subtitle}>Profesionalidad:</div>
-                          <div className={homeStyles.description}>
-                              Trabajos realizados por entrenadores cualificados y con experiencia, en el fútbol profesional
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                          <img src={'/assets/landing/conos.svg'} alt={'icono de un cono'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle} >Pasión:</span>
+                              <span>Dedicando nuestro tiempo a satisfacer las necesidades de nuestros alumnos/as, asegurando el desarrollo a través de oportunidades basadas en la aportación profesional y el cumplimiento de expectativas</span>
                           </div>
                       </div>
-
-                      <img src={'assets/line-pas.svg'} alt={'linea indicadora de un valor'}  style={{gridArea:'2/3',alignSelf:'center',justifySelf:'end'}}/>
-                      <div  style={{gridArea:'2/3',justifySelf:'start', alignSelf:'end'}} className={'val_center'}>
-                          <div className={homeStyles.subtitle}>PASIÓN:</div>
-                          <div className={homeStyles.description}>
-                              Dedicando nuestro tiempo a satisfacer las necesidades de nuestros alumnos/as, asegurando el desarrollo a través de oportunidades basadas en la aportación profesional y el cumplimiento de expectativas
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                          <img src={'/assets/landing/corner.svg'} alt={'icono de un corner'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle}>Profesionalidad:</span>
+                              <span>Trabajos realizados por entrenadores cualificados y con experiencia, en el fútbol profesional</span>
                           </div>
                       </div>
-
-                      <img src={'assets/line-inn.svg'} alt={'linea indicadora de un valor'}  style={{gridArea:'2/2'}}/>
-                      <div  style={{gridArea:'2/1',alignSelf:'center',textAlign:'right'}} className={'val_right'}>
-                          <div className={homeStyles.subtitle}>INNOVACIÓN:</div>
-                          <div className={homeStyles.description}>
-                              Promoviendo las formaciones continuas en el plano académico para alcanzar la máxima calidad en la formación continua del alumnado
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.05}>
+                          <img src={'/assets/landing/marcador.svg'} alt={'icono de una porteria'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle}>Innovación:</span>
+                              <span>Promoviendo las formaciones continuas en el plano académico para alcanzar la máxima calidad en la formación continua del alumnado</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.05}>
+                          <img src={'/assets/landing/banquillo.svg'} alt={'icono de un banquillo'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle}>Cooperación:</span>
+                              <span>Buscando la excelencia a través de la implantación de nuevas herramientas educativas y procesos de evaluación, utilizando las nuevas tecnologías y tendencias en el deporte</span>
                           </div>
                       </div>
                   </div>
               </section>
+              <footer data-scroll data-scroll-sticky data-scroll-target={'#valors-section'}>
+                  <div className={'legal-info'}>
+                      <span>términos y condiciciones</span>
+                      <span>aviso legal</span>
+                  </div>
+                  <div>
+                      <span>&copy;Todos los derechos reservados CASOR SL.</span>
+                  </div>
+                  <div>
+                      <a href={'#'} target={'_blank'}>
+                          <img src={'/assets/icons/instagram-icon.svg'} alt={'icono de instagram'} />
+                      </a>
+                      <a href={'#'} target={'_blank'}>
+                          <img src={'/assets/icons/twitter-icon.svg'} alt={'icono de twitter'} />
+                      </a>
+                      <a href={'#'} target={'_blank'}>
+                          <img src={'/assets/icons/facebook-icon.svg'} alt={'icono de facebook'} />
+                      </a>
+                  </div>
+              </footer>
           </Layout>
-
-          <Field />
 
           <script noModule src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.6.0/polyfill.min.js"
                   crossOrigin="anonymous" />
@@ -132,5 +179,10 @@ const Home = (props) => {
       </div>
   )
 };
-
+export async function getServerSideProps(){
+    const res = await fetch('http://localhost:3000/api/course/findById/5ebe5b126d5f7c27fee434e7');
+    const data = await res.json();
+    const cursos = data.Course;
+    return { props: { cursos } }
+}
 export default Home

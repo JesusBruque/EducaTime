@@ -2,6 +2,8 @@ import axios from 'axios';
 import {genericValidator,email} from "./Validators";
 import moment from 'moment';
 import Review from "./Review";
+import {deleteLection} from './Lection';
+import {getLectionById} from './Lection';
 
 const COURSE_URL = process.env.API_URL+'/api/course';
 
@@ -57,7 +59,7 @@ export const create = (curso:Course) => {
 };
 export const edit = (curso:Course) => axios.put(COURSE_URL,curso);
 export const deleteCourse = (curso:string) => axios.delete(COURSE_URL+'/'+curso);
-export const getCourseById = (cursoId: string) =>  axios.get(COURSE_URL+'/findById/' + cursoId);
+export const getCourseById = async (cursoId: string) =>  {return axios.get(COURSE_URL+'/findById/' + cursoId);}
 export const uploadCourseFile = (cursoName:string,file, video:boolean,needAuth:boolean) => {
     let data = new FormData();
     data.append('file',file);
@@ -72,7 +74,17 @@ export const uploadCourseFile = (cursoName:string,file, video:boolean,needAuth:b
         onUploadProgress:(progressEvent) =>{console.log(progressEvent)}
     });
 };
-
+export const deleteLections = async (cursoId: string, lectionIds:[string]) =>{
+    const course = (await getCourseById(cursoId)).data.Course;
+    lectionIds.forEach(async lectionId=>{
+        var order = (await deleteLection(cursoId,lectionId)).data.Order;
+        course.lections.splice(order,1);
+        for(var i = 0;i<course.lections.length;i++){
+            var le = (await getLectionById(course.lections[order+i])).data.Lection;
+            le.order--;
+        }
+    });
+}
 export const getCoursesByTeacher = () => axios.get(COURSE_URL + '/getCoursesByTeacher');
 export const validate = async (curso: Course) => {
     return new Promise((resolve,reject) => {

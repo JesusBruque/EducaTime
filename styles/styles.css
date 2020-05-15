@@ -60,6 +60,28 @@ main{
     border-color:solid 2px var(--black-color);
     font-weight:bold;
 }
+/*--- FOOTER ---*/
+footer{
+    height:50px;
+    background-color:#707070;
+    display:flex;
+    justify-content: space-between;
+    color:white;
+    width:100%;
+    align-items:center;
+    padding:15px 30px;
+}
+footer .legal-info{
+    text-transform: uppercase;
+
+}
+footer .legal-info>span{
+    margin:0 8px;
+}
+footer img{
+    height:1em;
+    margin:0 8px;
+}
 /*--- FORMULARIO PAGO ---*/
 .card-input--element{
     background-color: #eef8ff;

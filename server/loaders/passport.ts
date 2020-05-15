@@ -16,7 +16,8 @@ export default async () => {
                     roles:user.roles,
                     username:user.username,
                     cursos:user.cursos,
-                    favoritos:user.favoritos
+                    favoritos:user.favoritos,
+                    paymentPend: user.paymentPend
                 });
 
             } else done(err, null);

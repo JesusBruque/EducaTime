@@ -92,7 +92,6 @@ import {file} from "@babel/types";
              throw e;
          }
      }
-
      public findCoursesWhereTeacher = async(email:string) => {
          try{
              let err, cursos = await Course.find({teacher:email}).populate('lections').lean();
@@ -102,5 +101,4 @@ import {file} from "@babel/types";
              throw e;
          }
      }
-
  }
