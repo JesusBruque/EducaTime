@@ -184,11 +184,11 @@ export default class LectionController extends GenericController{
             for (let i = 0; i < lection.teoricalResources.length; i++) {
                 if(lection.teoricalResources[i]._id==teoricalResourceId){
                     files.concat(lection.teoricalResources[i].url);
-                    lection.teoricalResources[i] = null;
-                    lection.teoricalResources.slice(i,1);
+                    lection.teoricalResources.splice(i,1);
                     break;
                 }
             }
+            await lection.save();
             await this.lectionService.deleteAnyResources(files);
             Logger.debug('recurso teorico eliminado');
             return res.status(200).json({status:200});
@@ -232,8 +232,7 @@ export default class LectionController extends GenericController{
             for(var i=0;i<lection.evaluations.length;i++){
                 if(lection.evaluations[i]._id==evaluationId){
                     files.push(lection.evaluations[i].uploadFile);
-                    lection.evaluations[i] = null;
-                    lection.evaluations.slice(i,1);
+                    lection.evaluations.splice(i,1);
                     break;
                 }
             }
