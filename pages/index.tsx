@@ -58,7 +58,7 @@ const Home = (props) => {
               <section className={homeStyles.homeSection}>
                   <div className={homeStyles.cursoClaimer}>
                       <h2>Accede ya a nuestros cursos.</h2>
-                      <p>Únete a nuestra comunidad con la compra de uno de nuestros cursos, y disfruta ya de las ventajas, hazme CASOR.</p>
+                      <p>Únete a nuestra comunidad con la compra de uno de nuestros cursos, y disfruta ya de las ventajas.</p>
                   </div>
                   <div>
                       <div className={homeStyles.cursosGrid}>
