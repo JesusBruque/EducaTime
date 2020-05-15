@@ -20,6 +20,7 @@
     display: grid;
     grid-template-rows: min-content auto 35px;
     grid-row-gap: 4px;
+    overflow:hidden;
 }
 
 .itemInfo .priceInfo{
