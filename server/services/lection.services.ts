@@ -102,7 +102,7 @@ export default class LectionService extends GenericService{
         try{
             let err, lection = await Lection.findById(lectionId);
             if (err) throw err;
-            lection.teoricalResources.push({url:resourceUrl,name:''});
+            lection.teoricalResources.push({url:resourceUrl, name:''});
             await lection.save();
             return lection;
         }catch(e){
@@ -174,8 +174,11 @@ export default class LectionService extends GenericService{
             throw e;
         }
     }
-    public deleteAnyResources = async (lectionId: string, resources:string[])=>{
+    public deleteAnyResources = async (resources:string[])=>{
         try {
+            if(resources.length==0){
+                return false;
+            }
             await this.fileService.removeFiles(resources);
              Logger.debug('ficheros eliminados');
              return true;
