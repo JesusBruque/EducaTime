@@ -57,3 +57,22 @@
     left:-6px;
     background-color:var(--main-color);
 }
+.numberIndicator{
+    font-weight:bold;
+    color:white;
+    position:relative;
+    padding:4px;
+    margin:0 8px;
+}
+.numberIndicator:after{
+    content:'';
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    background-color:var(--red-color);
+    width:1.5em;
+    height:1.5em;
+    border-radius:50%;
+    z-index:-1;
+}
