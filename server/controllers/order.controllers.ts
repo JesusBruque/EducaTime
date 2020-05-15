@@ -38,9 +38,11 @@ export default class OrderController extends GenericController {
         try {
             let paymentInfo = req.body;
             let user = await this.userService.findByEmail(paymentInfo.receipt_email);
-            console.log(user);
             if (!user._id) {
                 user = await this.userService.registerUser(user);
+            }
+            if(user._id && !user.roles.includes('user')){
+                user = await this.userService.addRolUserToUser(user._id);
             }
             const findCurso = user.cursos.find(x => x.idCurso + '' === paymentInfo.curso + '');
             if (!findCurso)

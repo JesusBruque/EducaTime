@@ -70,10 +70,12 @@ export default class FilesServices{
     };
 
     public uploadFile = async (file,courseName,fileName,video?,needAuth?): Promise<string> => {
-        /*-- OBTENGO DONDE VOY A GUARDAR EL FICHERO FINALMENTE EN FUNCION DE SI ES PUBLICO --*/
-        let finalDst =`dist/${needAuth === 'true' ? 'private' : 'public'}/${courseName}/${fileName}`;
         /*--- OBTENGO EL SITIO TEMPORAL O NO EN FUNCION DE SI ES VIDEO ----*/
-        let clave = video === 'true' ? `src/${courseName}/${fileName}` : finalDst;
+        let nombreCurso = courseName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(' ').join('_');
+        let nombreFichero = fileName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(' ').join('_');
+        /*-- OBTENGO DONDE VOY A GUARDAR EL FICHERO FINALMENTE EN FUNCION DE SI ES PUBLICO --*/
+        let finalDst =`dist/${needAuth === 'true' ? 'private' : 'public'}/${nombreCurso}/${nombreFichero}`;
+        let clave = video === 'true' ? `src/${nombreCurso}/${nombreFichero}` : finalDst;
         const putParams = {
             Bucket      : 'casor-s3',
             Key         : clave,
@@ -86,17 +88,24 @@ export default class FilesServices{
                 if(err) reject(err);
                 resolve(data.Location);
             }).on('httpUploadProgress',(evt) => {
-                console.log('EVENTO ON PROGRESSS --> ',evt);
+                // console.log('EVENTO ON PROGRESSS --> ',evt);
                 //res.write(evt);
             });
         });
         if(video === 'true'){
             /*-- SI ES VIDEO VA PASAR POR EL TRANSCODER CON ORIGEN "clave" y DESTINO "finalDst" sin el nombre del fichero*/
-            await this.transCodeVideo(clave,`dist/${needAuth === 'true' ? 'private' : 'public'}/${courseName}/`);
+            await this.transCodeVideo(clave,`dist/${needAuth === 'true' ? 'private' : 'public'}/${nombreCurso}/`);
+            // await new Promise((resolve,reject) => {
+            //     this.s3.deleteObject({Bucket:'casor-s3',Key:clave},(err,data) => {
+            //         if(err) reject(err);
+            //         resolve(data);
+            //     });
+            // });
         }
+
         let location = config.cdn_url;
         if(video === 'true'){
-            return location + `/dist/${needAuth === 'true' ? 'private' : 'public'}/${courseName}/${fileName.split('.')[0]}.m3u8`;
+            return location + `/dist/${needAuth === 'true' ? 'private' : 'public'}/${nombreCurso}/${nombreFichero.split('.')[0]}.m3u8`;
         }else{
             return location + fileLocation.split('https://casor-s3.s3.eu-west-3.amazonaws.com')[1];
         }
@@ -289,7 +298,6 @@ const mediaConvertParams =  (origen:string,destino:string) => {
                     "OutputGroupSettings": {
                         "Type": "HLS_GROUP_SETTINGS",
                         "HlsGroupSettings": {
-                            "BaseUrl":"video_curso",
                             "ManifestDurationFormat": "INTEGER",
                             "SegmentLength": 2,
                             "TimedMetadataId3Period": 2,

@@ -18,6 +18,7 @@ type Props = {
 const CursosContent: FunctionComponent<Props> = (props) => {
     const [curso,setCurso] = useState(null);
     useEffect( () => {
+        console.log(props.cursos);
         if(props.cursoIndex!== null){
             setCurso(props.cursos[props.cursoIndex].idCurso)
         }
@@ -25,7 +26,7 @@ const CursosContent: FunctionComponent<Props> = (props) => {
             setCurso(props.cursos[props.cursoTeacherIndex]);
         }
         console.log(curso);
-    },[props.cursoIndex,props.cursoTeacherIndex]);
+    },[props.cursoIndex,props.cursoTeacherIndex,props.cursos]);
     return (
         <div>
             {

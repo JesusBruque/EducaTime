@@ -34,7 +34,9 @@ const Login = (props) => {
         }
     };
 
-    const buttons = [<Button key="buttonCliente" type="submit" color={'black'} text={'Iniciar sesión'} styles={{width:'80%',margin:'15px 0'}} />,<Button key="buttonForgotPass" type="submit" color={'black'} text={'Olvidé contraseña'} styles={{width:'80%',margin:'15px 0'}} />];
+    //BOTON PARA OLVIDAR CONTRASEÑA
+    {/*<Button key="buttonForgotPass" type="submit" color={'black'} text={'Olvidé contraseña'} styles={{width:'80%',margin:'15px 0'}} />*/}
+    const buttons = [<Button key="buttonCliente" type="submit" color={'black'} text={'Iniciar sesión'} styles={{width:'80%',margin:'15px 0'}} />];
 
     return (
         <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>

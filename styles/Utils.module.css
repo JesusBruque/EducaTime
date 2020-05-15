@@ -124,7 +124,7 @@
 
 .userIcon{
     padding:4px;
-    border:solid 3px var(--main-color);
+    border:solid 3px var(--black-color);
     border-radius:50%;
     box-sizing: content-box;
     display:flex;
@@ -134,7 +134,9 @@
     width:12px;
     height:12px;
 }
-
+.userBlue{
+    border:solid 3px var(--main-color);
+}
 .inputEditing{
     border:none;
     border-bottom:solid 1px var(--black-color);

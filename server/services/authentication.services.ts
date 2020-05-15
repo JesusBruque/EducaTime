@@ -6,6 +6,7 @@ import argon2 from 'argon2';
 import { randomBytes } from "crypto";
 import { sendEmail } from "./email.services";
 import mongoose from "mongoose";
+import {errorMonitor} from "events";
 
 export default class AuthenticationService {
     constructor() { }
@@ -108,7 +109,30 @@ export default class AuthenticationService {
         if (err) throw err;
         if (!user) throw Error('No se ha encontrado el usuario');
         user.roles.push('teacher');
+        await user.save();
         return user;
+    }
+    public addRolUserToUser = async (userId:string) => {
+        let err, user = await Usuario.findById(userId);
+        if (err) throw err;
+        if (!user) throw Error('No se ha encontrado el usuario');
+        user.roles.push('user');
+        await user.save();
+        return user;
+    }
+    public deleteCourseFromUser = async(userId:string,courseId:string) => {
+        let err, user = await Usuario.findById(userId);
+        if(err) throw err;
+        for(let i=0;i<user.cursos.length;i++){
+            console.log(user.cursos[i].idCurso);
+            if(user.cursos[i].idCurso === courseId){
+                user.cursos.splice(i,1);
+                break;
+            }
+        }
+        user = await user.save();
+        return user;
+
     }
     public addCursoToUser = async (userId: string, curso: string, plazo?: number): Promise<IUsuarioDTO> => {
 
@@ -132,34 +156,13 @@ export default class AuthenticationService {
         user = await user.save();
         return user;
     };
-    public addCursoToTeacher = async (userId: string, cursoId: string): Promise<IUsuarioDTO> => {
 
-        let a = await Course.findById(cursoId);
-        let plazosPagados = [];
-        let leccionesCurso = [];
-        a.fees.forEach((fee, i) => {
-            plazosPagados.push({ paid: true, idFee: fee._id });
-        });
-        a.lections.forEach(lection => {
-            leccionesCurso.push({ idLection: lection, taskResponses: [], evaluationResponses: [] })
-        });
-
-        let courseParams = {
-            idCurso: cursoId, feeState: plazosPagados, lections: leccionesCurso
-        }
-        let err, user = await Usuario.findById(userId);
-        if (err) throw err;
-        if (!user) throw Error('No se ha encontrado el usuario');
-        user.cursos.push(courseParams);
-        user = await user.save();
-        return user;
-    }
     public sendCourseAssignmentEmail = async (email: string, username: string, courseTitle: string, courseDescription: string) => {
         let html = this.assignmentEmail(email, username, courseTitle, courseDescription);
         let err, info = await sendEmail(email, 'Nueva tutoría de Curso en CASOR. Academia de formación deportiva.', html);
         if (err) console.error(err);
         return info;
-    }
+    };
     public sendRegisterEmail = async (email: string, pass: string, username: string) => {
         let html = this.registerEmail({ username, pass, email });
         await sendEmail(email, 'Registro en CASOR. Academia de formación deportiva.', html);

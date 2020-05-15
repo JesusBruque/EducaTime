@@ -23,6 +23,8 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
     const [videoPlaying,setVideoPlaying] = useState(null);
 
     const handleDeleteTarea = (i,lectionId,tarea) =>{
+        props.utils.initLoader();
+        props.utils.startLoader();
         deleteHomework(curso._id,lectionId,tarea).then((res)=>{
             console.log(res);
             if(res.status==200){

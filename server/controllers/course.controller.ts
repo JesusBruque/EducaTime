@@ -37,8 +37,10 @@ export default class CourseController extends GenericController{
             curso.lections = [];
 
             /*-- EDITANDO CURSO Y LECCIONES --*/
+            let oldCurso = await this.courseService.findById(curso._id);
             await this.courseService.edit(curso);
-            await this.manageAfterCreateOrEdit(lections,curso);
+            let addTeacher = oldCurso.teacher !== curso.teacher;
+            await this.manageAfterCreateOrEdit(lections,curso,addTeacher);
             return res.status(200).json({status:200,curso:curso});
         }catch(e){
             Logger.error('Error al editar un curso.');
@@ -57,7 +59,7 @@ export default class CourseController extends GenericController{
 
             /*-- CREANDO CURSO Y LECCIONES --*/
             curso = await this.courseService.create(curso).catch(err => {throw err});
-            await this.manageAfterCreateOrEdit(lections,curso);
+            await this.manageAfterCreateOrEdit(lections,curso, true);
             return res.status(200).json({status:200,curso:curso});
         }catch(e){
             Logger.error('Error al crear un curso.');
@@ -65,7 +67,7 @@ export default class CourseController extends GenericController{
             return res.status(400).json({status:400});
         }
     };
-    private manageAfterCreateOrEdit = async (lections, curso) => {
+    private manageAfterCreateOrEdit = async (lections, curso,addTeacher) => {
         await this.courseService.lectionEraser(curso._id);
         let pLections = [];
         lections.forEach((lection,i) => {
@@ -73,7 +75,7 @@ export default class CourseController extends GenericController{
         });
 
         await Promise.all(pLections).catch(e => {throw e});
-        if(curso.teacher){
+        if(curso.teacher && addTeacher){
             await this.manageTeacher(curso._id, curso.teacher, curso.title, curso.description);
             console.log('email enviado al profesor.')
         }
@@ -83,14 +85,15 @@ export default class CourseController extends GenericController{
             var err, user = await this.authenticationService.findByEmail(email);
             if (err) throw err;
             if (user._id){
+                console.log(user._id);
                 if(!(user.roles.includes('teacher'))){
+                    console.log('añadiendo rol de profeesor');
                     await this.authenticationService.addRolTeacherToUser(user._id);
                 }
             }
             else{
                 await this.authenticationService.registerTeacher(user);
             }
-            await this.authenticationService.addCursoToTeacher(user._id,cursoId);
             await this.authenticationService.sendCourseAssignmentEmail(email, user.username, titulo, descripcion);
             console.log('El usuario recibirá un email');
         }catch(e){
@@ -132,7 +135,15 @@ export default class CourseController extends GenericController{
     public deleteFullCourse = async(req:Request, res:Response) => {
         Logger.debug('eliminando curso');
         try{
+            /*--- ELIMINAR LA REFERENCIA DE LOS USUARIOS ---*/
             const courseId = req.params.courseId;
+            let err, users = await Usuario.find({"cursos.idCurso":courseId}).lean();
+            if(err) throw err;
+            for(let i=0;i<users.length;i++){
+                let user = users[i];
+                await this.authenticationService.deleteCourseFromUser(user._id,courseId)
+            }
+            /*---- ELIMINAR CURSO ----*/
             await this.courseService.hardDelete(courseId);
             Logger.debug('curso eliminado');
             return res.status(200).json({status:200});

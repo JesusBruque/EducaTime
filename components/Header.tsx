@@ -51,45 +51,11 @@ const Header = (props) => {
                 <span className={`${headerStyles.headerLink} ${props.router.pathname.includes('contacto') ?  headerStyles.linkActive : ''}`}>contacto</span>
             </Link>
             <Link href={props.user ? (props.user.roles.includes('admin') ? '/admin/formacion' : '/whiteboard') : '/login'}>
-                <div className={utilStyles.userIcon}>
-                    <img src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
+                <div className={`${utilStyles.userIcon} ${props.user ? utilStyles.userBlue : ''}`}>
+                    <img src={props.user ? '/assets/icons/user-icon.svg' : '/assets/icons/user.svg'} alt={'icono para el acceso de los usuarios'}/>
                 </div>
             </Link>
-            <img src={'/assets/icons/stand-by.svg'} alt={'icono de logout'} onClick={goLogOut} className={headerStyles.exitIcon}/>
-            {/*<div className={headerStyles.top}>*/}
-            {/*    <Link href={'/'}>*/}
-            {/*        <img className={headerStyles.logo} src={'/assets/logo_letras.png'} alt={'logo casor en la cabecera'}/>*/}
-            {/*    </Link>*/}
-            {/*</div>*/}
-            {/*<div className={headerStyles.lateral}>*/}
-            {/*    <div className={'first-icons'}>*/}
-            {/*        <img src={'/assets/icons/menu-icon.png'} alt={'icono para menú'} className={headerStyles.menuIcon} onClick={openMenu} />*/}
-            {/*        {*/}
-            {/*            !props.user ?*/}
-            {/*                <Link href={'/login'}>*/}
-            {/*                    <div className={headerStyles.userIcon}>*/}
-            {/*                        <img src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>*/}
-            {/*                    </div>*/}
-            {/*                </Link>*/}
-            {/*                :*/}
-            {/*                <div>*/}
-            {/*                    <img src={'/assets/icons/stand-by.svg'} alt={'icono de logout'} onClick={handleLogout} className={headerStyles.exitIcon}/>*/}
-            {/*                </div>*/}
-
-            {/*        }*/}
-            {/*    </div>*/}
-            {/*    <div className={headerStyles.socials}>*/}
-            {/*        <a href={'#'}>*/}
-            {/*            <img src={'/assets/icons/facebook-icon.svg'} alt={'icono de la red social Facebook'}/>*/}
-            {/*        </a>*/}
-            {/*        <a href={'#'}>*/}
-            {/*            <img src={'/assets/icons/twitter-icon.svg'} alt={'icono de la red social Twitter'}/>*/}
-            {/*        </a>*/}
-            {/*        <a href={'#'}>*/}
-            {/*            <img src={'/assets/icons/instagram-icon.svg'} alt={'icono de la red social Instagram'}/>*/}
-            {/*        </a>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            {props.user &&  <img src={'/assets/icons/stand-by.svg'} alt={'icono de logout'} onClick={goLogOut} className={headerStyles.exitIcon}/>}
         </div>
     )
 };

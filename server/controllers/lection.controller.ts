@@ -204,12 +204,11 @@ export default class LectionController extends GenericController{
             const homeworkId: string = req.query.homeworkId as string;
             var files = [];
             Logger.debug('Iniciando variables correcto');
-            for(var i=0;i<lection.homework.length;i++){
+            for(let i=0;i<lection.homework.length;i++){
                 if(lection.homework[i]._id==homeworkId){
                     Logger.debug('Encontro la tarea');
                     files.push(lection.homework[i].uploadFile);
-                    lection.homework[i] = null;
-                    lection.homework = lection.homework.slice(i,1);
+                    lection.homework.splice(i,1);
                     break;
                 }
             }
