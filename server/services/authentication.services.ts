@@ -17,7 +17,6 @@ export default class AuthenticationService {
             if (err) throw err;
             if (user)
                 correct = await user.validPassword(password);
-            console.log(user.paymentPend)
             if (correct)
                 return { user: user, correct: true };
             return { user: null, correct: false }
@@ -40,19 +39,23 @@ export default class AuthenticationService {
     };
     public marcaProxPlazo = async (user: IUsuario, courseId: string, plazo: number) => {
         try {
-            let courseIndex = 0;
+            let courseIndex = -1;
             const lc = user.cursos.length;
+
+            const cursos = [...user.cursos];
             for (let i = 0; i < lc; i++) {
-                if (user.cursos[i].idCurso.toString() == courseId) {
+                if (cursos[i].idCurso.toString() == courseId) {
                     courseIndex = i;
                 }
             }
-            const fees = user.cursos[courseIndex].feeState;
-            if (plazo) {
-                fees[plazo] ? fees[plazo].paid = true : () => { throw Error('No existe el plazo indicado') };
-            } else {
-                fees.map(f => f.paid = true);
+
+            if (plazo && courseIndex !== -1) {
+
+                cursos[courseIndex].feeState[plazo] ? cursos[courseIndex].feeState[plazo].paid = true : () => { throw Error('No existe el plazo indicado') };
             }
+            var err, res = await Usuario.findByIdAndUpdate(user._id, { cursos: cursos });
+            if (err) throw err;
+
         }
         catch (e) {
             throw e;
@@ -155,7 +158,6 @@ export default class AuthenticationService {
         let html = this.assignmentEmail(email, username, courseTitle, courseDescription);
         let err, info = await sendEmail(email, 'Nueva tutoría de Curso en CASOR. Academia de formación deportiva.', html);
         if (err) console.error(err);
-        console.log(info);
         return info;
     }
     public sendRegisterEmail = async (email: string, pass: string, username: string) => {

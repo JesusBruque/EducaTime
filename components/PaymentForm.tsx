@@ -1,17 +1,16 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState } from 'react';
 import {
     CardElement,
     useStripe,
     useElements
 } from "@stripe/react-stripe-js";
-import {createPaymentIntent, afterPayment} from "../utils/Order";
+import { createPaymentIntent, afterPayment } from "../utils/Order";
 import Input from "./Input";
 import Button from "./Button";
-import inputStyles from "../styles/Input.module.css";
 import ErrorsPanel from "./ErrorsPanel";
-const PaymentForm = ({router,cursoId, plazo,utils}) => {
-    const [values,setValues] = useState({email:'',name:''});
-    const [errors,setErrors] = useState(Object);
+const PaymentForm = ({ router, cursoId, plazo, utils, stay = null }) => {
+    const [values, setValues] = useState({ email: '', name: '' });
+    const [errors, setErrors] = useState(Object);
 
     const setErrorInput = (property) => (err: string) => setErrors({ ...errors, [property]: err });
     const setValue = (property) => (val: string | number) => setValues({ ...values, [property]: val });
@@ -30,7 +29,7 @@ const PaymentForm = ({router,cursoId, plazo,utils}) => {
                 fontFamily: 'Lato, sans-serif',
                 fontSmoothing: "antialiased",
                 fontSize: "1em",
-                lineHeight:'1.3em',
+                lineHeight: '1.3em',
                 "::placeholder": {
                     color: "#707070"
                 },
@@ -65,45 +64,46 @@ const PaymentForm = ({router,cursoId, plazo,utils}) => {
             }
         });
         if (payload.error) {
-            setError([{'fallo al pagar':payload.error.message}]);
+            setError([{ 'fallo al pagar': payload.error.message }]);
             setProcessing(false);
             utils.removeLoader();
         } else {
             const payment = await afterPayment({
-                amount:payload.paymentIntent.amount,
+                amount: payload.paymentIntent.amount,
                 plazo: plazo,
-                client_secret:payload.paymentIntent.client_secret,
-                id:payload.paymentIntent.id,
-                receipt_email:payload.paymentIntent.receipt_email,
-                status:payload.paymentIntent.status,
-                curso:cursoId});
-            console.log(payment);
+                client_secret: payload.paymentIntent.client_secret,
+                id: payload.paymentIntent.id,
+                receipt_email: payload.paymentIntent.receipt_email,
+                status: payload.paymentIntent.status,
+                curso: cursoId
+            });
             setError(null);
             setProcessing(false);
             utils.removeLoader();
-            router.push('/cursos/payment/succeded');
+            if (!stay) router.push('/cursos/payment/succeded');
+            else stay()
         }
     };
 
     const styleInputs = {
-        backgroundColor:'#eef8ff',
-        padding:'8px 15px',
-        boxShadow:'none',
+        backgroundColor: '#eef8ff',
+        padding: '8px 15px',
+        boxShadow: 'none',
     };
 
     return (
         <React.Fragment>
             <form id="payment-form" onSubmit={handleSubmit}>
                 <Input value={values.name} setValue={setValue('name')} type={'text'} icon={'/assets/icons/user.svg'} placeHolder={'Nombre'}
-                       name={'name'} validators={['required']} error={errors.name} setError={setErrorInput('name')} styles={styleInputs}/>
-                <Input value={values.email} setValue={setValue('email')} type={'text'}icon={'/assets/icons/mail.svg'} placeHolder={'Email'}
-                       name={'email'} validators={['email','required']} error={errors.email} setError={setErrorInput('email')} styles={styleInputs}/>
-                <CardElement id="card-element" options={cardStyle} onChange={handleChange} className={'card-input--element'}/>
+                    name={'name'} validators={['required']} error={errors.name} setError={setErrorInput('name')} styles={styleInputs} />
+                <Input value={values.email} setValue={setValue('email')} type={'text'} icon={'/assets/icons/mail.svg'} placeHolder={'Email'}
+                    name={'email'} validators={['email', 'required']} error={errors.email} setError={setErrorInput('email')} styles={styleInputs} />
+                <CardElement id="card-element" options={cardStyle} onChange={handleChange} className={'card-input--element'} />
 
-                <Button disabled={processing} color={'blue'} text={'Realizar Pago'} type={'submit'} styles={{padding:'8px 15px',width:'fit-content',fontSize:'1.2em',color:'white'}}/>
+                <Button disabled={processing} color={'blue'} text={'Realizar Pago'} type={'submit'} styles={{ padding: '8px 15px', width: 'fit-content', fontSize: '1.2em', color: 'white' }} />
 
             </form>
-            {error && <ErrorsPanel errors={error} close={()=>setError(null)}/>}
+            {error && <ErrorsPanel errors={error} close={() => setError(null)} />}
 
         </React.Fragment>
     )
