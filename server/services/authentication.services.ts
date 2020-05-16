@@ -6,7 +6,7 @@ import argon2 from 'argon2';
 import { randomBytes } from "crypto";
 import { sendEmail } from "./email.services";
 import mongoose from "mongoose";
-import {errorMonitor} from "events";
+import { errorMonitor } from "events";
 
 export default class AuthenticationService {
     constructor() { }
@@ -31,7 +31,7 @@ export default class AuthenticationService {
             //     {$match:{"_id": new mongoose.Types.ObjectId(idUsuario)}},
             //     {$lookup:{from:'courses',localField:'cursos.idCurso',foreignField:'_id',as:'userCourses'}}
             // ]);
-            let err, user = await Usuario.findById(idUsuario).populate({ path: 'cursos.idCurso', model: Course, populate: { path: 'lections', model: Lection, options:{sort:{'order':1} } }});
+            let err, user = await Usuario.findById(idUsuario).populate({ path: 'cursos.idCurso', model: Course, populate: { path: 'lections', model: Lection, options: { sort: { 'order': 1 } } } });
             if (err) throw err;
             return user;
         } catch (e) {
@@ -113,7 +113,7 @@ export default class AuthenticationService {
         await user.save();
         return user;
     }
-    public addRolUserToUser = async (userId:string) => {
+    public addRolUserToUser = async (userId: string) => {
         let err, user = await Usuario.findById(userId);
         if (err) throw err;
         if (!user) throw Error('No se ha encontrado el usuario');
@@ -121,13 +121,12 @@ export default class AuthenticationService {
         await user.save();
         return user;
     }
-    public deleteCourseFromUser = async(userId:string,courseId:string) => {
+    public deleteCourseFromUser = async (userId: string, courseId: string) => {
         let err, user = await Usuario.findById(userId);
-        if(err) throw err;
-        for(let i=0;i<user.cursos.length;i++){
-            console.log(user.cursos[i].idCurso);
-            if(user.cursos[i].idCurso === courseId){
-                user.cursos.splice(i,1);
+        if (err) throw err;
+        for (let i = 0; i < user.cursos.length; i++) {
+            if (user.cursos[i].idCurso === courseId) {
+                user.cursos.splice(i, 1);
                 break;
             }
         }
@@ -157,6 +156,27 @@ export default class AuthenticationService {
         user = await user.save();
         return user;
     };
+
+    public updateHomeworkResponse = async (lectionId: string, homeworkId: string, userId: string, fileLocation: string) => {
+        try {
+            var err, user = await Usuario.findById(userId);
+            if (err) throw err;
+            if (!user) throw Error("No se encuentra el usuario")
+            for (let i = 0; i < user.cursos.length; i++) {
+                for (let j = 0; j < user.cursos[i].lections.length; j++) {
+                    if (user.cursos[i].lections[j].idLection + '' === lectionId + '') {
+                        const find = user.cursos[i].lections[j].taskResponses.find(x => x.origin === homeworkId);
+                        if (find) throw Error("El usuario ya ha enviado una respuesta a la tarea.")
+                        user.cursos[i].lections[j].taskResponses.push({ origin: homeworkId, url: fileLocation })
+                    }
+                }
+            }
+            await Usuario.findByIdAndUpdate(userId, { cursos: user.cursos });
+            //await user.save()
+        } catch (e) {
+            throw e;
+        }
+    }
 
     public sendCourseAssignmentEmail = async (email: string, username: string, courseTitle: string, courseDescription: string) => {
         let html = this.assignmentEmail(email, username, courseTitle, courseDescription);

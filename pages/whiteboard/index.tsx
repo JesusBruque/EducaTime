@@ -17,7 +17,7 @@ const userWhiteBoard = (props) => {
     const [contentSelected, setContentSelected] = useState(null);
     const [coursesTeaching, setCoursesTeaching] = useState(null);
 
-    const [cursoIndex, setCursoIndex] = useState( null);
+    const [cursoIndex, setCursoIndex] = useState(null);
     const [teacherCursoIndex, setTeacherCursoIndex] = useState(null);
 
     const [cargarContenido, setCargarContenido] = useState(false);
@@ -43,7 +43,6 @@ const userWhiteBoard = (props) => {
             }).catch(err => console.error(err));
         } else {
             props.utils.removeLoader();
-            console.log('eee');
             props.router.push('/login');
         }
     }, [cargarContenido]);
@@ -80,10 +79,10 @@ const userWhiteBoard = (props) => {
                 <React.Fragment>
                     <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} />
                     <div className={styles.mainContainer}>
-                        {contentLoaded && contentSelected === 'cursos' && userData && userData.roles.includes('user') && <CursosContent cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={userData.cursos} teacher={false} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
+                        {contentLoaded && contentSelected === 'cursos' && userData && userData.roles.includes('user') && <CursosContent user={userData} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={userData.cursos} teacher={false} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
                         {contentLoaded && contentSelected === 'tareas' && <TareasContent />}
-                        {contentLoaded && contentSelected === 'pagos' && userData &&  <PagosContent router={props.router} utils={props.utils} user={userData} setUser={setUserData} />}
-                        {contentLoaded && contentSelected === 'cursos-teacher' && userData && userData.roles.includes('teacher') && coursesTeaching && <CursosContent cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={coursesTeaching} teacher={true} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
+                        {contentLoaded && contentSelected === 'pagos' && userData && <PagosContent router={props.router} utils={props.utils} user={userData} setUser={setUserData} />}
+                        {contentLoaded && contentSelected === 'cursos-teacher' && userData && userData.roles.includes('teacher') && coursesTeaching && <CursosContent user={userData} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={coursesTeaching} teacher={true} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
                         {contentLoaded && contentSelected === 'tareas-teacher' && <TareasContent />}
                     </div>
                 </React.Fragment>}
