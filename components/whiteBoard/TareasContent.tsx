@@ -6,13 +6,45 @@ import moment from 'moment';
 import TareasCurso from './TareasCurso';
 
 const TareasContent = ({ user, utils, cargarContenido, setCargarContenido }) => {
-    console.log(user)
+
+    const hasTareasPendienteCurso = (curso): boolean => {
+        for (let i = 0; i < curso.lections.length; i++) {
+            const lection = curso.lections[i];
+            if (hasTareasPendienteLeccion(lection)) return true;
+        }
+        return false;
+
+    }
+    const hasTareasPendienteLeccion = (lection): boolean => {
+        const find = lection.homework.find(x => canRespond(lection._id, x._id))
+        if (find)
+            return true;
+
+        return false
+    }
+    const canRespond = (lectionId: string, tareaId: string): boolean => {
+        let res = true;
+        if (user && user.cursos) {
+            for (let i = 0; i < user.cursos.length; i++) {
+                const curso = user.cursos[i];
+                const lection = curso.lections.find(x => x.idLection + '' === lectionId + '');
+                if (lection) {
+                    const find = lection.taskResponses.find(x => x.origin + '' === tareaId + '');
+                    if (find) res = false;
+                }
+            }
+        }
+        return res;
+
+    }
     return (
         user.cursos.map(x => {
             const curso = x.idCurso;
+            if (!hasTareasPendienteCurso(curso)) return <div />
             return <div>
                 <h2>{curso.title}</h2>
                 {curso.lections.map((lection, i) => {
+                    if (!hasTareasPendienteLeccion(lection)) return <div />
                     return (
                         <div className={styles.lectionItem} key={i}>
                             <div className={styles.lectionHeader}>
@@ -28,6 +60,7 @@ const TareasContent = ({ user, utils, cargarContenido, setCargarContenido }) => 
                                 </div>
                                 <div className={styles.lectionContent}>
                                     <TareasCurso
+                                        showPendientes={false}
                                         user={user}
                                         curso={curso}
                                         lection={lection}
