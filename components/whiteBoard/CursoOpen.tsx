@@ -12,9 +12,9 @@ import VideoComponent from "../VideoComponent";
 import WebUtils from "../../webUtils/WebUtils";
 import Button from "../Button";
 import ValorarContent from './ValorarContent'
-import Usuario from '../../server/models/usuario.model'
 
 type Props = {
+    cursoIndex?: number,
     curso: any,
     setCurso: Dispatch<any>,
     teacher: boolean,
@@ -24,10 +24,44 @@ type Props = {
     user
 };
 const CursoOpen: FunctionComponent<Props> = (props) => {
-    const { curso, setCurso } = props;
+    const [writeReview, setWriteReview] = useState(null);
+    const  {curso, setCurso} = props;
     const [videoPlaying, setVideoPlaying] = useState(null);
     const [responding, setResponding] = useState(null)
 
+    const handleRespondingFiles = (file, idLection: string, idTarea: string) => {
+
+        props.utils.initLoader();
+        props.utils.startLoader();
+        uploadHomeworkResponseFile(idLection, idTarea, file[0]).then((res) => {
+            props.utils.removeLoader();
+            if (res.status === 200) {
+                props.setCargarContenido(!props.cargarContenido);
+                setResponding(null);
+            }
+            else window.alert('ERRORRRR');
+        }).catch(err => {
+            console.error(err);
+            props.utils.removeLoader();
+        });
+        props.utils.removeLoader();
+    };
+    const canRespond = (lectionId: string, tareaId: string): boolean => {
+        let res = true;
+        const user = props.user;
+        if (user && user.cursos) {
+            for (let i = 0; i < user.cursos.length; i++) {
+                const curso = user.cursos[i];
+                const lection = curso.lections.find(x => x.idLection + '' === lectionId + '');
+                if (lection) {
+                    const find = lection.taskResponses.find(x => x.origin + '' === tareaId + '');
+                    if (find) res = false;
+                }
+            }
+        }
+        return res;
+
+    }
     const handleDeleteTarea = (i, lectionId, tarea) => {
         props.utils.initLoader();
         props.utils.startLoader();
@@ -143,23 +177,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
             });
         });
     };
-    const handleRespondingFiles = (file, idLection: string, idTarea: string) => {
-
-        props.utils.initLoader();
-        props.utils.startLoader();
-        uploadHomeworkResponseFile(idLection, idTarea, file[0]).then((res) => {
-            props.utils.removeLoader();
-            if (res.status === 200) {
-                props.setCargarContenido(!props.cargarContenido);
-                setResponding(null);
-            }
-            else window.alert('ERRORRRR');
-        }).catch(err => {
-            console.error(err);
-            props.utils.removeLoader();
-        });
-        props.utils.removeLoader();
-    };
+    
     const handleTaskFiles = (files, lectionName, i) => {
         files.forEach((file) => {
             props.utils.initLoader();
@@ -256,29 +274,23 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         });
         setTaskDateEditing(null);
     };
-    // const handleShowValorarWindow = () =>{
-    //     var cIndex = 0;
-    //     const c = user.cursos;
-    //     for(var i =0;i<c.length;i++){
-    //         if(c[i].idCurso==curso){
-    //             cIndex = i;
-    //         }
-    //     }
-    //     return <ValorarContent usuario={props.userId} cursoIndex={cIndex} cursoId={curso}/>;
-    // }
-    // const checkingValorarStatus = () =>{
-    //     const c = user.cursos;
-    //     for(var i =0;i<c.length;i++){
-    //         if(c[i].idCurso==curso){
-    //             return c[i].review.enabled;
-    //         }
-    //     }
-    //     return false;
-    // }
+    const handleShowValorarWindow = () =>{
+        setWriteReview(true);
+    }
+    const checkingValorarStatus = () =>{
+        const c = props.user.cursos;
+        for(var i =0;i<c.length;i++){
+            if(c[i].idCurso==curso){
+                return c[i].review.enabled;
+            }
+        }
+        return false;
+    }
     return (
         <div>
             <h2>{curso.title}</h2>
-            {/* <Button action={()=>{handleShowValorarWindow()}} color = {'var(--main-color)'} text= 'Valorar este curso' disabled= {false} type = {'button'}/> */}
+            <ValorarContent usuario={props.user._id} cursoIndex={props.cursoIndex} cursoId={curso}/>
+            <Button action={handleShowValorarWindow} color = {'var(--main-color)'} text= 'Valorar este curso' disabled= {false} type = {'button'}/>
             {curso.lections.map((lection,i) => {
                 return(
                     <div className={styles.lectionItem} key={i}>

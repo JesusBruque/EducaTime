@@ -32,7 +32,7 @@ const CursosContent: FunctionComponent<Props> = (props) => {
                 props.cursos.length < 1 && <div><h3><b>No tienes cursos para ver!</b></h3></div>
             }
             {
-                props.cursos.length > 0 && curso && (curso.lections.length > 0 && !curso.webinar ? <CursoOpen user={props.user} curso={curso} setCurso={setCurso} teacher={props.teacher} cargarContenido={props.cargarContenido} setCargarContenido={props.setCargarContenido} utils={props.utils} />
+                props.cursos.length > 0 && curso && (curso.lections.length > 0 && !curso.webinar ? <CursoOpen cursoIndex={props.cursoIndex} user={props.user} curso={curso} setCurso={setCurso} teacher={props.teacher} cargarContenido={props.cargarContenido} setCargarContenido={props.setCargarContenido} utils={props.utils} />
                     : <Webinar curso={curso} />)
             }
         </div>
