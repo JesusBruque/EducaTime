@@ -10,6 +10,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {updateEvaluationDate,deleteVideoResource,deleteEvaluation,deleteTeoricalResources,deleteHomework,uploadHomeworkLectionFile,uploadTeoreticalResourceLectionFile,uploadLectionVideo,updateLectionDates,updateTaskDate, uploadEvaluationLectionFile} from '../../utils/Lection';
 import VideoComponent from "../VideoComponent";
 import WebUtils from "../../webUtils/WebUtils";
+import Button from "../Button";
+import ValorarContent from './ValorarContent'
+import Usuario from '../../server/models/usuario.model'
+
 type Props = {
     curso:any,
     setCurso:Dispatch<any>,
@@ -241,9 +245,29 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         });
         setTaskDateEditing(null);
     };
+    // const handleShowValorarWindow = () =>{
+    //     var cIndex = 0;
+    //     const c = user.cursos;
+    //     for(var i =0;i<c.length;i++){
+    //         if(c[i].idCurso==curso){
+    //             cIndex = i;
+    //         }
+    //     }
+    //     return <ValorarContent usuario={props.userId} cursoIndex={cIndex} cursoId={curso}/>;
+    // }
+    // const checkingValorarStatus = () =>{
+    //     const c = user.cursos;
+    //     for(var i =0;i<c.length;i++){
+    //         if(c[i].idCurso==curso){
+    //             return c[i].review.enabled;
+    //         }
+    //     }
+    //     return false;
+    // }
     return (
         <div>
             <h2>{curso.title}</h2>
+            {/* <Button action={()=>{handleShowValorarWindow()}} color = {'var(--main-color)'} text= 'Valorar este curso' disabled= {false} type = {'button'}/> */}
             {curso.lections.map((lection,i) => {
                 return(
                     <div className={styles.lectionItem} key={i}>

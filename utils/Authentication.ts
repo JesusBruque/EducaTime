@@ -8,9 +8,12 @@ export const getUserData = () => axios.get(AUTHENTICATION_URL+'/findUserCourses'
 
 type userCourse = {
     idCurso: string,
+    completed: boolean,
+    review: {enabled: boolean, review: string},
     feeState: { paid: Boolean, idFee: string }[],
     lections: {
         idLection: string,
+        seen: boolean,
         taskResponses: { origin: String, url: String }[],
         evaluationResponses: { origin: String, url: String }[]
     }[]

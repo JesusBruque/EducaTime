@@ -58,9 +58,12 @@ var usuarioSchema = new Schema({
   },
   cursos: [{
     idCurso: { type: Schema.Types.ObjectId, ref: 'Course' },
+    completed: Boolean,
+    review: {enabled: Boolean, reviewId: String},
     feeState: [{ paid: Boolean, idFee: { type: Schema.Types.ObjectId, ref: 'Course.fees' } }],
     lections: [{
       idLection: { type: Schema.Types.ObjectId, ref: 'Lection' },
+      seen: Boolean,
       taskResponses: [{ origin: String, url: String }],
       evaluationResponses: [{ origin: String, url: String }]
     }]

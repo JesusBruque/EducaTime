@@ -80,10 +80,10 @@ const userWhiteBoard = (props) => {
                 <React.Fragment>
                     <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} />
                     <div className={styles.mainContainer}>
-                        {contentLoaded && contentSelected === 'cursos' && userData && userData.roles.includes('user') && <CursosContent cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={userData.cursos} teacher={false} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
+                        {contentLoaded && contentSelected === 'cursos' && userData && userData.roles.includes('user') && <CursosContent userId={userData._id} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={userData.cursos} teacher={false} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
                         {contentLoaded && contentSelected === 'tareas' && <TareasContent />}
                         {contentLoaded && contentSelected === 'pagos' && userData &&  <PagosContent router={props.router} utils={props.utils} user={userData} setUser={setUserData} />}
-                        {contentLoaded && contentSelected === 'cursos-teacher' && userData && userData.roles.includes('teacher') && coursesTeaching && <CursosContent cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={coursesTeaching} teacher={true} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
+                        {contentLoaded && contentSelected === 'cursos-teacher' && userData && userData.roles.includes('teacher') && coursesTeaching && <CursosContent userId = {userData._id} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={coursesTeaching} teacher={true} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
                         {contentLoaded && contentSelected === 'tareas-teacher' && <TareasContent />}
                     </div>
                 </React.Fragment>}

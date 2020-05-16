@@ -144,11 +144,11 @@ export default class AuthenticationService {
             plazosPagados.push({ paid: (plazo === null || plazo === undefined || i === plazo), idFee: fee._id });
         });
         a.lections.forEach(lection => {
-            leccionesCurso.push({ idLection: lection, taskResponses: [], evaluationResponses: [] })
+            leccionesCurso.push({ idLection: lection, seen: false, taskResponses: [], evaluationResponses: [] })
         });
 
         let courseParams = {
-            idCurso: curso, feeState: plazosPagados, lections: leccionesCurso
+            idCurso: curso, completed: false, review: {enabled: false, reviewId: ''}, feeState: plazosPagados, lections: leccionesCurso
         }
         let err, user = await Usuario.findById(userId);
         if (err) throw err;

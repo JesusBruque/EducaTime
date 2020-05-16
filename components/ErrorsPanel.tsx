@@ -6,7 +6,7 @@ type Props = {
     errors:{}[],
     close:() => void
 }
-const ErrorsPanel : FunctionComponent<Props> = (props) => {
+const ErrorsPanel : FunctionComponent<Props> = (props:Props) => {
     return (
         <div className={styles.container}>
             <div className={utilStyles.background} onClick={props.close}></div>

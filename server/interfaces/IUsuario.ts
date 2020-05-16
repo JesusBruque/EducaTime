@@ -3,9 +3,12 @@ import mongoose from "mongoose";
 
 type userCourse = {
     idCurso: string,
+    completed: boolean,
+    review: {enabled: boolean, reviewId: string},
     feeState: { paid: Boolean, idFee: string }[],
     lections: {
         idLection: string,
+        seen: boolean,
         taskResponses: { origin: String, url: String }[],
         evaluationResponses: { origin: String, url: String }[]
     }[]

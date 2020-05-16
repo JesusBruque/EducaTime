@@ -10,37 +10,34 @@ export default (app: Router) => {
 
     route.get('/findAll', reviewController.findAll)
     
-    route.get('/:blogId', reviewController.findById)
+    route.get('/:reviewId', reviewController.findById)
 
     route.post('/',
         celebrate({
             body: Joi.object({
-                title: Joi.string().required(),
-                description: Joi.string().required(),
-                video: Joi.string().required(),
-                duration: Joi.number().required(),
-                order: Joi.number().required(),
+                score: Joi.number().required(),
+                review: Joi.string(),
+                user: Joi.string().required(),
                 course: Joi.string().required(),
-                active: Joi.boolean()
-            }),
-        }),
-        // middlewares.isAuth,
-        reviewController.create);
-
-    route.put('/',
-        celebrate({
-            body: Joi.object({
-                title: Joi.string().required(),
-                description: Joi.string().required(),
-                video: Joi.string().required(),
-                duration: Joi.number().required(),
-                order: Joi.number().required(),
-                course: Joi.string().required(),
-                active: Joi.boolean(),
+                date: Joi.number().required(),
                 updated_for: Joi.string().required()
             }),
         }),
         // middlewares.isAuth,
-        reviewController.edit);
+        reviewController.createReview);
+
+    route.put('/',
+        celebrate({
+            body: Joi.object({
+                score: Joi.number().required(),
+                review: Joi.string(),
+                user: Joi.string().required(),
+                course: Joi.string().required(),
+                date: Joi.number().required(),
+                updated_for: Joi.string().required()
+            }),
+        }),
+        // middlewares.isAuth,
+        reviewController.editReview);
 
 }
