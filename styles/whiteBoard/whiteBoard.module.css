@@ -60,9 +60,12 @@
 .taskItem>a{
     text-decoration:none;
     color:var(--black-color);
+    display:flex;
+    align-items: center;
 }
 .taskItem>a>svg{
     margin-right:4px;
+    height:1.3em;
 }
 .close{
     position:absolute;
