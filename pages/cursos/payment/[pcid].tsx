@@ -16,9 +16,10 @@ const payCurso = (props) => {
 
     const getPrice = () => {
         if(unicFee){
-            return curso.original_fee;
+            console.log(curso.original_fee);
+            return curso.original_fee/1.21;
         }
-        return curso.fees[0].fee;
+        return curso.fees[0].fee/1.21;
     };
     const getDisccount = () => {
         return (getPrice()*(curso.discount/100));
