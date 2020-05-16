@@ -289,7 +289,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
     return (
         <div>
             <h2>{curso.title}</h2>
-            <ValorarContent user={props.user} cursoIndex={props.cursoIndex} cursoId={curso}/>
+            {/*<ValorarContent user={props.user} cursoIndex={props.cursoIndex} cursoId={curso}/>*/}
             <Button action={handleShowValorarWindow} color = {'var(--main-color)'} text= 'Valorar este curso' disabled= {false} type = {'button'}/>
             {curso.lections.map((lection,i) => {
                 return(
