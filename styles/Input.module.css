@@ -5,9 +5,6 @@
     grid-template-columns: minmax(150px, max-content) auto;
     align-items: center;
     height:fit-content;
-    background-color:#FFFFFF;
-    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
-    border-radius:25px;
     min-width:250px;
     text-align: left;
 }
@@ -16,9 +13,19 @@
     margin-right:8px;
     text-transform:uppercase;
     text-align:right;
+    color:var(--black-color);
 }
 .inputContainer.iconInput{
     display:flex;
+    background-color:#FFFFFF;
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+    border-radius:4px;
+}
+.inputContainer:not(.iconInput) .input{
+    background-color:#FFFFFF;
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+    border-radius:4px;
+    min-width:200px;
 }
 .input{
     background-color: transparent;
