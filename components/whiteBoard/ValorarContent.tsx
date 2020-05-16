@@ -3,15 +3,13 @@ import Button from '../Button';
 import Review from '../../utils/Review'
 import {create,getReviewById} from '../../utils/Review'
 import { useState } from 'react';
-import Usuario from '../../server/models/usuario.model'
 
-const ValorarContent = ({cursoIndex, cursoId, usuario}) =>{
+const ValorarContent = ({cursoIndex, cursoId, user}) =>{
     const [rate, setRate] = useState(null);
     const [opinion, setOpinion] = useState(null);
     const checkForExistinReview = async () => {
-        const user = Usuario.findById(usuario);
-        if((await user).cursos[cursoIndex].review.reviewId){
-            getReviewById((await user).cursos[cursoIndex].review.reviewId).then((res)=>{
+        if(user.cursos[cursoIndex].review.reviewId){
+            getReviewById(await user.cursos[cursoIndex].review.reviewId).then((res)=>{
                 if(res.status==200){
                     setOpinion(res.data.review.review);
                     setRate(res.data.review.score);
@@ -31,7 +29,7 @@ const ValorarContent = ({cursoIndex, cursoId, usuario}) =>{
         if(opinion){
             r.review = opinion;
         }
-        r.user = usuario;
+        r.user = user;
         r.course = cursoId;
         create(r).then(()=>{
 

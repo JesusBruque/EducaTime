@@ -1,17 +1,11 @@
 import Course from '../models/course.model'
 import Lection from '../models/lection.model'
 import GenericService from './generic.services';
-import Review from '../models/review.model';
 import {ICourse} from "../interfaces/ICourse";
 import LectionService from "./lection.services";
 import FilesServices from "./files.services";
 import Logger from "../loaders/logger";
-import fs from 'fs';
-import {ILection} from "../interfaces/ILection";
-import config from "../config";
 import mongoose from 'mongoose';
-import {IUsuarioDTO} from "../interfaces/IUsuario";
-import {file} from "@babel/types";
 
  export default class CourseService extends GenericService{
      private lectionService:LectionService;

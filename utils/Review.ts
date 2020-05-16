@@ -21,4 +21,4 @@ export const create = (review:Review) => {
     return axios.post(REVIEW_URL,review); 
 }
 export const edit = (review:Review) => axios.put(REVIEW_URL,review);
-export const getReviewById = async (reviewId: string) =>  {return axios.get(REVIEW_URL+reviewId);}
+export const getReviewById = async (reviewId: string) =>  {return axios.get(REVIEW_URL+reviewId);};
