@@ -5,8 +5,6 @@ import { IUsuario, IUsuarioDTO } from '../interfaces/IUsuario';
 import argon2 from 'argon2';
 import { randomBytes } from "crypto";
 import { sendEmail } from "./email.services";
-import mongoose from "mongoose";
-import { errorMonitor } from "events";
 
 export default class AuthenticationService {
     constructor() { }
@@ -25,6 +23,25 @@ export default class AuthenticationService {
             throw e;
         }
     };
+    public findUserAndUpdateInfo = async(idUsuario:string,userInfo) => {
+        try{
+            const salt = randomBytes(32);
+            let err, user = await Usuario.findById(idUsuario);
+            if(err) throw err;
+            user.name = userInfo.name;
+            user.apellidos = userInfo.apellidos;
+            user.email = userInfo.email;
+            if(userInfo.password !== "" && userInfo.password !== null){
+                const hashedPassword = await argon2.hash(userInfo.password, { salt: salt });
+                user.password = hashedPassword;
+            }
+            user.username = userInfo.username;
+            user = await user.save();
+            return user;
+        }catch(e){
+            throw e;
+        }
+    }
     public findUserCourses = async (idUsuario: string) => {
         try {
             // let err, user = await Usuario.aggregate([

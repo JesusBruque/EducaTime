@@ -59,4 +59,16 @@ export default class AuthenticationController {
             return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
         }
     }
+
+    public editUserInfo = async(req:Request,res:Response) => {
+        try{
+            let userInfo = req.body;
+            let userReq = req.user as IUsuarioDTO;
+            const user = await this.authenticationService.findUserAndUpdateInfo(userReq._id,userInfo);
+            res.status(200).json({ status: 200, user: user });
+        }catch(e){
+            Logger.error(e);
+            return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
+        }
+    }
 }

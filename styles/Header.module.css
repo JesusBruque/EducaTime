@@ -35,48 +35,56 @@
     font-weight: bold;
     color:var(--black-color);
 }
-/*.top{*/
-/*    height:70px;*/
-/*    padding:12px 30px;*/
-/*    display:flex;*/
-/*    align-items: center;*/
-/*    justify-content: space-between;*/
-/*    opacity:0;*/
-/*    transform: translateX(-60px);*/
-/*}*/
-/*.lateral{*/
-/*    position:fixed;*/
-/*    padding:35px 30px 0 30px;*/
-/*    right:0;*/
-/*    top:0;*/
-/*    background-color:white;*/
-/*    height:100vh;*/
-/*    display:grid;*/
-/*    grid-template-rows: 50% 50%;*/
-/*    opacity:0;*/
-/*    transform: translateX(100%);*/
-/*}*/
-/*.menuIcon{*/
-/*    transform: translateY(-50%);*/
-/*    cursor:pointer;*/
-/*}*/
 
-/*.exitIcon{*/
-/*    margin-top:30px;*/
-/*    width:25px;*/
-/*    height:25px;*/
-/*    cursor:pointer;*/
-/*}*/
-/*.socials{*/
-/*    display:flex;*/
-/*    flex-direction:column;*/
-/*    justify-content: center;*/
-/*    transform: translateY(-50%);*/
-/*}*/
-/*.socials>a{*/
-/*    transform: rotate(-90deg);*/
-/*    margin:15px 0;*/
-/*}*/
-/*.socials img{*/
-/*    height:15px;*/
-/*}*/
+.header .optionsHeaderMenu{
+    top:50px;
+    left:unset;
+    right:30px;
+    transform:translateY(0) scale(.7);
+    opacity:0;
+    transition:all .3s ease-in;
+    z-index:-1;
+    width:150px;
+}
+.optionsHeaderMenu.active{
+    transform:translateY(0) scale(1);
+    opacity:1;
+    transition:all .3s ease-out;
+    z-index:1050;
+}
+.header .menuBck{
+    background-color:transparent;
+}
+.userInfo{
+    padding:15px;
+    border-bottom:solid 1px var(--black-color);
+    display:grid;
+    grid-row-gap:8px;
+    width:150px;
+}
+.userInfo>span:first-child{
+    font-weight:bold;
+    text-transform: uppercase;
+}
+.userInfo>span:last-child{
+    font-color:#dcdcdc;
+    font-size:.9em;
+}
+.menuUser{
+    padding:15px 0;
+}
+.menuUser .optionItem{
+    padding:4px 15px;
+    color:var(--main-color);
+    cursor:pointer;
+    display: grid;
+    grid-template-columns: 1em 1fr;
+    grid-column-gap: 12px;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+.menuUser .optionItem:hover{
+    background-color:#dcdcdc;
+    color:var(--black-color);
+}

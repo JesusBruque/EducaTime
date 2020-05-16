@@ -1,0 +1,31 @@
+.container{
+    position:fixed;
+    bottom:50px;
+    left:50px;
+    padding:15px;
+    opacity:0;
+    transform: translateY(100px);
+    display:flex;
+    align-items: center;
+    color:white;
+    font-weight:bold;
+}
+.container.visible{
+    animation:showSnack 1s ease-out forwards;
+}
+
+.container>svg{
+    height:1em;
+    margin-right:8px;
+}
+
+@keyframes showSnack{
+    from {
+        opacity:0;
+        transform:translateY(100px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
