@@ -22,4 +22,14 @@ export default (app: Router) => {
 
     route.get('/findUserCourses',authenticationController.findUserCourses);
 
+    route.put('/userInfo',
+        celebrate({
+            body: Joi.object({
+                name:Joi.string().required(),
+                apellidos:Joi.string().allow("",null),
+                username:Joi.string().allow("",null),
+                email: Joi.string().required(),
+                password: Joi.string().allow("",null),
+            }),
+        }),authenticationController.editUserInfo);
 }

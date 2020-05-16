@@ -12,6 +12,8 @@ export default async () => {
             if (user) {
                 done(err, {
                     _id: user._id,
+                    name:user.name,
+                    apellidos:user.apellidos,
                     email: user.email,
                     roles:user.roles,
                     username:user.username,

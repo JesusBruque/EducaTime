@@ -37,3 +37,6 @@ export class User{
         this.favoritos = [];
     }
 }
+
+
+export const editUserInfo = (userInfo) => axios.put(AUTHENTICATION_URL + '/userInfo',userInfo);

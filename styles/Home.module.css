@@ -2,12 +2,12 @@
     display:flex;
     justify-content:space-around;
     align-items: center;
-    min-height:calc(100vh - 140px);
-    max-width:1450px;
+    min-height:calc(100vh - 70px);
     color:var(--black-color);
     padding:0 30px;
     position:relative;
     background-color:white;
+    margin:0 auto;
 }
 
 /*--- PRIMERA SECCION ---*/
@@ -19,16 +19,36 @@
     width:100%;
     object-fit:contain;
 }
+.field{
+    width:50vw;
+    z-index:5;
+}
+.fieldContainer{
+    width:100%;
+    perspective:2000px;
+    perspective-origin:bottom center;
+}
 .mainClaimer{
     text-align: left;
+    width:fit-content;
+    margin-bottom:175px;
 }
 
 .mainClaimer h1{
     margin-left:auto;
-    font-size:2em;
+    font-size:4em;
     position: relative;
     opacity:0;
     margin-bottom:30px;
+}
+.mainClaimer h1:after{
+    content:'';
+    position: absolute;
+    height:4px;
+    width:40%;
+    left:0;
+    background-color:var(--main-color);
+    bottom:-8px;
 }
 .mainClaimer p{
     font-size:1.3em;
@@ -41,9 +61,24 @@
 
 
 /*SEGUNDA SECCIION*/
+.claimerContainer{
+    display:flex;
+    flex-direction: column-reverse;
+    width:calc(100vw - 550px);
+    margin-left:auto;
+    align-items:flex-end;
+}
 .cursoClaimer{
     text-align:right;
+    margin-right:75px;
     color:var(--black-color);
+    opacity:0;
+    transform: translateY(100px);
+    transition:all .5s ease-out .3s;
+}
+.cursoClaimer:global(.is-inview){
+    opacity:1;
+    transform: translateY(0);
 }
 .cursoClaimer>h2{
     font-size:2em;
@@ -54,6 +89,7 @@
 .cursosGrid{
     display:flex;
     position:relative;
+    transform:scale(.6)
 }
 .cursosGrid>div{
     transform:scale(.9);
@@ -71,9 +107,9 @@
 .cursosGrid:after{
     position:absolute;
     content:'';
-    left:0;
+    left:75px;
     height:100%;
-    width:100%;
+    width:calc(100% - 75px);
     top:0;
     background-image:linear-gradient(to right, rgba(255,255,255,.7),rgba(255,255,255,0),rgba(255,255,255,.7));
     z-index:4;
