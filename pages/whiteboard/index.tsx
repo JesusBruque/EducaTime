@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from "../../components/Layout";
-import { logout } from "../../utils/Authentication";
 import { getCoursesByTeacher } from "../../utils/Course";
-import useSWR from 'swr';
 import LateralMenu from "../../components/whiteBoard/LateralMenu";
 import { getUserData } from '../../utils/Authentication';
 import styles from '../../styles/whiteBoard/whiteBoard.module.css';
@@ -80,10 +78,10 @@ const userWhiteBoard = (props) => {
                     <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} />
                     <div className={styles.mainContainer}>
                         {contentLoaded && contentSelected === 'cursos' && userData && userData.roles.includes('user') && <CursosContent user={userData} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={userData.cursos} teacher={false} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
-                        {contentLoaded && contentSelected === 'tareas' && <TareasContent />}
+                        {contentLoaded && contentSelected === 'tareas' && <TareasContent user={userData} utils={props.utils} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} />}
                         {contentLoaded && contentSelected === 'pagos' && userData && <PagosContent router={props.router} utils={props.utils} user={userData} setUser={setUserData} />}
                         {contentLoaded && contentSelected === 'cursos-teacher' && userData && userData.roles.includes('teacher') && coursesTeaching && <CursosContent user={userData} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={coursesTeaching} teacher={true} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
-                        {contentLoaded && contentSelected === 'tareas-teacher' && <TareasContent />}
+                        {contentLoaded && contentSelected === 'tareas-teacher' && <TareasContent user={userData} utils={props.utils} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} />}
                     </div>
                 </React.Fragment>}
             {/*<button onClick={goLogOut}>salir</button>*/}

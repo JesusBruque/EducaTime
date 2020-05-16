@@ -17,10 +17,6 @@ type Props = {
 
 const LateralMenu: FunctionComponent<Props> = (props) => {
 
-
-    useEffect(() => {
-        console.log(props.user);
-    }, []);
     return (
         <div className={styles.lateralMenu}>
             <div>
@@ -42,11 +38,11 @@ const LateralMenu: FunctionComponent<Props> = (props) => {
                                 })}
                             </div>
                         </div>
-                        <div style={{display:'flex',alignItems:'center'}}>
-                            <span className={`${styles.mainTitle} ${props.optionSelected === 'tareas' ? styles.optionSelected : ''} ${!props.taskPend ? styles.optionDisabled : ''}`} onClick={!props.taskPend ? () => { } : props.onClickOption} data-option={'tareas'}>Mis tareas</span>
-                            {props.taskPend > 0 && <span className={styles.numberIndicator}>{props.taskPend}</span>}
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <span className={`${styles.mainTitle} ${props.optionSelected === 'tareas' ? styles.optionSelected : ''} ${props.user && props.user.homeworkPend && props.user.homeworkPend === 0 ? styles.optionDisabled : ''}`} onClick={props.user && props.user.homeworkPend && props.user.homeworkPend === 0 ? () => { } : props.onClickOption} data-option={'tareas'}>Mis tareas</span>
+                            {props.user && props.user.homeworkPend && props.user.homeworkPend > 0 && <span className={styles.numberIndicator}>{props.user.homeworkPend}</span>}
                         </div>
-                        <div  style={{display:'flex',alignItems:'center'}}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
                             <span className={`${styles.mainTitle} ${props.optionSelected === 'pagos' ? styles.optionSelected : ''} ${!(props.user && props.user.paymentPend && props.user.paymentPend > 0) ? styles.optionDisabled : ''}`} onClick={!(props.user && props.user.paymentPend && props.user.paymentPend > 0) ? () => { } : props.onClickOption} data-option={'pagos'}>Pagos pendientes</span>
                             {props.user && props.user.paymentPend && props.user.paymentPend > 0 && <span className={styles.numberIndicator}>{props.user.paymentPend}</span>}
                         </div>

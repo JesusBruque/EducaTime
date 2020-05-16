@@ -63,8 +63,10 @@ export default class AuthenticationService {
                             const homework = lection.homework;
                             for (let k = 0; k < homework.length; k++) {
                                 const work = homework[k];
-                                const find = work.userResponses.find(x => x.UserId + '' === user._id + '')
-                                if (!find) res++;
+                                const find = work.userResponses.find(x => x.UserID + '' === user._id + '')
+                                if (!find) {
+                                    res++;
+                                }
                             }
                         }
 
@@ -188,7 +190,7 @@ export default class AuthenticationService {
         });
 
         let courseParams = {
-            idCurso: curso, completed: false, review: {enabled: false, reviewId: ''}, feeState: plazosPagados, lections: leccionesCurso
+            idCurso: curso, completed: false, review: { enabled: false, reviewId: '' }, feeState: plazosPagados, lections: leccionesCurso
         }
         let err, user = await Usuario.findById(userId);
         if (err) throw err;

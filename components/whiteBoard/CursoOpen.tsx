@@ -12,6 +12,7 @@ import VideoComponent from "../VideoComponent";
 import WebUtils from "../../webUtils/WebUtils";
 import Button from "../Button";
 import ValorarContent from './ValorarContent'
+import TareasCurso from "./TareasCurso";
 
 type Props = {
     cursoIndex?: number,
@@ -25,57 +26,8 @@ type Props = {
 };
 const CursoOpen: FunctionComponent<Props> = (props) => {
     const [writeReview, setWriteReview] = useState(null);
-    const  {curso, setCurso} = props;
+    const { curso, setCurso } = props;
     const [videoPlaying, setVideoPlaying] = useState(null);
-    const [responding, setResponding] = useState(null)
-
-    const handleRespondingFiles = (file, idLection: string, idTarea: string) => {
-
-        props.utils.initLoader();
-        props.utils.startLoader();
-        uploadHomeworkResponseFile(idLection, idTarea, file[0]).then((res) => {
-            props.utils.removeLoader();
-            if (res.status === 200) {
-                props.setCargarContenido(!props.cargarContenido);
-                setResponding(null);
-            }
-            else window.alert('ERRORRRR');
-        }).catch(err => {
-            console.error(err);
-            props.utils.removeLoader();
-        });
-        props.utils.removeLoader();
-    };
-    const canRespond = (lectionId: string, tareaId: string): boolean => {
-        let res = true;
-        const user = props.user;
-        if (user && user.cursos) {
-            for (let i = 0; i < user.cursos.length; i++) {
-                const curso = user.cursos[i];
-                const lection = curso.lections.find(x => x.idLection + '' === lectionId + '');
-                if (lection) {
-                    const find = lection.taskResponses.find(x => x.origin + '' === tareaId + '');
-                    if (find) res = false;
-                }
-            }
-        }
-        return res;
-
-    }
-    const handleDeleteTarea = (i, lectionId, tarea) => {
-        props.utils.initLoader();
-        props.utils.startLoader();
-        deleteHomework(curso._id, lectionId, tarea).then((res) => {
-            if (res.status == 200) {
-                let lections = [...curso.lections];
-                lections[i] = res.data.lection;
-                setCurso({ ...curso, lections: lections });
-                props.setCargarContenido(!props.cargarContenido);
-            }
-        }).catch((error) => {
-            console.error(error);
-        })
-    };
     const handleDeleteTeoricalResource = (i, lectionId, tareaId) => {
         props.utils.initLoader();
         props.utils.startLoader();
@@ -177,26 +129,6 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
             });
         });
     };
-    
-    const handleTaskFiles = (files, lectionName, i) => {
-        files.forEach((file) => {
-            props.utils.initLoader();
-            props.utils.startLoader();
-            uploadHomeworkLectionFile(lectionName, 'tareas', file, curso._id).then((res) => {
-                props.utils.removeLoader();
-                let lections = [...curso.lections];
-                if (res.status === 200) {
-                    lections[i] = res.data.lection;
-                    setCurso({ ...curso, lections: lections });
-                    props.setCargarContenido(!props.cargarContenido);
-                }
-                else window.alert('ERRORRRR');
-            }).catch(err => {
-                console.error(err);
-                props.utils.removeLoader();
-            });
-        })
-    };
     const handleEvaluations = (files, lectionName, i) => {
         files.forEach((file) => {
             props.utils.initLoader();
@@ -236,25 +168,6 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         })
     };
 
-    const handleChangeTaskDateEnd = (i, taskId, fechaFinTarea) => {
-        props.utils.initLoader();
-        props.utils.startLoader();
-        updateTaskDate(taskId, formatDates(fechaFinTarea), curso._id).then(res => {
-            props.utils.removeLoader();
-            if (res.status === 200) {
-                let lections = [...curso.lections];
-                lections[i] = res.data.lection;
-                setCurso({ ...curso, lections: lections });
-                props.setCargarContenido(!props.cargarContenido);
-            } else {
-                window.alert('ERRORR');
-            }
-        }).catch(err => {
-            props.utils.removeLoader();
-            console.error(err)
-        });
-        setTaskDateEditing(null);
-    };
     const handleChangeEvaluationDateEnd = (i, evaluationId, fechaFinEvaluation) => {
         props.utils.initLoader();
         props.utils.startLoader();
@@ -274,13 +187,13 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         });
         setTaskDateEditing(null);
     };
-    const handleShowValorarWindow = () =>{
+    const handleShowValorarWindow = () => {
         setWriteReview(true);
     }
-    const checkingValorarStatus = () =>{
+    const checkingValorarStatus = () => {
         const c = props.user.cursos;
-        for(var i =0;i<c.length;i++){
-            if(c[i].idCurso==curso){
+        for (var i = 0; i < c.length; i++) {
+            if (c[i].idCurso == curso) {
                 return c[i].review.enabled;
             }
         }
@@ -290,9 +203,9 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         <div>
             <h2>{curso.title}</h2>
             {/*<ValorarContent user={props.user} cursoIndex={props.cursoIndex} cursoId={curso}/>*/}
-            <Button action={handleShowValorarWindow} color = {'var(--main-color)'} text= 'Valorar este curso' disabled= {false} type = {'button'}/>
-            {curso.lections.map((lection,i) => {
-                return(
+            <Button action={handleShowValorarWindow} color={'var(--main-color)'} text='Valorar este curso' disabled={false} type={'button'} />
+            {curso.lections.map((lection, i) => {
+                return (
                     <div className={styles.lectionItem} key={i}>
                         <div className={styles.lectionHeader}>
                             <h3 style={{ marginRight: '15px' }}>{lection.title}</h3>
@@ -358,63 +271,12 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                             </div>
                                         }
                                     </div>}
-                                {contentSelected[i] && contentSelected[i].optionSelected === 'TA' && <div className={styles.taskResources}>
-                                    {
-                                        lection.homework && lection.homework.length > 0 ? lection.homework.map((tarea, j) => {
-                                            return <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }} key={tarea._id}>
-                                                <div className={styles.taskItem}>
-                                                    <a href={tarea.uploadFile} target={'_blank'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'} />
-                                                        <span>TAREA - {('0' + j).slice(-2)}</span>
-                                                    </a>
-                                                    {props.teacher && <FontAwesomeIcon icon={faTimes} onClick={() => handleDeleteTarea(i, lection._id, tarea._id)} className={styles.close} />}
-                                                </div>
-                                                {canRespond(lection._id, tarea._id) && <FontAwesomeIcon onClick={() => {
-                                                    if (responding && responding._id === tarea._id) setResponding(null)
-                                                    else setResponding(tarea)
-                                                }} icon={faReply} color={'var(--main-color)'} style={{ cursor: 'pointer', margin: '0px 4px' }} />}
-                                                {!canRespond(lection._id, tarea._id) && <span>COMPLETADA</span>}
-                                                {responding && responding._id === tarea._id && <MyDropzone
-                                                    text={'Arrastra o pincha para añadir los ficheros.'}
-                                                    image={'/assets/icons/file.svg'}
-                                                    onAcceptFile={(files) => handleRespondingFiles(files, lection._id, tarea._id)}
-                                                // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
-                                                />}
-                                                {
-                                                    !props.teacher && <div className={utilsStyles.timeLeft} style={moment(tarea.deadline).diff(moment(), 'days') < 5 ? { backgroundColor: 'var(--red-color)' } : { backgroundColor: 'var(--black-color)' }}>
-                                                        <FontAwesomeIcon icon={faClock} color={'white'} style={{ marginRight: '4px' }} />
-                                                        <span>(Quedan {moment(tarea.deadline).diff(moment(), 'days')} días)</span>
-                                                    </div>
-                                                }
-
-                                                {
-                                                    props.teacher &&
-                                                    <div style={{ position: 'relative', marginLeft: '8px' }}>
-                                                        <span style={{ color: 'var(--main-color)', marginRight: '4px' }}>Fecha Límite:</span>
-                                                        <b onClick={props.teacher ? () => setTaskDateEditing(j) : () => { }} className={`${props.teacher ? styles.editable : ''}`}>{moment(tarea.deadline).format('DD/MM/YYYY')}</b>
-                                                        {taskDateEditing === j && <div>
-                                                            <div className={utilsStyles.background} onClick={() => setTaskDateEditing(null)}></div>
-                                                            <div className={utilsStyles.calendarPickerInput}>
-                                                                <DatePicker dateSelected={moment(tarea.deadline).format('DD/MM/YYYY')} rangeDate={false} selectDateEvent={(fechaInicio) => handleChangeTaskDateEnd(i, tarea._id, fechaInicio)} minDate={!lection.dateAvailable ? moment().format('DD/MM/YYYY') : moment(lection.dateAvailable).format('DD/MM/YYYY')} />
-                                                            </div>
-                                                        </div>}
-                                                    </div>
-                                                }
-                                            </div>
-                                        })
-                                            :
-                                            !props.teacher && <b>No hay ninguna tarea en este bloque todavía!</b>
-                                    }
-                                    {
-                                        props.teacher && <div className={styles.fileContainer}>
-                                            <MyDropzone
-                                                text={'Arrastra o pincha para añadir los ficheros.'}
-                                                image={'/assets/icons/file.svg'}
-                                                onAcceptFile={(files) => handleTaskFiles(files, lection._id, i)}
-                                            // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
-                                            />
-                                        </div>
-                                    }
-                                </div>}
+                                {contentSelected[i] && contentSelected[i].optionSelected === 'TA' && <TareasCurso
+                                    user={props.user}
+                                    curso={curso}
+                                    setCurso={setCurso}
+                                    lection={lection} teacher={props.teacher} utils={props.utils}
+                                    cargarContenido={props.cargarContenido} setCargarContenido={props.setCargarContenido} />}
                                 {contentSelected[i] && contentSelected[i].optionSelected === 'EV' && <div className={styles.evaluationsResources}>
                                     {
                                         lection.evaluations && lection.evaluations.length > 0 ? lection.evaluations.map((tarea, j) => {
