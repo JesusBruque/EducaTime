@@ -11,7 +11,7 @@ export default class Review{
     public date:number;
 
     constructor(){
-        this.score = 0;
+        this.score = 5;
         this.review = '';
         this.date = Date.now();
     }
