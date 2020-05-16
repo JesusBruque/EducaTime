@@ -44,7 +44,7 @@ const PagosContent = ({ user, setUser, utils, router }) => {
                         {x.feeState && x.feeState.length > 0 && x.feeState.map((fee, index) => {
                             const feeInfo = x.idCurso.fees.find(x => x._id + '' === fee.idFee + '');
                             let td3 = <span>{fee.paid === true ? 'PAGADO' : <button onClick={() => { setPagando({ fee, plazo: index, cursoId: x.idCurso._id }) }}>PAGAR AHORA</button>}</span>;
-                            return <tr>
+                            return <tr key={index}>
                                 <td><span>{feeInfo.fee}€</span></td>
                                 <td><span>{new Date(feeInfo.date).toLocaleDateString()}</span></td>
                                 <td>{(pagando && pagando.fee && pagando.fee._id + '' === fee._id + '') ? 'EN PROCESO DE PAGO' : td3}</td>

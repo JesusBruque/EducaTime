@@ -161,6 +161,22 @@ export default class LectionService extends GenericService{
             throw e;
         }
     };
+    public updateEvaluationDeadLine = async (evaluationId:string,fecha:number) => {
+        try{
+            let err, lection = await Lection.findOne({"evaluations._id":evaluationId});
+            for(let i = 0;i<lection.evaluations.length;i++){
+                if(lection.evaluations[i]._id == evaluationId){
+                    lection.evaluations[i].deadline = fecha;
+                    break;
+                }
+            }
+            await lection.save();
+            if (err) throw err;
+            return lection;
+        }catch(e){
+            throw e;
+        }
+    }
     public hardDelete = async (lectionId:string):Promise<Boolean> => {
         try {
             let filesToDelete = [];

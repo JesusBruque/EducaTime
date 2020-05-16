@@ -106,4 +106,5 @@ export default (app: Router) => {
 
     route.put('/updateDates/:lectionId',middlewares.isTeacherOfCourse,lectionController.updateLectionDates);
     route.put('/updateTaskDate/:taskId',middlewares.isTeacherOfCourse,lectionController.updateHomeworkDeadline);
+    route.put('/updateEvaluationDate/:evaluationId',middlewares.isTeacherOfCourse,lectionController.updateEvaluationDate);
 }

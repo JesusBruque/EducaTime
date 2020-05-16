@@ -31,7 +31,7 @@ export default class AuthenticationService {
             //     {$match:{"_id": new mongoose.Types.ObjectId(idUsuario)}},
             //     {$lookup:{from:'courses',localField:'cursos.idCurso',foreignField:'_id',as:'userCourses'}}
             // ]);
-            let err, user = await Usuario.findById(idUsuario).populate({ path: 'cursos.idCurso', model: Course, populate: { path: 'lections', model: Lection } });
+            let err, user = await Usuario.findById(idUsuario).populate({ path: 'cursos.idCurso', model: Course, populate: { path: 'lections', model: Lection, options:{sort:{'order':1} } }});
             if (err) throw err;
             return user;
         } catch (e) {

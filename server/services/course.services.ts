@@ -94,7 +94,7 @@ import {file} from "@babel/types";
      }
      public findCoursesWhereTeacher = async(email:string) => {
          try{
-             let err, cursos = await Course.find({teacher:email}).populate('lections').lean();
+             let err, cursos = await Course.find({teacher:email}).populate({path:'lections',options:{sort:{'order':1}}}).lean();
              if(err) throw err;
              return cursos;
          }catch(e){

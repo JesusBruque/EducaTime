@@ -7,7 +7,7 @@ import styles from '../../styles/whiteBoard/whiteBoard.module.css';
 import MyDropzone from "../MyDropzone";
 import {faClock,faFileDownload,faTimes,faFile, faPlayCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {deleteVideoResource,deleteEvaluation,deleteTeoricalResources,deleteHomework,uploadHomeworkLectionFile,uploadTeoreticalResourceLectionFile,uploadLectionVideo,updateLectionDates,updateTaskDate, uploadEvaluationLectionFile} from '../../utils/Lection';
+import {updateEvaluationDate,deleteVideoResource,deleteEvaluation,deleteTeoricalResources,deleteHomework,uploadHomeworkLectionFile,uploadTeoreticalResourceLectionFile,uploadLectionVideo,updateLectionDates,updateTaskDate, uploadEvaluationLectionFile} from '../../utils/Lection';
 import VideoComponent from "../VideoComponent";
 import WebUtils from "../../webUtils/WebUtils";
 type Props = {
@@ -89,10 +89,16 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         });
         return selections;
     };
-    const [contentSelected,setContentSelected] = useState(initiateContentSelected());
+    const [contentSelected,setContentSelected] = useState( initiateContentSelected());
+
+    useEffect(() => {
+        console.log('curso change');
+        initiateContentSelected();
+    },[curso]);
     useEffect(() => {
         console.log(curso);
     },[]);
+
     const [dateEditing,setDateEditing] = useState(null);
     const [taskDateEditing,setTaskDateEditing] = useState(null);
 
@@ -216,6 +222,25 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         });
         setTaskDateEditing(null);
     };
+    const handleChangeEvaluationDateEnd = (i,evaluationId,fechaFinEvaluation) => {
+        props.utils.initLoader();
+        props.utils.startLoader();
+        updateEvaluationDate(evaluationId,formatDates(fechaFinEvaluation),curso._id).then(res => {
+            props.utils.removeLoader();
+            if(res.status === 200){
+                let lections = [...curso.lections];
+                lections[i] = res.data.lection;
+                setCurso({...curso,lections:lections});
+                props.setCargarContenido(!props.cargarContenido);
+            }else{
+                window.alert('ERRORR');
+            }
+        }).catch(err => {
+            props.utils.removeLoader();
+            console.error(err)
+        });
+        setTaskDateEditing(null);
+    };
     return (
         <div>
             <h2>{curso.title}</h2>
@@ -254,13 +279,13 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                         </div>
                         <div className={styles.lectionContainer}>
                             <div className={styles.optionsSelector}>
-                                <span className={`${contentSelected[i].optionSelected === 'RT' ? styles.optionSelected : ''}`} onClick={() => {changeContent('RT',i)}}>Recursos teóricos</span>
-                                <span className={`${contentSelected[i].optionSelected === 'TA' ? styles.optionSelected : ''}`} onClick={() => {changeContent('TA',i)}}>Tareas</span>
-                                <span className={`${contentSelected[i].optionSelected === 'EV' ? styles.optionSelected : ''}`} onClick={() => {changeContent('EV',i)}}>Evaluación</span>
-                                <span className={`${contentSelected[i].optionSelected === 'RA' ? styles.optionSelected : ''}`} onClick={() => {changeContent('RA',i)}}>Recursos audiovisuales</span>
+                                <span className={`${contentSelected[i] && contentSelected[i].optionSelected === 'RT' ? styles.optionSelected : ''}`} onClick={() => {changeContent('RT',i)}}>Recursos teóricos</span>
+                                <span className={`${contentSelected[i] && contentSelected[i].optionSelected === 'TA' ? styles.optionSelected : ''}`} onClick={() => {changeContent('TA',i)}}>Tareas</span>
+                                <span className={`${contentSelected[i] && contentSelected[i].optionSelected === 'EV' ? styles.optionSelected : ''}`} onClick={() => {changeContent('EV',i)}}>Evaluación</span>
+                                <span className={`${contentSelected[i] && contentSelected[i].optionSelected === 'RA' ? styles.optionSelected : ''}`} onClick={() => {changeContent('RA',i)}}>Recursos audiovisuales</span>
                             </div>
                             <div className={styles.lectionContent}>
-                                {contentSelected[i].optionSelected === 'RT' &&
+                                {contentSelected[i] && contentSelected[i].optionSelected === 'RT' &&
                                 <div className={`${styles.resources} ${styles.teoricalResources}`}>
                                     {
                                         lection.teoricalResources && lection.teoricalResources.length > 0  ? lection.teoricalResources.map((resourceUrl,j)  => {
@@ -286,7 +311,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                         </div>
                                     }
                                 </div>}
-                                {contentSelected[i].optionSelected === 'TA' && <div className={styles.taskResources}>
+                                {contentSelected[i] && contentSelected[i].optionSelected === 'TA' && <div className={styles.taskResources}>
                                     {
                                         lection.homework && lection.homework.length > 0  ? lection.homework.map((tarea,j)  => {
                                             return <div style={{display:'flex', alignItems:'center',marginBottom:'15px'}} key={tarea._id}>
@@ -331,7 +356,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                         </div>
                                     }
                                 </div>}
-                                {contentSelected[i].optionSelected === 'EV' && <div className={styles.evaluationsResources}>
+                                {contentSelected[i] && contentSelected[i].optionSelected === 'EV' && <div className={styles.evaluationsResources}>
                                     {
                                         lection.evaluations && lection.evaluations.length > 0  ? lection.evaluations.map((tarea,j)=> {
                                                 return <div style={{display:'flex', alignItems:'center',marginBottom:'15px'}} key={tarea._id}>
@@ -355,7 +380,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                                         {taskDateEditing === j && <div>
                                                             <div className={utilsStyles.background} onClick={()=>setTaskDateEditing(null)}></div>
                                                             <div className={utilsStyles.calendarPickerInput}>
-                                                                <DatePicker dateSelected={moment(tarea.deadline).format('DD/MM/YYYY')} rangeDate={false} selectDateEvent={(fechaInicio) => handleChangeTaskDateEnd(i,tarea._id,fechaInicio)} minDate={!lection.dateAvailable  ? moment().format('DD/MM/YYYY') : moment(lection.dateAvailable).format('DD/MM/YYYY')}/>
+                                                                <DatePicker dateSelected={moment(tarea.deadline).format('DD/MM/YYYY')} rangeDate={false} selectDateEvent={(fechaInicio) => handleChangeEvaluationDateEnd(i,tarea._id,fechaInicio)} minDate={!lection.dateAvailable  ? moment().format('DD/MM/YYYY') : moment(lection.dateAvailable).format('DD/MM/YYYY')}/>
                                                             </div>
                                                         </div>}
                                                     </div>
@@ -376,7 +401,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                     </div>
                                     }
                                 </div>}
-                                {contentSelected[i].optionSelected === 'RA' &&
+                                {contentSelected[i] && contentSelected[i].optionSelected === 'RA' &&
                                 <div className={`${styles.resources} ${styles.videoResources}`}>
                                     {
                                         lection.video && lection.video.length > 0  ? lection.video.map((videoUrl,j)  => {

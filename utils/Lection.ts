@@ -66,7 +66,7 @@ export const deleteEvaluation = (cursoId:string,lectionId:string,evaluationId:st
 }
 export const updateLectionDates = (fechaInicio,fechaFin,idLection,cursoId) => axios.put(LECTION_URL+'/updateDates/'+idLection,{fechaInicio:fechaInicio,fechaFin:fechaFin},{params:{courseId:cursoId}});
 export const updateTaskDate = (taskId,fechaLimite,cursoId) => axios.put(LECTION_URL+'/updateTaskDate/'+taskId,{fechaLimite:fechaLimite},{params:{courseId:cursoId}});
-
+export const updateEvaluationDate = (evaluationId,fechaLimite,cursoId) => axios.put(LECTION_URL+'/updateEvaluationDate/'+evaluationId,{fechaLimite:fechaLimite},{params:{courseId:cursoId}});
 export const uploadLectionVideo = (lectionName: string, file,cursoId:string) => {
     let data = new FormData();
     data.append('file',file);

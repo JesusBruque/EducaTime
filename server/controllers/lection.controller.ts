@@ -160,6 +160,16 @@ export default class LectionController extends GenericController{
             return res.status(400).json({status:400});
         }
       }
+      public updateEvaluationDate = async(req:Request,res:Response) => {
+          try{
+              const lection = await this.lectionService.updateEvaluationDeadLine(req.params.evaluationId,req.body.fechaLimite);
+              return res.status(200).json({lection:lection});
+          }catch(e){
+              Logger.error('Error al actualizar las fechas de la leccion.');
+              Logger.error(e);
+              return res.status(400).json({status:400});
+          }
+      }
       public deleteFullLection = async(req: Request, res: Response) =>{
         Logger.debug('eliminando leccion');
         try{
@@ -222,14 +232,14 @@ export default class LectionController extends GenericController{
         }
       }
       public deleteVideoResource = async(req:Request,res:Response) => {
-          Logger.debug('eliminando evaluacion');
+          Logger.debug('eliminando recurso de video');
           try{
               const lectionId = req.query.lectionId as string;
               const lection = (await this.lectionService.findById(lectionId));
               const videoId = req.params.videoId;
               const files = [];
 
-              for(var i=0;i<lection.evaluations.length;i++){
+              for(let i=0;i<lection.video.length;i++){
                   if(lection.video[i]._id==videoId){
                       files.push(lection.video[i].url);
                       lection.video.splice(i,1);

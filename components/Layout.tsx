@@ -16,7 +16,6 @@ type Props = {
 const Layout : FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
-        console.log('eliminando scroll');
         props.utils.initScroll();
     },[]);
 

@@ -115,7 +115,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                 {props.fees && curso.fees.length>1 && <div className={styles.feesCourse}><FontAwesomeIcon icon={faCreditCard} className={utilsStyles.icon}/><span>Pago en {curso.fees.length} plazos</span></div>}
             </div>
             <div>
-                <h3>{curso.title}</h3>
+                <h3 style={{textTransform:'uppercase'}}>{curso.title}</h3>
                 <div className={styles.links}>
                     <span className={`${styles.infoLink} ${sectionActive==='description' ? styles.active : ''}`} onClick={(e)=> handleChangeInfo('description',e)}>Descripción</span>
                     <span className={`${styles.infoLink} ${sectionActive==='target' ? styles.active : ''}`} onClick={(e)=> handleChangeInfo('target',e)}>A quién va dirigido</span>
