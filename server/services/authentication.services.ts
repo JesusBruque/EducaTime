@@ -23,25 +23,26 @@ export default class AuthenticationService {
             throw e;
         }
     };
-    public findUserAndUpdateInfo = async(idUsuario:string,userInfo) => {
-        try{
+    public findUserAndUpdateInfo = async (idUsuario: string, userInfo) => {
+        try {
             const salt = randomBytes(32);
             let err, user = await Usuario.findById(idUsuario);
-            if(err) throw err;
+            if (err) throw err;
             user.name = userInfo.name;
             user.apellidos = userInfo.apellidos;
             user.email = userInfo.email;
-            if(userInfo.password !== "" && userInfo.password !== null){
+            if (userInfo.password !== "" && userInfo.password !== null) {
                 const hashedPassword = await argon2.hash(userInfo.password, { salt: salt });
                 user.password = hashedPassword;
             }
             user.username = userInfo.username;
             user = await user.save();
             return user;
-        }catch(e){
+        } catch (e) {
             throw e;
         }
     }
+
     public findUserCourses = async (idUsuario: string) => {
         try {
             // let err, user = await Usuario.aggregate([
@@ -50,7 +51,30 @@ export default class AuthenticationService {
             // ]);
             let err, user = await Usuario.findById(idUsuario).populate({ path: 'cursos.idCurso', model: Course, populate: { path: 'lections', model: Lection, options: { sort: { 'order': 1 } } } });
             if (err) throw err;
-            return user;
+            const getHomeworkPend = (user): number => {
+                let res = 0;
+                if (user && user.cursos && user.cursos.length > 0) {
+                    const cursos = user.cursos
+                    for (let i = 0; i < cursos.length; i++) {
+                        const curso = cursos[i].idCurso;
+                        const lections = curso.lections;
+                        for (let j = 0; j < lections.length; j++) {
+                            const lection = lections[j];
+                            const homework = lection.homework;
+                            for (let k = 0; k < homework.length; k++) {
+                                const work = homework[k];
+                                const find = work.userResponses.find(x => x.UserId + '' === user._id + '')
+                                if (!find) res++;
+                            }
+                        }
+
+                    }
+                }
+                return res;
+            }
+            let userRes = user.toJSON();
+            userRes.homeworkPend = getHomeworkPend(userRes);
+            return userRes;
         } catch (e) {
             throw e;
         }
