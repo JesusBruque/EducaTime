@@ -11,6 +11,7 @@ import {Router} from "next/router";
 import moment from 'moment';
 import {deleteCourse} from "../../utils/Course";
 import WebUtils from "../../webUtils/WebUtils";
+import ModalDelete from "../ModalDelete";
 
 type Props = {
     curso:Course,
@@ -26,6 +27,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
     const {curso, router, setCursoPlaying} = props;
 
     const [sectionActive,setSectionActive] = useState('description');
+    const [deleting,setDeleting] = useState(false);
 
     const renderInfoCourse = () => {
         let content = curso.description;
@@ -77,6 +79,9 @@ const CursoItem: FunctionComponent<Props> = (props) => {
     };
 
     const handleDeleteCourse = () => {
+        setDeleting(true);
+    };
+    const confirmDelete = () => {
         if(props.utils){
             props.utils.initLoader();
             props.utils.startLoader();
@@ -89,7 +94,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                 props.utils.removeLoader();
             });
         }
-    };
+    }
 
     return (
         <div className={styles.courseContainer}>
@@ -129,27 +134,28 @@ const CursoItem: FunctionComponent<Props> = (props) => {
             {
                 props.reviews &&
                     <div className={styles.reviewsContainer}>
-                        {curso.reviews.length > 0 && curso.reviews.map(review => {
-                            return <div key={review._id} style={{marginBottom:'15px'}}>
-                                <div className={styles.reviewHeader}>
-                                    <div className={utilsStyles.userIcon}>
-                                        <img src={'/assets/icons/user-icon.svg'} alt={'icono de usuario usuarios'}/>
-                                    </div>
-                                    <span>{review.user.name} {review.user.apellidos}</span>
-                                    <span>el {moment(review.date).format('DD/MM/YYYY')}</span>
-                                    <div>
-                                        {renderStars()}
-                                        <span style={{fontWeight:'bold',marginLeft:'4px',color:'var(--black-color)'}}>{curso.score}</span>
-                                    </div>
-                                </div>
-                                <div className={styles.reviewBody}>
-                                    {review.review}
-                                </div>
-                            </div>
-                        })}
+                        {/*{curso.reviews.length > 0 && curso.reviews.map(review => {*/}
+                        {/*    return <div key={review._id} style={{marginBottom:'15px'}}>*/}
+                        {/*        <div className={styles.reviewHeader}>*/}
+                        {/*            <div className={utilsStyles.userIcon}>*/}
+                        {/*                <img src={'/assets/icons/user-icon.svg'} alt={'icono de usuario usuarios'}/>*/}
+                        {/*            </div>*/}
+                        {/*            <span>{review.user.name} {review.user.apellidos}</span>*/}
+                        {/*            <span>el {moment(review.date).format('DD/MM/YYYY')}</span>*/}
+                        {/*            <div>*/}
+                        {/*                {renderStars()}*/}
+                        {/*                <span style={{fontWeight:'bold',marginLeft:'4px',color:'var(--black-color)'}}>{curso.score}</span>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*        <div className={styles.reviewBody}>*/}
+                        {/*            {review.review}*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*})}*/}
                         {curso.reviews.length === 0  && <h3 style={{textAlign:'center'}}>¡No hay ninguna valoración aún en este curso de formación!</h3>}
                     </div>
             }
+            {deleting && <ModalDelete open={deleting} onDelete={confirmDelete} text={`Está seguro de que desea eliminar '${curso.title}'`} setOpen={setDeleting}/>}
         </div>
     )
 };

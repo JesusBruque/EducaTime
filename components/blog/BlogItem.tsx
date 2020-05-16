@@ -1,19 +1,31 @@
 import blogStyle from '../../styles/Blog.module.css'
 import moment from "moment";
-import React from 'react';
+import React, {FunctionComponent,useState} from 'react';
 import Link from 'next/link';
 import Blog,{deleteBlog} from '../../utils/Blog';
 import WebUtils from "../../webUtils/WebUtils";
 import {Router} from "next/router";
+import Modal from "../Modal";
+import ModalDelete from "../ModalDelete";
+
 type Props = {
     blog:Blog,
     admin:boolean,
     utils?:WebUtils,
     router:Router
 }
-const BlogItem = (props) =>{
+const BlogItem : FunctionComponent<Props> = (props) =>{
     const {blog,admin,utils} = props;
+    const [deleting,setDeleting] = useState(false);
     const handleDelete = () => {
+        setDeleting(true);
+    };
+    const goToDetail = () => {
+        if(!admin){
+            props.router.push('/blog/'+blog._id);
+        }
+    };
+    const confirmDelete = () => {
         if(utils){
             utils.initLoader();
             utils.startLoader();
@@ -24,12 +36,7 @@ const BlogItem = (props) =>{
                 utils.removeLoader();
             });
         }
-    };
-    const goToDetail = () => {
-        if(!admin){
-            props.router.push('/blog/'+blog._id);
-        }
-    };
+    }
     return (
             <div className={`${blogStyle.caja} blog-item ${admin ? blogStyle.adminItem : ''}`} onClick={goToDetail}>
                 <div className={blogStyle.foto}>
@@ -63,14 +70,9 @@ const BlogItem = (props) =>{
                         <img src={'/assets/icons/delete.svg'} alt={'icono de eliminar'} onClick={handleDelete}/>
                     </div>
                 }
+                {deleting && <ModalDelete open={deleting} onDelete={confirmDelete} text={`¿Está seguro de eliminar '${blog.title}'?`} setOpen={setDeleting}/>}
             </div>
         )
 };
-// export async function getStaticProps(id){
-//     const res = await fetch('http://localhost:5000/api/blog/findById/'+id.toString());
-//     const data = await res.json();
-//     const blogs = data.Blog;
-//     return { props: { blogs } }
-// }
 
 export default BlogItem;

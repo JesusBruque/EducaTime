@@ -10,7 +10,7 @@
     grid-template-areas: '. content .';
 }
 .valorarBox{
-    grid-area: 'content';
+    grid-area: content;
     display: grid;
     width: 100%;
     height: 100%;
@@ -24,24 +24,24 @@
     top: 10px;
 }
 .cabecera{
-    grid-area: 'cabecera';
+    grid-area: cabecera;
 }
 .comentario{
-    grid-area: 'comentario';
+    grid-area: comentario;
     display: grid;
     grid-template-rows: 60% 40%;
     grid-template-areas: 'texto' 'estrellas';
     row-gap: 5px;
 }
 .valoracionTexto{
-    grid-area: 'valoracionTexto';
+    grid-area: valoracionTexto;
 }
 .submit{
-    grid-area: 'submit';
+    grid-area: submit;
 }
 .texto{
-    grid-area: 'texto';
+    grid-area: texto;
 }
 .estrellas{
-    grid-area: 'estrellas';
+    grid-area: estrellas;
 }

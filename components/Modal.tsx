@@ -1,18 +1,30 @@
-import {FunctionComponent} from "react";
+import React, {Dispatch, FunctionComponent} from "react";
 import modalStyles from '../styles/Modal.module.css';
+import ReactDOM from "react-dom";
 
 type Props = {
-    body:HTMLElement
+    open:boolean
 }
 const Modal : FunctionComponent<Props> = (props) => {
-    return (
-        <div className={modalStyles.modalContainer}>
-            <div className={modalStyles.backgroundModal}></div>
-            <div className={modalStyles.modalBody}>
-                {props.body}
+    if(!document.getElementById('modal-container')){
+        let element = document.createElement('div');
+        element.id = 'modal-container';
+        document.querySelector('#__next').appendChild(element);
+    }
+    const ModalContent = () => {
+        return (
+            <div className={modalStyles.modalContainer}>
+                {props.open && <React.Fragment>
+                    <div className={modalStyles.backgroundModal}></div>
+                    <div className={modalStyles.modalBody}>
+                        {props.children}
+                    </div>
+                </React.Fragment>}
             </div>
-        </div>
-    )
+        )
+    }
+
+    return ReactDOM.createPortal(ModalContent(),document.getElementById('modal-container'));
 };
 
 export default Modal;
