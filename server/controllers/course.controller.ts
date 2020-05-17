@@ -131,6 +131,16 @@ export default class CourseController extends GenericController {
             return res.status(400).json({ status: 400 });
         }
     }
+    public findAll = async (req: Request, res: Response) => {
+        try {
+            const Course = await this.courseService.findAll(req.params.search);
+            return res.status(200).json({ Course });
+        } catch (e) {
+            Logger.error('Error al encontrar los cursos dónde es profesor.');
+            Logger.error(e);
+            return res.status(400).json({ status: 400 });
+        }
+    }
     public fetchAlumnosByCourse = async (req: Request, res: Response) => {
         try {
             const usuarios = await this.courseService.fetchAlumnosByCourse(req.params.idCurso);

@@ -104,4 +104,17 @@ export default class CourseService extends GenericService {
             throw e;
         }
     }
+    public findAll = async (search?: string): Promise<ICourse[]> => {
+        try {
+            let query = {}
+            if (search) {
+                query = { title: { $regex: search, $options: 'i' } }
+            }
+            let err, cursos = await Course.find(query).lean();
+            if (err) throw err;
+            return cursos
+        } catch (e) {
+            throw e;
+        }
+    }
 }

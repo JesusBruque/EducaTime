@@ -10,6 +10,7 @@ export default (app: Router) => {
     const fileController = new FilesController;
     app.use('/course', route);
 
+    route.get('/findAll/:search', courseController.findAll);
     route.get('/findAll', courseController.findAll);
 
     route.get('/fetchAlumnosByCourse/:idCurso', middlewares.isTeacher, courseController.fetchAlumnosByCourse);
