@@ -199,6 +199,26 @@ export default class AuthenticationService {
         user = await user.save();
         return user;
     };
+    public updateEvaluationResponse = async (lectionId: string, evaluationId: string, userId: string, fileLocation: string) => {
+        try {
+            var err, user = await Usuario.findById(userId);
+            if (err) throw err;
+            if (!user) throw Error("No se encuentra el usuario")
+            for (let i = 0; i < user.cursos.length; i++) {
+                for (let j = 0; j < user.cursos[i].lections.length; j++) {
+                    if (user.cursos[i].lections[j].idLection + '' === lectionId + '') {
+                        const find = user.cursos[i].lections[j].evaluationResponses.find(x => x.origin === evaluationId);
+                        if (find) throw Error("El usuario ya ha enviado una respuesta a la evaluacion.")
+                        user.cursos[i].lections[j].evaluationResponses.push({ origin: evaluationId, url: fileLocation })
+                    }
+                }
+            }
+            await Usuario.findByIdAndUpdate(userId, { cursos: user.cursos });
+            //await user.save()
+        } catch (e) {
+            throw e;
+        }
+    }
 
     public updateHomeworkResponse = async (lectionId: string, homeworkId: string, userId: string, fileLocation: string) => {
         try {

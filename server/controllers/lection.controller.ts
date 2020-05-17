@@ -98,6 +98,47 @@ export default class LectionController extends GenericController {
             return res.status(400).json({ status: 400 });
         }
     }
+    public uploadEvaluationResponse = async (req: Request, res: Response) => {
+        Logger.debug('Validando respuesta evaluacion...');
+        try {
+            const lectionId = req.params.lectionId;
+            const evaluationId = req.params.evaluationId;
+            const userId = (req.user as IUsuarioDTO)._id;
+            let err1, lection = await this.lectionService.findById(lectionId);
+            if (err1) throw err1;
+            if (!lection) throw Error("No se ha encontrado la lección.")
+            const countH = lection.evaluations.length;
+            for (let i = 0; i < countH; i++) {
+                Logger.debug('Buscando evaluation...');
+                if (lection.evaluations[i]._id == evaluationId) {
+                    Logger.debug('Encontrada evaluation...');
+                    const countR = lection.evaluations[i].userResponses.length;
+                    for (let j = 0; j < countR; j++) {
+                        if (lection.evaluations[i].userResponses[j].UserID == userId) {
+                            return res.status(999).json({ message: 'Ya subiste una respuesta a esta tarea.', evaluationsResponseStatus: lection.evaluations[i].userResponses[j].status });
+                        }
+                        if (moment.now() > lection.evaluations[i].deadline) {
+                            return res.status(999).json({ message: 'Ha expirado el período hábil para entregar respuestas a esta tarea.', deadline: lection.evaluations[i].deadline });
+                        }
+                    }
+                    Logger.debug('Subiendo respuesta evaluacion...');
+                    req.pipe(req.busboy);
+                    let fileLocation: string;
+                    /*--- DETECCION DE FICHERO Y SUBIDA A S3 ---*/
+                    req.busboy.on('file', async (fieldname, file, filename) => {
+                        fileLocation = await this.lectionService.uploadEvaluationResponse(lectionId, evaluationId, userId, file, filename, req.query.video, req.query.needAuth).catch(err => { throw err });
+                        const lection = await this.lectionService.updateEvaluationResponseInLection(lectionId, evaluationId, userId, fileLocation);
+                        await this.authenticationService.updateEvaluationResponse(lectionId, evaluationId, userId, fileLocation);
+                        return res.status(200).json({ lection: lection });
+                    });
+                }
+            }
+        } catch (e) {
+            Logger.error('Error al subir una respuesta de evaluacion.');
+            Logger.error(e);
+            return res.status(400).json({ status: 400 });
+        }
+    }
     public uploadHomeworkResponse = async (req: Request, res: Response) => {
         Logger.debug('Validando respuesta tarea...');
         try {
@@ -118,7 +159,7 @@ export default class LectionController extends GenericController {
                             return res.status(999).json({ message: 'Ya subiste una respuesta a esta tarea.', homeworkResponseStatus: lection.homework[i].userResponses[j].status });
                         }
                         if (moment.now() > lection.homework[i].deadline) {
-                            return res.status(999).json({ message: 'Ha expirado el período hábil para entregar respuestas a esta tarea.', homeworkId: homeworkId, deadliine: lection.homework[i].deadline });
+                            return res.status(999).json({ message: 'Ha expirado el período hábil para entregar respuestas a esta tarea.', deadline: lection.homework[i].deadline });
                         }
                     }
                     Logger.debug('Subiendo tarea...');

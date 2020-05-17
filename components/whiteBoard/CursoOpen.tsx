@@ -1,18 +1,18 @@
 import React, { Dispatch, FunctionComponent, useEffect, useState } from "react";
-import Course from "../../utils/Course";
 import utilsStyles from "../../styles/Utils.module.css";
 import DatePicker from "../DatePicker";
 import moment from "moment";
 import styles from '../../styles/whiteBoard/whiteBoard.module.css';
 import MyDropzone from "../MyDropzone";
-import { faClock, faFileDownload, faTimes, faFile, faPlayCircle, faReply } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faTimes, faFile, faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { updateEvaluationDate, deleteVideoResource, deleteEvaluation, deleteTeoricalResources, deleteHomework, uploadHomeworkLectionFile, uploadTeoreticalResourceLectionFile, uploadLectionVideo, updateLectionDates, updateTaskDate, uploadEvaluationLectionFile, uploadHomeworkResponseFile } from '../../utils/Lection';
+import { deleteVideoResource, deleteTeoricalResources, uploadTeoreticalResourceLectionFile, uploadLectionVideo, updateLectionDates } from '../../utils/Lection';
 import VideoComponent from "../VideoComponent";
 import WebUtils from "../../webUtils/WebUtils";
 import Button from "../Button";
 import ValorarContent from './ValorarContent'
 import TareasCurso from "./TareasCurso";
+import EvaluacionCurso from "./EvaluacionCurso";
 
 type Props = {
     cursoIndex?: number,
@@ -56,20 +56,6 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
             console.error(error);
         })
     };
-    const handleDeleteEvaluation = (i, lectionId, evalId) => {
-        props.utils.initLoader();
-        props.utils.startLoader();
-        deleteEvaluation(curso._id, lectionId, evalId).then((res) => {
-            if (res.status == 200) {
-                let lections = [...curso.lections];
-                lections[i] = res.data.lection;
-                setCurso({ ...curso, lections: lections });
-                props.setCargarContenido(!props.cargarContenido);
-            }
-        }).catch((error) => {
-            console.error(error);
-        })
-    }
     const initiateContentSelected = () => {
         let selections = [];
         curso.lections.map((lection, i) => {
@@ -84,7 +70,6 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
     }, [curso]);
 
     const [dateEditing, setDateEditing] = useState(null);
-    const [taskDateEditing, setTaskDateEditing] = useState(null);
 
     const formatDates = (date) => {
         return moment(date, 'DD/MM/YYYY').unix() * 1000;
@@ -129,25 +114,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
             });
         });
     };
-    const handleEvaluations = (files, lectionName, i) => {
-        files.forEach((file) => {
-            props.utils.initLoader();
-            props.utils.startLoader();
-            uploadEvaluationLectionFile(lectionName, 'evaluacion', file, curso._id).then((res) => {
-                props.utils.removeLoader();
-                let lections = [...curso.lections];
-                if (res.status === 200) {
-                    lections[i] = res.data.lection;
-                    setCurso({ ...curso, lections: lections });
-                    props.setCargarContenido(!props.cargarContenido);
-                }
-                else window.alert('ERRORRRR');
-            }).catch(err => {
-                console.error(err);
-                props.utils.removeLoader();
-            });
-        })
-    };
+
     const handleVideosLections = (files, lectionName, i) => {
         files.forEach((file) => {
             props.utils.initLoader();
@@ -168,25 +135,6 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         })
     };
 
-    const handleChangeEvaluationDateEnd = (i, evaluationId, fechaFinEvaluation) => {
-        props.utils.initLoader();
-        props.utils.startLoader();
-        updateEvaluationDate(evaluationId, formatDates(fechaFinEvaluation), curso._id).then(res => {
-            props.utils.removeLoader();
-            if (res.status === 200) {
-                let lections = [...curso.lections];
-                lections[i] = res.data.lection;
-                setCurso({ ...curso, lections: lections });
-                props.setCargarContenido(!props.cargarContenido);
-            } else {
-                window.alert('ERRORR');
-            }
-        }).catch(err => {
-            props.utils.removeLoader();
-            console.error(err)
-        });
-        setTaskDateEditing(null);
-    };
     const handleShowValorarWindow = () => {
         setWriteReview(true);
     }
@@ -277,51 +225,15 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                     setCurso={setCurso}
                                     lection={lection} teacher={props.teacher} utils={props.utils}
                                     cargarContenido={props.cargarContenido} setCargarContenido={props.setCargarContenido} />}
-                                {contentSelected[i] && contentSelected[i].optionSelected === 'EV' && <div className={styles.evaluationsResources}>
-                                    {
-                                        lection.evaluations && lection.evaluations.length > 0 ? lection.evaluations.map((tarea, j) => {
-                                            return <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }} key={tarea._id}>
-                                                <div className={styles.taskItem}>
-                                                    <a href={tarea.uploadFile} target={'_blank'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'} />
-                                                        <span>EVALUACION - {('0' + j).slice(-2)}</span>
-                                                    </a>
-                                                    {props.teacher && <FontAwesomeIcon icon={faTimes} onClick={() => handleDeleteEvaluation(i, lection._id, tarea._id)} className={styles.close} />}
-                                                </div>
-                                                {
-                                                    !props.teacher && <div className={utilsStyles.timeLeft} style={moment(tarea.deadline).diff(moment(), 'days') < 5 ? { backgroundColor: 'var(--red-color)' } : { backgroundColor: 'var(--black-color)' }}>
-                                                        <FontAwesomeIcon icon={faClock} color={'white'} style={{ marginRight: '4px' }} />
-                                                        <span>(Quedan {moment(tarea.deadline).diff(moment(), 'days')} días)</span>
-                                                    </div>
-                                                }
-                                                {
-                                                    props.teacher &&
-                                                    <div style={{ position: 'relative', marginLeft: '8px' }}>
-                                                        <span style={{ color: 'var(--main-color)', marginRight: '4px' }}>Fecha Limite:</span>
-                                                        <b onClick={props.teacher ? () => setTaskDateEditing(j) : () => { }} className={`${props.teacher ? styles.editable : ''}`}>{moment(tarea.deadline).format('DD/MM/YYYY')}</b>
-                                                        {taskDateEditing === j && <div>
-                                                            <div className={utilsStyles.background} onClick={() => setTaskDateEditing(null)}></div>
-                                                            <div className={utilsStyles.calendarPickerInput}>
-                                                                <DatePicker dateSelected={moment(tarea.deadline).format('DD/MM/YYYY')} rangeDate={false} selectDateEvent={(fechaInicio) => handleChangeEvaluationDateEnd(i, tarea._id, fechaInicio)} minDate={!lection.dateAvailable ? moment().format('DD/MM/YYYY') : moment(lection.dateAvailable).format('DD/MM/YYYY')} />
-                                                            </div>
-                                                        </div>}
-                                                    </div>
-                                                }
-                                            </div>
-                                        })
-                                            :
-                                            !props.teacher && <b>No hay ninguna evaluación disponible para este bloque. </b>
-                                    }
-                                    {props.teacher &&
-                                        <div className={styles.fileContainer}>
-                                            <MyDropzone
-                                                text={'Arrastra o pincha para añadir los ficheros.'}
-                                                image={'/assets/icons/file.svg'}
-                                                onAcceptFile={(files) => handleEvaluations(files, lection._id, i)}
-                                            // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
-                                            />
-                                        </div>
-                                    }
-                                </div>}
+                                {contentSelected[i] && contentSelected[i].optionSelected === 'EV' && <EvaluacionCurso
+                                    user={props.user}
+                                    curso={curso}
+                                    setCurso={setCurso}
+                                    lection={lection}
+                                    teacher={props.teacher}
+                                    utils={props.utils}
+                                    cargarContenido={props.cargarContenido}
+                                    setCargarContenido={props.setCargarContenido} />}
                                 {contentSelected[i] && contentSelected[i].optionSelected === 'RA' &&
                                     <div className={`${styles.resources} ${styles.videoResources}`}>
                                         {

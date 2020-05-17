@@ -141,6 +141,20 @@ export const uploadHomeworkResponseFile = (lectionName: string, homeworkId: stri
         onUploadProgress: (progressEvent) => { console.log(progressEvent) }
     });
 }
+export const uploadEvaluationResponseFile = (lectionName: string, evaluationId: string, file) => {
+    let data = new FormData();
+    data.append('file', file);
+    return axios({
+        method: 'post',
+        url: `${LECTION_URL}/post_file/${lectionName}/evaluation/${evaluationId}/user`,
+        data: data,
+        params: {
+            video: false,
+            needAuth: true
+        },
+        onUploadProgress: (progressEvent) => { console.log(progressEvent) }
+    });
+}
 export const validate = async (lection: Lection) => {
     return new Promise((resolve, reject) => {
         let validations = {

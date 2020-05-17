@@ -56,18 +56,17 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
         })
     };
     const canRespond = (lectionId: string, tareaId: string): boolean => {
-        let res = true;
         if (user && user.cursos) {
             for (let i = 0; i < user.cursos.length; i++) {
                 const curso = user.cursos[i];
                 const lection = curso.lections.find(x => x.idLection + '' === lectionId + '');
                 if (lection) {
                     const find = lection.taskResponses.find(x => x.origin + '' === tareaId + '');
-                    if (find) res = false;
+                    if (find) return false;
                 }
             }
         }
-        return res;
+        return true;
 
     }
 

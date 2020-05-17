@@ -57,6 +57,35 @@ export default class LectionService extends GenericService {
             throw e;
         }
     };
+    public uploadEvaluationResponse = async (lectionName: string, evaluationId: string, userId: string, file, filename, video, needAuth) => {
+        try {
+            const fileLocation: string = await this.fileService.uploadFile(file, lectionName + '/evaluation/' + evaluationId + '/' + userId, filename, video, needAuth);
+            Logger.debug('fichero subido...', fileLocation);
+            return fileLocation;
+        } catch (e) {
+            throw e;
+        }
+    };
+    public updateEvaluationResponseInLection = async (lectionId: string, evaluationId: string, userId: string, fileLocation: string) => {
+        try {
+            let err, lection = await Lection.findById(lectionId);
+            if (err) throw err;
+            if (!lection) throw Error("No se encuentra la lección")
+            let tenDays = 10 * 24 * 60 * 60 * 1000;
+            const countH = lection.evaluations.length;
+            const userResponse = { UserID: userId, file: fileLocation, date: moment.now(), status: 'Entregado', mark: 0 }
+            for (let i = 0; i < countH; i++) {
+                if (lection.evaluations[i]._id == evaluationId) {
+                    lection.evaluations[i].userResponses.push(userResponse);
+                    break;
+                }
+            }
+            await lection.save();
+            return lection;
+        } catch (e) {
+            throw e;
+        }
+    }
     public updateHomeworkResponseInLection = async (lectionId: string, homeworkId: string, userId: string, fileLocation: string) => {
         try {
             let err, lection = await Lection.findById(lectionId);

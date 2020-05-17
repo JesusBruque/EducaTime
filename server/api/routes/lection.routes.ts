@@ -105,6 +105,7 @@ export default (app: Router) => {
     route.post('/post_file/:lectionId/resources/teoricos', middlewares.isTeacherOfCourse, lectionController.uploadResource);
     route.post('/post_file/:lectionId/homework/:homeworkId', middlewares.isTeacherOfCourse, lectionController.uploadHomeworkTask);
     route.post('/post_file/:lectionId/homework/:homeworkId/user', middlewares.isAuth, lectionController.uploadHomeworkResponse);
+    route.post('/post_file/:lectionId/evaluation/:evaluationId/user', middlewares.isAuth, lectionController.uploadEvaluationResponse);
 
     route.get('/get_file/:filename', fileController.retrieveFile);
 
