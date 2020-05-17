@@ -85,6 +85,7 @@ export const deleteLections = async (cursoId: string, lectionIds: [string]) => {
         }
     });
 }
+export const findAll = (search?) => axios.get(COURSE_URL + '/findAll' + (search ? '/' + search : ''))
 export const getCoursesByTeacher = () => axios.get(COURSE_URL + '/getCoursesByTeacher');
 export const fetchAlumnosByCourse = (idCurso: string) => axios.get(COURSE_URL + '/fetchAlumnosByCourse/' + idCurso);
 export const validate = async (curso: Course) => {
