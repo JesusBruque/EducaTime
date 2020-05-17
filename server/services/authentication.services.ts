@@ -183,7 +183,7 @@ export default class AuthenticationService {
         let err, user = await Usuario.findById(userId);
         if (err) throw err;
         for (let i = 0; i < user.cursos.length; i++) {
-            if (user.cursos[i].idCurso === courseId) {
+            if (user.cursos[i].idCurso+'' === courseId) {
                 user.cursos.splice(i, 1);
                 break;
             }

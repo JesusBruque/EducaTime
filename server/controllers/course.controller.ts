@@ -8,6 +8,7 @@ import LectionService from "../services/lection.services";
 import FilesServices from "../services/files.services";
 import { Json } from "aws-sdk/clients/marketplacecatalog";
 import { IUsuarioDTO } from "../interfaces/IUsuario";
+import mongoose from "mongoose";
 
 export default class CourseController extends GenericController {
     private courseService: CourseService;
@@ -157,7 +158,7 @@ export default class CourseController extends GenericController {
         try {
             /*--- ELIMINAR LA REFERENCIA DE LOS USUARIOS ---*/
             const courseId = req.params.courseId;
-            let err, users = await Usuario.find({ "cursos.idCurso": courseId }).lean();
+            let err, users = await Usuario.find({ "cursos.idCurso": mongoose.Types.ObjectId(courseId) }).lean();
             if (err) throw err;
             for (let i = 0; i < users.length; i++) {
                 let user = users[i];
