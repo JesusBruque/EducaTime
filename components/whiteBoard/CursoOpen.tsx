@@ -158,6 +158,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                 indexLastFee = index
             return false;
         });
+        if(indexLastFee === feeState.length -1) return true;
         const fee = feeState[indexLastFee + 1]
         const feeInfo = userCourse.idCurso.fees.find(x => x._id + '' === fee.idFee + '');
         if (moment(feeInfo.date).isBefore(lection.dateAvailable))

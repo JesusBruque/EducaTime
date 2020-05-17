@@ -82,7 +82,7 @@ export default class CourseController extends GenericController {
     };
     private manageTeacher = async (cursoId: string, email: string, titulo: string, descripcion: string) => {
         try {
-            var err, user = await this.authenticationService.findByEmail(email);
+            var err, user = await this.authenticationService.findByEmail(email, '');
             if (err) throw err;
             if (user._id) {
                 console.log(user._id);

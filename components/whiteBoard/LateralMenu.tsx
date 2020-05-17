@@ -26,7 +26,10 @@ const LateralMenu: FunctionComponent<Props> = (props) => {
                 indexLastFee = index
             return false;
         });
-        const fee = feeState[indexLastFee + 1]
+        if(indexLastFee === feeState.length -1) return true;
+        const fee = feeState[indexLastFee + 1];
+        console.log(feeState);
+        console.log(indexLastFee);
         const feeInfo = userCourse.idCurso.fees.find(x => x._id + '' === fee.idFee + '');
         if (moment(feeInfo.date).isBefore(lection.dateAvailable))
             return false;
