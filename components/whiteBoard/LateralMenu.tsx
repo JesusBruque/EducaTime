@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { User } from "../../utils/Authentication";
 import Course from "../../utils/Course";
 import styles from '../../styles/whiteBoard/LateralMenu.module.css';
+import moment from 'moment';
 
 type Props = {
     onClickOption: (e) => void,
@@ -16,6 +17,21 @@ type Props = {
 }
 
 const LateralMenu: FunctionComponent<Props> = (props) => {
+    const canShowLection = (userCourse, lection) => {
+        const user = props.user;
+        const feeState = userCourse.feeState;
+        let indexLastFee = -1;
+        feeState.filter((x, index) => {
+            if (x.paid && index > indexLastFee)
+                indexLastFee = index
+            return false;
+        });
+        const fee = feeState[indexLastFee + 1]
+        const feeInfo = userCourse.idCurso.fees.find(x => x._id + '' === fee.idFee + '');
+        if (moment(feeInfo.date).isBefore(lection.dateAvailable))
+            return false;
+        return true;
+    }
     return (
         <div className={styles.lateralMenu}>
             <div>
@@ -30,6 +46,7 @@ const LateralMenu: FunctionComponent<Props> = (props) => {
                                         <span className={`${styles.title} ${props.cursoIndex === i ? styles.optionSelected : ''} `} onClick={props.onClickOption} data-option={'cursos'} data-option-index={i}>{userCourse.idCurso.title}</span>
                                         <div className={`${styles.childs} ${styles.bloques} ${props.cursoIndex === i ? styles.open : ''}`}>
                                             {userCourse.idCurso.lections.map((lection, i) => {
+                                                if (canShowLection(userCourse, lection))
                                                 return <div key={i}><span className={`${styles.subTitle}`}>{lection.title}</span></div>
                                             })}
                                         </div>
