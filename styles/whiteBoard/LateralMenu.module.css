@@ -61,7 +61,9 @@
     font-weight:bold;
     color:white;
     position:relative;
-    padding:4px;
+    line-height: 1.5em;
+    width: 1.5em;
+    text-align: center;
     margin:0 8px;
 }
 .numberIndicator.black:after{
