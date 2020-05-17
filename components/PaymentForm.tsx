@@ -42,7 +42,7 @@ const PaymentForm = ({ router, cursoId, plazo, utils, stay = null }) => {
     };
     const handleChange = async (event) => {
         setDisabled(event.empty);
-        setError(event.error ? event.error.message : "");
+        setError(event.error ? [{ 'fallo al pagar': event.error.message }] : "");
     };
 
     const handleSubmit = async ev => {
@@ -62,6 +62,7 @@ const PaymentForm = ({ router, cursoId, plazo, utils, stay = null }) => {
             }
         });
         if (payload.error) {
+            console.log(payload.error);
             setError([{ 'fallo al pagar': payload.error.message }]);
             setProcessing(false);
             utils.removeLoader();

@@ -32,8 +32,6 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
                 props.setBlogFile(file);
                 thumbnail = file.name;
             }
-            console.log(video,thumbnail);
-            console.log(props.blog.thumbnail,props.blog.video);
             props.setBlog({...props.blog,thumbnail:thumbnail ? thumbnail: props.blog.thumbnail,video:video ? video : props.blog.video});
         })
     };
@@ -47,9 +45,6 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
         }
     };
 
-    useEffect(() => {
-        console.log(props.blog);
-    },[props.blog]);
     return (
         <BlogDetalle blog={props.blog} utils={props.utils} admin={true} blogFile={props.blogFile} blogVideo={props.blogVideo} handleChangeContent={handleChangeContent} handleFilesCurso={handleFilesCurso} handleChangeInfoBlog={handleChangeInfoBlog} handleLoadFile={handleLoadFile}/>
     )
