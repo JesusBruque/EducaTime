@@ -1,10 +1,10 @@
 import AuthenticationService from '../services/authentication.services';
 import { Request, Response, NextFunction } from 'express';
 import Logger from '../loaders/logger'
-import {IUsuarioDTO} from "../interfaces/IUsuario";
+import { IUsuarioDTO } from "../interfaces/IUsuario";
 
 export default class AuthenticationController {
-    private authenticationService;
+    private authenticationService: AuthenticationService;
     constructor() {
         this.authenticationService = new AuthenticationService();
     }
@@ -49,7 +49,7 @@ export default class AuthenticationController {
         }
     }
 
-    public findUserCourses = async (req:Request,res:Response) => {
+    public findUserCourses = async (req: Request, res: Response) => {
         try {
             let userReq = req.user as IUsuarioDTO;
             const user = await this.authenticationService.findUserCourses(userReq._id);
@@ -59,14 +59,24 @@ export default class AuthenticationController {
             return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
         }
     }
+    public forgetPassword = async (req: Request, res: Response) => {
+        try {
+            const email = req.params.email;
+            await this.authenticationService.forgetPassword(email);
+            res.status(200).json({ status: 200 });
+        } catch (e) {
+            Logger.error(e);
+            return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
+        }
+    }
 
-    public editUserInfo = async(req:Request,res:Response) => {
-        try{
+    public editUserInfo = async (req: Request, res: Response) => {
+        try {
             let userInfo = req.body;
             let userReq = req.user as IUsuarioDTO;
-            const user = await this.authenticationService.findUserAndUpdateInfo(userReq._id,userInfo);
+            const user = await this.authenticationService.findUserAndUpdateInfo(userReq._id, userInfo);
             res.status(200).json({ status: 200, user: user });
-        }catch(e){
+        } catch (e) {
             Logger.error(e);
             return res.status(400).json({ status: 400, message: "Se ha producido un error inesperado. Contacte con el administrador." });
         }
