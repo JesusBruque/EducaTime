@@ -170,10 +170,10 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         <div>
             <h2>{curso.title}</h2>
             <h3>Profesor: {curso.teacher}</h3>
-            {writeReview && <ValorarContent user={props.user} cursoIndex={props.cursoIndex} cursoId={curso} setWriteReview={setWriteReview} />}
-            <Button action={handleShowValorarWindow} color={'var(--main-color)'} text='Valorar este curso' disabled={false} type={'button'} />
-            <span style={{ cursor: 'pointer' }} onClick={() => setShowUsuarios(!showUsuarios)}>Alumnos</span>
-            {props.teacher && <AlumnosCurso show={showUsuarios} curso={curso} />}
+            {/* {writeReview && <ValorarContent user={props.user} cursoIndex={props.cursoIndex} cursoId={curso} setWriteReview={setWriteReview} />} */}
+            {/* <Button action={handleShowValorarWindow} color={'var(--main-color)'} text='Valorar este curso' disabled={false} type={'button'} /> */}
+            {props.teacher && props.user.email === curso.teacher && <span style={{ cursor: 'pointer' }} onClick={() => setShowUsuarios(!showUsuarios)}>Alumnos</span>}
+            {props.teacher && props.user.email === curso.teacher && <AlumnosCurso show={showUsuarios} curso={curso} />}
             {curso.lections.map((lection, i) => {
                 if (canShowLection(props.user.cursos[props.cursoIndex], lection))
                     return (

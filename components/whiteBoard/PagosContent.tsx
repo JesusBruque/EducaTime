@@ -34,7 +34,7 @@ const PagosContent = ({ user, setUser, utils, router }) => {
     return (
         <div>
             {cursosInfo && cursosInfo.length > 0 && cursosInfo.map(x => {
-                const nombre = x.idCurso.title;
+                const nombre = x && x.idCurso && x.idCurso.title;
                 return (<table>
                     <thead>
                         <tr>
@@ -48,12 +48,14 @@ const PagosContent = ({ user, setUser, utils, router }) => {
                     </thead>
                     <tbody>
                         {x.feeState && x.feeState.length > 0 && x.feeState.map((fee, index) => {
-                            const feeInfo = x.idCurso.fees.find(x => x._id + '' === fee.idFee + '');
+                            const feeInfo = x && x.idCurso && x.idCurso.fees && x.idCurso.fees.find(x => x._id + '' === fee.idFee + '');
+                            if (!feeInfo) return <div />
                             let anterior = null;
                             let td3 = <span>{fee.paid === true ? 'PAGADO' : <button onClick={() => { setPagando({ fee, plazo: index, cursoId: x.idCurso._id }) }}>PAGAR AHORA</button>}</span>;
                             td3 = <span> {manageShowAction(fee, index, x)}</span>
+
                             return <tr key={index}>
-                                <td><span>{feeInfo.fee}€</span></td>
+                                <td><span>{feeInfo && feeInfo.fee}€</span></td>
                                 <td><span>{new Date(feeInfo.date).toLocaleDateString()}</span></td>
                                 <td>{(pagando && pagando.fee && pagando.fee._id + '' === fee._id + '') ? 'EN PROCESO DE PAGO' : td3}</td>
                             </tr>
