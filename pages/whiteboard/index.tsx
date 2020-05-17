@@ -24,9 +24,10 @@ const userWhiteBoard = (props) => {
         if (props.user) {
             getUserData().then(res => {
                 if (res.status === 200) {
+                    const userRes = res.data.user;
                     setContentLoaded(true);
-                    setUserData(res.data.user);
-                    if (res.data.user.roles.includes('teacher')) {
+                    setUserData(userRes);
+                    if (userRes.roles.includes('teacher')) {
                         getCoursesByTeacher().then(res => {
                             setCoursesTeaching(res.data.cursos);
                         }).catch(err => console.error(err));
@@ -70,7 +71,7 @@ const userWhiteBoard = (props) => {
         <Layout user={props.user} setUser={props.setUser} router={props.router} utils={props.utils} whiteboard={true}>
             {userData &&
                 <React.Fragment>
-                    <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} />
+                    {contentLoaded && <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} />}
                     <div className={styles.mainContainer}>
                         {contentLoaded && contentSelected === 'cursos' && userData && userData.roles.includes('user') && <CursosContent user={userData} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={userData.cursos} teacher={false} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
                         {contentLoaded && contentSelected === 'tareas' && <TareasContent user={userData} utils={props.utils} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} />}

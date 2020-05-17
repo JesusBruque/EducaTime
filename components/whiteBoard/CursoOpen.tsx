@@ -13,6 +13,7 @@ import Button from "../Button";
 import ValorarContent from './ValorarContent'
 import TareasCurso from "./TareasCurso";
 import EvaluacionCurso from "./EvaluacionCurso";
+import AlumnosCurso from "./AlumnosCurso";
 
 type Props = {
     cursoIndex?: number,
@@ -28,6 +29,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
     const [writeReview, setWriteReview] = useState(null);
     const { curso, setCurso } = props;
     const [videoPlaying, setVideoPlaying] = useState(null);
+    const [showUsuarios, setShowUsuarios] = useState(false)
     const handleDeleteTeoricalResource = (i, lectionId, tareaId) => {
         props.utils.initLoader();
         props.utils.startLoader();
@@ -150,8 +152,11 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
     return (
         <div>
             <h2>{curso.title}</h2>
-            {writeReview && <ValorarContent user={props.user} cursoIndex={props.cursoIndex} cursoId={curso} setWriteReview={setWriteReview}/>}
+            <h3>Profesor: {curso.teacher}</h3>
+            {writeReview && <ValorarContent user={props.user} cursoIndex={props.cursoIndex} cursoId={curso} setWriteReview={setWriteReview} />}
             <Button action={handleShowValorarWindow} color={'var(--main-color)'} text='Valorar este curso' disabled={false} type={'button'} />
+            <span style={{ cursor: 'pointer' }} onClick={() => setShowUsuarios(!showUsuarios)}>Alumnos</span>
+            {props.teacher && <AlumnosCurso show={showUsuarios} curso={curso} />}
             {curso.lections.map((lection, i) => {
                 return (
                     <div className={styles.lectionItem} key={i}>

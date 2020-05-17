@@ -16,7 +16,6 @@ type Props = {
 }
 
 const LateralMenu: FunctionComponent<Props> = (props) => {
-
     return (
         <div className={styles.lateralMenu}>
             <div>
