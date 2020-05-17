@@ -9,6 +9,7 @@ import VideoComponent from "../../components/VideoComponent";
 import utilStyles from '../../styles/Utils.module.css';
 import Head from "next/head";
 import WebUtils from "../../webUtils/WebUtils";
+import fetch from "isomorphic-unfetch";
 
 type Props = {
     curso:Course,
@@ -39,8 +40,9 @@ const Curso : FunctionComponent<Props> = (props) => {
 };
 
 export const getServerSideProps =  async ctx => {
-    const res = await getCourseById(ctx.params.cid);
-    const curso = res.data.Course;
+    const res = await fetch('http://localhost:3000/api/course/findById/'+ctx.params.cid);
+    const data = await res.json();
+    const curso = data.Course;
     return {props:{curso:curso}}
 };
 export default Curso;

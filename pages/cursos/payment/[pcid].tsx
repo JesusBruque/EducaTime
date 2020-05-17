@@ -8,6 +8,7 @@ import pagoStyles from "../../../styles/Pago.module.css";
 import radioStyle from "../../../styles/Utils.module.css";
 import moment from 'moment';
 import Layout from "../../../components/Layout";
+import fetch from "isomorphic-unfetch";
 const stripePromise = loadStripe("pk_test_h8X3p5zwiygmbpvGOFkRDWh000GKTO0Rln");
 
 const payCurso = (props) => {
@@ -104,8 +105,9 @@ const payCurso = (props) => {
     )
 };
 export const getServerSideProps =  async ctx => {
-    const res = await getCourseById(ctx.params.pcid);
-    const curso = res.data.Course;
+    const res = await fetch('http://localhost:3000/api/course/findById/'+ctx.params.pcid);
+    const data = await res.json();
+    const curso = data.Course;
     return {props:{curso:curso}}
 };
 export default payCurso;
