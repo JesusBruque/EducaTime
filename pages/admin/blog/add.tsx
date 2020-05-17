@@ -12,20 +12,33 @@ const AddBlog = (props) => {
     const [blogInfo,setBlogInfo] = useState(new Blog());
     const [contentFiles,setContentFiles] = useState([]);
     const [blogThumbnail,setBlogThumbnail] = useState(null);
+    const [blogVideo,setBlogVideo] = useState(null);
     const [errors,setErrors] = useState(null);
 
     const CreateBlog = () => {
         validate(blogInfo).then(() => {
-            props.utils.initLoader('Subiendo blog...');
-            props.utils.startLoader();
-            uploadBlogFile(blogThumbnail).then(res => {
+            props.utils.changeTextLoader('Subiendo blog....');
+            uploadBlogFile(blogThumbnail,false,blogInfo.title).then(res => {
                 blogInfo.thumbnail = res.data.location;
-                create(blogInfo).then(() => {
-                    props.utils.removeLoader();
-                    props.router.push('/admin/blog');
-                }).catch(() =>{
-                    window.alert('ERROR CREANDO EL BLOG');
-                    props.utils.removeLoader();
+                let prVideo = new Promise<string>((resolve,reject) => {
+                    if(blogInfo.video && blogVideo){
+                        uploadBlogFile(blogVideo,true,blogInfo.title).then(res => {
+                            resolve(res.data.location);
+                        }).catch((err) =>{
+                            window.alert('Errror al subir el videoblog');
+                            reject(err);
+                        });
+                    }else{
+                        resolve(blogInfo.video);
+                    }
+                });
+                prVideo.then(res => {
+                    blogInfo.video = res;
+                    create(blogInfo).then(() => {
+                        props.router.push('/admin/blog');
+                    }).catch(() =>{
+                        window.alert('ERROR CREANDO EL BLOG');
+                    });
                 });
             });
         }).catch(errors => {
@@ -41,7 +54,7 @@ const AddBlog = (props) => {
                     <Button color={'blue'} text={'Guardar entrada'} action={CreateBlog}/>
                 </div>
                 <div className={utilsStyles.centeredContainer}>
-                   <AddBlogForm blog={blogInfo} setBlog={setBlogInfo} utils={props.utils} files={contentFiles} setFiles={setContentFiles} blogFile={blogThumbnail} setBlogFile={setBlogThumbnail}/>
+                   <AddBlogForm blog={blogInfo} setBlog={setBlogInfo} utils={props.utils} files={contentFiles} setFiles={setContentFiles} blogFile={blogThumbnail} setBlogFile={setBlogThumbnail} blogVideo={blogVideo} setBlogVideo={setBlogVideo}/>
                 </div>
 
             </div>

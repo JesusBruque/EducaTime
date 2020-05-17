@@ -18,9 +18,9 @@ export default class BlogService extends GenericService {
             throw e;
         }
     }
-    public uploadFile = async (file,filename,res) => {
+    public uploadFile = async (file,filename,isVideo,blogTitle) => {
         try{
-            const fileLocation : string = await this.fileService.uploadFile(file,`public/blogImages/${filename}`,res);
+            const fileLocation : string = await this.fileService.uploadFile(file,blogTitle,filename,isVideo,false);
             Logger.debug('fichero subido...');
             return fileLocation;
         }catch(e){

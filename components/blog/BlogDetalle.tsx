@@ -1,16 +1,13 @@
-import blogVista from '../../styles/BlogVista.module.css'
-import GridItem from '../GridItem';
-import Cuerpo from '../Cuerpo';
-import TituloEspecialBlog from '../TituloEspecialBlog'
 import Blog from "../../utils/Blog";
 import blogStyles from "../../styles/blogs/BlogDetail.module.css";
 import MyDropzone from "../MyDropzone";
-import styles from "../../styles/blogs/AddBlog.module.css";
 import utilStyles from "../../styles/Utils.module.css";
 import moment from "moment";
 import TextEditor from "../TextEditor";
-import React, {FunctionComponent, useEffect} from "react";
+import React, {FunctionComponent, useState} from "react";
 import WebUtils from "../../webUtils/WebUtils";
+import VideoComponent from "../VideoComponent";
+import utilsStyles from "../../styles/Utils.module.css";
 
 type Props = {
     blog:Blog,
@@ -20,23 +17,29 @@ type Props = {
     handleLoadFile?:(file) => Promise<any>,
     handleChangeInfoBlog?:(property,value)=>void,
     utils?:WebUtils,
-    blogFile?:File
+    blogFile?:File,
+    blogVideo:File
 }
 
 const BlogDetalle : FunctionComponent<Props> = (props) =>{
 
-    useEffect(()=>{console.log(props.blogFile)},[props.blogFile]);
+    const [videoPlaying,setVideoPlaying] = useState(null);
 
+    const showVideo = (file,e) => {
+        e.stopPropagation();
+        setVideoPlaying(file);
+    };
     return (
         <div className={blogStyles.blogDetailContainer}>
             {
                 props.admin ? <MyDropzone  text={'Arrastra o pincha para añadir una imagen de portada de blog'}
                                      image={'/assets/icons/picture.svg'}
-                                     maxFiles={1}
-                                     filesAccepted={['image/*']}
-                                     onAcceptFile={(files) => props.handleFilesCurso(files[0])}
+                                     maxFiles={2}
+                                     filesAccepted={['image/*','video/*']}
+                                     onAcceptFile={(files) => props.handleFilesCurso(files)}
                 >
                     {props.blogFile ? <img src={URL.createObjectURL(props.blogFile)} alt={'imagen de portada del blog'}/> : (props.blog.thumbnail && <img src={props.blog.thumbnail} alt={'imagen de portada del blog'}/> )}
+                        {(props.blogVideo || props.blog.video) && <img src={'/assets/icons/play-button.svg'} alt={'icono de play'} style={{opacity:'.9',width:'30px',height:'30px',backgroundColor:'white'}} onClick={(e) => props.blogVideo ? showVideo(props.blogVideo,e) : showVideo(props.blog.video,e)} className={utilsStyles.icon}/>}
                 </MyDropzone>
                     :
                     <img className={blogStyles.imagenPortada} src={props.blog.thumbnail} alt={'portada del blog'}/>
@@ -77,6 +80,7 @@ const BlogDetalle : FunctionComponent<Props> = (props) =>{
                 }
             </div>
             {props.children}
+            {videoPlaying && <VideoComponent src={typeof videoPlaying === 'string' ? videoPlaying : URL.createObjectURL(videoPlaying)} title={videoPlaying.name || 'Preview del blog'} autoPlay={true} onClose={() => {setVideoPlaying(null);typeof videoPlaying !== 'string' && URL.revokeObjectURL(videoPlaying)}} />}
         </div>
     )
 };
