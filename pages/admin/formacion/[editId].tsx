@@ -6,6 +6,7 @@ import VideoComponent from "../../../components/VideoComponent";
 import ErrorsPanel from "../../../components/ErrorsPanel";
 import React, {useState,useEffect} from "react";
 import Course, {getCourseById, validate, edit, uploadCourseFile, create} from "../../../utils/Course";
+import fetch from "isomorphic-unfetch";
 
 type Props={
     curso:Course
@@ -85,9 +86,9 @@ const editCurso = (props) => {
     )
 };
 export const getServerSideProps =  async ctx => {
-    const res = await getCourseById(ctx.params.editId);
-    const curso = res.data.Course;
-    console.log(curso);
+    const res = await fetch('http://localhost:3000/api/course/findById/'+ctx.params.editId);
+    const data = await res.json();
+    const curso = data.Course;
     return {props:{curso:curso}}
 };
 export default editCurso;

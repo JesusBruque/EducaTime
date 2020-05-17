@@ -8,6 +8,7 @@ import ErrorsPanel from "../../../components/ErrorsPanel";
 import {Router} from "next/router";
 import WebUtils from "../../../webUtils/WebUtils";
 import {User} from "../../../utils/Authentication";
+import fetch from "isomorphic-unfetch";
 
 type Props = {
     blog:Blog,
@@ -22,14 +23,14 @@ const editBlog : FunctionComponent<Props> = (props) => {
     const [contentFiles,setContentFiles] = useState([]);
     const [blogThumbnail,setBlogThumbnail] = useState(null);
     const [errors,setErrors] = useState(null);
+    const [blogVideo,setBlogVideo] = useState(null);
 
     const EditBlog = () => {
         validate(blogInfo).then(() => {
-            props.utils.initLoader('Editando blog...');
-            props.utils.startLoader();
+            props.utils.changeTextLoader('Editando blog...');
             let updateThumbnail = new Promise<string>((resolve,reject) => {
                 if(blogThumbnail){
-                    uploadBlogFile(blogThumbnail).then(res => {
+                    uploadBlogFile(blogThumbnail,false,blogInfo.title).then(res => {
                         resolve(res.data.location)
                     }).catch(err => reject(err))
                 }else{
@@ -38,14 +39,27 @@ const editBlog : FunctionComponent<Props> = (props) => {
             });
 
             updateThumbnail.then(res => {
-                blogInfo.thumbnail = res;
-                edit(blogInfo).then(() => {
-                    props.utils.removeLoader();
-                    props.router.push('/admin/blog');
-                }).catch(() =>{
-                    window.alert('ERROR EDITANDO EL BLOG');
-                    props.utils.removeLoader();
+                let prVideo = new Promise<string>((resolve,reject) => {
+                    if(blogVideo){
+                        uploadBlogFile(blogVideo,true,blogInfo.title).then(res => {
+                            resolve(res.data.location);
+                        }).catch((err) =>{
+                            window.alert('Errror al subir el videoblog');
+                            reject(err);
+                        });
+                    }else{
+                        resolve(blogInfo.video);
+                    }
                 });
+                blogInfo.thumbnail = res;
+                prVideo.then(res => {
+                    blogInfo.video = res;
+                    edit(blogInfo).then(() => {
+                        props.router.push('/admin/blog');
+                    }).catch(() =>{
+                        window.alert('ERROR EDITANDO EL BLOG');
+                    });
+                }).catch(err => window.alert('error editando el blog'));
             })
         }).catch(errors => {
             setErrors(errors);
@@ -60,7 +74,7 @@ const editBlog : FunctionComponent<Props> = (props) => {
                     <Button color={'blue'} text={'Guardar cambios'} action={EditBlog}/>
                 </div>
                 <div className={utilsStyles.centeredContainer}>
-                    <AddBlogForm blog={blogInfo} setBlog={setBlogInfo} utils={props.utils} files={contentFiles} setFiles={setContentFiles} blogFile={blogThumbnail} setBlogFile={setBlogThumbnail}/>
+                    <AddBlogForm blog={blogInfo} setBlog={setBlogInfo} utils={props.utils} files={contentFiles} setFiles={setContentFiles} blogFile={blogThumbnail} setBlogFile={setBlogThumbnail}  blogVideo={blogVideo} setBlogVideo={setBlogVideo}/>
                 </div>
 
             </div>
@@ -70,9 +84,9 @@ const editBlog : FunctionComponent<Props> = (props) => {
 }
 
 export const getServerSideProps =  async ctx => {
-    const res = await getBlogById(ctx.params.editId);
-    const blog = res.data.Blog;
-    console.log(blog);
+    const res = await fetch('http://localhost:3000/api/blog/findById/'+ctx.params.editId);
+    const data = await res.json();
+    const blog = data.Blog;
     return {props:{blog:blog}}
 };
 
