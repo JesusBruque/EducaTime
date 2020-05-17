@@ -12,19 +12,19 @@ export default (app: Router) => {
     
     route.get('/:reviewId', reviewController.findById)
 
-    route.post('/',
-        celebrate({
-            body: Joi.object({
-                score: Joi.number().required(),
-                review: Joi.string(),
-                user: Joi.string().required(),
-                course: Joi.string().required(),
-                date: Joi.number().required(),
-                updated_for: Joi.string().required()
-            }),
-        }),
-        // middlewares.isAuth,
-        reviewController.createReview);
+    // route.post('/',
+    //     celebrate({
+    //         body: Joi.object({
+    //             score: Joi.number().required(),
+    //             review: Joi.string(),
+    //             user: Joi.string().required(),
+    //             course: Joi.string().required(),
+    //             date: Joi.number().required(),
+    //             updated_for: Joi.string().required()
+    //         }),
+    //     }),
+    //     // middlewares.isAuth,
+    //     reviewController.createReview);
 
     route.put('/',
         celebrate({
