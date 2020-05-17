@@ -165,7 +165,7 @@
     display:grid;
     grid-template-columns:auto auto auto;
     grid-column-gap:15px;
-    grid-template-rows: auto auto;
+    grid-template-rows: repeat(2,150px);
     grid-row-gap:15px;
     width:100%;
     justify-items:center;
@@ -233,4 +233,9 @@
     height:100%;
     background-color:rgba(255,255,255,.7);
     z-index:2;
+}
+@media screen and (max-width:1250px){
+    .mainClaimer h1{
+        font-size:3em;
+    }
 }
