@@ -150,6 +150,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         return false;
     }
     const canShowLection = (userCourse, lection) => {
+        if(props.teacher) return true
         const user = props.user;
         const feeState = userCourse.feeState;
         let indexLastFee = -1;
