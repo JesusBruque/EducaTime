@@ -18,7 +18,7 @@ const Webinar :FunctionComponent<Props>= (props) => {
                     <FontAwesomeIcon icon={faPlayCircle} color={'var(--main-color)'}  onClick={() => {setVideoPlaying(true)}}/>
                 </div>
             </div>
-            {videoPlaying && <VideoComponent src={curso.webinar} onClose={() => {setVideoPlaying(false)}} title={curso.title} />}
+            {videoPlaying && <VideoComponent src={curso.webinar} onClose={() => {setVideoPlaying(false)}} title={curso.title}  hls={true}/>}
         </div>
     )
 };

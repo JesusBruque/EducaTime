@@ -26,11 +26,11 @@ const VideoComponent: FunctionComponent<Props> = (props) => {
     }
 
     const startLoader = () => {
-        if(!document.querySelector('#casor-loader') && document.querySelector('.plyr')){
+        if(!document.querySelector('#video-loader') && document.querySelector('.plyr')){
             let playBtn = document.querySelector('.plyr>button') as HTMLElement;
             playBtn.style.display = 'none';
             let loader = document.createElement('div');
-            loader.id='casor-loader';
+            loader.id='video-loader';
             let loaderContainer = document.createElement('div');
             loaderContainer.id='video-loader--container';
             let loaderObject = document.createElement('div');
@@ -60,8 +60,8 @@ const VideoComponent: FunctionComponent<Props> = (props) => {
         });
         player.once('loadeddata', () => {
             console.log('YA SE HA CARGADO EL PRIMER FRAME');
-            if(document.querySelector('#casor-loader')){
-                document.querySelector('#casor-loader').remove();
+            if(document.querySelector('#video-loader')){
+                document.querySelector('#video-loader').remove();
                 let playBtn = document.querySelector('.plyr>button') as HTMLElement;
                 playBtn.style.display = 'block';
             }

@@ -45,7 +45,8 @@ export default (app:Router) => {
             id:Joi.string().required(),
             receipt_email:Joi.string().required(),
             status:Joi.string().required(),
-            curso:Joi.string().required()
+            curso:Joi.string().required(),
+            name:Joi.string().required()
         }).unknown(true)
     }),orderController.handleAfterPayment);
 

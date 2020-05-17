@@ -12,7 +12,7 @@ const ErrorsPanel : FunctionComponent<Props> = (props:Props) => {
             <div className={utilStyles.background} onClick={props.close}></div>
             <div className={styles.panel}>
                 <h4>Se han detectado los siguientes errores:</h4>
-                {props.errors.map((error,i) => {
+                {props.errors && props.errors.map((error,i) => {
                     return <div key={i} className={styles.error}><span>{Object.keys(error)[0]}: </span><span>{Object.values(error)[0]}</span></div>
                 })}
             </div>

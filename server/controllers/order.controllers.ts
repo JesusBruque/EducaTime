@@ -37,7 +37,7 @@ export default class OrderController extends GenericController {
         Logger.debug('Función tras un pago.');
         try {
             let paymentInfo = req.body;
-            let user = await this.userService.findByEmail(paymentInfo.receipt_email);
+            let user = await this.userService.findByEmail(paymentInfo.receipt_email,paymentInfo.name);
             if (!user._id) {
                 user = await this.userService.registerUser(user);
             }

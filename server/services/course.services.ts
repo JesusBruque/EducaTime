@@ -69,7 +69,6 @@ export default class CourseService extends GenericService {
     };
     public uploadFile = async (courseName: string, file, filename, video, needAuth) => {
         try {
-            console.log(file);
             const fileLocation: string = await this.fileService.uploadFile(file, courseName, filename, video, needAuth);
             Logger.debug('fichero subido...', fileLocation);
             return fileLocation;

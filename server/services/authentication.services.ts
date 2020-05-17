@@ -116,11 +116,11 @@ export default class AuthenticationService {
             throw e;
         }
     };
-    public findByEmail = async (email: string): Promise<IUsuarioDTO> => {
+    public findByEmail = async (email: string,name:string): Promise<IUsuarioDTO> => {
         try {
             let err, user = await Usuario.findOne({ email: email });
             if (err) throw err;
-            if (!user) return { _id: null, email: email, roles: null, username: email, cursos: [], favoritos: [] };
+            if (!user) return { _id: null, email: email, roles: null, username: email,name:name, cursos: [], favoritos: [] };
             if (user) return user;
         }
         catch (e) {

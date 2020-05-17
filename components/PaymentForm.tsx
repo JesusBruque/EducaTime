@@ -47,8 +47,6 @@ const PaymentForm = ({ router, cursoId, plazo, utils, stay = null }) => {
 
     const handleSubmit = async ev => {
         ev.preventDefault();
-        utils.initLoader();
-        utils.startLoader();
         setProcessing(true);
         let id = cursoId ? cursoId : router.query.pcid;
         console.log(plazo);
@@ -75,11 +73,11 @@ const PaymentForm = ({ router, cursoId, plazo, utils, stay = null }) => {
                 id: payload.paymentIntent.id,
                 receipt_email: payload.paymentIntent.receipt_email,
                 status: payload.paymentIntent.status,
-                curso: cursoId
+                curso: cursoId,
+                name:values.name
             });
             setError(null);
             setProcessing(false);
-            utils.removeLoader();
             if (!stay) router.push('/cursos/payment/succeded');
             else stay()
         }
