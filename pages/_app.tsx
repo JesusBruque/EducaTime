@@ -4,6 +4,7 @@ import moment from 'moment';
 import React, {useEffect, useState} from "react";
 import WebUtils from "../webUtils/WebUtils";
 import Router, {useRouter} from "next/router";
+import axios from 'axios';
 
 function MyApp({ Component, pageProps,pageUser }) {
     moment.locale('es');
@@ -13,6 +14,21 @@ function MyApp({ Component, pageProps,pageUser }) {
     Router.events.on('routeChangeStart',(url) => {
         wu.initLoader();
         wu.startLoader();
+    });
+    axios.interceptors.request.use((config) => {
+        wu.initLoader();
+        wu.startLoader();
+        return config
+    }, (error) => {
+        wu.removeLoader();
+        return Promise.reject(error);
+    });
+    axios.interceptors.response.use((response) => {
+        wu.removeLoader();
+        return response;
+    }, (error) => {
+        wu.removeLoader();
+        return Promise.reject(error);
     });
 
     useEffect(() => {

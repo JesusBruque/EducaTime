@@ -16,11 +16,7 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
         return moment(date, 'DD/MM/YYYY').unix() * 1000;
     };
     const handleRespondingFiles = (file, idLection: string, idTarea: string) => {
-
-        utils.initLoader();
-        utils.startLoader();
         uploadHomeworkResponseFile(idLection, idTarea, file[0]).then((res) => {
-            utils.removeLoader();
             if (res.status === 200) {
                 setCargarContenido(!cargarContenido);
                 setResponding(null);
@@ -28,9 +24,7 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
             else window.alert('ERRORRRR');
         }).catch(err => {
             console.error(err);
-            utils.removeLoader();
         });
-        utils.removeLoader();
     };
     const handleDeleteTarea = (lectionId, tarea) => {
         utils.initLoader();
@@ -131,7 +125,7 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
         {
             lection.homework && lection.homework.length > 0 ? lection.homework.map((tarea, j) => {
                 if (!showPendientes && !canRespond(lection._id, tarea._id)) return <div />
-                return <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }} key={tarea._id}>
+                return <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px', flexWrap:'wrap' }} key={tarea._id}>
                     <div className={styles.taskItem}>
                         <a href={tarea.uploadFile} target={'_blank'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'} />
                             <span>TAREA - {('0' + j).slice(-2)}</span>
@@ -143,19 +137,24 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
                         else setResponding(tarea)
                     }} icon={faReply} color={'var(--main-color)'} style={{ cursor: 'pointer', margin: '0px 4px' }} />}
                     {!canRespond(lection._id, tarea._id) && <span>COMPLETADA</span>}
-                    {responding && responding._id === tarea._id && <MyDropzone
-                        text={'Arrastra o pincha para añadir los ficheros.'}
-                        image={'/assets/icons/file.svg'}
-                        onAcceptFile={(files) => handleRespondingFiles(files, lection._id, tarea._id)}
-                    // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
-                    />}
                     {
                         !teacher && <div className={utilsStyles.timeLeft} style={moment(tarea.deadline).diff(moment(), 'days') < 5 ? { backgroundColor: 'var(--red-color)' } : { backgroundColor: 'var(--black-color)' }}>
                             <FontAwesomeIcon icon={faClock} color={'white'} style={{ marginRight: '4px' }} />
                             <span>(Quedan {moment(tarea.deadline).diff(moment(), 'days')} días)</span>
                         </div>
                     }
-
+                    {responding && responding._id === tarea._id &&
+                        <div style={{width:'100%',margin:'12px 0'}}>
+                            <div className={styles.fileContainer}>
+                                <MyDropzone
+                                    text={'Arrastra o pincha para añadir los ficheros.'}
+                                    image={'/assets/icons/file.svg'}
+                                    onAcceptFile={(files) => handleRespondingFiles(files, lection._id, tarea._id)}
+                                    // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
+                                />
+                            </div>
+                        </div>
+                    }
                     {
                         teacher &&
                         <div style={{ position: 'relative', marginLeft: '8px' }}>
