@@ -25,6 +25,12 @@ const PagosContent = ({ user, setUser, utils, router }) => {
         setMensaje('Se ha realizado el pago satisfactoriamente.')
         setTimeout(() => { setMensaje(null) }, 5 * 1000)
     }
+    const manageShowAction = (fee, index: number, x) => {
+        const fees = x.feeState;
+        if (fee.paid === true) return 'PAGADO';
+        if (fees && fees[index - 1] && fees[index - 1].paid === true) return <button onClick={() => { setPagando({ fee, plazo: index, cursoId: x.idCurso._id }) }}>PAGAR AHORA</button>;
+        return 'PENDIENTE DE PAGO';
+    }
     return (
         <div>
             {cursosInfo && cursosInfo.length > 0 && cursosInfo.map(x => {
@@ -43,7 +49,9 @@ const PagosContent = ({ user, setUser, utils, router }) => {
                     <tbody>
                         {x.feeState && x.feeState.length > 0 && x.feeState.map((fee, index) => {
                             const feeInfo = x.idCurso.fees.find(x => x._id + '' === fee.idFee + '');
+                            let anterior = null;
                             let td3 = <span>{fee.paid === true ? 'PAGADO' : <button onClick={() => { setPagando({ fee, plazo: index, cursoId: x.idCurso._id }) }}>PAGAR AHORA</button>}</span>;
+                            td3 = <span> {manageShowAction(fee, index, x)}</span>
                             return <tr key={index}>
                                 <td><span>{feeInfo.fee}€</span></td>
                                 <td><span>{new Date(feeInfo.date).toLocaleDateString()}</span></td>
