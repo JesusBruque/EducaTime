@@ -16,23 +16,10 @@ const Home = (props) => {
 
     useEffect(() => {
         let lu = new WebUtils('main');
-        lu.removeLoader();
-        gsap.to('#cortina-entrada img',{opacity:0,duration:.4});
-        gsap.to('#cortina-entrada',{duration:1.5,transformOrigin:'bottom',scaleY:0,ease:'power2.inOut',onComplete: () => {
-                lu.initScroll().then(() => {
-                    lu.showHeader();
-                    lu.enterHomeAnimations();
-                    lu.initHomeScrollAnimations();
-
-                    /*--- ALTO GRID VALORES ---*/
-                    // let ac = document.querySelector('#main_field').getBoundingClientRect().height;
-                    // let t =  ac*0.4;
-                    // console.log(ac);
-                    // document.getElementById('valorsGrid').style.gridTemplateRows = `${ac/2.3}px minmax(215px,min-content)`;
-                    // document.getElementById('valorsGrid').style.top = `${t}px`;
-                });
-            }});
-        console.log(props.cursos);
+        lu.initScroll().then(() => {
+            lu.enterHomeAnimations();
+            lu.initHomeScrollAnimations();
+        });
     },[]);
 
     return (
@@ -42,7 +29,6 @@ const Home = (props) => {
               <meta name={'description'} content={'Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol.'}/>
               <link rel="icon" href="/assets/logo.svg"/>
           </Head>
-          <Entrada />
           <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
               <section className={homeStyles.homeSection} id={'welcome-section'}>
                   <div id={'fixed-field'} className={homeStyles.fixedTarget} style={{top:'-70px',height:'160vh'}}></div>
@@ -51,11 +37,11 @@ const Home = (props) => {
                           <Field/>
                       </div>
                   </div>
-                  <div className={homeStyles.mainClaimer}>
+                  <div className={homeStyles.mainClaimer} id={'welcome-claimer'}>
                       <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
-                      <p data-scroll data-scroll-speed={2}>Disfruta de la formación online flexible y de calidad, una oportunidad para progresar con los mejores</p>
-                      <div data-scroll data-scroll-speed={3} className={homeStyles.startBtn}>
-                          <Button text={'Comienza ya'} color={'blue'} action={()=> props.router.push('/cursos')} />
+                      <p data-scroll data-scroll-speed={2} style={{opacity:'0'}}>Disfruta de la formación online flexible y de calidad, una oportunidad para progresar con los mejores</p>
+                      <div data-scroll data-scroll-speed={3} className={homeStyles.startBtn} id={'welcome-start--btn'}>
+                          <Button text={'Comienza ya'} color={'blue'} action={()=> props.router.push('/cursos')} styles={{opacity:'0'}}/>
                       </div>
                   </div>
               </section>

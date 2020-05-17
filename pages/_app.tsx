@@ -49,7 +49,6 @@ function MyApp({ Component, pageProps,pageUser }) {
         }
 
         wu.removeLoader();
-        wu.showHeader();
     },[router]);
 
     return <Component  {...pageProps} router={router} user={user} setUser={setUser} utils={wu}/>

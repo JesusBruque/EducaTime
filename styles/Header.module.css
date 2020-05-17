@@ -10,6 +10,7 @@
     height:70px;
     justify-content: space-evenly;
     z-index:99;
+    animation:showHeader 1s ease-out forwards;
 }
 .headerWhiteBoard{
     background-color: #f0f0f0;
@@ -87,4 +88,15 @@
 .menuUser .optionItem:hover{
     background-color:#dcdcdc;
     color:var(--black-color);
+}
+
+@keyframes showHeader{
+    from{
+        opacity:0;
+        transform:translateY(-100%);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
