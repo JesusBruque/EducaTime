@@ -16,6 +16,7 @@
 }
 .title{
     position:relative;
+    text-transform: uppercase;
 }
 .optionSelected{
     font-weight:bold;
