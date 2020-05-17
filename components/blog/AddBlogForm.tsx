@@ -11,7 +11,9 @@ type Props = {
     blogFile:File,
     setBlogFile:Dispatch<any>
     blog:Blog,
-    setBlog:Dispatch<Blog>
+    setBlog:Dispatch<Blog>,
+    blogVideo:File,
+    setBlogVideo:Dispatch<any>
 }
 const AddBlogForm : FunctionComponent<Props> = (props) => {
 
@@ -19,20 +21,38 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
         props.setBlog({...props.blog,description:content});
     };
 
-    const handleFilesCurso = (file) => {
-        props.setBlogFile(file);
-        props.setBlog({...props.blog,thumbnail:file.name});
+    const handleFilesCurso = (files) => {
+        files.forEach(file => {
+            let video, thumbnail;
+            if(file.type.includes('video')){
+                props.setBlogVideo(file);
+                video = file.name;
+            }
+            if(file.type.includes('image')){
+                props.setBlogFile(file);
+                thumbnail = file.name;
+            }
+            console.log(video,thumbnail);
+            console.log(props.blog.thumbnail,props.blog.video);
+            props.setBlog({...props.blog,thumbnail:thumbnail ? thumbnail: props.blog.thumbnail,video:video ? video : props.blog.video});
+            props.setBlog({...props.blog,thumbnail:thumbnail,video:video});
+        })
     };
     const handleChangeInfoBlog = (property,value) => {
         props.setBlog({...props.blog,[property]:value});
     };
 
     const handleLoadFile = (file:File) => {
-        return uploadBlogFile(file);
+        if(file.type.includes('image')){
+            return uploadBlogFile(file,false,'blogImages');
+        }
     };
 
+    useEffect(() => {
+        console.log(props.blog);
+    },[props.blog]);
     return (
-        <BlogDetalle blog={props.blog} utils={props.utils} admin={true} blogFile={props.blogFile} handleChangeContent={handleChangeContent} handleFilesCurso={handleFilesCurso} handleChangeInfoBlog={handleChangeInfoBlog} handleLoadFile={handleLoadFile}/>
+        <BlogDetalle blog={props.blog} utils={props.utils} admin={true} blogFile={props.blogFile} blogVideo={props.blogVideo} handleChangeContent={handleChangeContent} handleFilesCurso={handleFilesCurso} handleChangeInfoBlog={handleChangeInfoBlog} handleLoadFile={handleLoadFile}/>
     )
 };
 

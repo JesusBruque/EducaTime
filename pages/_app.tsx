@@ -11,20 +11,26 @@ function MyApp({ Component, pageProps,pageUser }) {
     const [user,setUser] = useState(pageUser);
     const router = useRouter();
     let wu = new WebUtils('main');
+    let requestCounter = 0;
     Router.events.on('routeChangeStart',(url) => {
         wu.initLoader();
         wu.startLoader();
     });
     axios.interceptors.request.use((config) => {
-        wu.initLoader();
-        wu.startLoader();
+        requestCounter++;
+        if(requestCounter<1){
+            wu.initLoader();
+            wu.startLoader();
+        }
         return config
     }, (error) => {
         wu.removeLoader();
         return Promise.reject(error);
     });
     axios.interceptors.response.use((response) => {
-        wu.removeLoader();
+        if(requestCounter<1){
+            wu.removeLoader();
+        }
         return response;
     }, (error) => {
         wu.removeLoader();

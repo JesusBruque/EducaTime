@@ -26,9 +26,11 @@ export default class BlogControllers extends GenericController {
         try{
             req.pipe(req.busboy);
             let fileLocation:string;
+            let isVideo = req.query.video;
+            let blogTitle = req.query.blogName;
             /*--- DETECCION DE FICHERO Y SUBIDA A S3 ---*/
             req.busboy.on('file',async (fieldname,file,filename) => {
-                fileLocation = await this.blogService.uploadFile(file, filename,res);
+                fileLocation = await this.blogService.uploadFile(file, filename,isVideo,blogTitle);
                 console.log('Send 200 status--->',new Date());
                 return res.status(200).json({location:fileLocation});
             });

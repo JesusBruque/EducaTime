@@ -15,6 +15,7 @@ export default class Blog{
     public author:string;
     public active:boolean;
     public tags:string[];
+    public video:string;
 
     constructor(){
         this.title = '';
@@ -46,10 +47,10 @@ export const validate = (blog:Blog) => {
     });
 };
 
-export const uploadBlogFile = (file:File) => {
+export const uploadBlogFile = (file:File, video,blogName) => {
     let data = new FormData();
     data.append('file',file);
-    return axios.post(BLOG_URL+'/post_file', data);
+    return axios.post(BLOG_URL+'/post_file', data,{params:{video:video,blogName:blogName}});
 };
 export const create = (blog:Blog) =>axios.post(BLOG_URL,blog);
 export const edit = (blog:Blog) =>  axios.put(BLOG_URL,blog);
