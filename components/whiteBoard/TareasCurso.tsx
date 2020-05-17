@@ -27,8 +27,6 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
         });
     };
     const handleDeleteTarea = (lectionId, tarea) => {
-        utils.initLoader();
-        utils.startLoader();
         deleteHomework(curso._id, lectionId, tarea).then((res) => {
             if (res.status == 200) {
                 let lections = [...curso.lections];
@@ -66,10 +64,7 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
 
     const handleTaskFiles = (files, lectionId) => {
         files.forEach((file) => {
-            utils.initLoader();
-            utils.startLoader();
             uploadHomeworkLectionFile(lectionId, 'tareas', file, curso._id).then((res) => {
-                utils.removeLoader();
                 let lections = [...curso.lections];
                 if (res.status === 200) {
                     let lections = [...curso.lections];
@@ -94,10 +89,7 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
         })
     };
     const handleChangeTaskDateEnd = (lectionId, taskId, fechaFinTarea) => {
-        utils.initLoader();
-        utils.startLoader();
         updateTaskDate(taskId, formatDates(fechaFinTarea), curso._id).then(res => {
-            utils.removeLoader();
             if (res.status === 200) {
                 let lections = [...curso.lections];
                 let index = -1;
@@ -115,7 +107,6 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
                 window.alert('ERRORR');
             }
         }).catch(err => {
-            utils.removeLoader();
             console.error(err)
         });
         setTaskDateEditing(null);

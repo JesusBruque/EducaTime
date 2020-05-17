@@ -21,12 +21,9 @@ const userWhiteBoard = (props) => {
     const [cargarContenido, setCargarContenido] = useState(false);
     const [contentLoaded, setContentLoaded] = useState(false);
     useEffect(() => {
-        props.utils.initLoader();
-        props.utils.startLoader();
         if (props.user) {
             getUserData().then(res => {
                 if (res.status === 200) {
-                    props.utils.removeLoader();
                     setContentLoaded(true);
                     setUserData(res.data.user);
                     if (res.data.user.roles.includes('teacher')) {
@@ -35,12 +32,10 @@ const userWhiteBoard = (props) => {
                         }).catch(err => console.error(err));
                     }
                 } else {
-                    props.utils.removeLoader();
                     window.alert('ERROR');
                 }
             }).catch(err => console.error(err));
         } else {
-            props.utils.removeLoader();
             props.router.push('/login');
         }
     }, [cargarContenido]);

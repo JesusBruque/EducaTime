@@ -165,7 +165,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                             <b onClick={props.teacher ? () => setDateEditing(i) : () => { }} className={`${props.teacher ? styles.editable : ''}`}>{moment(lection.dateAvailable).format('DD/MM/YYYY')}</b>
                                         </div>
                                         <div>
-                                            <span style={{ color: 'var(--main-color)', marginRight: '4px' }}>Fecha Inicio:</span>
+                                            <span style={{ color: 'var(--main-color)', marginRight: '4px' }}>Fecha Fin:</span>
                                             <b onClick={props.teacher ? () => setDateEditing(i) : () => { }} className={`${props.teacher ? styles.editable : ''}`}>{moment(lection.dateEnd).format('DD/MM/YYYY')}</b>
                                         </div>
                                         {

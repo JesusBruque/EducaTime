@@ -36,9 +36,9 @@ export default class WebUtils{
             loaderContainer.id='casor-loader--container';
             let loaderObject = document.createElement('div');
             loaderObject.id = 'casor-loader--object';
-            for(let i = 0;i<5;i++){
+            for(let i = 0;i<2;i++){
                 let loaderBall = document.createElement('div');
-                loaderBall.classList.add('loader-ball');
+                loaderBall.classList.add('loader-circle');
                 loaderObject.appendChild(loaderBall);
             }
             let loaderText;
@@ -59,26 +59,19 @@ export default class WebUtils{
         }
     };
     startLoader = () => {
-        let balls = document.querySelectorAll('#casor-loader--object .loader-ball');
-        let timeline = gsap.timeline({repeat:-1});
-        for(let i=0;i<5;i++){
-            timeline.to(balls[i],{duration:.5,y:-15,ease:'power4.in',delay:i*.2},"init");
-            timeline.to(balls[i],{duration:.5,y:0,ease:'power4.out',delay:i*.2 + .5},"init");
-            // timeline.to(balls[i],{duration:.3,scaleY:.6,ease:'power4.out',delay:i*.3 + .5},"init");
-            // timeline.to(balls[i],{duration:.3,scaleY:1,ease:'power4.in',delay:i*.3 + .8},"init");
-        }
-        // timeLoader.to(balls[3],{duration:1,y:'-50%',ease:'power4.inOut'},"-=1");
-        // timeLoader.to(balls[3],{duration:.2,scaleY:.3,ease:'power4.out'});
-        // timeLoader.to(balls[3],{duration:.2,scaleY:1,ease:'power4.in'});
+        let balls = document.querySelectorAll('#casor-loader--object .loader-circle');
+        let timeline = gsap.timeline({repeat:-1,repeatDelay:-.5,yoyo:true,smoothChildTiming:true});
+        timeline.fromTo(balls[0],{scale:.2,z:-50},{duration:2,scale:1.1,z:0,ease:'power3.inOut'},"init");
+        timeline.fromTo(balls[1],{z:0,scale:1.1},{duration:2,scale:.2,z:-50,ease:'power3.inOut'},"init");
     };
     removeLoader = () => {
-        if( document.querySelector('#casor-loader')){
+        if( document && document.querySelector('#casor-loader')){
             document.querySelector('#casor-loader').remove();
         }
 
     };
     showHeader = () => {
-        gsap.to('#casor-header>div:first-child',{duration:1.5,x:0,opacity:1,ease:'power2.out'});
+        //gsap.to('#casor-header>div:first-child',{duration:1.5,x:0,opacity:1,ease:'power2.out'});
         //gsap.to('#casor-header>div:last-child',{duration:1,opacity:1,x:'0%',ease:'power3.out'});
     };
 

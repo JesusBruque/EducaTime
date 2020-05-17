@@ -2,9 +2,7 @@ import Course from "../../utils/Course";
 import React, { Dispatch, FunctionComponent, useState, useEffect } from "react";
 import CursoOpen from "./CursoOpen";
 import WebUtils from "../../webUtils/WebUtils";
-import VideoComponent from "../VideoComponent";
 import Webinar from "./CursoWebinar";
-
 
 type Props = {
     cursos: Course[] | any,
