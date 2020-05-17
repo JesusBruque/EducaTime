@@ -18,7 +18,7 @@ type Props = {
     handleChangeInfoBlog?:(property,value)=>void,
     utils?:WebUtils,
     blogFile?:File,
-    blogVideo:File
+    blogVideo?:File
 }
 
 const BlogDetalle : FunctionComponent<Props> = (props) =>{
@@ -42,7 +42,10 @@ const BlogDetalle : FunctionComponent<Props> = (props) =>{
                         {(props.blogVideo || props.blog.video) && <img src={'/assets/icons/play-button.svg'} alt={'icono de play'} style={{opacity:'.9',width:'30px',height:'30px',backgroundColor:'white'}} onClick={(e) => props.blogVideo ? showVideo(props.blogVideo,e) : showVideo(props.blog.video,e)} className={utilsStyles.icon}/>}
                 </MyDropzone>
                     :
-                    <img className={blogStyles.imagenPortada} src={props.blog.thumbnail} alt={'portada del blog'}/>
+                    <div className={blogStyles.headerImages}>
+                        <img className={blogStyles.imagenPortada} src={props.blog.thumbnail} alt={'portada del blog'}/>
+                        {props.blog.video && <img src={'/assets/icons/play-button.svg'} alt={'icono de play'} style={{opacity:'.9',width:'30px',height:'30px',backgroundColor:'white'}} onClick={(e) =>  showVideo(props.blog.video,e)} className={utilsStyles.icon}/>}
+                    </div>
             }
 
 
@@ -80,7 +83,7 @@ const BlogDetalle : FunctionComponent<Props> = (props) =>{
                 }
             </div>
             {props.children}
-            {videoPlaying && <VideoComponent src={typeof videoPlaying === 'string' ? videoPlaying : URL.createObjectURL(videoPlaying)} title={videoPlaying.name || 'Preview del blog'} autoPlay={true} onClose={() => {setVideoPlaying(null);typeof videoPlaying !== 'string' && URL.revokeObjectURL(videoPlaying)}} />}
+            {videoPlaying && <VideoComponent src={typeof videoPlaying === 'string' ? videoPlaying : URL.createObjectURL(videoPlaying)} title={videoPlaying.name || 'Preview del blog'} hls={typeof videoPlaying === 'string'} autoPlay={true} onClose={() => {setVideoPlaying(null);typeof videoPlaying !== 'string' && URL.revokeObjectURL(videoPlaying)}} />}
         </div>
     )
 };

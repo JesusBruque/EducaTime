@@ -18,7 +18,9 @@ function MyApp({ Component, pageProps,pageUser }) {
     });
     axios.interceptors.request.use((config) => {
         requestCounter++;
-        if(requestCounter<1){
+        console.log('axiosRequest');
+        if(requestCounter<2){
+            console.log(requestCounter);
             wu.initLoader();
             wu.startLoader();
         }
@@ -28,6 +30,7 @@ function MyApp({ Component, pageProps,pageUser }) {
         return Promise.reject(error);
     });
     axios.interceptors.response.use((response) => {
+        requestCounter--;
         if(requestCounter<1){
             wu.removeLoader();
         }
@@ -46,7 +49,6 @@ function MyApp({ Component, pageProps,pageUser }) {
         }
 
         wu.removeLoader();
-        wu.showHeader();
     },[router]);
 
     return <Component  {...pageProps} router={router} user={user} setUser={setUser} utils={wu}/>

@@ -80,7 +80,7 @@ const editCurso = (props) => {
                 </div>
                 <AddCourseForm utils={props.utils} cursoInfo={cursoInfo} setCursoInfo={setCursoInfo} cursoFiles={cursoFiles} setCursoFiles={setCursoFiles} webinarFile={webinarFile} setWebinarFile={setWebinarFile} setVideoPlaying={setVideoPlaying}/>
             </div>
-            {videoPlaying && <VideoComponent src={typeof videoPlaying === 'string' ? videoPlaying : URL.createObjectURL(videoPlaying)} autoPlay={true} title={videoPlaying.name || 'Preview del curso'} onClose={() => {setVideoPlaying(null);typeof videoPlaying !== 'string' && URL.revokeObjectURL(videoPlaying)}} />}
+            {videoPlaying && <VideoComponent src={typeof videoPlaying === 'string' ? videoPlaying : URL.createObjectURL(videoPlaying)} autoPlay={true} title={videoPlaying.name || 'Preview del curso'} hls={typeof videoPlaying === 'string'} onClose={() => {setVideoPlaying(null);typeof videoPlaying !== 'string' && URL.revokeObjectURL(videoPlaying)}} />}
             {errors && <ErrorsPanel errors={errors} close={() => setErrors(null)}/>}
         </LayoutAdmin>
     )

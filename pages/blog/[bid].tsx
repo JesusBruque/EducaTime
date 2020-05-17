@@ -23,8 +23,9 @@ const BlogDetail :FunctionComponent<Props> = (props) => {
     )
 };
 export const getServerSideProps =  async ctx => {
-    const res = await getBlogById(ctx.params.bid);
-    const blog = res.data.Blog;
+    const res = await fetch('http://localhost:3000/api/blog/findById/'+ctx.params.bid);
+    const data = await res.json();
+    const blog = data.Blog;
     return {props:{blog:blog}}
 };
 

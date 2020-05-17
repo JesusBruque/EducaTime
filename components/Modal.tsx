@@ -3,7 +3,8 @@ import modalStyles from '../styles/Modal.module.css';
 import ReactDOM from "react-dom";
 
 type Props = {
-    open:boolean
+    open:boolean,
+    setOpen:Dispatch<boolean>
 }
 const Modal : FunctionComponent<Props> = (props) => {
     if(!document.getElementById('modal-container')){
@@ -15,7 +16,7 @@ const Modal : FunctionComponent<Props> = (props) => {
         return (
             <div className={modalStyles.modalContainer}>
                 {props.open && <React.Fragment>
-                    <div className={modalStyles.backgroundModal}></div>
+                    <div className={modalStyles.backgroundModal} onClick={() => props.setOpen(false)}></div>
                     <div className={modalStyles.modalBody}>
                         {props.children}
                     </div>

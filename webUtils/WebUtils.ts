@@ -70,26 +70,21 @@ export default class WebUtils{
         }
 
     };
-    showHeader = () => {
-        //gsap.to('#casor-header>div:first-child',{duration:1.5,x:0,opacity:1,ease:'power2.out'});
-        //gsap.to('#casor-header>div:last-child',{duration:1,opacity:1,x:'0%',ease:'power3.out'});
-    };
 
     enterHomeAnimations = () => {
         let initialMove = gsap.timeline();
-        let y = - document.querySelector('#main_field').getBoundingClientRect().height *0.43 ;
-        let x = - document.querySelector('#main_field').getBoundingClientRect().width *0.76;
+
         initialMove.to('#main_field',{duration:.1,rotation:44,rotationY:-49,rotationX:45,x:0,y:0,z:0,skewX:0,skewY:5,ease:'power2.out',force3D:true});
 
         initialMove.to('.field_border',{duration:1.5,strokeDashoffset:0,ease:'power2.inOut'},"sc");
         initialMove.fromTo('#welcome-section .title',{opacity:0,y:-100},{duration:1.5,opacity:1,y:0,ease:'power2.out'},"sc");
-
+        initialMove.fromTo('#welcome-claimer>p',{opacity:0,y:-100},{duration:1.5,opacity:1,y:0,ease:'power2.out'},"sc");
         initialMove.to('#main_field .field_element',{duration:1.5,strokeDashoffset:0,ease:'power2.inOut'},"tr");
         initialMove.fromTo('#main_field .field_circle',{fill:'none'},{duration:1.5,fill:'#30bad6',ease:'power2.inOut'},"tr");
-        initialMove.fromTo('#welcome-section .csr-btn',{opacity:0,y:-60},{duration:1,opacity:1,y:0,ease:'power3.out'},"tr");
+        initialMove.fromTo('#welcome-start--btn>button',{opacity:0,y:60},{duration:1,opacity:1,y:0,ease:'power3.out'},"tr");
         initialMove.to(`.element_bb`,{duration:1,opacity:1,ease:'power3.inOut'},"tr");
         initialMove.to('.element_bb path',{duration:1,opacity:1,ease:'power3.inOut'},"tr");
-        initialMove.to('#welcome-section .csr-btn',{duration:1,rotateX:90,z:-50,y:-10,ease:'linear'},"-=.5");
+
 
     };
 
@@ -109,16 +104,5 @@ export default class WebUtils{
         this.scrollElement.addAnimation({tween:tweenCursos,duration:window.innerHeight*2,el:document.querySelector('#cursos-section'),start:'bottom'});
 
 
-        /*--- ANIMACIONES DE LA TERCERA SECCION ---*/
-        // let tweenValores = gsap.timeline({paused:true});
-        // tweenValores.to('#main_field',{duration:1,rotation:19,rotationY:-19,rotationX:31,width:'50vw',x:'-50%',y:'-60%',z:-50,skewX:-3,skewY:5,ease:'power2.out',force3D:true},"tl");
-        // tweenValores.to(`.element_bb`,{duration:.5,opacity:0,ease:'power3.inOut'},"tl");
-        // tweenValores.to(`.element_bb path`,{duration:.5,opacity:0,ease:'power3.inOut'},"tl");
-        // tweenValores.to('#valorsGrid>img',{duration:.5,opacity:1},"tl+=.7");
-        // tweenValores.fromTo('#valorsGrid .val_right>div',{x:'100%'},{duration:.5,x:'0%'},"tl+=.9");
-        // tweenValores.fromTo('#valorsGrid .val_left>div',{x:'-100%'},{duration:.5,x:'0%'},"tl+=.9");
-        // tweenValores.fromTo('#valorsGrid .val_center>div',{y:-250},{duration:.5,y:'0%'},"tl+=.9");
-        //
-        // this.scrollElement.addAnimation({tween:tweenValores,duration:window.innerHeight*2,el:document.querySelector('#thirdSection'),start:'bottom'});
     }
 }

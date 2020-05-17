@@ -63,11 +63,16 @@
     grid-area: foto;
     width:100%;
     overflow:hidden;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 .foto>img{
     width:100%;
     height:100%;
     object-fit:cover;
+    position:absolute;
 }
 .contenido{
     grid-area: contenido;

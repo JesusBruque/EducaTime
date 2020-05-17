@@ -6,14 +6,15 @@ import utilStyles from '../styles/Utils.module.css';
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Hls from "hls.js/dist/hls";
-import axios from 'axios';
+import gsap from "gsap";
 
 type Props = {
     src:string,
     autoPlay?:boolean,
     onClose:() => void,
     title:string,
-    hls?:boolean
+    hls?:boolean,
+    poster?:string
 }
 
 const VideoComponent: FunctionComponent<Props> = (props) => {
@@ -24,17 +25,49 @@ const VideoComponent: FunctionComponent<Props> = (props) => {
         document.querySelector('#__next').appendChild(element);
     }
 
+    const startLoader = () => {
+        if(!document.querySelector('#casor-loader') && document.querySelector('.plyr')){
+            let playBtn = document.querySelector('.plyr>button') as HTMLElement;
+            playBtn.style.display = 'none';
+            let loader = document.createElement('div');
+            loader.id='casor-loader';
+            let loaderContainer = document.createElement('div');
+            loaderContainer.id='video-loader--container';
+            let loaderObject = document.createElement('div');
+            loaderObject.id = 'casor-loader--object';
+            for(let i = 0;i<2;i++){
+                let loaderBall = document.createElement('div');
+                loaderBall.classList.add('loader-circle');
+                loaderObject.appendChild(loaderBall);
+            }
+            loader.appendChild(loaderContainer);
+            loader.appendChild(loaderObject);
+            document.querySelector('.plyr').appendChild(loader);
+            let balls = document.querySelectorAll('#casor-loader--object .loader-circle');
+            let timeline = gsap.timeline({repeat:-1,repeatDelay:-.5,yoyo:true,smoothChildTiming:true});
+            timeline.fromTo(balls[0],{scale:.2,z:-50},{duration:2,scale:1.1,z:0,ease:'power3.inOut'},"init");
+            timeline.fromTo(balls[1],{z:0,scale:1.1},{duration:2,scale:.2,z:-50,ease:'power3.inOut'},"init");
+        }
+    }
+
     useEffect(() => {
         const player = new Plyr('#player',{controls:['play','play-large','progress','fullscreen','volume','current-time','mute']});
         player.once('canplay', () => {
             player.play();
         });
-
+        player.once('loadstart', () => {
+            startLoader();
+        });
+        player.once('loadeddata', () => {
+            console.log('YA SE HA CARGADO EL PRIMER FRAME');
+            if(document.querySelector('#casor-loader')){
+                document.querySelector('#casor-loader').remove();
+                let playBtn = document.querySelector('.plyr>button') as HTMLElement;
+                playBtn.style.display = 'block';
+            }
+        });
         if(props.hls && Hls.isSupported()){
-            const hls = new Hls({xhrSetup: function(xhr, url) {
-                    console.log(xhr);
-                    xhr.withCredentials = false;
-                }});
+            const hls = new Hls();
             hls.loadSource(props.src);
             hls.attachMedia(sourceRef.current)
         }else{
@@ -50,7 +83,7 @@ const VideoComponent: FunctionComponent<Props> = (props) => {
                     <FontAwesomeIcon icon={faTimes} onClick={props.onClose} className={utilStyles.icon}/>
                     <span>{props.title}</span>
                 </div>
-                <video id="player" playsInline controls ref={sourceRef}>
+                <video id="player" playsInline controls ref={sourceRef} poster={props.poster}>
                 </video>
             </div>
         </div>

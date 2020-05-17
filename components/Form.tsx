@@ -1,4 +1,4 @@
-import { Dispatch, FunctionComponent, useEffect, useState } from 'react';
+import React,{ Dispatch, FunctionComponent, useEffect, useState } from 'react';
 import Input from './Input';
 import { validateForm, hasErrors } from "../utils/Validators";
 
@@ -56,8 +56,8 @@ const Form: FunctionComponent<Props> = ({ values, setValues, errors, setErrors, 
                         placeHolder={input.placeHolder}
                     />
                 })}
-                {buttons.map(button => {
-                    return button
+                {buttons.map((button,i) => {
+                    return <React.Fragment key={i}>{button}</React.Fragment>
                 })}
             </form>
             {children}
