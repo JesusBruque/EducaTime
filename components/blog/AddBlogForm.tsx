@@ -35,7 +35,6 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
             console.log(video,thumbnail);
             console.log(props.blog.thumbnail,props.blog.video);
             props.setBlog({...props.blog,thumbnail:thumbnail ? thumbnail: props.blog.thumbnail,video:video ? video : props.blog.video});
-            props.setBlog({...props.blog,thumbnail:thumbnail,video:video});
         })
     };
     const handleChangeInfoBlog = (property,value) => {

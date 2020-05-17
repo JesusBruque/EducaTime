@@ -3,7 +3,20 @@
     grid-template-rows: 350px auto;
     grid-row-gap: 25px;
     max-width:75ch;
-    margin: 0 auto;
+    margin: 30px auto;
+}
+.headerImages{
+    position:relative;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.headerImages>img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    position:absolute;
 }
 .titleHeader{
     display:flex;

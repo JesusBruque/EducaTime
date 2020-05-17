@@ -241,7 +241,7 @@ const mediaConvertParams =  (origen:string,destino:string) => {
                                         "TemporalAdaptiveQuantization": "ENABLED",
                                         "FlickerAdaptiveQuantization": "DISABLED",
                                         "EntropyEncoding": "CABAC",
-                                        "Bitrate": 50000000,
+                                        "Bitrate": 5000000,
                                         "FramerateControl": "INITIALIZE_FROM_SOURCE",
                                         "RateControlMode": "CBR",
                                         "CodecProfile": "MAIN",
@@ -311,7 +311,7 @@ const mediaConvertParams =  (origen:string,destino:string) => {
                             "MinFinalSegmentLength": 0,
                             "DirectoryStructure": "SINGLE_DIRECTORY",
                             "ProgramDateTime": "EXCLUDE",
-                            "SegmentControl": "SEGMENTED_FILES",
+                            "SegmentControl": "SINGLE_FILE",
                             "ManifestCompression": "NONE",
                             "ClientCache": "ENABLED",
                             "StreamInfResolution": "INCLUDE"

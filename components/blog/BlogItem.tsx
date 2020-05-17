@@ -1,6 +1,6 @@
 import blogStyle from '../../styles/Blog.module.css'
 import moment from "moment";
-import React, {FunctionComponent,useState} from 'react';
+import React, {Dispatch, FunctionComponent, useState} from 'react';
 import Link from 'next/link';
 import Blog,{deleteBlog} from '../../utils/Blog';
 import WebUtils from "../../webUtils/WebUtils";
@@ -12,7 +12,8 @@ type Props = {
     blog:Blog,
     admin:boolean,
     utils?:WebUtils,
-    router:Router
+    router:Router,
+    setVideoPlaying:Dispatch<any>
 }
 const BlogItem : FunctionComponent<Props> = (props) =>{
     const {blog,admin,utils} = props;
@@ -41,6 +42,7 @@ const BlogItem : FunctionComponent<Props> = (props) =>{
             <div className={`${blogStyle.caja} blog-item ${admin ? blogStyle.adminItem : ''}`} onClick={goToDetail}>
                 <div className={blogStyle.foto}>
                     <img src={blog.thumbnail} alt={'imagen del blog'}/>
+                    {blog.video && <img src={'/assets/icons/play-button.svg'} alt={'icono de play'} style={{opacity:'.9',width:'30px',height:'30px',backgroundColor:'white',cursor:'pointer'}} onClick={(e) =>{e.stopPropagation();props.setVideoPlaying(blog);}}/>}
                 </div>
                 <div className={blogStyle.contenido}>
                     <div className={blogStyle.descripcion}>
