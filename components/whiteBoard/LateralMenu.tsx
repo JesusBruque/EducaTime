@@ -26,7 +26,7 @@ const LateralMenu: FunctionComponent<Props> = (props) => {
                 indexLastFee = index
             return false;
         });
-        if(indexLastFee === feeState.length -1) return true;
+        if (indexLastFee === feeState.length - 1) return true;
         const fee = feeState[indexLastFee + 1];
         console.log(feeState);
         console.log(indexLastFee);
@@ -46,11 +46,11 @@ const LateralMenu: FunctionComponent<Props> = (props) => {
                             <div className={`${styles.childs}`}>
                                 {props.user.cursos.map((userCourse, i) => {
                                     return <div key={i} className={`${styles.childrenContainer} ${props.cursoIndex === i ? styles.open : ''}`}>
-                                        <span className={`${styles.title} ${props.cursoIndex === i ? styles.optionSelected : ''} `} onClick={props.onClickOption} data-option={'cursos'} data-option-index={i}>{userCourse.idCurso.title}</span>
+                                        <span className={`${styles.title} ${props.cursoIndex === i ? styles.optionSelected : ''} `} onClick={props.onClickOption} data-option={'cursos'} data-option-index={i}>{userCourse && userCourse.idCurso && userCourse.idCurso.title}</span>
                                         <div className={`${styles.childs} ${styles.bloques} ${props.cursoIndex === i ? styles.open : ''}`}>
-                                            {userCourse.idCurso.lections.map((lection, i) => {
+                                            {userCourse && userCourse.idCurso && userCourse.idCurso.lections.map((lection, i) => {
                                                 if (canShowLection(userCourse, lection))
-                                                return <div key={i}><span className={`${styles.subTitle}`}>{lection.title}</span></div>
+                                                    return <div key={i}><span className={`${styles.subTitle}`}>{lection.title}</span></div>
                                             })}
                                         </div>
                                     </div>
@@ -59,11 +59,11 @@ const LateralMenu: FunctionComponent<Props> = (props) => {
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <span className={`${styles.mainTitle} ${props.optionSelected === 'tareas' ? styles.optionSelected : ''} ${props.user && props.user.homeworkPend && props.user.homeworkPend === 0 ? styles.optionDisabled : ''}`} onClick={props.user && props.user.homeworkPend && props.user.homeworkPend === 0 ? () => { } : props.onClickOption} data-option={'tareas'}>Mis tareas</span>
-                            {props.user && props.user.homeworkPend >-1 && <span className={`${styles.numberIndicator} ${props.user.homeworkPend >0 ? styles.red:styles.black}`}>{props.user.homeworkPend}</span>}
+                            {props.user && props.user.homeworkPend > -1 && <span className={`${styles.numberIndicator} ${props.user.homeworkPend > 0 ? styles.red : styles.black}`}>{props.user.homeworkPend}</span>}
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <span className={`${styles.mainTitle} ${props.optionSelected === 'pagos' ? styles.optionSelected : ''} ${!(props.user && props.user.paymentPend && props.user.paymentPend > 0) ? styles.optionDisabled : ''}`} onClick={!(props.user && props.user.paymentPend && props.user.paymentPend > 0) ? () => { } : props.onClickOption} data-option={'pagos'}>Pagos pendientes</span>
-                            {props.user &&  props.user.paymentPend >-1 && <span className={`${styles.numberIndicator} ${props.user.paymentPend >0 ? styles.red:styles.black}`}>{props.user.paymentPend}</span>}
+                            {props.user && props.user.paymentPend > -1 && <span className={`${styles.numberIndicator} ${props.user.paymentPend > 0 ? styles.red : styles.black}`}>{props.user.paymentPend}</span>}
                         </div>
                     </React.Fragment>
                 }

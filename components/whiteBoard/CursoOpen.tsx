@@ -150,29 +150,32 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         return false;
     }
     const canShowLection = (userCourse, lection) => {
-        const user = props.user;
-        const feeState = userCourse.feeState;
-        let indexLastFee = -1;
-        feeState.filter((x, index) => {
-            if (x.paid && index > indexLastFee)
-                indexLastFee = index
-            return false;
-        });
-        if(indexLastFee === feeState.length -1) return true;
-        const fee = feeState[indexLastFee + 1]
-        const feeInfo = userCourse.idCurso.fees.find(x => x._id + '' === fee.idFee + '');
-        if (moment(feeInfo.date).isBefore(lection.dateAvailable))
-            return false;
-        return true;
+        if (userCourse && lection) {
+            const user = props.user;
+            const feeState = userCourse.feeState;
+            let indexLastFee = -1;
+            feeState.filter((x, index) => {
+                if (x.paid && index > indexLastFee)
+                    indexLastFee = index
+                return false;
+            });
+            if (indexLastFee === feeState.length - 1) return true;
+            const fee = feeState[indexLastFee + 1]
+            const feeInfo = userCourse.idCurso.fees.find(x => x._id + '' === fee.idFee + '');
+            if (moment(feeInfo.date).isBefore(lection.dateAvailable))
+                return false;
+            return true;
+        }
+        return false;
     }
     return (
         <div>
             <h2>{curso.title}</h2>
             <h3>Profesor: {curso.teacher}</h3>
-            {writeReview && <ValorarContent user={props.user} cursoIndex={props.cursoIndex} cursoId={curso} setWriteReview={setWriteReview} />}
-            <Button action={handleShowValorarWindow} color={'var(--main-color)'} text='Valorar este curso' disabled={false} type={'button'} />
-            <span style={{ cursor: 'pointer' }} onClick={() => setShowUsuarios(!showUsuarios)}>Alumnos</span>
-            {props.teacher && <AlumnosCurso show={showUsuarios} curso={curso} />}
+            {/* {writeReview && <ValorarContent user={props.user} cursoIndex={props.cursoIndex} cursoId={curso} setWriteReview={setWriteReview} />} */}
+            {/* <Button action={handleShowValorarWindow} color={'var(--main-color)'} text='Valorar este curso' disabled={false} type={'button'} /> */}
+            {props.teacher && props.user.email === curso.teacher && <span style={{ cursor: 'pointer' }} onClick={() => setShowUsuarios(!showUsuarios)}>Alumnos</span>}
+            {props.teacher && props.user.email === curso.teacher && <AlumnosCurso show={showUsuarios} curso={curso} />}
             {curso.lections.map((lection, i) => {
                 if (canShowLection(props.user.cursos[props.cursoIndex], lection))
                     return (
