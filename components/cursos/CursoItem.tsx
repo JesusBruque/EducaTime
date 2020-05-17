@@ -155,7 +155,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                         {curso.reviews.length === 0  && <h3 style={{textAlign:'center'}}>¡No hay ninguna valoración aún en este curso de formación!</h3>}
                     </div>
             }
-            {deleting && <ModalDelete open={deleting} onDelete={confirmDelete} text={`Está seguro de que desea eliminar '${curso.title}'`} setOpen={setDeleting}/>}
+            {deleting && <ModalDelete open={deleting} onDelete={confirmDelete} text={`¿Está seguro de que desea eliminar '${curso.title}'?`} setOpen={setDeleting}/>}
         </div>
     )
 };

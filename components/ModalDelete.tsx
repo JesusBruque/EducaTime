@@ -14,11 +14,11 @@ const ModalDelete: FunctionComponent<Props> = (props) => {
         props.setOpen(false);
     }
     return (
-        <Modal open={props.open}>
+        <Modal open={props.open} setOpen={props.setOpen}>
             <span style={{fontSize:'1.2em',fontWeight:'bold'}}>{props.text}</span>
             <div style={{display:'flex',flexWrap:'wrap',justifyContent:'space-around',marginTop:'30px'}}>
-                <Button color={'blue'} text={'Si, estoy seguro'} styles={{marginRight:'8px'}} action={handleDelete}/>
-                <Button color='red' text={'No, deseo cancelar'} action={() => props.setOpen(false)}/>
+                <Button color={'blue'} text={'Si'} styles={{marginRight:'8px'}} action={handleDelete}/>
+                <Button color='red' text={'No'} action={() => props.setOpen(false)}/>
             </div>
         </Modal>
     )

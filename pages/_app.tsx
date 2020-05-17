@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps,pageUser }) {
         return Promise.reject(error);
     });
     axios.interceptors.response.use((response) => {
+        requestCounter--;
         if(requestCounter<1){
             wu.removeLoader();
         }

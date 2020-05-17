@@ -64,6 +64,9 @@
     padding:4px;
     margin:0 8px;
 }
+.numberIndicator.black:after{
+    background-color:var(--black-color);
+}
 .numberIndicator:after{
     content:'';
     position:absolute;

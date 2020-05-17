@@ -33,7 +33,6 @@ export const sendEmail = async (emailTo,subject,htmlMessage) => {
                 reject(err);
             }
             resolve(data);
-            console.log(data);
         });
     });
 };
