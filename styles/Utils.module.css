@@ -206,3 +206,25 @@
 .timeLeft>svg{
     height:1.1em;
 }
+
+@media screen and (max-width:1050px){
+    .centeredContainer{
+        padding:0 30px;
+    }
+}
+@media screen and (max-width:600px){
+    .sectionTitle{
+        font-size:1.5em;
+        margin-bottom:30px;
+    }
+    .sectionContainer{
+        padding:0 15px;
+    }
+    .centeredContainer{
+        padding:0 15px;
+    }
+    .userIcon{
+        top:15px;
+        left:15px;
+    }
+}

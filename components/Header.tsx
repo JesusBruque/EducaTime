@@ -5,7 +5,7 @@ import Link from "next/link";
 import gsap from 'gsap';
 import {logout,check} from '../utils/Authentication';
 import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUserCog, faPowerOff, faBookOpen} from "@fortawesome/free-solid-svg-icons";
+import {faUserCog, faPowerOff, faBookOpen,faTimes} from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
     user:boolean,
@@ -19,6 +19,19 @@ const Header = (props) => {
             props.router.push('/login');
             props.setUser(null);
         });
+    };
+
+
+    const showMenu = () => {
+        setMenuOpen(true);
+        let tl = gsap.timeline();
+        tl.to('#casor-mobile-menu',{duration:1,ease:'power3.out',x:'0%'});
+        tl.to('#casor-mobile-menu span',{opacity:1,y:0,ease:'power.out',stagger:{each:.1}},"-=.5");
+    };
+    const hideMenu = () => {
+        let tl = gsap.timeline({onComplete:() => setMenuOpen(false)});
+        tl.to('#casor-mobile-menu span',{opacity:0,y:100,ease:'power.out',stagger:{each:.1}});
+        tl.to('#casor-mobile-menu',{duration:1,ease:'power3.out',x:'100%'},"-=.1");
     };
 
     return (
@@ -43,6 +56,35 @@ const Header = (props) => {
                     <img src={props.user ? '/assets/icons/user-icon.svg' : '/assets/icons/user.svg'} alt={'icono para el acceso de los usuarios'}/>
                 </div>
             </div>
+            <div id={'casor-mobile-header'} className={`${headerStyles.headerMobile} ${props.whiteboard ? headerStyles.headerWhiteBoard : ''}`}>
+                {props.whiteboard  && <img src={'/assets/icons/menu-icon.png'} alt={'icono del menú'} style={{height:'55%'}}/>}
+                <Link href={'/'}>
+                    <img className={headerStyles.logo} src={'/assets/logo_letras.png'} alt={'logo casor en la cabecera'}/>
+                </Link>
+                <img src={'/assets/icons/menu-icon.png'} alt={'icono del menú'} style={{height:'55%'}} onClick={showMenu}/>
+            </div>
+            {menuOpen &&
+            <div id={'casor-mobile-menu'} className={headerStyles.mobileMenu}>
+                <Link href={'/'}>
+                    <img onClick={hideMenu} className={headerStyles.imagenMenu} id={'logo menu'} src={'/assets/logo_texto.svg'}/>
+                </Link>
+                <FontAwesomeIcon icon={faTimes} onClick={hideMenu} className={headerStyles.close}/>
+                <Link href={'/nosotros'} >
+                    <span onClick={hideMenu} className={`${headerStyles.headerLink} ${props.router.pathname.includes('nosotros') ?  headerStyles.linkActive : ''}`}>nosotros</span>
+                </Link>
+                <Link href={'/cursos'}>
+                    <span onClick={hideMenu} className={`${headerStyles.headerLink} ${props.router.pathname.includes('cursos') ?  headerStyles.linkActive : ''}`}>formación</span>
+                </Link>
+                <Link href={'/blog'}>
+                    <span onClick={hideMenu} className={`${headerStyles.headerLink} ${props.router.pathname.includes('blog') ?  headerStyles.linkActive : ''}`}>blog</span>
+                </Link>
+                <Link href={'/contacto'}>
+                    <span onClick={hideMenu} className={`${headerStyles.headerLink} ${props.router.pathname.includes('contacto') ?  headerStyles.linkActive : ''}`}>contacto</span>
+                </Link>
+                <div className={`${utilStyles.userIcon} ${utilStyles.userBlue}`} onClick={() => props.user ? (props.user.roles.includes('admin') ?  props.router.push('/admin/formacion') : setOptionsOpen(true)) : props.router.push('/login')}>
+                    <img onClick={hideMenu} src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
+                </div>
+            </div>}
             {props.user &&
             <div className={headerStyles.optionsHeader}>
                 {optionsOpen && <div className={`${utilStyles.background} ${headerStyles.menuBck}`} onClick={() => setOptionsOpen(false)}></div>}

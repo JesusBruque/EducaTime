@@ -9,11 +9,16 @@ import radioStyle from "../../../styles/Utils.module.css";
 import moment from 'moment';
 import Layout from "../../../components/Layout";
 import fetch from "isomorphic-unfetch";
+import Footer from "../../../components/Footer";
 const stripePromise = loadStripe("pk_test_h8X3p5zwiygmbpvGOFkRDWh000GKTO0Rln");
 
 const payCurso = (props) => {
     const { curso, router } = props;
     const [unicFee, setunicFee] = useState(true);
+    const [mobile,setMobile] = useState(null);
+    useEffect(() => {
+        setMobile(window.innerWidth> 600);
+    },[])
 
     const getPrice = () => {
         if (unicFee) {
@@ -43,16 +48,17 @@ const payCurso = (props) => {
         <Layout setUser={props.setUser} utils={props.utils} router={props.router} user={props.user}>
             <div className={utilsStyles.sectionContainer} >
                 <h1 className={utilsStyles.sectionTitle}>Confirmación del pago</h1>
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-                    <div>
-                        <h4 style={{ color: '#70a0af', fontSize: '1.6em' }}>Detalles de pago</h4>
-                        <Elements stripe={stripePromise}>
-                            <PaymentForm router={router} cursoId={curso._id} plazo={unicFee ? null : 0} utils={props.utils} />
-                        </Elements>
-                    </div>
-                    <div className={pagoStyles.payResume}>
-                        <h3 className={pagoStyles.titleResume}>Resumen de pedido</h3>
-                        {curso.fees && curso.fees.length > 0 &&
+                <div className={utilsStyles.centeredContainer}>
+                    <div className={pagoStyles.pagoContainer}>
+                        <div>
+                            <h4 style={{ color: '#70a0af', fontSize: '1.6em' }}>Detalles de pago</h4>
+                            <Elements stripe={stripePromise}>
+                                <PaymentForm router={router} cursoId={curso._id} plazo={unicFee ? null : 0} utils={props.utils} />
+                            </Elements>
+                        </div>
+                        <div className={pagoStyles.payResume}>
+                            <h3 className={pagoStyles.titleResume}>Resumen de pedido</h3>
+                            {curso.fees && curso.fees.length > 0 &&
                             <div style={tipoDePago}>
                                 <label className={radioStyle.labelForRadio}>
                                     <span>Pago único</span>
@@ -65,17 +71,17 @@ const payCurso = (props) => {
                                     <span className={radioStyle.spanForRadio}></span>
                                 </label>
                             </div>
-                        }
-                        <br />
-                        <br />
-                        <table className={pagoStyles.resumeTable}>
-                            <thead>
+                            }
+                            <br />
+                            <br />
+                            <table className={pagoStyles.resumeTable}>
+                                <thead>
                                 <tr>
                                     <th>Concepto</th>
                                     <th>Precio</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 <tr>
                                     <td>{curso.title}</td>
                                     <td>{getPrice().toFixed(2)}€</td>
@@ -92,14 +98,16 @@ const payCurso = (props) => {
                                     <td>TOTAL</td>
                                     <td>{getTotal().toFixed(2)}€</td>
                                 </tr>
-                            </tbody>
-                        </table>
-                        {!unicFee && <div>*Los plazos de pagos son los siguientes:<ul>{plazosList}</ul>
+                                </tbody>
+                            </table>
+                            {!unicFee && <div>*Los plazos de pagos son los siguientes:<ul>{plazosList}</ul>
+                            </div>
+                            }
                         </div>
-                        }
                     </div>
                 </div>
             </div>
+            <Footer absolute={mobile}/>
         </Layout>
     )
 };

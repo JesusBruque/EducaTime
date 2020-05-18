@@ -2,8 +2,13 @@ import Layout from "../components/Layout";
 import styles from '../styles/Nosotros.module.css';
 import Head from "next/head";
 import utilsStyles from "../styles/Utils.module.css";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import Footer from "../components/Footer";
 const Nosotros =(props) => {
+    const [mobile,setMobile] = useState(null);
+    useEffect(() => {
+        setMobile(window.innerWidth> 600);
+    },[])
     return (
         <Layout router={props.router} user={props.user} setUser={props.setUserr} utils={props.utils}>
             <Head>
@@ -27,6 +32,7 @@ const Nosotros =(props) => {
                     </div>
                 </div>
             </div>
+            <Footer absolute={mobile}/>
         </Layout>
     )
 };

@@ -118,3 +118,23 @@
     margin:0 4px;
     height:1em;
 }
+
+@media screen and (max-width:600px){
+    .courseContainer{
+        grid-template-columns: 100%;
+        font-size:.8em;
+        padding:15px;
+        justify-items: center;
+    }
+    .links{
+        align-items:center;
+        text-align:center;
+        font-size:.8em;
+    }
+    .infoLink{
+        margin:0 4px;
+    }
+    .reviewsContainer{
+        grid-area:3/1;
+    }
+}

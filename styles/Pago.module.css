@@ -1,3 +1,9 @@
+.pagoContainer{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
+    width:100%;
+}
 .payResume{
     min-width:400px;
     color:var(--black-color);
@@ -29,4 +35,13 @@
     font-weight:bold;
     padding:15px 0;
     font-size:1.2em;
+}
+
+@media screen and (max-width:600px){
+    .pagoContainer>div{
+        width:100%;
+    }
+    .payResume{
+        min-width: 100%;
+    }
 }

@@ -50,3 +50,9 @@
     cursor:default;
     opacity:.7;
 }
+@media screen and (max-width:600px){
+    .btn{
+        padding:8px;
+        min-width:100px;
+    }
+}

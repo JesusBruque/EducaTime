@@ -49,3 +49,9 @@
     justify-self: flex-start;
     grid-row-gap: 8px;
 }
+@media screen and (max-width:600px){
+    .container{
+        font-size:.8em;
+        padding:0 15px;
+    }
+}

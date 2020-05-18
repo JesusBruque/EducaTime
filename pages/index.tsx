@@ -139,7 +139,7 @@ const Home = (props) => {
                   </div>
               </section>
 
-              <Footer/>Ç
+              <Footer/>
           </Layout>
 
           <script noModule src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.6.0/polyfill.min.js"

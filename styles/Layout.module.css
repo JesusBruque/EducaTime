@@ -27,3 +27,10 @@
     display:grid;
     grid-template-columns:minmax(max-content,1fr) 9fr;
 }
+
+@media screen and (max-width:600px){
+    .webContainer{
+        padding:40px 0 0;
+        min-height:-webkit-fill-avaliable;
+    }
+}

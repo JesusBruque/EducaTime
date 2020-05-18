@@ -109,3 +109,10 @@
 .checkContainer .checkmark.rounded, .checkContainer .checkmark.rounded:after{
     border-radius:50%;
 }
+
+@media screen and (max-width:600px){
+    .inputContainer{
+        margin: 1em 0;
+        width:100%;
+    }
+}
