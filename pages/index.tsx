@@ -31,7 +31,7 @@ const Home = (props) => {
               <link rel="icon" href="/assets/logo.svg"/>
               <meta property="og:title" content="Casor. Academia de formación deportiva"/>
               <meta property="og:description" content="Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol."/>
-              <meta property="og:image" content="https://d2nmzq3hxlvmns.cloudfront.net/dist/public/logo.svg"/>
+              <meta property="og:image" content="https://d2nmzq3hxlvmns.cloudfront.net/dist/public/logo_casor.jpg"/>
               <meta property="og:url" content={props.router.pathName} />
           </Head>
           <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
