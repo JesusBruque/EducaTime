@@ -3,7 +3,7 @@ import Order from "../models/order.model"
 import {ICourse} from "../interfaces/ICourse";
 import AuthenticationService from "./authentication.services"
 import {IOrder} from "../interfaces/IOrder";
-const stripe = require("stripe")("sk_live_FlzkcZad4jDcOtHnXeNaiPUl00F7xBiaxX");
+const stripe = require("stripe")(process.env.CLAVE_SK_STRIPE);
 import Course from '../models/course.model';
 
 export default class OrderService extends GenericService{
