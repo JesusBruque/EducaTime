@@ -302,9 +302,9 @@
     .claimerContainer{
         width:100%;
     }
-    /*.infoSection{*/
-    /*    height:120vh;*/
-    /*}*/
+    .infoSection{
+        height:120vh;
+    }
     .movilContent{
         display:flex;
         flex-direction: column-reverse;
@@ -342,6 +342,7 @@
     }
     .fixedField{
         height:100vh;
+        top:-70px;
     }
     .backgroundSection{
         height:800px;
