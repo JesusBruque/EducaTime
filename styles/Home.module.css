@@ -344,6 +344,7 @@
     }
     .valors{
         padding:30px;
+        height:max-content;
     }
     .cursosGrid:after{
         height:100%;
@@ -368,7 +369,9 @@
         height:800px;
     }
     .infoSection{
-        padding-bottom:150px;
+        padding-top: 30px;
+        padding-bottom:50px;
+        height:1000px;
     }
     .movilContent>img{
         width:90%;

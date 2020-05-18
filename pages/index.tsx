@@ -17,9 +17,8 @@ const Home = (props) => {
             lu.initScroll().then(() => {
                 lu.enterHomeAnimations();
                 lu.initHomeScrollAnimations();
-                console.log(lu.scrollElement);
             });
-        },1200);
+        },100);
     },[]);
 
     return (
