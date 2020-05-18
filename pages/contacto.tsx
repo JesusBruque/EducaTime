@@ -13,13 +13,13 @@ const Contacto = (props) => {
                 <p>Bienvenido a nuestra academia, si tienes alguna duda puedes ponerte en contacto con nosotros.</p>
                 <div className={styles.contactInfo}>
                     <div>
-                        <FontAwesomeIcon icon={faEnvelope} style={{color:'var(--main-color)'}}/>
+                        <FontAwesomeIcon icon={faEnvelope} style={{color:'var(--main-color)',height:'1.2em'}}/>
                         <a href={"mailto:administracion@academiaformaciondeportiva.com"}>
                             <span>administracion@academiaformaciondeportiva.com</span>
                         </a>
                     </div>
                     <div>
-                        <FontAwesomeIcon icon={faMobile} style={{color:'var(--main-color)'}}/>
+                        <FontAwesomeIcon icon={faMobile} style={{color:'var(--main-color)',height:'1.2em'}}/>
                         <div className={styles.numbers}>
                             <span>+34 689 123 132</span>
                             <span>+34 689 123 132</span>
