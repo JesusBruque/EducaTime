@@ -29,7 +29,7 @@ const Home = (props) => {
               <link rel="icon" href="/assets/logo.svg"/>
           </Head>
           <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
-              <section className={homeStyles.homeSection} id={'welcome-section'}>
+              <section className={homeStyles.homeSection} id={'welcome-section'} data-scroll >
                   <div id={'fixed-field'} className={`${homeStyles.fixedTarget} ${homeStyles.fixedField}` }></div>
                   <div className={homeStyles.field} data-scroll data-scroll-sticky data-scroll-target={'#fixed-field'}>
                       <div className={homeStyles.fieldContainer}>
@@ -44,7 +44,7 @@ const Home = (props) => {
                       </div>
                   </div>
               </section>
-              <section className={`${homeStyles.homeSection}`} id={'cursos-section'}>
+              <section className={`${homeStyles.homeSection}`} id={'cursos-section'} data-scroll>
                   <div className={homeStyles.claimerContainer}>
                       <div className={homeStyles.cursoClaimer} data-scroll data-scroll-position='bottom' data-scroll-offset={'50'}>
                           <h2>Accede ya a nuestros cursos.</h2>
@@ -103,7 +103,7 @@ const Home = (props) => {
                       </div>
                   </div>
               </section>
-              <section className={`${homeStyles.homeSection} ${homeStyles.infoSection}`} id={'info-section'}>
+              <section className={`${homeStyles.homeSection} ${homeStyles.infoSection}`} id={'info-section'} data-scroll>
                   <div className={homeStyles.casorInfo}>
                       <div className={homeStyles.casorInfoItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
                           <img src={'/assets/icons/calendar.svg'} alt={'icono de calendario'}/>

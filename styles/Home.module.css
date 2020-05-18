@@ -295,12 +295,15 @@
     .valors{
         padding:0 30px;
     }
-    .infoSection{
-        height:120vh;
+    .claimerContainer{
+        width:100%;
     }
+    /*.infoSection{*/
+    /*    height:120vh;*/
+    /*}*/
     .movilContent{
         display:flex;
-        flex-direction: column-reverse;
+        /*flex-direction: column-reverse;*/
     }
 }
 @media screen and (max-width: 600px){
@@ -330,7 +333,8 @@
         z-index:3;
     }
     .fixedTarget{
-        height:250vh;
+        height:1600px;
+        top:-800px;
     }
     .fixedField{
         height:100vh;
