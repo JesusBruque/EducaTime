@@ -18,12 +18,13 @@ const EstructureAddCourse = (props:Props) => {
 
     const addBloque = () => {
         setShowStructureDropDown(false);
-        props.setCursoInfo({...props.cursoInfo,lections:[...props.cursoInfo.lections,{title:'Nuevo bloque'}]});
+        props.setCursoInfo({...props.cursoInfo,lections:[...props.cursoInfo.lections,{title:'Nuevo bloque',order:props.cursoInfo.lections.length}]});
     };
 
     const handleChangeLection = (value,i) => {
         let newLections = [...props.cursoInfo.lections];
         newLections[i].title = value;
+        newLections[i].order = i;
         props.setCursoInfo({...props.cursoInfo,lections: newLections});
     };
     const removeLection = (i) => {

@@ -57,9 +57,9 @@ export default class CourseService extends GenericService {
             throw error;
         }
     };
-    public addLectionToCourse = async (courseId: string, lection: { title: string }, order: number) => {
+    public addLectionToCourse = async (courseId: string, lection: { title: string, order:number }) => {
         try {
-            let lection1 = await this.lectionService.create({ title: lection.title, order: order, course: courseId });
+            let lection1 = await this.lectionService.create({ title: lection.title, order: lection.order, course: courseId });
             let course = await this.findById(courseId);
             course.lections.push(lection1._id);
             course.save();

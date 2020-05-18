@@ -2,10 +2,7 @@ import React, {useEffect} from 'react';
 import Head from 'next/head'
 import Layout from "../components/Layout";
 import homeStyles from '../styles/Home.module.css';
-import gsap from 'gsap';
-import Entrada from "../components/Entrada";
 import WebUtils from "../webUtils/WebUtils";
-import LayoutAdmin from "../components/LayoutAdmin";
 import Button from "../components/Button";
 import fetch from "isomorphic-unfetch";
 import CursoMobile from "../components/cursos/CursoMobile";

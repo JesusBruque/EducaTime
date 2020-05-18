@@ -107,7 +107,9 @@ const EvaluacionCurso = ({ user, lection, teacher, utils, curso, setCurso, carga
             }
         }
         return true;
-
+    };
+    const getUserFile = (lectionId:string,evaluationId:string) => {
+        console.log('CONSEGUIR EL FICHERO DEL USUARIO');
     }
     const handleRespondingFiles = (file, idLection: string, idEvaluation: string) => {
 
@@ -129,7 +131,7 @@ const EvaluacionCurso = ({ user, lection, teacher, utils, curso, setCurso, carga
     return (<div className={styles.evaluationsResources}>
         {
             lection.evaluations && lection.evaluations.length > 0 ? lection.evaluations.map((evaluation, j) => {
-                return <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }} key={evaluation._id}>
+                return <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px',flexWrap:'wrap' }} key={evaluation._id}>
                     <div className={styles.taskItem}>
                         <a href={evaluation.uploadFile} target={'_blank'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'} />
                             <span>EVALUACION - {('0' + j).slice(-2)}</span>
@@ -140,13 +142,7 @@ const EvaluacionCurso = ({ user, lection, teacher, utils, curso, setCurso, carga
                         if (responding && responding._id === evaluation._id) setResponding(null)
                         else setResponding(evaluation)
                     }} icon={faReply} color={'var(--main-color)'} style={{ cursor: 'pointer', margin: '0px 4px' }} />}
-                    {!canRespond(lection._id, evaluation._id) && <span>COMPLETADA</span>}
-                    {responding && responding._id === evaluation._id && <MyDropzone
-                        text={'Arrastra o pincha para añadir los ficheros.'}
-                        image={'/assets/icons/file.svg'}
-                        onAcceptFile={(files) => handleRespondingFiles(files, lection._id, evaluation._id)}
-                    // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
-                    />}
+                    {!canRespond(lection._id, evaluation._id) && <a href={'#'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'} /></a>}
                     {
                         !teacher && <div className={utilsStyles.timeLeft} style={moment(evaluation.deadline).diff(moment(), 'days') < 5 ? { backgroundColor: 'var(--red-color)' } : { backgroundColor: 'var(--black-color)' }}>
                             <FontAwesomeIcon icon={faClock} color={'white'} style={{ marginRight: '4px' }} />
@@ -166,6 +162,17 @@ const EvaluacionCurso = ({ user, lection, teacher, utils, curso, setCurso, carga
                             </div>}
                         </div>
                     }
+                    {responding && responding._id === evaluation._id &&
+                    <div style={{width:'100%',margin:'12px 0'}}>
+                        <div className={styles.fileContainer}>
+                            <MyDropzone
+                                text={'Arrastra o pincha para añadir los ficheros.'}
+                                image={'/assets/icons/file.svg'}
+                                onAcceptFile={(files) => handleRespondingFiles(files, lection._id, evaluation._id)}
+                                // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
+                            />
+                        </div>
+                    </div>}
                 </div>
             })
                 :

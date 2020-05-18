@@ -36,7 +36,7 @@ export default (app: Router) => {
                 reviews: Joi.array().allow(null),
                 active: Joi.boolean().required(),
                 teacher: Joi.string().allow(null, ""),
-                lections: Joi.array().items(Joi.object({ title: Joi.string() })),
+                lections: Joi.array().items(Joi.object({ title: Joi.string(), order:Joi.number() })),
                 webinar: Joi.string().allow(null, "")
             })
         }),

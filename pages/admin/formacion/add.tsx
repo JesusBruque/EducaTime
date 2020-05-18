@@ -6,6 +6,7 @@ import VideoComponent from "../../../components/VideoComponent";
 import AddCourseForm from "../../../components/cursos/AddCourseForm";
 import Button from "../../../components/Button";
 import ErrorsPanel from "../../../components/ErrorsPanel";
+import Modal from "../../../components/Modal";
 
 const AddCourse = (props) => {
     const [cursoInfo,setCursoInfo] = useState(new Course());
@@ -15,6 +16,7 @@ const AddCourse = (props) => {
     const [webinarFile,setWebinarFile] = useState(null);
     const [videoPlaying,setVideoPlaying] = useState(null);
 
+    const [advertise,setAdvertise] = useState(false);
 
     const CreateCourse = () => {
         validate(cursoInfo).then(() => {
@@ -45,7 +47,7 @@ const AddCourse = (props) => {
                 props.utils.changeTextLoader('Subiendo la información del curso...');
                 create(cursoInfo).then(() => {
                     props.utils.removeLoader();
-                    props.router.push('/admin/formacion');
+                    setAdvertise(true);
                 }).catch(() => {
                     window.alert('ERROR');
                     props.utils.removeLoader();
@@ -68,6 +70,12 @@ const AddCourse = (props) => {
             </div>
             {videoPlaying && <VideoComponent src={URL.createObjectURL(videoPlaying)} autoPlay={true} title={videoPlaying.name} onClose={() => {setVideoPlaying(null); URL.revokeObjectURL(videoPlaying)}} />}
             {errors && <ErrorsPanel errors={errors} close={() => setErrors(null)}/>}
+            {advertise && <Modal open={advertise} setOpen={setAdvertise}>
+                <span>Se ha añadido un fichero de vídeo que será emitido por streaming, este proceso se está realizando en segundo plano y puede llevar unos minutos. Mientras este proceso se está llevando a cabo, el vídeo no estará disponible para su visualización.
+                Disculpe las molestias.
+                </span>
+                <div style={{width:'100%',textAlign:'center',marginTop:'15px'}}><Button color={'blue'} text={'Ok, lo he entendido.'} action={() => {setAdvertise(false); props.router.push('/admin/formacion');}}/></div>
+            </Modal>}
         </LayoutAdmin>
     )
 }

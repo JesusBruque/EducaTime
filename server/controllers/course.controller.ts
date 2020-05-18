@@ -72,7 +72,8 @@ export default class CourseController extends GenericController {
         await this.courseService.lectionEraser(curso._id);
         let pLections = [];
         lections.forEach((lection, i) => {
-            pLections.push(this.courseService.addLectionToCourse(curso._id, lection, i + 1));
+            console.log(lection,i);
+            pLections.push(this.courseService.addLectionToCourse(curso._id, lection));
         });
 
         await Promise.all(pLections).catch(e => { throw e });

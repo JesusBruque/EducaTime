@@ -14,6 +14,7 @@ import ValorarContent from './ValorarContent'
 import TareasCurso from "./TareasCurso";
 import EvaluacionCurso from "./EvaluacionCurso";
 import AlumnosCurso from "./AlumnosCurso";
+import Modal from "../Modal";
 
 type Props = {
     cursoIndex?: number,
@@ -29,7 +30,8 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
     const [writeReview, setWriteReview] = useState(null);
     const { curso, setCurso } = props;
     const [videoPlaying, setVideoPlaying] = useState(null);
-    const [showUsuarios, setShowUsuarios] = useState(false)
+    const [showUsuarios, setShowUsuarios] = useState(false);
+    const [advertise,setAdvertise] = useState(false);
     const handleDeleteTeoricalResource = (i, lectionId, tareaId) => {
         props.utils.initLoader();
         props.utils.startLoader();
@@ -127,7 +129,7 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                 if (res.status === 200) {
                     lections[i] = res.data.lection;
                     setCurso({ ...curso, lections: lections });
-                    props.setCargarContenido(!props.cargarContenido);
+                    setAdvertise(true);
                 }
                 else window.alert('ERRORRRR');
             }).catch(err => {
@@ -150,7 +152,8 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
         return false;
     }
     const canShowLection = (userCourse, lection) => {
-        if(props.teacher) return true
+        if(props.teacher) return true;
+        if(moment().isBefore(lection.dateAvailable)) return false;
         const user = props.user;
         const feeState = userCourse.feeState;
         let indexLastFee = -1;
@@ -273,7 +276,8 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                                     !props.teacher && <b>No hay ningún recursos audiovisual disponible para este bloque!</b>
                                             }
                                             {
-                                                props.teacher && <div className={styles.fileContainer}>
+                                                props.teacher && <React.Fragment>
+                                                    <div className={styles.fileContainer}>
                                                     <MyDropzone
                                                         filesAccepted={['video/*']}
                                                         text={'Arrastra o pincha para añadir los ficheros.'}
@@ -282,6 +286,13 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
                                                     // disabled={!!(props.cursoFiles.thumbnail && props.cursoFiles.video)}
                                                     />
                                                 </div>
+                                                    {advertise &&  <Modal open={advertise} setOpen={setAdvertise}>
+                                                <span>Se ha añadido un fichero de vídeo que será emitido por streaming, este proceso se está realizando en segundo plano y puede llevar unos minutos. Mientras este proceso se está llevando a cabo, el vídeo no estará disponible para su visualización.
+                                                Disculpe las molestias.
+                                                </span>
+                                                        <div style={{width:'100%',textAlign:'center',marginTop:'15px'}}><Button color={'blue'} text={'Ok, lo he entendido.'} action={() => {setAdvertise(false); props.setCargarContenido(!props.cargarContenido);}}/></div>
+                                                    </Modal>}
+                                                </React.Fragment>
                                             }
                                         </div>}
                                 </div>

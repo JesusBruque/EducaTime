@@ -37,7 +37,8 @@
     color:var(--black-color);
 }
 
-.header .optionsHeaderMenu{
+.optionsHeader .optionsHeaderMenu{
+    position:fixed;
     top:50px;
     left:unset;
     right:30px;
@@ -53,7 +54,7 @@
     transition:all .3s ease-out;
     z-index:1050;
 }
-.header .menuBck{
+.optionsHeader .menuBck{
     background-color:transparent;
 }
 .userInfo{

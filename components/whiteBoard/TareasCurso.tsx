@@ -126,9 +126,9 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
                         if (responding && responding._id === tarea._id) setResponding(null)
                         else setResponding(tarea)
                     }} icon={faReply} color={'var(--main-color)'} style={{ cursor: 'pointer', margin: '0px 4px' }} />}
-                    {!canRespond(lection._id, tarea._id) && <span>COMPLETADA</span>}
+                    {!canRespond(lection._id, tarea._id) &&  <a href={'#'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'} /></a>}
                     {
-                        !teacher && <div className={utilsStyles.timeLeft} style={moment(tarea.deadline).diff(moment(), 'days') < 5 ? { backgroundColor: 'var(--red-color)' } : { backgroundColor: 'var(--black-color)' }}>
+                        !teacher && canRespond(lection._id,tarea._id) && <div className={utilsStyles.timeLeft} style={moment(tarea.deadline).diff(moment(), 'days') < 5 ? { backgroundColor: 'var(--red-color)' } : { backgroundColor: 'var(--black-color)' }}>
                             <FontAwesomeIcon icon={faClock} color={'white'} style={{ marginRight: '4px' }} />
                             <span>(Quedan {moment(tarea.deadline).diff(moment(), 'days')} días)</span>
                         </div>

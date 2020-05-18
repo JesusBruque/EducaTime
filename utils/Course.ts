@@ -12,7 +12,8 @@ type fee = {
     date: number
 };
 type lection = {
-    title: string
+    title: string,
+    order:number
 }
 export default class Course {
     public _id: string;
@@ -54,6 +55,8 @@ export default class Course {
 }
 
 export const create = (curso: Course) => {
+    console.log(curso);
+    debugger;
     delete curso['_id'];
     return axios.post(COURSE_URL, curso);
 };
