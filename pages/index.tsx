@@ -13,10 +13,13 @@ const Home = (props) => {
 
     useEffect(() => {
         let lu = new WebUtils('main');
-        lu.initScroll().then(() => {
-            lu.enterHomeAnimations();
-            lu.initHomeScrollAnimations();
-        });
+        setTimeout(() => {
+            lu.initScroll().then(() => {
+                lu.enterHomeAnimations();
+                lu.initHomeScrollAnimations();
+                console.log(lu.scrollElement);
+            });
+        },1200);
     },[]);
 
     return (

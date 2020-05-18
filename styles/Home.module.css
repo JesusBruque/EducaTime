@@ -298,4 +298,79 @@
     .infoSection{
         height:120vh;
     }
+    .movilContent{
+        display:flex;
+        flex-direction: column-reverse;
+    }
+}
+@media screen and (max-width: 600px){
+    .homeSection{
+        font-size:.8em;
+        min-height:calc(100vh - 40px);
+    }
+    .mainClaimer{
+        margin-bottom:50px;
+    }
+    .mainClaimer h1{
+        font-size:2em;
+    }
+    .claimerContainer{
+        width:100%;
+        margin-bottom:50px;
+    }
+    .cursosGrid{
+        flex-direction:column;
+    }
+    .cursosGrid>div:first-child{
+        transform:translateY(25%) scale(.8);
+        z-index:3;
+    }
+    .cursosGrid>div:last-child{
+        transform:translateY(-25%) scale(.8);
+        z-index:3;
+    }
+    .fixedTarget{
+        height:250vh;
+    }
+    .fixedField{
+        height:100vh;
+    }
+    .backgroundSection{
+        height:800px;
+        top:-800px;
+    }
+    .claimerContainer>div{
+        margin:0 auto;
+    }
+    .valors{
+        padding:30px;
+    }
+    .cursosGrid:after{
+        height:100%;
+        width:100%;
+        left:0;
+        background-image:linear-gradient(to bottom, rgba(255,255,255,.7),rgba(255,255,255,0),rgba(255,255,255,.7));
+    }
+    .cursoClaimer{
+        margin-right:0;
+        margin-bottom:80px;
+    }
+    .valorsItems{
+        grid-template-columns: 100%;
+    }
+    .valorsItemsItem:nth-child(4n){
+        grid-area:4/1;
+    }
+    .valorsItemsItem:nth-child(5n){
+        grid-area:5/1;
+    }
+    .backgroundSection{
+        height:800px;
+    }
+    .infoSection{
+        padding-bottom:150px;
+    }
+    .movilContent>img{
+        width:90%;
+    }
 }

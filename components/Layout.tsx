@@ -16,7 +16,9 @@ type Props = {
 const Layout : FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
-        props.utils.initScroll();
+        if(props.router.pathname !== '/'){
+            props.utils.initScroll();
+        }
     },[]);
 
     return (

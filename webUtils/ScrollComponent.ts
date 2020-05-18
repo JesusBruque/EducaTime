@@ -11,6 +11,7 @@ export default class ScrollComponent{
         let src = await import('locomotive-scroll');
         this.scrollElement = new src.default({
             el:this.htmlElement,
+            elMobile:this.htmlElement,
             smoothMobile:true,
             smooth:true,
             scrollbarClass:'csr-scrollbar'
