@@ -30,6 +30,12 @@ const Curso : FunctionComponent<Props> = (props) => {
                 <title>Casor - {props.curso.title}</title>
                 <meta name={'description'} content={props.curso.description} key={'description'}/>
                 <link rel={'icon'} href={'/assets/logo.svg'}/>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/assets/logo.svg"/>
+                <meta property="og:title" content={props.curso.title}/>
+                <meta property="og:description" content="Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol."/>
+                <meta property="og:image" content={props.curso.thumbnail}/>
+                <meta property="og:url" content={window.location.href} />
             </Head>
             <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>
                 <div className={utilStyles.centeredContainer} style={{marginTop:'30px'}}>

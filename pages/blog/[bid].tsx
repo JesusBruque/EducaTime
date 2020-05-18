@@ -6,6 +6,7 @@ import {User} from "../../utils/Authentication";
 import BlogDetalle from "../../components/blog/BlogDetalle";
 import {getBlogById} from "../../utils/Blog";
 import WebUtils from "../../webUtils/WebUtils";
+import Head from "next/dist/next-server/lib/head";
 
 type Props = {
     blog:Blog,
@@ -18,6 +19,17 @@ type Props = {
 const BlogDetail :FunctionComponent<Props> = (props) => {
     return (
         <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>
+            <Head>
+                <title>Casor - {props.blog.title}</title>
+                <meta name={'description'} content={props.blog.description} key={'description'}/>
+                <link rel={'icon'} href={'/assets/logo.svg'}/>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/assets/logo.svg"/>
+                <meta property="og:title" content={props.blog.title}/>
+                <meta property="og:description" content={'Casor. Entrada de blog - '+props.blog.title}/>
+                <meta property="og:image" content={props.blog.thumbnail}/>
+                <meta property="og:url" content={window.location.href} />
+            </Head>
             <BlogDetalle blog={props.blog} admin={false}/>
         </Layout>
     )
