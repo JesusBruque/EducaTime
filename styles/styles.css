@@ -13,6 +13,12 @@ body,html{
     user-select: none;
 }
 
+html.has-scroll-scrolling header.up{
+    transform:translateY(-100%);
+}
+header{
+    transition: transform ;
+}
 *,*:after,*:before{
     box-sizing:inherit;
 }
@@ -223,7 +229,6 @@ html.has-scroll-smooth body {
     color:white;
     font-size:1.3em;
 }
-
 
 @media screen and (max-width:600px){
     footer{

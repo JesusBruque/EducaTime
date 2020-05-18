@@ -21,7 +21,7 @@ const BlogDetail :FunctionComponent<Props> = (props) => {
         <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>
             <Head>
                 <title>Casor - {props.blog.title}</title>
-                <meta name={'description'} content={props.blog.description} key={'description'}/>
+                <meta name={'description'}  content={'Casor. Entrada de blog - '+props.blog.title} key={'description'}/>
                 <link rel={'icon'} href={'/assets/logo.svg'}/>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/assets/logo.svg"/>

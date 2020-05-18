@@ -53,5 +53,7 @@
     .container{
         font-size:.8em;
         padding:0 15px;
+        max-width:45ch;
+        text-align:center;
     }
 }

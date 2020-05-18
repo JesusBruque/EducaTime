@@ -30,6 +30,7 @@ export default class WebUtils{
             this.scrollElement = new ScrollComponent(this.element);
             await this.scrollElement.getScrollElement();
             this.scrollElement.runAnimations();
+            this.scrollElement.headerAnimation();
         }
     };
     initLoader = (text?:string) => {

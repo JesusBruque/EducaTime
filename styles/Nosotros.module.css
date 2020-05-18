@@ -68,6 +68,7 @@
 @media screen and (max-width:600px){
     .content{
         max-width:50ch;
+        padding:35px 0;
         margin-left:0;
         font-size:1.1em;
         animation:showText 2s ease-out forwards;

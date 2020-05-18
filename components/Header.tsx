@@ -56,13 +56,13 @@ const Header = (props) => {
                     <img src={props.user ? '/assets/icons/user-icon.svg' : '/assets/icons/user.svg'} alt={'icono para el acceso de los usuarios'}/>
                 </div>
             </div>
-            <div id={'casor-mobile-header'} className={`${headerStyles.headerMobile} ${props.whiteboard ? headerStyles.headerWhiteBoard : ''}`}>
+            <header id={'casor-mobile-header'} className={`${headerStyles.headerMobile} ${props.whiteboard ? headerStyles.headerWhiteBoard : ''}`}>
                 {props.whiteboard  && <img src={'/assets/icons/menu-icon.png'} alt={'icono del menú'} style={{height:'55%'}}/>}
                 <Link href={'/'}>
                     <img className={headerStyles.logo} src={'/assets/logo_letras.png'} alt={'logo casor en la cabecera'}/>
                 </Link>
                 <img src={'/assets/icons/menu-icon.png'} alt={'icono del menú'} style={{height:'55%'}} onClick={showMenu}/>
-            </div>
+            </header>
             {menuOpen &&
             <div id={'casor-mobile-menu'} className={headerStyles.mobileMenu}>
                 <Link href={'/'}>

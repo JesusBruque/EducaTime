@@ -14,7 +14,10 @@ export default class ScrollComponent{
             elMobile:this.htmlElement,
             smoothMobile:true,
             smooth:true,
-            scrollbarClass:'csr-scrollbar'
+            scrollbarClass:'csr-scrollbar',
+            getSpeed:true,
+            getDirection:true,
+            offset:0
         });
     };
 
@@ -43,5 +46,22 @@ export default class ScrollComponent{
         }catch(err){
             console.error('Se está produciendo un error en las animaciones del scroll. Autodrestrucción de su portátil en 3... 2... 1... BOOOM!')
         }
+    }
+    headerAnimation(){
+        this.scrollElement.on('scroll', (obj) => {
+            try{
+                let header = document.querySelector('header');
+                console.log(obj);
+                if(obj.direction === 'down' && !header.classList.contains('up')){
+                    console.log(header);
+                    header.classList.add('up');
+                }
+                if((obj.direction === 'up' && header.classList.contains('up') ) || obj.limit === obj.scroll.y){
+                    header.classList.remove('up');
+                }
+            }catch (e) {
+                console.error(e);
+            }
+        });
     }
 }

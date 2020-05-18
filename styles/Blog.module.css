@@ -95,7 +95,7 @@
     position:absolute;
     bottom:0;
     height:30px;
-    background-image: linear-gradient(to bottom, transparent, white);
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0), white);
     width:100%;
 }
 .info{

@@ -1,3 +1,4 @@
+
 .header{
     position:fixed;
     top:0;
@@ -11,6 +12,10 @@
     justify-content: space-evenly;
     z-index:99;
     animation:showHeader 1s ease-out forwards;
+}
+header.headerMobile{
+    transform: translateY(0%);
+    transition:transform 0.3s ease-in-out;
 }
 .headerMobile{
     display:none;
@@ -98,8 +103,8 @@
 }
 .close{
     position:absolute;
-    height:15px;
-    width:15px !important;
+    height:20px;
+    width:20px !important;
     top:8px;
     right:8px;
     color:white;

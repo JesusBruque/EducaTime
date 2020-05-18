@@ -314,6 +314,7 @@
     .homeSection{
         font-size:.8em;
         min-height:calc(100vh - 40px);
+        height: -webkit-fill-avaliable;
     }
     .mainClaimer{
         margin-bottom:50px;
@@ -379,7 +380,7 @@
     }
     .infoSection{
         padding-top: 30px;
-        padding-bottom:50px;
+        padding-bottom:120px;
         height:1000px;
     }
     .movilContent>img{
