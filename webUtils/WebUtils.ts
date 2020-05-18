@@ -93,9 +93,10 @@ export default class WebUtils{
         /*--- ANIMACIONES DE LA PRIMERA SECCIÓN ---*/
         let tweenBtn = gsap.to('#welcome-section .csr-btn',{duration:1,rotateX:90,y:-10,z:-50,ease:'power3.out',paused: true});
         let tweenCampo = gsap.timeline({paused:true});
+        let durAnimation = window.innerHeight > 950 ? 1600 : window.innerHeight * 2;
         tweenCampo.to('#main_field',{duration:1,rotation:90,rotationY:-50,rotationX:0,x:-37,y:0,z:-650,skewX:-3,skewY:10,ease:'power2.out',force3D:true},"tl");
         this.scrollElement.addAnimation({tween:tweenBtn,duration:120,el:document.querySelector('main')});
-        this.scrollElement.addAnimation({tween:tweenCampo,duration:window.innerHeight*2,el:document.querySelector('main')});
+        this.scrollElement.addAnimation({tween:tweenCampo,duration:durAnimation,el:document.querySelector('main')});
 
 
         // /*--- ANIMACIONES DE LA SEGUNDA SECCION ---*/

@@ -28,7 +28,7 @@ const Home = (props) => {
           </Head>
           <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
               <section className={homeStyles.homeSection} id={'welcome-section'}>
-                  <div id={'fixed-field'} className={homeStyles.fixedTarget} style={{top:'-70px',height:'160vh'}}></div>
+                  <div id={'fixed-field'} className={`${homeStyles.fixedTarget} ${homeStyles.fixedField}` }></div>
                   <div className={homeStyles.field} data-scroll data-scroll-sticky data-scroll-target={'#fixed-field'}>
                       <div className={homeStyles.fieldContainer}>
                           <Field/>
@@ -36,7 +36,7 @@ const Home = (props) => {
                   </div>
                   <div className={homeStyles.mainClaimer} id={'welcome-claimer'}>
                       <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
-                      <p data-scroll data-scroll-speed={2} style={{opacity:'0'}}>Disfruta de la formación online flexible y de calidad, una oportunidad para progresar con los mejores</p>
+                      <p style={{opacity:'0'}}>Disfruta de la formación online flexible y de calidad, una oportunidad para progresar con los mejores</p>
                       <div data-scroll data-scroll-speed={3} className={homeStyles.startBtn} id={'welcome-start--btn'}>
                           <Button text={'Comienza ya'} color={'blue'} action={()=> props.router.push('/cursos')} styles={{opacity:'0'}}/>
                       </div>
@@ -101,7 +101,7 @@ const Home = (props) => {
                       </div>
                   </div>
               </section>
-              <section className={homeStyles.homeSection} id={'info-section'} style={{height:'120vh'}}>
+              <section className={`${homeStyles.homeSection} ${homeStyles.infoSection}`} id={'info-section'}>
                   <div className={homeStyles.casorInfo}>
                       <div className={homeStyles.casorInfoItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
                           <img src={'/assets/icons/calendar.svg'} alt={'icono de calendario'}/>
@@ -150,10 +150,12 @@ const Home = (props) => {
       </div>
   )
 };
+
 export async function getServerSideProps(){
-    const res = await fetch('http://localhost:3000/api/course/findById/5ec15b2dafc0b12beb10c55c');
+    const res = await fetch('http://localhost:3000/api/course/findById/5ec2648350f9235886400039');
     const data = await res.json();
     const cursos = data.Course;
     return { props: { cursos } }
 }
+
 export default Home;

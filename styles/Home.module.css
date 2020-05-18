@@ -116,6 +116,9 @@
 }
 
 /*----- TERCERA SECCION ----*/
+.infoSection{
+    height:120vh;
+}
 .casorInfo{
     display:flex;
     flex-direction:column;
@@ -234,8 +237,65 @@
     background-color:rgba(255,255,255,.7);
     z-index:2;
 }
+.fixedField{
+    top:-70px;
+    height:160vh;
+}
 @media screen and (max-width:1250px){
     .mainClaimer h1{
         font-size:3em;
+    }
+}
+
+@media screen and (max-width:1050px) and (min-height:950px){
+    .homeSection{
+        min-height: 800px;
+    }
+    .mainClaimer>p{
+        margin-bottom:80px;
+    }
+    .fixedTarget{
+        height:1600px;
+        top:-800px;
+    }
+    .backgroundSection{
+        top:0;
+        height:800px;
+    }
+    .infoSection{
+        height:1000px;
+    }
+    .fixedField{
+        height:750px;
+        top:-70px;
+    }
+    .claimerContainer{
+        width:100%;
+    }
+}
+@media screen and (max-width:800px){
+    .fixedTarget{
+        height:200vh;
+        top:-100vh;
+    }
+    .backgroundSection{
+        top:-100vh;
+        height:100vh;
+    }
+    .fixedField{
+        height:100vh;
+        top:-70px;
+    }
+    .field{
+        width:80vw;
+    }
+    .homeSection{
+        flex-wrap:wrap;
+    }
+    .valors{
+        padding:0 30px;
+    }
+    .infoSection{
+        height:120vh;
     }
 }
