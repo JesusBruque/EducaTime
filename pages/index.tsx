@@ -26,6 +26,7 @@ const Home = (props) => {
           <Head>
               <title>Casor. Academia de formación</title>
               <meta name={'description'} content={'Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol.'}/>
+              <meta>
               <link rel="icon" href="/assets/logo.svg"/>
           </Head>
           <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>

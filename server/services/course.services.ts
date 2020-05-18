@@ -18,7 +18,7 @@ export default class CourseService extends GenericService {
     }
     public findById = async (CourseId: string): Promise<ICourse & mongoose.Document> => {
         try {
-            let err, course = await Course.findById(CourseId).populate('lections');
+            let err, course = await Course.findById(CourseId).populate({ path: 'lections', options: { sort: { 'order': 1 } } });
             if (err) throw err;
             return course;
         } catch (e) {
