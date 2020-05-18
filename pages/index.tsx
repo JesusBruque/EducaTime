@@ -13,13 +13,15 @@ const Home = (props) => {
 
     useEffect(() => {
         let lu = new WebUtils('main');
+        document.querySelector('body').style.position = 'fixed';
+        document.querySelector('body').style.overflow = 'hidden';
         setTimeout(() => {
             lu.initScroll().then(() => {
                 lu.enterHomeAnimations();
                 lu.initHomeScrollAnimations();
             });
-        },100);
-        props.router;
+            console.log(lu.scrollElement);
+        },200);
     },[]);
 
     return (
@@ -32,7 +34,7 @@ const Home = (props) => {
               <meta property="og:title" content="Casor. Academia de formación deportiva"/>
               <meta property="og:description" content="Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol."/>
               <meta property="og:image" content="https://d2nmzq3hxlvmns.cloudfront.net/dist/public/logo_casor.jpg"/>
-              <meta property="og:url" content={props.router.pathName} />
+              <meta property="og:url" content={'https://165.22.114.158'+props.router.pathName} />
           </Head>
           <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
               <section className={homeStyles.homeSection} id={'welcome-section'} data-scroll >
@@ -141,7 +143,7 @@ const Home = (props) => {
                       </div>
 
                   </div>
-                  <div className={homeStyles.movilContent} data-scroll data-scroll-speed={2} data-scroll-delay={0.06}>
+                  <div className={homeStyles.movilContent} data-scroll data-scroll-speed={2} data-scroll-delay={0.04}>
                       <img src={'/assets/landing/movil_web.png'} alt={'imagen de casor en el móvil'}/>
                       <h4>Accede desde cualquier dispositivo</h4>
                   </div>

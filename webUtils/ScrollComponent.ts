@@ -12,13 +12,20 @@ export default class ScrollComponent{
         this.scrollElement = new src.default({
             el:this.htmlElement,
             elMobile:this.htmlElement,
-            smoothMobile:true,
             smooth:true,
+            smoothMobile:true,
+            inertia:window.innerWidth>600 ? 1 : 3,
             scrollbarClass:'csr-scrollbar',
             getSpeed:true,
-            getDirection:true,
-            offset:0
+            getDirection:true
         });
+        window.addEventListener('resize',() => {
+            this.scrollElement.update();
+            console.log('document resize');
+        });
+        document.querySelector('main').addEventListener('resize',()=>{
+            console.log('main resuze');
+        })
     };
 
     addAnimation(animation){
@@ -51,9 +58,7 @@ export default class ScrollComponent{
         this.scrollElement.on('scroll', (obj) => {
             try{
                 let header = document.querySelector('header');
-                console.log(obj);
                 if(obj.direction === 'down' && !header.classList.contains('up')){
-                    console.log(header);
                     header.classList.add('up');
                 }
                 if((obj.direction === 'up' && header.classList.contains('up') ) || obj.limit === obj.scroll.y){

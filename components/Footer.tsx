@@ -6,7 +6,7 @@ type Props ={
 }
 const Footer:FunctionComponent<Props> = (props) => {
     return (
-        <footer className={props.absolute ? 'absolute' : ''}>
+        <footer className={props.absolute ? 'absolute' : ''} data-scroll>
             <div className={'legal-info'}>
                 <span>términos y condiciciones</span>
                 <span>aviso legal</span>

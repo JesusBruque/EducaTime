@@ -125,6 +125,7 @@ html.has-scroll-dragging {
 html.has-scroll-smooth body {
     overflow: hidden;
     position: fixed;
+    top:0;
 }
 
 .has-scroll-smooth [data-scroll-container] {
@@ -231,12 +232,23 @@ html.has-scroll-smooth body {
 }
 
 @media screen and (max-width:600px){
+    body{
+        height:100vh;
+        height:-webkit-fill-available;
+    }
+    main{
+        padding:0;
+    }
     footer{
         display:grid;
         grid-template-columns: 100%;
+        grid-auto-rows:1.2em;
         text-align:center;
+        align-items:center;
         grid-row-gap:8px;
         height:auto;
+        margin-bottom:100px;
+        padding:8px;
         justify-items:center;
         align-items:center;
         position:relative;

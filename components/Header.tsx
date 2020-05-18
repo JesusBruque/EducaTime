@@ -32,8 +32,9 @@ const Header = (props) => {
         let location = e.currentTarget.dataset.href;
         let tl = gsap.timeline({onComplete:() => {
             setMenuOpen(false);
-            console.log(location);
-            props.router.push(location);
+            if(location){
+                props.router.push(location);
+            }
             }});
         tl.to('#casor-mobile-menu span',{opacity:0,y:100,ease:'power.out',stagger:{each:.1}});
         tl.to('#casor-mobile-menu',{duration:1,ease:'power3.out',x:'100%'},"-=.1");
@@ -70,9 +71,7 @@ const Header = (props) => {
             </header>
             {menuOpen &&
             <div id={'casor-mobile-menu'} className={headerStyles.mobileMenu}>
-                <Link href={'/'}>
-                    <img onClick={hideMenu} className={headerStyles.imagenMenu} id={'logo menu'} src={'/assets/logo_texto.svg'}/>
-                </Link>
+                <img data-href={'/'} onClick={hideMenu} className={headerStyles.imagenMenu} id={'logo menu'} src={'/assets/logo_texto.svg'}/>
                 <FontAwesomeIcon icon={faTimes} onClick={hideMenu} className={headerStyles.close}/>
                 <span onClick={hideMenu} data-href={'/nosotros'} className={`${headerStyles.headerLink} ${props.router.pathname.includes('nosotros') ?  headerStyles.linkActive : ''}`}>nosotros</span>
                 <span onClick={hideMenu} data-href={'/cursos'} className={`${headerStyles.headerLink} ${props.router.pathname.includes('cursos') ?  headerStyles.linkActive : ''}`}>formación</span>

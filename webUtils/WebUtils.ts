@@ -26,7 +26,8 @@ export default class WebUtils{
             this.removeScroll();
         }
         if(document.querySelector(this.element) && document.querySelector(this.element).getBoundingClientRect().height > window.innerHeight){
-            console.log(document.querySelector(this.element).getBoundingClientRect().height);
+            console.log(document.querySelector(this.element).offsetHeight);
+            console.log(window.innerHeight);
             this.scrollElement = new ScrollComponent(this.element);
             await this.scrollElement.getScrollElement();
             this.scrollElement.runAnimations();
