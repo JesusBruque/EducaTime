@@ -296,6 +296,9 @@
         padding:0 30px;
         justify-content:center;
     }
+    .valors>h3{
+        margin-bottom:15px;
+    }
     .claimerContainer{
         width:100%;
     }

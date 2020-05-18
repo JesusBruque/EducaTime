@@ -28,7 +28,7 @@ const BlogDetail :FunctionComponent<Props> = (props) => {
                 <meta property="og:title" content={props.blog.title}/>
                 <meta property="og:description" content={'Casor. Entrada de blog - '+props.blog.title}/>
                 <meta property="og:image" content={props.blog.thumbnail}/>
-                <meta property="og:url" content={window.location.href} />
+                <meta property="og:url" content={'http://165.22.114.158'+ props.router.pathname} />
             </Head>
             <BlogDetalle blog={props.blog} admin={false}/>
         </Layout>
