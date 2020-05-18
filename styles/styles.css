@@ -72,6 +72,11 @@ footer{
     align-items:center;
     padding:15px 30px;
 }
+footer.absolute{
+    bottom:0;
+    position: absolute;
+    width:100%;
+}
 footer .legal-info{
     text-transform: uppercase;
 

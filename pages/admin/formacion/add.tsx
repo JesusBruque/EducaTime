@@ -74,7 +74,7 @@ const AddCourse = (props) => {
                 <span>Se ha añadido un fichero de vídeo que será emitido por streaming, este proceso se está realizando en segundo plano y puede llevar unos minutos. Mientras este proceso se está llevando a cabo, el vídeo no estará disponible para su visualización.
                 Disculpe las molestias.
                 </span>
-                <div style={{width:'100%',textAlign:'center',marginTop:'15px'}}><Button color={'blue'} text={'Ok, lo he entendido.'} action={() => {setAdvertise(false); props.router.push('/admin/formacion');}}/></div>
+                <div style={{width:'100%',textAlign:'center',marginTop:'15px'}}><Button color={'blue'} text={'Ok, lo he entendido'} action={() => {setAdvertise(false); props.router.push('/admin/formacion');}}/></div>
             </Modal>}
         </LayoutAdmin>
     )

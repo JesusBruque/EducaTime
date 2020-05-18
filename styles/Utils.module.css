@@ -7,9 +7,10 @@
     color:#565656;
     /*font-family: 'LeagueGothic', cursive;*/
     letter-spacing: 2px;
-    font-size:3em;
+    font-size:2.5em;
     position:relative;
     width:fit-content;
+    margin-bottom:15px;
 }
 .sectionTitle:after{
     content: '';
