@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Privacidad() {
+const Privacidad = () =>  {
     return (
         <div>
             <div className={'title'}>
@@ -181,3 +181,4 @@ export function Privacidad() {
         </div>
     )
 }
+export default Privacidad;
