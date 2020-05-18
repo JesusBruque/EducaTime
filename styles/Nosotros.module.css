@@ -8,11 +8,10 @@
     object-fit:cover;
     filter: grayscale(1);
     transition:all .5s ease-out;
-    animation:showImage 2s ease-out forwards;
+    animation:showImage .5s ease-out forwards;
 }
-.imagen:hover >img{
-    filter:grayscale(0);
-    transform:scale(1.06);
+.imagen:hover>img{
+    animation:hoverImage .5s ease-out forwards;
 }
 .container{
     margin-top:70px;
@@ -45,7 +44,16 @@
         transform:scale(1);
     }
 }
-
+@keyframes hoverImage{
+    from{
+        filter:grayscale(1);
+        transform:scale(1);
+    }
+    to{
+        filter: grayscale(0);
+        transform:scale(1.06);
+    }
+}
 @keyframes showText{
     from{
         opacity:0;
