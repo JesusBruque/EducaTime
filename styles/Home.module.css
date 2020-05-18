@@ -294,6 +294,7 @@
     }
     .valors{
         padding:0 30px;
+        justify-center:center;
     }
     .claimerContainer{
         width:100%;
