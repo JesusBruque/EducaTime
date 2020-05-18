@@ -3,7 +3,7 @@ import PaymentForm from '../PaymentForm'
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { getUserData } from '../../utils/Authentication';
-const stripePromise = loadStripe("pk_test_h8X3p5zwiygmbpvGOFkRDWh000GKTO0Rln");
+const stripePromise = loadStripe("pk_live_5cZ5nUP0Hg40OmOXILOPbTlt00jPPFdSGZ");
 import styles from '../../styles/whiteBoard/Pagos.module.css';
 import Button from "../Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

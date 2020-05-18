@@ -10,7 +10,7 @@ import moment from 'moment';
 import Layout from "../../../components/Layout";
 import fetch from "isomorphic-unfetch";
 import Footer from "../../../components/Footer";
-const stripePromise = loadStripe("pk_test_h8X3p5zwiygmbpvGOFkRDWh000GKTO0Rln");
+const stripePromise = loadStripe("pk_live_5cZ5nUP0Hg40OmOXILOPbTlt00jPPFdSGZ");
 
 const payCurso = (props) => {
     const { curso, router } = props;

@@ -248,9 +248,8 @@ html.has-scroll-smooth body {
         grid-row-gap:8px;
         height:auto;
         margin-bottom:100px;
-        padding:8px;
+        padding:8px 8px 30px 8px;
         justify-items:center;
-        align-items:center;
         position:relative;
     }
     #payment-form{
