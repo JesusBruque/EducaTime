@@ -47,7 +47,7 @@ const Home = (props) => {
                   <div className={homeStyles.mainClaimer} id={'welcome-claimer'}>
                       <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
                       <p style={{opacity:'0'}}>Disfruta de la formación online flexible y de calidad, una oportunidad para progresar con los mejores</p>
-                      <div data-scroll data-scroll-speed={3} className={homeStyles.startBtn} id={'welcome-start--btn'}>
+                      <div data-scroll data-scroll-speed={1} className={homeStyles.startBtn} id={'welcome-start--btn'}>
                           <Button text={'Comienza ya'} color={'blue'} action={()=> props.router.push('/cursos')} styles={{opacity:'0'}}/>
                       </div>
                   </div>
@@ -72,37 +72,37 @@ const Home = (props) => {
                   <div className={homeStyles.backgroundSection} data-scroll data-scroll-sticky data-scroll-target={'#fixed-target'}>
                       <img src={'/assets/landing/porteria_bg.jpg'} alt={'fondo de una porteria'}/>
                   </div>
-                  <h3 data-scroll data-scroll-speed={2} data-scroll-delay={0.06}>¿Por qué elegir <span style={{color:'var(--main-color)'}}>Academia Casor</span>?</h3>
+                  <h3 data-scroll data-scroll-speed={2} >¿Por qué elegir <span style={{color:'var(--main-color)'}}>Academia Casor</span>?</h3>
                   <div className={homeStyles.valorsItems}>
-                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1}>
                           <img src={'/assets/landing/porteria.svg'} alt={'icono de una porteria'}/>
                           <div>
                               <span className={homeStyles.valorsTitle}>Cooperación:</span>
                               <span>Sentimiento de pertenencia y confianza, potenciando el talento colectivo y compartiendo conocimientos.</span>
                           </div>
                       </div>
-                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} >
                           <img src={'/assets/landing/conos.svg'} alt={'icono de un cono'}/>
                           <div>
                               <span className={homeStyles.valorsTitle} >Pasión:</span>
                               <span>Dedicando nuestro tiempo a satisfacer las necesidades de nuestros alumnos/as, asegurando el desarrollo a través de oportunidades basadas en la aportación profesional y el cumplimiento de expectativas</span>
                           </div>
                       </div>
-                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} >
                           <img src={'/assets/landing/corner.svg'} alt={'icono de un corner'}/>
                           <div>
                               <span className={homeStyles.valorsTitle}>Profesionalidad:</span>
                               <span>Trabajos realizados por entrenadores cualificados y con experiencia, en el fútbol profesional</span>
                           </div>
                       </div>
-                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.05}>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1}>
                           <img src={'/assets/landing/marcador.svg'} alt={'icono de una porteria'}/>
                           <div>
                               <span className={homeStyles.valorsTitle}>Innovación:</span>
                               <span>Promoviendo las formaciones continuas en el plano académico para alcanzar la máxima calidad en la formación continua del alumnado</span>
                           </div>
                       </div>
-                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.05}>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1}>
                           <img src={'/assets/landing/banquillo.svg'} alt={'icono de un banquillo'}/>
                           <div>
                               <span className={homeStyles.valorsTitle}>Calidad:</span>
