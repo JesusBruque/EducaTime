@@ -21,6 +21,8 @@ const AddBlog = (props) => {
             uploadBlogFile(blogThumbnail,false,blogInfo.title).then(res => {
                 blogInfo.thumbnail = res.data.location;
                 let prVideo = new Promise<string>((resolve,reject) => {
+                    console.log(blogInfo.video);
+                    console.log(blogVideo);
                     if(blogInfo.video && blogVideo){
                         uploadBlogFile(blogVideo,true,blogInfo.title).then(res => {
                             resolve(res.data.location);

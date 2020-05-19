@@ -22,8 +22,8 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
     };
 
     const handleFilesCurso = (files) => {
+        let video, thumbnail;
         files.forEach(file => {
-            let video, thumbnail;
             if(file.type.includes('video')){
                 props.setBlogVideo(file);
                 video = file.name;
@@ -32,6 +32,7 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
                 props.setBlogFile(file);
                 thumbnail = file.name;
             }
+            console.log(video);
             props.setBlog({...props.blog,thumbnail:thumbnail ? thumbnail: props.blog.thumbnail,video:video ? video : props.blog.video});
         })
     };
@@ -45,6 +46,9 @@ const AddBlogForm : FunctionComponent<Props> = (props) => {
         }
     };
 
+    useEffect(() => {
+        console.log(props.blog);
+    },[props.blog]);
     return (
         <BlogDetalle blog={props.blog} utils={props.utils} admin={true} blogFile={props.blogFile} blogVideo={props.blogVideo} handleChangeContent={handleChangeContent} handleFilesCurso={handleFilesCurso} handleChangeInfoBlog={handleChangeInfoBlog} handleLoadFile={handleLoadFile}/>
     )

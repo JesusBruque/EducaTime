@@ -14,7 +14,7 @@ export default (app: Router) => {
         celebrate({
             body: Joi.object({
                 title: Joi.string().required(),
-                subtitle:Joi.string(),
+                subtitle:Joi.string().allow("",null),
                 description: Joi.string().required(),
                 thumbnail: Joi.string().required(),
                 video:Joi.string().allow("",null),
