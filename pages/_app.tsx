@@ -18,9 +18,7 @@ function MyApp({ Component, pageProps,pageUser }) {
     });
     axios.interceptors.request.use((config) => {
         requestCounter++;
-        console.log('axiosRequest');
         if(requestCounter<2){
-            console.log(requestCounter);
             wu.initLoader();
             wu.startLoader();
         }

@@ -16,10 +16,14 @@ type Props = {
 const Layout : FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
-        if(props.router.pathname !== '/'){
+        if(props.router.pathname !== '/' && !props.whiteboard){
             document.querySelector('body').style.position = 'fixed';
             document.querySelector('body').style.overflow = 'hidden';
             props.utils.initScroll();
+        }
+        if(props.whiteboard){
+            document.querySelector('body').style.position = 'relative';
+            document.querySelector('body').style.overflow = 'auto';
         }
     },[]);
 
