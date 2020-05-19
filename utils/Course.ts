@@ -56,7 +56,6 @@ export default class Course {
 
 export const create = (curso: Course) => {
     console.log(curso);
-    debugger;
     delete curso['_id'];
     return axios.post(COURSE_URL, curso);
 };
