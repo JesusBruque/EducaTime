@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import { login } from "../utils/Authentication";
 import Layout from "../components/Layout";
 import ForgetPassword from '../components/ForgetPassword';
+import Head from "next/head";
 
 const Login = (props) => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -42,6 +43,11 @@ const Login = (props) => {
 
     return (
         <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>
+            <Head>
+                <title>Casor - Login</title>
+                <meta name={'description'} content={'Casor. Login.'}/>
+                <link rel="icon" href="/assets/logo.svg"/>
+            </Head>
             <div className={loginStyles.loginContainer}>
                 <img src={'/assets/fondo-1.svg'} alt={'imagen de fondo'} />
                 <img src={'/assets/fondo-2.svg'} alt={'imagen de fondo'} />

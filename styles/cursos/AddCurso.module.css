@@ -42,6 +42,9 @@
     align-items: center;
     position: relative;
 }
+.line>h4{
+    margin-bottom:1.3em;
+}
 .line>*:last-child{
     margin-left:4px;
 }

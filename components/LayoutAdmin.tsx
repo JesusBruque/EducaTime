@@ -17,6 +17,8 @@ const LayoutAdmin:FunctionComponent<Props> = (props) => {
     useEffect(() => {
         console.log('eliminando scroll');
         props.utils.removeScroll();
+        document.querySelector('body').style.position = 'relative';
+        document.querySelector('body').style.overflow = 'auto';
     },[]);
     return (
         <React.Fragment>
