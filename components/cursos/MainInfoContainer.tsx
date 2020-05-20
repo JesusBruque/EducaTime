@@ -85,7 +85,7 @@ const MainInfoCourse = (props:Props) => {
                 </div>
                 <div>
                     <div className={`${styles.line}`}>
-                        <h4 className={`${utilsStyles.sectionTitle} ${styles.subTitle}`}>Requisitos</h4>
+                        <h4 className={`${utilsStyles.sectionTitle} ${styles.subTitle}`}>Información adicional y certificaciones</h4>
                         {
                             inputEditing === 'requirements' ?
                                 <Button action={() => setInputEditing(null)} text={'Guardar'} color={'blue'} />

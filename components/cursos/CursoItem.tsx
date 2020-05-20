@@ -125,7 +125,7 @@ const CursoItem: FunctionComponent<Props> = (props) => {
                     <span className={`${styles.infoLink} ${sectionActive==='description' ? styles.active : ''}`} onClick={(e)=> handleChangeInfo('description',e)}>Descripción</span>
                     <span className={`${styles.infoLink} ${sectionActive==='target' ? styles.active : ''}`} onClick={(e)=> handleChangeInfo('target',e)}>A quién va dirigido</span>
                     <span className={`${styles.infoLink} ${sectionActive==='goals' ? styles.active : ''}`} onClick={(e)=> handleChangeInfo('goals',e)}>Lo que aprenderás</span>
-                    <span className={`${styles.infoLink} ${sectionActive==='requirements' ? styles.active : ''}`} onClick={(e)=> handleChangeInfo('requirements',e)}>Requisitos</span>
+                    <span className={`${styles.infoLink} ${sectionActive==='requirements' ? styles.active : ''}`} onClick={(e)=> handleChangeInfo('requirements',e)}>Información adicional y certificaciones</span>
                 </div>
                 <div>
                     <div dangerouslySetInnerHTML={{__html:renderInfoCourse()}}></div>
