@@ -32,7 +32,7 @@ const Nosotros =(props) => {
                     </div>
                 </div>
             </div>
-            <Footer absolute={mobile}/>
+            <Footer/>
         </Layout>
     )
 };

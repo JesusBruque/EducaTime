@@ -27,8 +27,8 @@ const Contacto = (props) => {
                     <div>
                         <FontAwesomeIcon icon={faMobile} style={{color:'var(--main-color)',height:'1.2em'}}/>
                         <div className={styles.numbers}>
-                            <span>+34 689 123 132</span>
-                            <span>+34 689 123 132</span>
+                            <span>+34 671 400 694</span>
+                            <span>+34 619 510 343</span>
                         </div>
                     </div>
                 </div>

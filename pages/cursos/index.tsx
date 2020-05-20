@@ -5,7 +5,6 @@ import Layout from '../../components/Layout'
 import utilsStyles from '../../styles/Utils.module.css';
 import CursoGrid from "../../components/cursos/CursosGrid";
 import Head from "next/head";
-
 const Cursos = (props) =>{
 
     return (

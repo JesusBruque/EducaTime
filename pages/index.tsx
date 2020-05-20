@@ -46,7 +46,7 @@ const Home = (props) => {
                   </div>
                   <div className={homeStyles.mainClaimer} id={'welcome-claimer'}>
                       <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
-                      <p style={{opacity:'0'}}>Disfruta de la formación online flexible y de calidad, una oportunidad para progresar con los mejores</p>
+                      <p style={{opacity:'0'}}>Disfruta de formación online flexible y de calidad, una oportunidad para progresar con los mejores.</p>
                       <div data-scroll data-scroll-speed={1} className={homeStyles.startBtn} id={'welcome-start--btn'}>
                           <Button text={'Comienza ya'} color={'blue'} action={()=> props.router.push('/cursos')} styles={{opacity:'0'}}/>
                       </div>
@@ -85,28 +85,28 @@ const Home = (props) => {
                           <img src={'/assets/landing/conos.svg'} alt={'icono de un cono'}/>
                           <div>
                               <span className={homeStyles.valorsTitle} >Pasión:</span>
-                              <span>Dedicando nuestro tiempo a satisfacer las necesidades de nuestros alumnos/as, asegurando el desarrollo a través de oportunidades basadas en la aportación profesional y el cumplimiento de expectativas</span>
+                              <span>Dedicando nuestro tiempo a satisfacer las necesidades de nuestros alumnos/as, asegurando el desarrollo a través de oportunidades basadas en la aportación profesional y el cumplimiento de expectativas.</span>
                           </div>
                       </div>
                       <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} >
                           <img src={'/assets/landing/corner.svg'} alt={'icono de un corner'}/>
                           <div>
                               <span className={homeStyles.valorsTitle}>Profesionalidad:</span>
-                              <span>Trabajos realizados por entrenadores cualificados y con experiencia, en el fútbol profesional</span>
+                              <span>Trabajos realizados por entrenadores cualificados y con experiencia, en el fútbol profesional.</span>
                           </div>
                       </div>
                       <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1}>
                           <img src={'/assets/landing/marcador.svg'} alt={'icono de una porteria'}/>
                           <div>
                               <span className={homeStyles.valorsTitle}>Innovación:</span>
-                              <span>Promoviendo las formaciones continuas en el plano académico para alcanzar la máxima calidad en la formación continua del alumnado</span>
+                              <span>Promoviendo las formaciones continuas en el plano académico para alcanzar la máxima calidad en la formación continua del alumnado.</span>
                           </div>
                       </div>
                       <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1}>
                           <img src={'/assets/landing/banquillo.svg'} alt={'icono de un banquillo'}/>
                           <div>
                               <span className={homeStyles.valorsTitle}>Calidad:</span>
-                              <span>Buscando la excelencia a través de la implantación de nuevas herramientas educativas y procesos de evaluación, utilizando las nuevas tecnologías y tendencias en el deporte</span>
+                              <span>Buscando la excelencia a través de la implantación de nuevas herramientas educativas y procesos de evaluación, utilizando las nuevas tecnologías y tendencias en el deporte.</span>
                           </div>
                       </div>
                   </div>
@@ -138,7 +138,7 @@ const Home = (props) => {
                           <img src={'/assets/icons/to-do.svg'} alt={'icono de tareas'}/>
                           <div>
                               <span>Tareas</span>
-                              <span>El seguimiento con tareas facilitarán al alumno asentar los conceptos de la materia impartida.</span>
+                              <span>El seguimiento con tareas facilitará al alumno asentar los conceptos de la materia impartida.</span>
                           </div>
                       </div>
 
