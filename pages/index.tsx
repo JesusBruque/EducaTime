@@ -113,32 +113,32 @@ const Home = (props) => {
               </section>
               <section className={`${homeStyles.homeSection} ${homeStyles.infoSection}`} id={'info-section'} data-scroll>
                   <div className={homeStyles.casorInfo}>
-                      <div className={homeStyles.casorInfoItem} data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                      <div className={homeStyles.casorInfoItem} data-scroll data-scroll-speed={1}>
                           <img src={'/assets/icons/calendar.svg'} alt={'icono de calendario'}/>
                           <div>
                               <span>Pago a plazos</span>
                               <span>En Academia Casor pagar por plazos es posible. Alguno de nuestros cursos cuentan con esta opción, accediendo al contenido de manera escalonada.</span>
                           </div>
                       </div>
-                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1}>
                           <img src={'/assets/icons/graduated.svg'} alt={'icono de graduación'}/>
                           <div>
                               <span>Evaluación y certificación</span>
                               <span>Al finalizar cada curso, los profesores pondrán a prueba lo aprendido durante el curso por parte de los alumnos  y certificarán los conocimientos adquiridos de los mismos.</span>
                           </div>
                       </div>
-                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1}>
                           <img src={'/assets/icons/education.svg'} alt={'icono de profesores'}/>
                           <div>
                               <span>Profesores</span>
                               <span>Nuestros profesores se encargarán  de gestionar los bloques de contenido proporcionando el mejor aprendizaje.</span>
                           </div>
                       </div>
-                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1} data-scroll-delay={0.04}>
+                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1}>
                           <img src={'/assets/icons/to-do.svg'} alt={'icono de tareas'}/>
                           <div>
                               <span>Tareas</span>
-                              <span>El seguimiento con tareas facilitaran al alumno a asentar los conceptos de la materia impartida.</span>
+                              <span>El seguimiento con tareas facilitarán al alumno asentar los conceptos de la materia impartida.</span>
                           </div>
                       </div>
 
