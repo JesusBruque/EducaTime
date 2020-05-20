@@ -69,9 +69,9 @@ const CursoItem: FunctionComponent<Props> = (props) => {
         if(!props.reviews){
             router.push('/cursos/'+curso._id);
         }
-        // else{
-        //     router.push('/cursos/payment/'+curso._id);
-        // }
+        else{
+            router.push('/cursos/payment/'+curso._id);
+        }
     };
 
     const handleEditCourse = () => {
