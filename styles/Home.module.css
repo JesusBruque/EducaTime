@@ -107,9 +107,9 @@
 .cursosGrid:after{
     position:absolute;
     content:'';
-    left:75px;
+    left:0;
     height:100%;
-    width:calc(100% - 75px);
+    width:100%;
     top:0;
     background-image:linear-gradient(to right, rgba(255,255,255,.7),rgba(255,255,255,0),rgba(255,255,255,.7));
     z-index:4;

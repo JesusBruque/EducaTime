@@ -60,9 +60,9 @@ const Home = (props) => {
                       </div>
                       <div>
                           <div className={homeStyles.cursosGrid} id={'grid-cursos'}>
+                              <CursoMobile imagen={"https://d2nmzq3hxlvmns.cloudfront.net/dist/public/edp.jpeg"} title={"Readaptación en deportes de equipo. De lo específico a lo global. "}/>
                               <CursoMobile curso={props.cursos}/>
-                              <CursoMobile curso={props.cursos}/>
-                              <CursoMobile curso={props.cursos}/>
+                              <CursoMobile imagen={"https://d2nmzq3hxlvmns.cloudfront.net/dist/public/readap.jpg"} title={"Metodología al alcance de tu porter@"}/>
                           </div>
                       </div>
                   </div>

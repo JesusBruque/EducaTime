@@ -3,7 +3,8 @@
     grid-template-rows: 45% 1fr;
     grid-row-gap:15px;
     max-height:400px;
-    max-width:350px;
+    height:400px;
+    max-width:300px;
     background-color:white;
     box-shadow:0 3px 6px 0 rgba(0,0,0,.16);
     color:var(--black-color);
@@ -53,6 +54,9 @@
     height:25px;
     background-image: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0));
     width:100%;
+}
+.cursoInfo>h4{
+    text-transform: uppercase;
 }
 .finalBtn{
     width:100%;

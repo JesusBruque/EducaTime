@@ -4,7 +4,9 @@ import React, { FunctionComponent } from "react";
 import styles from '../../styles/cursos/CourseMobile.module.css';
 
 type Props = {
-    curso: Course
+    curso?: Course,
+    imagen?:string,
+    title?:string
 }
 const CursoMobile: FunctionComponent<Props> = (props) => {
 
@@ -19,24 +21,23 @@ const CursoMobile: FunctionComponent<Props> = (props) => {
         }
         return stars;
     }
-    if (!curso) return <div />
     return (
-        <div className={styles.itemContainer}>
-            <div className={styles.itemImage}>
-                <img src={curso.thumbnail} alt={'imagen preview del curso'} />
+        <div className={`${styles.itemContainer} ${props.curso ? '' : styles.proxCurso}`}>
+            <div className={styles.itemImage} style={props.curso ? {} : {opacity:.4}}>
+                <img src={props.curso ? curso.thumbnail : props.imagen} alt={'imagen preview del curso'} />
             </div>
             <div className={styles.itemInfo}>
                 <div className={styles.priceInfo}>
                     <div className={styles.valoraciones}>
-                        {renderStars()}
+                        {props.curso && renderStars()}
                     </div>
-                    <span>{curso.original_fee.toFixed(2)} €</span>
+                    {props.curso &&<span>{curso.original_fee.toFixed(2)} €</span>}
                 </div>
                 <div className={styles.cursoInfo}>
-                    <h4>{curso.title}</h4>
-                    <span dangerouslySetInnerHTML={{ __html: curso.description }} />
+                    <h4>{props.curso ? curso.title : props.title}</h4>
+                    {props.curso ? <span dangerouslySetInnerHTML={{ __html: curso.description }} /> : <div style={{fontSize:'1.5em',fontWeight:'bold',textAlign:'center',marginTop:'30px'}}>PRÓXIMAMENTE</div>}
                 </div>
-                <div className={styles.finalBtn}>
+                <div className={styles.finalBtn} style={props.curso ? {} : {opacity:.4}}>
                     <span>Compra</span>
                 </div>
             </div>

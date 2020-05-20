@@ -70,7 +70,6 @@ main{
 }
 /*--- FOOTER ---*/
 footer{
-    height:50px;
     background-color:#707070;
     display:flex;
     justify-content: space-between;
@@ -86,6 +85,8 @@ footer.absolute{
 }
 footer .legal-info{
     text-transform: uppercase;
+    display:grid;
+    grid-row-gap: 8px;
 
 }
 footer .legal-info>span{
@@ -231,6 +232,32 @@ html.has-scroll-smooth body {
     font-size:1.3em;
 }
 
+/*--- COSAS LEGALES ---*/
+.legalidad{
+    color:var(--black-color);
+    line-height:1.5em;
+}
+.legalidad>div>div{
+    margin:30px 0;
+}
+.legalidad .title{
+    font-weight:bold;
+    font-size:1.2em;
+    text-transform:uppercase;
+    margin:1em 0;
+}
+.legalidad .subtitle{
+    text-align:center;
+    font-weight: bold;
+    font-size:1.1em;
+}
+.legalidad p{
+    max-width:250ch;
+}
+.legalidad.aviso b{
+    font-size:1.1em;
+    line-height:1.5em;
+}
 @media screen and (max-width:600px){
     body{
         height:100vh;
