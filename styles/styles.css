@@ -269,7 +269,7 @@ html.has-scroll-smooth body {
     footer{
         display:grid;
         grid-template-columns: 100%;
-        grid-auto-rows:1.2em;
+        grid-template-rows:auto 1.5em 1.5em;
         text-align:center;
         align-items:center;
         grid-row-gap:8px;
