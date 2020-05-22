@@ -11,8 +11,8 @@ import Footer from "../components/Footer";
 
 const Home = (props) => {
     useEffect(() => {
-        // document.querySelector('body').style.position = 'fixed';
-        // document.querySelector('body').style.overflow = 'hidden';
+        document.querySelector('body').style.position = 'fixed';
+        document.querySelector('body').style.overflow = 'hidden';
         props.utils.initScroll().then(() => {
             props.utils.enterHomeAnimations();
             props.utils.initHomeScrollAnimations();
