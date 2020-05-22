@@ -12,16 +12,13 @@ import Footer from "../components/Footer";
 const Home = (props) => {
 
     useEffect(() => {
+        // document.querySelector('body').style.position = 'fixed';
+        // document.querySelector('body').style.overflow = 'hidden';
         let lu = new WebUtils('main');
-        document.querySelector('body').style.position = 'fixed';
-        document.querySelector('body').style.overflow = 'hidden';
-        setTimeout(() => {
-            lu.initScroll().then(() => {
-                lu.enterHomeAnimations();
-                lu.initHomeScrollAnimations();
-            });
-            console.log(lu.scrollElement);
-        },200);
+        lu.initScroll().then(() => {
+            lu.enterHomeAnimations();
+            lu.initHomeScrollAnimations();
+        });
     },[]);
 
     return (
@@ -29,8 +26,6 @@ const Home = (props) => {
           <Head>
               <title>Casor. Academia de formación</title>
               <meta name={'description'} content={'Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol.'}/>
-              <meta name="viewport" content="width=device-width, initial-scale=1" />
-              <link rel="icon" href="/assets/logo.svg"/>
               <meta property="og:title" content="Casor. Academia de formación deportiva"/>
               <meta property="og:description" content="Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol."/>
               <meta property="og:image" content="https://d2nmzq3hxlvmns.cloudfront.net/dist/public/logo_casor.jpg"/>

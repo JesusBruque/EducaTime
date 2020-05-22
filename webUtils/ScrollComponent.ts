@@ -19,13 +19,6 @@ export default class ScrollComponent{
             getSpeed:true,
             getDirection:true
         });
-        window.addEventListener('resize',() => {
-            this.scrollElement.update();
-            console.log('document resize');
-        });
-        document.querySelector('main').addEventListener('resize',()=>{
-            console.log('main resuze');
-        })
     };
 
     addAnimation(animation){
