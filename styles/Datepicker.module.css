@@ -11,6 +11,7 @@
 .title>svg{
     color:var(--main-color);
     cursor: pointer;
+    height:1em;
 }
 
 .container{
