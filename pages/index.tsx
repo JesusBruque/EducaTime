@@ -10,14 +10,12 @@ import Field from "../components/Field";
 import Footer from "../components/Footer";
 
 const Home = (props) => {
-
     useEffect(() => {
         // document.querySelector('body').style.position = 'fixed';
         // document.querySelector('body').style.overflow = 'hidden';
-        let lu = new WebUtils('main');
-        lu.initScroll().then(() => {
-            lu.enterHomeAnimations();
-            lu.initHomeScrollAnimations();
+        props.utils.initScroll().then(() => {
+            props.utils.enterHomeAnimations();
+            props.utils.initHomeScrollAnimations();
         });
     },[]);
 

@@ -31,7 +31,7 @@ const Layout : FunctionComponent<Props> = (props) => {
     return (
         <React.Fragment>
             <Head>
-                <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/assets/logo.svg"/>
             </Head>
             <Header user={props.user} router={props.router} setUser={props.setUser} whiteboard={props.whiteboard}/>
