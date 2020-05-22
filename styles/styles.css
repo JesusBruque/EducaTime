@@ -128,6 +128,8 @@ html.has-scroll-dragging {
     user-select: none; }
 .has-scroll-smooth body{
     overflow:hidden;
+    position:fixed;
+    top:0;
 }
 .has-scroll-smooth #__next{
     height:100%;
