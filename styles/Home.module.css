@@ -261,6 +261,8 @@
     .backgroundSection{
         top:0;
         height:800px;
+        width:100vw;
+        left:0;
     }
     .infoSection{
         height:1000px;
@@ -281,6 +283,8 @@
     .backgroundSection{
         top:-100vh;
         height:100vh;
+        width:100vw;
+        left:0;
     }
     .fixedField{
         height:100vh;
