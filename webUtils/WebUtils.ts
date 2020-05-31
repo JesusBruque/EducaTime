@@ -22,9 +22,6 @@ export default class WebUtils{
 
     initScroll = async () => {
         console.log('iniciando scroll');
-        console.log(document.querySelector(this.element).offsetHeight);
-        console.log(window.innerHeight);
-        console.log(screen.height);
         if(document.querySelector('.csr-scrollbar')){
             this.removeScroll();
         }

@@ -7,6 +7,9 @@ import ErrorsPanel from "../../../components/ErrorsPanel";
 import React, {useState,useEffect} from "react";
 import Course, {getCourseById, validate, edit, uploadCourseFile, create} from "../../../utils/Course";
 import fetch from "isomorphic-unfetch";
+import Input from "../../../components/Input";
+import axios from 'axios';
+import Modal from "../../../components/Modal";
 
 type Props={
     curso:Course
@@ -18,8 +21,20 @@ const editCurso = (props) => {
     const [cursoFiles,setCursoFiles] = useState({thumbnail:null,video:null});
     const [webinarFile,setWebinarFile] = useState(null);
     const [videoPlaying,setVideoPlaying] = useState(null);
+    const [code, setCode] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
 
+    const generateCode = () => {
+        if(code > 0){
+            axios.post(process.env.API_URL + '/api/code/'+ cursoInfo._id,{codeValue:code}).then(res => {
+                if(res.status === 200){
+                    setCode(res.data.code.code);
+                    setModalOpen(true);
+                }
+            }).catch(err => console.error(err));
+        }
+    };
     const editCourse = () => {
         validate(cursoInfo).then(() => {
             props.utils.initLoader('Editando curso...');
@@ -78,10 +93,15 @@ const editCurso = (props) => {
                     <h1 className={`${utilsStyles.sectionTitle}`}>Editar Curso</h1>
                     <Button color={'blue'} text={'Guardar curso'} action={editCourse}/>
                 </div>
+                <div style={{display:'flex', alignItems:'baseline'}}>
+                    <Input value={code} setValue={setCode} type={'number'} name={'code value'} label={'Valor del descuento'} />
+                    <Button color={'blue'} text={'Generar Código'} action={generateCode} styles={{height:'fit-content'}}/>
+                </div>
                 <AddCourseForm utils={props.utils} cursoInfo={cursoInfo} setCursoInfo={setCursoInfo} cursoFiles={cursoFiles} setCursoFiles={setCursoFiles} webinarFile={webinarFile} setWebinarFile={setWebinarFile} setVideoPlaying={setVideoPlaying}/>
             </div>
             {videoPlaying && <VideoComponent src={typeof videoPlaying === 'string' ? videoPlaying : URL.createObjectURL(videoPlaying)} autoPlay={true} title={videoPlaying.name || 'Preview del curso'} hls={typeof videoPlaying === 'string'} onClose={() => {setVideoPlaying(null);typeof videoPlaying !== 'string' && URL.revokeObjectURL(videoPlaying)}} />}
             {errors && <ErrorsPanel errors={errors} close={() => setErrors(null)}/>}
+            {modalOpen && <Modal open={modalOpen} setOpen={setModalOpen}><div><span>Se ha generado correctamente el código de descuento para el curso {cursoInfo.name}</span></div><div><b>Código: {code}</b></div></Modal>}
         </LayoutAdmin>
     )
 };

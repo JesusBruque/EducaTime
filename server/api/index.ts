@@ -5,6 +5,7 @@ import blogRoutes from './routes/blog.routes';
 import courseRoutes from './routes/course.routes';
 import orderRoutes from './routes/order.routes';
 import bookmarkRoutes from './routes/bookmark.routes';
+import codeRoutes from './routes/code.routes';
 
 export default () => {
     const app = Router();
@@ -15,5 +16,6 @@ export default () => {
     orderRoutes(app);
     bookmarkRoutes(app);
     blogRoutes(app);
+    codeRoutes(app);
     return app;
 };

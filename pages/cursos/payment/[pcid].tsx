@@ -10,30 +10,43 @@ import moment from 'moment';
 import Layout from "../../../components/Layout";
 import fetch from "isomorphic-unfetch";
 import Footer from "../../../components/Footer";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
+import axios from 'axios';
+
 const stripePromise = loadStripe(process.env.CLAVE_PK_STRIPE);
 
 const payCurso = (props) => {
     const { curso, router } = props;
     const [unicFee, setunicFee] = useState(true);
     const [mobile,setMobile] = useState(null);
+    const [code,setCode] = useState(null);
+    const [codeError, setCodeError] = useState(null);
+    const [codeApplied, setCodeApplied] = useState(null);
     useEffect(() => {
-        setMobile(window.innerWidth> 600);
-    },[])
+        setMobile(document.querySelector('main').getBoundingClientRect().height < window.innerHeight);
+    },[]);
 
-    const getPrice = () => {
+    const getPrice = (i?) => {
         if (unicFee) {
             return curso.original_fee / 1.21;
         }
-        return curso.fees[0].fee / 1.21;
+        return curso.fees[i? i: 0].fee / 1.21;
     };
+    const getCodeDisccount = (i?) => {
+        if(codeApplied){
+            return (getPrice(i) *  (codeApplied.value / 100));
+        }
+        return 0;
+    }
     const getDisccount = () => {
         return (getPrice() * (curso.discount / 100));
     };
     const getIVA = () => {
-        return (getPrice() - getDisccount()) * 0.21;
+        return (getPrice() - getDisccount() - getCodeDisccount()) * 0.21;
     };
     const getTotal = () => {
-        return (getPrice() - getDisccount()) + getIVA();
+        return (getPrice() - getDisccount() - getCodeDisccount()) + getIVA();
     };
     const tipoDePago = {
         display: "flex",
@@ -42,8 +55,19 @@ const payCurso = (props) => {
     const handleChangePayment = (opt) => {
         setunicFee(opt);
     };
+    const handleApplyCode = () => {
+        axios.get(process.env.API_URL + '/api/code/checkCode/'+curso._id, {params:{code:code}}).then((res) => {
+            if(res.status === 200){
+                setCodeApplied(res.data.code);
+            }else{
+                setCodeError('Ha ocurrido algún error al aplicar el código.')
+            }
+        }).catch(() => setCodeError('Ha ocurrido algún error al aplicar el código.'));
+    };
+
+
     let a = 1;
-    const plazosList = curso.fees.map(function (plazo) { return <li style={{ fontSize: '.8em' }}>Plazo número {a++}: <b>{plazo.fee}€.</b> Vence el <b style={{ color: 'var(--red-color)' }}>{moment(plazo.date).format('DD/MM/YYYY')}</b></li> });
+    const plazosList = curso.fees.map(function (plazo, index) { return <li key={index} style={{ fontSize: '.8em' }}>Plazo número {a++}: <b>{index === 0 ? (plazo.fee - getCodeDisccount(index)).toFixed(2) : plazo.fee.toFixed(2)}€.</b> Vence el <b style={{ color: 'var(--red-color)' }}>{moment(plazo.date).format('DD/MM/YYYY')}</b></li> });
     return (
         <Layout setUser={props.setUser} utils={props.utils} router={props.router} user={props.user}>
             <div className={utilsStyles.sectionContainer} >
@@ -53,7 +77,7 @@ const payCurso = (props) => {
                         <div>
                             <h4 style={{ color: '#70a0af', fontSize: '1.6em' }}>Detalles de pago</h4>
                             <Elements stripe={stripePromise}>
-                                <PaymentForm router={router} cursoId={curso._id} plazo={unicFee ? null : 0} utils={props.utils} />
+                                <PaymentForm router={router} cursoId={curso._id} plazo={unicFee ? null : 0} utils={props.utils} code={codeApplied}/>
                             </Elements>
                         </div>
                         <div className={pagoStyles.payResume}>
@@ -88,7 +112,7 @@ const payCurso = (props) => {
                                 </tr>
                                 <tr>
                                     <td>Descuento aplicado</td>
-                                    <td>{getDisccount().toFixed(2)}€</td>
+                                    <td style={{color:'var(--red-color)'}}>- {(getDisccount() + getCodeDisccount()).toFixed(2)}€</td>
                                 </tr>
                                 <tr>
                                     <td>IVA 21%</td>
@@ -100,6 +124,12 @@ const payCurso = (props) => {
                                 </tr>
                                 </tbody>
                             </table>
+                            {
+                                <div style={{display:'flex', alignItems:'baseline'}}>
+                                    <Input value={code} setValue={setCode} type={'text'} name={'code'} label={'Código descuento'} error={codeError}/>
+                                    <Button disabled={codeApplied} styles={{padding:'8px', height:'fit-content', width:'fit-content'}} color={'black'} text={'Aplicar'} action={handleApplyCode}/>
+                                </div>
+                             }
                             {!unicFee && <div>*Los plazos de pagos son los siguientes:<ul>{plazosList}</ul>
                             </div>
                             }

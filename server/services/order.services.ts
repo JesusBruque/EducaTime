@@ -5,19 +5,22 @@ import AuthenticationService from "./authentication.services"
 import {IOrder} from "../interfaces/IOrder";
 const stripe = require("stripe")(process.env.CLAVE_SK_STRIPE);
 import Course from '../models/course.model';
+import CodeServices from "./code.services";
 
 export default class OrderService extends GenericService{
     userService: AuthenticationService;
+    codeService : CodeServices;
     constructor(){
         super(Order);
         this.userService = new AuthenticationService();
+        this.codeService = new CodeServices();
     }
-    public paymentIntent = async(courseId:string, plazo:number) => {
+    public paymentIntent = async(courseId:string, plazo:number, code:string) => {
         try{
             console.log('PAYMENT INTENT CURSO '+ courseId);
             const course = await Course.findById(courseId) as ICourse;
             let courseAmount = 0;
-            console.log(plazo);
+            console.log(code);
             if(plazo === null || plazo === undefined){
                 console.log('NO HAY PLAZO COMPADRE');
                 courseAmount = course.original_fee * (1 - (course.discount/100));
@@ -29,7 +32,10 @@ export default class OrderService extends GenericService{
                     throw e;
                 }
             }
-
+            if(code){
+                let codeAmount = await this.codeService.getCodeValue(code, courseId);
+                courseAmount -= courseAmount * (codeAmount / 100)
+            }
             if(courseAmount > 0){
                 return await stripe.paymentIntents.create({
                     amount:courseAmount*100,

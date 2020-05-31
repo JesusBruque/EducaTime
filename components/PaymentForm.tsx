@@ -8,7 +8,7 @@ import { createPaymentIntent, afterPayment } from "../utils/Order";
 import Input from "./Input";
 import Button from "./Button";
 import ErrorsPanel from "./ErrorsPanel";
-const PaymentForm = ({ router, cursoId, plazo, utils, stay = null }) => {
+const PaymentForm = ({ router, cursoId, plazo, utils, stay = null, code = null }) => {
     const [values, setValues] = useState({ email: '', name: '' });
     const [errors, setErrors] = useState(Object);
 
@@ -49,8 +49,7 @@ const PaymentForm = ({ router, cursoId, plazo, utils, stay = null }) => {
         ev.preventDefault();
         setProcessing(true);
         let id = cursoId ? cursoId : router.query.pcid;
-        console.log(plazo);
-        const paymentResponse = await createPaymentIntent(id, plazo).catch(() => router.push('/cursos'));
+        const paymentResponse = await createPaymentIntent(id, plazo, code.code).catch(() => router.push('/cursos'));
         const clientSecret = paymentResponse.data.clientSecret;
         const payload = await stripe.confirmCardPayment(clientSecret, {
             receipt_email: values.email,
@@ -70,6 +69,7 @@ const PaymentForm = ({ router, cursoId, plazo, utils, stay = null }) => {
             const payment = await afterPayment({
                 amount: payload.paymentIntent.amount,
                 plazo: plazo,
+                code:code._id,
                 client_secret: payload.paymentIntent.client_secret,
                 id: payload.paymentIntent.id,
                 receipt_email: payload.paymentIntent.receipt_email,

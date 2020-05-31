@@ -4,15 +4,18 @@ import { Request, Response } from "express";
 import Logger from "../loaders/logger";
 import CourseService from "../services/course.services";
 import AuthenticationService from "../services/authentication.services";
+import CodeServices from "../services/code.services";
 
 
 export default class OrderController extends GenericController {
     private orderService;
     private userService;
+    private codeService;
     constructor() {
         super(new OrderService());
         this.orderService = new OrderService();
         this.userService = new AuthenticationService();
+        this.codeService = new CodeServices();
     }
     public paymentIntent = async (req: Request, res: Response) => {
         Logger.debug('Intentando un pago.');
@@ -20,8 +23,9 @@ export default class OrderController extends GenericController {
             /*aqui voy a tener el id del curso que tengo que pagar... Vamos a llamar al findById y vamos a coger esa cantidad para el pago.*/
             let courseId = req.body.id;
             let plazo = req.body.plazo;
-            Logger.debug(plazo);
-            const paymentResponse = await this.orderService.paymentIntent(courseId, plazo);
+            let code = req.body.code;
+            Logger.debug(code);
+            const paymentResponse = await this.orderService.paymentIntent(courseId, plazo, code);
             const orderObject = { date: Date.now(), course: courseId, paid: false, fee: paymentResponse.amount, currency: "EUR", client_secret: paymentResponse.client_secret, payment_id: paymentResponse.id, description: "Creación de la orden de pago." };
             await this.orderService.create(orderObject);
             /*--- Ya tengo la orden de pago creada y voy a devolver al cliente la clave secreta ---*/
@@ -49,6 +53,10 @@ export default class OrderController extends GenericController {
                 await this.userService.addCursoToUser(user._id, paymentInfo.curso, paymentInfo.plazo);
             else
                 await this.userService.marcaProxPlazo(user, paymentInfo.curso, paymentInfo.plazo);
+
+            if(paymentInfo.code){
+                await this.codeService.applyCode(paymentInfo.code);
+            }
             const order = await this.orderService.updateOrderByPaymentId(paymentInfo, user._id);
             return res.status(200).json({ status: 200, order: order });
         } catch (e) {
