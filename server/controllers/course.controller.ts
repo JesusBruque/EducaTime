@@ -69,6 +69,7 @@ export default class CourseController extends GenericController {
             let lections = curso.lections;
 
             /*-- CREANDO CURSO Y LECCIONES --*/
+            curso.lections = [];
             curso = await this.courseService.create(curso).catch(err => { throw err });
             await this.manageAfterCreateOrEdit(lections, curso, true,(req.user as IUsuarioDTO)._id);
             return res.status(200).json({ status: 200, curso: curso });
