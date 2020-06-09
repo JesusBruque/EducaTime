@@ -5,7 +5,7 @@ import Link from "next/link";
 import gsap from 'gsap';
 import {logout, check, User} from '../utils/Authentication';
 import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUserCog, faPowerOff, faBookOpen,faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faUserCog, faPowerOff, faBookOpen,faTimes, faEllipsisV} from "@fortawesome/free-solid-svg-icons";
 import {Router} from "next/router";
 
 type Props = {
@@ -68,7 +68,7 @@ const Header : FunctionComponent<Props> = (props) => {
                 </div>
             </div>
             <header id={'casor-mobile-header'} className={`${headerStyles.headerMobile} ${props.whiteboard ? headerStyles.headerWhiteBoard : ''}`}>
-                {props.whiteboard  && <img src={'/assets/icons/menu-icon.png'} alt={'icono del menú'} style={{height:'55%'}} onClick={() => props.setLateralOpen(!props.lateralOpen)}/>}
+                {props.whiteboard  && <FontAwesomeIcon icon={faEllipsisV} style={{height:'100%', color:'var(--main-color)'}} onClick={() => props.setLateralOpen(!props.lateralOpen)}/>}
                 <Link href={'/'}>
                     <img className={headerStyles.logo} src={'/assets/logo_letras.png'} alt={'logo casor en la cabecera'}/>
                 </Link>

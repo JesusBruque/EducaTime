@@ -32,5 +32,6 @@
     .webContainer{
         padding:40px 0 0;
         min-height:-webkit-fill-avaliable;
+        padding:0 15px;
     }
 }

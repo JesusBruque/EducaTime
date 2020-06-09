@@ -92,6 +92,7 @@
         height:100%;
         z-index:1041;
         margin-right:0;
+        max-width:90vw;
     }
     .menu__contraed{
         transform: translateX(-100%);
