@@ -68,7 +68,7 @@ const Header : FunctionComponent<Props> = (props) => {
                 </div>
             </div>
             <header id={'casor-mobile-header'} className={`${headerStyles.headerMobile} ${props.whiteboard ? headerStyles.headerWhiteBoard : ''}`}>
-                {props.whiteboard  && <FontAwesomeIcon icon={faEllipsisV} style={{height:'100%', color:'var(--main-color)'}} onClick={() => props.setLateralOpen(!props.lateralOpen)}/>}
+                {props.whiteboard  && <FontAwesomeIcon icon={faEllipsisV} style={{height:'1.5em', color:'var(--main-color)'}} onClick={() => props.setLateralOpen(!props.lateralOpen)}/>}
                 <Link href={'/'}>
                     <img className={headerStyles.logo} src={'/assets/logo_letras.png'} alt={'logo casor en la cabecera'}/>
                 </Link>
