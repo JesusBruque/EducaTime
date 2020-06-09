@@ -35,6 +35,9 @@ const editCurso = (props) => {
             }).catch(err => console.error(err));
         }
     };
+    useEffect(() =>{
+        console.log(cursoInfo);
+    },[cursoInfo]);
     const editCourse = () => {
         validate(cursoInfo).then(() => {
             props.utils.initLoader('Editando curso...');

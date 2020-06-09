@@ -1,13 +1,14 @@
 import Blog from "../../utils/Blog";
-import React,{Dispatch, FunctionComponent} from "react";
+import React, {Dispatch, FunctionComponent, useEffect} from "react";
 import Layout from "../../components/Layout";
 import {Router} from "next/router";
 import {User} from "../../utils/Authentication";
 import BlogDetalle from "../../components/blog/BlogDetalle";
 import {getBlogById} from "../../utils/Blog";
 import WebUtils from "../../webUtils/WebUtils";
-import Head from "next/dist/next-server/lib/head";
-
+import Head from "next/head";
+import fetch from "isomorphic-unfetch";
+import Footer from "../../components/Footer";
 type Props = {
     blog:Blog,
     router:Router,
@@ -17,6 +18,9 @@ type Props = {
 }
 
 const BlogDetail :FunctionComponent<Props> = (props) => {
+    useEffect(() => {
+        console.log(props.blog);
+    },[]);
     return (
         <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>
             <Head>
@@ -28,14 +32,15 @@ const BlogDetail :FunctionComponent<Props> = (props) => {
                 <meta property="og:title" content={props.blog.title}/>
                 <meta property="og:description" content={'Casor. Entrada de blog - '+props.blog.title}/>
                 <meta property="og:image" content={props.blog.thumbnail}/>
-                <meta property="og:url" content={'http://165.22.114.158'+ props.router.pathname} />
+                <meta property="og:url" content={'https://academiaformaciondeportiva.com'+ props.router.pathname} />
             </Head>
             <BlogDetalle blog={props.blog} admin={false}/>
+            <Footer />
         </Layout>
     )
 };
 export const getServerSideProps =  async ctx => {
-    const res = await fetch('http://localhost:3000/api/blog/findById/'+ctx.params.bid);
+    const res = await fetch('http://localhost:3000/api/blog/findById/'+ctx.query.id);
     const data = await res.json();
     const blog = data.Blog;
     return {props:{blog:blog}}

@@ -44,6 +44,7 @@ const userWhiteBoard = (props) => {
     const handleChangeContent = (e) => {
         e.stopPropagation();
         e.preventDefault();
+        if(props.lateralOpen) props.setLateralOpen(false);
         let opt = e.currentTarget.dataset.option;
         let ind = e.currentTarget.dataset.optionIndex;
         setContentSelected(opt);
@@ -68,10 +69,10 @@ const userWhiteBoard = (props) => {
         }
     };
     return (
-        <Layout user={props.user} setUser={props.setUser} router={props.router} utils={props.utils} whiteboard={true}>
+        <Layout user={props.user} setUser={props.setUser} router={props.router} utils={props.utils} whiteboard={true} lateralOpen={props.lateralOpen} setLateralOpen={props.setLateralOpen}>
             {userData &&
                 <React.Fragment>
-                    {contentLoaded && <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} />}
+                    {contentLoaded && <LateralMenu onClickOption={handleChangeContent} user={userData} optionSelected={contentSelected} teacherCourses={coursesTeaching} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} lateralOpen={props.lateralOpen} setLateralOpen={props.setLateralOpen}/>}
                     <div className={styles.mainContainer}>
                         {contentLoaded && contentSelected === 'cursos' && userData && userData.roles.includes('user') && <CursosContent user={userData} cursoIndex={cursoIndex} cursoTeacherIndex={teacherCursoIndex} cursos={userData.cursos} teacher={false} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} utils={props.utils} />}
                         {contentLoaded && contentSelected === 'tareas' && <TareasContent user={userData} utils={props.utils} cargarContenido={cargarContenido} setCargarContenido={setCargarContenido} />}

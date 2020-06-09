@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, {Dispatch, FunctionComponent, useEffect} from 'react';
 import { User } from "../../utils/Authentication";
 import Course from "../../utils/Course";
 import styles from '../../styles/whiteBoard/LateralMenu.module.css';
 import moment from 'moment';
-
+import utilStyles from '../../styles/Utils.module.css';
 type Props = {
     onClickOption: (e) => void,
     user: any,
@@ -13,7 +13,9 @@ type Props = {
     optionSelected: string,
     cursoIndex?: number,
     cursoTeacherIndex?: number,
-    tasksToReview?: number
+    tasksToReview?: number,
+    lateralOpen?:boolean,
+    setLateralOpen?:Dispatch<boolean>
 }
 
 const LateralMenu: FunctionComponent<Props> = (props) => {
@@ -36,7 +38,8 @@ const LateralMenu: FunctionComponent<Props> = (props) => {
         return true;
     }
     return (
-        <div className={styles.lateralMenu}>
+        <React.Fragment>
+        <div className={`${styles.lateralMenu} ${props.lateralOpen ? styles.menu__expanded : styles.menu__contraed}`}>
             <div>
                 {
                     props.user.roles.includes('user') &&
@@ -88,6 +91,8 @@ const LateralMenu: FunctionComponent<Props> = (props) => {
                 }
             </div>
         </div>
+            {props.lateralOpen && <div className={utilStyles.background} onClick={() => props.setLateralOpen(false)}></div>}
+        </React.Fragment>
     )
 }
 

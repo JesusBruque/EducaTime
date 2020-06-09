@@ -192,6 +192,20 @@ export default class AuthenticationService {
         return user;
 
     }
+    public addLectionToUsers = async(lectionId:string, cursoId:string) => {
+        let lection = { idLection: lectionId, seen: false, taskResponses: [], evaluationResponses: [] };
+        let err, users = await Usuario.find({'cursos.idCurso':cursoId});
+        if (err) throw err;
+        let pr = [];
+        users.forEach(user => {
+            let c = user.cursos.find(x => x.idCurso.toString() === cursoId.toString());
+            if(c){
+                c.lections.push(lection);
+            }
+            pr.push(user.save());
+        });
+        await Promise.all(pr);
+    };
     public addCursoToUser = async (userId: string, curso: string, plazo?: number): Promise<IUsuarioDTO> => {
 
         let a = await Course.findById(curso);

@@ -1,17 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, {Dispatch, useEffect, useState, FunctionComponent} from 'react';
 import headerStyles from '../styles/Header.module.css';
 import utilStyles from '../styles/Utils.module.css';
 import Link from "next/link";
 import gsap from 'gsap';
-import {logout,check} from '../utils/Authentication';
+import {logout, check, User} from '../utils/Authentication';
 import { FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserCog, faPowerOff, faBookOpen,faTimes} from "@fortawesome/free-solid-svg-icons";
+import {Router} from "next/router";
 
 type Props = {
-    user:boolean,
-
+    user:User,
+    setUser:Dispatch<boolean>,
+    router:Router,
+    setLateralOpen?:Dispatch<boolean>,
+    lateralOpen?:boolean,
+    whiteboard?:boolean
 }
-const Header = (props) => {
+const Header : FunctionComponent<Props> = (props) => {
     const [menuOpen,setMenuOpen] = useState(false);
     const [optionsOpen,setOptionsOpen] = useState(false);
     const goLogOut = () => {
@@ -63,10 +68,13 @@ const Header = (props) => {
                 </div>
             </div>
             <header id={'casor-mobile-header'} className={`${headerStyles.headerMobile} ${props.whiteboard ? headerStyles.headerWhiteBoard : ''}`}>
-                {props.whiteboard  && <img src={'/assets/icons/menu-icon.png'} alt={'icono del menú'} style={{height:'55%'}}/>}
+                {props.whiteboard  && <img src={'/assets/icons/menu-icon.png'} alt={'icono del menú'} style={{height:'55%'}} onClick={() => props.setLateralOpen(!props.lateralOpen)}/>}
                 <Link href={'/'}>
                     <img className={headerStyles.logo} src={'/assets/logo_letras.png'} alt={'logo casor en la cabecera'}/>
                 </Link>
+                <div className={`${utilStyles.userIcon} ${utilStyles.userBlue}`} onClick={() => props.user ? (props.user.roles.includes('admin') ?  props.router.push('/admin/formacion') : setOptionsOpen(true)) : props.router.push('/login')}>
+                    <img onClick={hideMenu} src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
+                </div>
                 <img src={'/assets/icons/menu-icon.png'} alt={'icono del menú'} style={{height:'55%'}} onClick={showMenu}/>
             </header>
             {menuOpen &&
@@ -77,9 +85,6 @@ const Header = (props) => {
                 <span onClick={hideMenu} data-href={'/cursos'} className={`${headerStyles.headerLink} ${props.router.pathname.includes('cursos') ?  headerStyles.linkActive : ''}`}>formación</span>
                 <span onClick={hideMenu} data-href={'/blog'} className={`${headerStyles.headerLink} ${props.router.pathname.includes('blog') ?  headerStyles.linkActive : ''}`}>blog</span>
                 <span onClick={hideMenu} data-href={'/contacto'} className={`${headerStyles.headerLink} ${props.router.pathname.includes('contacto') ?  headerStyles.linkActive : ''}`}>contacto</span>
-                <div className={`${utilStyles.userIcon} ${utilStyles.userBlue}`} onClick={() => props.user ? (props.user.roles.includes('admin') ?  props.router.push('/admin/formacion') : setOptionsOpen(true)) : props.router.push('/login')}>
-                    <img onClick={hideMenu} src={'/assets/icons/user-icon.svg'} alt={'icono para el acceso de los usuarios'}/>
-                </div>
             </div>}
             {props.user &&
             <div className={headerStyles.optionsHeader}>

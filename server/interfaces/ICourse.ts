@@ -1,5 +1,6 @@
 import { IGenericInterface } from "./IGenericInterface";
 import {Model} from "mongoose";
+import {ILection} from "./ILection";
 
 type fee = {
     _id:string
@@ -31,5 +32,5 @@ export interface ICourse extends IGenericInterface{
     dateEndCourse: number;
     teacher:string;
     webinar:string;
-    lections:string[];
+    lections:string[] | ILection[];
 }

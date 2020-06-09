@@ -23,7 +23,8 @@ const BlogItem : FunctionComponent<Props> = (props) =>{
     };
     const goToDetail = () => {
         if(!admin){
-            props.router.push('/blog/'+blog._id);
+            let url = blog.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(' ').join('-');
+            props.router.push({pathname:'/blog/'+url, query:{id:blog._id}});
         }
     };
     const confirmDelete = () => {

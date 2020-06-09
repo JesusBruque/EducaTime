@@ -7,14 +7,17 @@ import LectionService from "./lection.services";
 import FilesServices from "./files.services";
 import Logger from "../loaders/logger";
 import mongoose from 'mongoose';
+import AuthenticationService from "./authentication.services";
 
 export default class CourseService extends GenericService {
     private lectionService: LectionService;
     private fileService: FilesServices;
+    userService: AuthenticationService;
     constructor() {
         super(Course);
         this.lectionService = new LectionService();
         this.fileService = new FilesServices();
+        this.userService = new AuthenticationService();
     }
     public findById = async (CourseId: string): Promise<ICourse & mongoose.Document> => {
         try {
@@ -57,12 +60,15 @@ export default class CourseService extends GenericService {
             throw error;
         }
     };
-    public addLectionToCourse = async (courseId: string, lection: { title: string, order:number }) => {
+    public addLectionToCourse = async (courseId: string, lection: { title: string, order:number }, userId:string) => {
         try {
             let lection1 = await this.lectionService.create({ title: lection.title, order: lection.order, course: courseId });
             let course = await this.findById(courseId);
+            // @ts-ignore
             course.lections.push(lection1._id);
             course.save();
+            /*--- VAMOS A BUSCAR LOS USUARIOS CON ESTE CURSO COMPRADO Y VAMOS AÑADIRLE ESTA LECCION ---*/
+            await this.userService.addLectionToUsers(lection1._id, courseId);
         } catch (e) {
             throw e;
         }
@@ -76,6 +82,27 @@ export default class CourseService extends GenericService {
             throw e;
         }
     };
+    public findLections = async(courseId:string) => {
+        try{
+            let err, lections = await Lection.find({course:courseId}).lean();
+            if(err) throw err;
+            return lections;
+        }catch(e){
+            throw e;
+        }
+    };
+    public removeLectionFromCourse = async(lectionId:string, courseId:string) => {
+        try{
+            await Lection.findByIdAndDelete(lectionId);
+            let course = await this.findById(courseId);
+            // @ts-ignore
+            course.lections  = course.lections.filter(lection => lection !== lectionId);
+            course.save();
+            return true;
+        }catch (e) {
+            throw e;
+        }
+    }
     public updateCourseById = async (courseId: string, key: string, value: any) => {
         try {
             let err, course = await Course.findByIdAndUpdate(courseId, { [key]: value });

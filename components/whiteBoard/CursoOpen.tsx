@@ -153,7 +153,8 @@ const CursoOpen: FunctionComponent<Props> = (props) => {
     }
     const canShowLection = (userCourse, lection) => {
         if(props.teacher) return true;
-        if(moment().isBefore(lection.dateAvailable)) return false;
+        if(moment().isBefore(lection.dateAvailable,'date')) return false;
+        if(moment().isAfter(lection.dateEnd, 'date')) return false;
         const user = props.user;
         const feeState = userCourse.feeState;
         let indexLastFee = -1;

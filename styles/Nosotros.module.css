@@ -33,7 +33,9 @@
 .content>h1{
     margin-bottom:15px;
 }
-
+.container p{
+    line-height:1.5;
+}
 @keyframes showImage{
     from{
         filter:grayscale(0);

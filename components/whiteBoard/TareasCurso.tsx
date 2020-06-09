@@ -2,7 +2,7 @@ import styles from '../../styles/whiteBoard/whiteBoard.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faFileDownload, faTimes, faReply } from "@fortawesome/free-solid-svg-icons";
 import { deleteHomework, uploadHomeworkResponseFile, uploadHomeworkLectionFile, updateTaskDate } from '../../utils/Lection';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import MyDropzone from '../MyDropzone';
 import utilsStyles from "../../styles/Utils.module.css";
 import moment from 'moment';
@@ -21,7 +21,7 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
                 setCargarContenido(!cargarContenido);
                 setResponding(null);
             }
-            else window.alert('ERRORRRR');
+            else window.alert('ERROR');
         }).catch(err => {
             console.error(err);
         });
@@ -111,6 +111,9 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
         });
         setTaskDateEditing(null);
     };
+    useEffect(() => {
+        console.log(lection.homework);
+    },[]);
     return <div className={styles.taskResources}>
         {
             lection.homework && lection.homework.length > 0 ? lection.homework.map((tarea, j) => {
@@ -123,10 +126,11 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
                         {teacher && <FontAwesomeIcon icon={faTimes} onClick={() => handleDeleteTarea(lection._id, tarea._id)} className={styles.close} />}
                     </div>
                     {canRespond(lection._id, tarea._id) && <FontAwesomeIcon onClick={() => {
+                        canRespond(lection._id, tarea._id);
                         if (responding && responding._id === tarea._id) setResponding(null)
                         else setResponding(tarea)
-                    }} icon={faReply} color={'var(--main-color)'} style={{ cursor: 'pointer', margin: '0px 4px' }} />}
-                    {!canRespond(lection._id, tarea._id) &&  <a href={'#'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'} /></a>}
+                    }} icon={faReply} color={'var(--main-color)'} style={{ cursor: 'pointer', margin: '0px 4px', height:'1em' }} />}
+                    {!canRespond(lection._id, tarea._id) &&  <a href={'#'}><FontAwesomeIcon icon={faFileDownload} color={'var(--main-color)'} style={{ height:'1.2em'}} /></a>}
                     {
                         !teacher && canRespond(lection._id,tarea._id) && <div className={utilsStyles.timeLeft} style={moment(tarea.deadline).diff(moment(), 'days') < 5 ? { backgroundColor: 'var(--red-color)' } : { backgroundColor: 'var(--black-color)' }}>
                             <FontAwesomeIcon icon={faClock} color={'white'} style={{ marginRight: '4px' }} />
@@ -148,7 +152,7 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
                     {
                         teacher &&
                         <div style={{ position: 'relative', marginLeft: '8px' }}>
-                            <span style={{ color: 'var(--main-color)', marginRight: '4px' }}>Fecha Límite:</span>
+                            <span style={{ color: 'var(--main-color)', margin: '4px' }}>Fecha Límite:</span>
                             <b onClick={teacher ? () => setTaskDateEditing(j) : () => { }} className={`${teacher ? styles.editable : ''}`}>{moment(tarea.deadline).format('DD/MM/YYYY')}</b>
                             {taskDateEditing === j && <div>
                                 <div className={utilsStyles.background} onClick={() => setTaskDateEditing(null)}></div>
@@ -158,6 +162,12 @@ const TareasCurso = ({ user, curso, setCurso = null, lection, teacher = null, ut
                             </div>}
                         </div>
                     }
+                    {teacher &&  <div style={{margin:'8px', display:'grid', gridRowGap:'4px'}}>
+                        <span>Respuestas:</span>
+                        {tarea.userResponses.map((response,i) => {
+                            return  <div key={i}><span style={{marginRight:'8px'}}></span><a href={response.file} target={'_blank'} style={{margin:'8px'}} ><FontAwesomeIcon icon={faFileDownload} style={{height:'1.3em'}} color={'var(--main-color)'} /></a></div>
+                        })}
+                    </div>}
                 </div>
             })
                 :

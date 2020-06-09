@@ -13,6 +13,7 @@ import Footer from "../../../components/Footer";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import axios from 'axios';
+import Head from "next/head";
 
 const stripePromise = loadStripe(process.env.CLAVE_PK_STRIPE);
 
@@ -24,7 +25,7 @@ const payCurso = (props) => {
     const [codeError, setCodeError] = useState(null);
     const [codeApplied, setCodeApplied] = useState(null);
     useEffect(() => {
-        setMobile(document.querySelector('main').getBoundingClientRect().height < window.innerHeight);
+        setMobile(document.querySelector('main>div').getBoundingClientRect().height < window.innerHeight);
     },[]);
 
     const getPrice = (i?) => {
@@ -70,6 +71,17 @@ const payCurso = (props) => {
     const plazosList = curso.fees.map(function (plazo, index) { return <li key={index} style={{ fontSize: '.8em' }}>Plazo número {a++}: <b>{index === 0 ? (plazo.fee - getCodeDisccount(index)).toFixed(2) : plazo.fee.toFixed(2)}€.</b> Vence el <b style={{ color: 'var(--red-color)' }}>{moment(plazo.date).format('DD/MM/YYYY')}</b></li> });
     return (
         <Layout setUser={props.setUser} utils={props.utils} router={props.router} user={props.user}>
+            <Head>
+                <title>Casor - {curso.title}</title>
+                <meta name={'description'}  content={'Casor. Curso de formación "'+curso.title + '". ' + curso.description} key={'description'}/>
+                <link rel={'icon'} href={'/assets/logo.svg'}/>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/assets/logo.svg"/>
+                <meta property="og:title" content={curso.title}/>
+                <meta property="og:description" content={'Casor. Curso de formación "'+curso.title+ '". ' + curso.description}/>
+                <meta property="og:image" content={curso.thumbnail}/>
+                <meta property="og:url" content={'https://academiaformaciondeportiva.com'+ props.router.pathname} />
+            </Head>
             <div className={utilsStyles.sectionContainer} >
                 <h1 className={utilsStyles.sectionTitle}>Confirmación del pago</h1>
                 <div className={utilsStyles.centeredContainer}>

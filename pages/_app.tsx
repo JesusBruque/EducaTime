@@ -38,6 +38,8 @@ function MyApp({ Component, pageProps,pageUser }) {
         return Promise.reject(error);
     });
 
+    const [lateralOpen, setLateralOpen] = useState(false);
+
     useEffect(() => {
         if((!user || !user.roles.includes('admin')) && router.pathname.includes('admin')){
             router.push('/login');
@@ -49,7 +51,7 @@ function MyApp({ Component, pageProps,pageUser }) {
         wu.removeLoader();
     },[router]);
 
-    return <Component  {...pageProps} router={router} user={user} setUser={setUser} utils={wu}/>
+    return <Component  {...pageProps} router={router} user={user} setUser={setUser} utils={wu} lateralOpen={lateralOpen} setLateralOpen={setLateralOpen} />
 }
 MyApp.getInitialProps = async (ctx) => {
     let user;

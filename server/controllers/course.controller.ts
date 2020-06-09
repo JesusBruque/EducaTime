@@ -9,6 +9,7 @@ import FilesServices from "../services/files.services";
 import { Json } from "aws-sdk/clients/marketplacecatalog";
 import { IUsuarioDTO } from "../interfaces/IUsuario";
 import mongoose from "mongoose";
+import {ILection} from "../interfaces/ILection";
 
 export default class CourseController extends GenericController {
     private courseService: CourseService;
@@ -34,14 +35,25 @@ export default class CourseController extends GenericController {
         Logger.debug('Editando curso...');
         try {
             let curso = req.body;
-            let lections = curso.lections;
-            curso.lections = [];
-
+            let lections = [];
+            let nLections = [];
+            let prLections = [];
+            curso.lections.forEach((lection) => {
+                if(lection._id){
+                    lections.push(lection);
+                    prLections.push(this.lectionService.edit(lection));
+                }else{
+                    nLections.push(lection)
+                }
+            });
+            await Promise.all(prLections);
+            curso.lections = lections;
             /*-- EDITANDO CURSO Y LECCIONES --*/
             let oldCurso = await this.courseService.findById(curso._id);
-            await this.courseService.edit(curso);
             let addTeacher = oldCurso.teacher !== curso.teacher;
-            await this.manageAfterCreateOrEdit(lections, curso, addTeacher);
+            curso = await this.courseService.edit(curso);
+
+            await this.manageAfterCreateOrEdit(nLections, curso, addTeacher,(req.user as IUsuarioDTO)._id);
             return res.status(200).json({ status: 200, curso: curso });
         } catch (e) {
             Logger.error('Error al editar un curso.');
@@ -54,13 +66,11 @@ export default class CourseController extends GenericController {
 
         try {
             let curso = req.body;
-            console.log(curso);
             let lections = curso.lections;
-            curso.lections = [];
 
             /*-- CREANDO CURSO Y LECCIONES --*/
             curso = await this.courseService.create(curso).catch(err => { throw err });
-            await this.manageAfterCreateOrEdit(lections, curso, true);
+            await this.manageAfterCreateOrEdit(lections, curso, true,(req.user as IUsuarioDTO)._id);
             return res.status(200).json({ status: 200, curso: curso });
         } catch (e) {
             Logger.error('Error al crear un curso.');
@@ -68,12 +78,13 @@ export default class CourseController extends GenericController {
             return res.status(400).json({ status: 400 });
         }
     };
-    private manageAfterCreateOrEdit = async (lections, curso, addTeacher) => {
-        await this.courseService.lectionEraser(curso._id);
+    private manageAfterCreateOrEdit = async (lections, curso, addTeacher, userID) => {
         let pLections = [];
         lections.forEach((lection, i) => {
-            console.log(lection,i);
-            pLections.push(this.courseService.addLectionToCourse(curso._id, lection));
+            if(!lection._id){
+                console.log(lection);
+                pLections.push(this.courseService.addLectionToCourse(curso._id, lection, userID));
+            }
         });
 
         await Promise.all(pLections).catch(e => { throw e });
@@ -81,6 +92,7 @@ export default class CourseController extends GenericController {
             await this.manageTeacher(curso._id, curso.teacher, curso.title, curso.description);
             console.log('email enviado al profesor.')
         }
+        return curso;
     };
     private manageTeacher = async (cursoId: string, email: string, titulo: string, descripcion: string) => {
         try {

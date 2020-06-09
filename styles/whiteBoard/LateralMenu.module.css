@@ -82,3 +82,23 @@
     border-radius:50%;
     z-index:-1;
 }
+
+
+@media screen and (max-width:600px){
+    .lateralMenu{
+        position: absolute;
+        background-color:white;
+        box-shadow:0 3px 6px 0 rgba(0, 0 , 0 , .16);
+        height:100%;
+        z-index:1041;
+        margin-right:0;
+    }
+    .menu__contraed{
+        transform: translateX(-100%);
+        transition:transform .3s ease-in;
+    }
+    .menu__expanded{
+        transform: translateX(0);
+        transition:transform .3s ease-out;
+    }
+}

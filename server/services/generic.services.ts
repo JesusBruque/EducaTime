@@ -37,6 +37,7 @@ export default class GenericService {
             }
             if (err) throw err;
             if (!res) throw Error("Error en editar " + this.mySchema.modelName);
+            return res;
         } catch (e) {
             throw e;
         }

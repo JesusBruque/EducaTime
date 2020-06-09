@@ -1,4 +1,4 @@
-import React, {Dispatch, FunctionComponent, useEffect} from 'react';
+import React, {Dispatch, FunctionComponent, useEffect, useState} from 'react';
 import Header from "./Header";
 import layoutStyles from '../styles/Layout.module.css';
 import {Router} from "next/router";
@@ -12,7 +12,9 @@ type Props = {
     user:User,
     setUser:Dispatch<any>,
     utils:WebUtils,
-    whiteboard?:boolean
+    whiteboard?:boolean,
+    lateralOpen?:boolean,
+    setLateralOpen?:Dispatch<boolean>
 }
 const Layout : FunctionComponent<Props> = (props) => {
 
@@ -34,7 +36,7 @@ const Layout : FunctionComponent<Props> = (props) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/assets/logo.svg"/>
             </Head>
-            <Header user={props.user} router={props.router} setUser={props.setUser} whiteboard={props.whiteboard}/>
+            <Header user={props.user} router={props.router} setUser={props.setUser} whiteboard={props.whiteboard} setLateralOpen={props.setLateralOpen} lateralOpen={props.lateralOpen}/>
             <main className={`${layoutStyles.webContainer} ${props.whiteboard ? layoutStyles.whiteBoardContainer : ''}`} data-scroll-section>
                 {props.children}
             </main>

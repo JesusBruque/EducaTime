@@ -67,7 +67,8 @@ const CursoItem: FunctionComponent<Props> = (props) => {
 
     const handleBuyButton = () => {
         if(!props.reviews){
-            router.push('/cursos/'+curso._id);
+            let url = curso.title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(' ').join('-');
+            props.router.push({pathname:'/cursos/'+url, query:{id:curso._id}});
         }
         else{
             router.push('/cursos/payment/'+curso._id);

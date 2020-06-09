@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 const Nosotros =(props) => {
     const [mobile,setMobile] = useState(null);
     useEffect(() => {
-        setMobile(window.innerWidth> 600);
+        setMobile(document.querySelector('main>div').getBoundingClientRect().height < window.innerHeight);
     },[])
     return (
         <Layout router={props.router} user={props.user} setUser={props.setUserr} utils={props.utils}>
@@ -32,7 +32,7 @@ const Nosotros =(props) => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+            <Footer absolute={mobile}/>
         </Layout>
     )
 };

@@ -35,7 +35,7 @@ const Curso : FunctionComponent<Props> = (props) => {
                 <meta property="og:title" content={props.curso.title}/>
                 <meta property="og:description" content="Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol."/>
                 <meta property="og:image" content={props.curso.thumbnail}/>
-                <meta property="og:url" content={'http://165.22.114.158'+ props.router.pathname} />
+                <meta property="og:url" content={'https://academiaformaciondeportiva.com'+ props.router.pathname} />
             </Head>
             <Layout router={props.router} user={props.user} setUser={props.setUser} utils={props.utils}>
                 <div className={utilStyles.centeredContainer} style={{marginTop:'30px'}}>
@@ -86,7 +86,7 @@ const Curso : FunctionComponent<Props> = (props) => {
 };
 
 export const getServerSideProps =  async ctx => {
-    const res = await fetch('http://localhost:3000/api/course/findById/'+ctx.params.cid);
+    const res = await fetch('http://localhost:3000/api/course/findById/'+ctx.query.id);
     const data = await res.json();
     const curso = data.Course;
     return {props:{curso:curso}}

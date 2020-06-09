@@ -224,7 +224,6 @@
         padding:0 15px;
     }
     .userIcon{
-        top:15px;
-        left:15px;
+        right:60px;
     }
 }
