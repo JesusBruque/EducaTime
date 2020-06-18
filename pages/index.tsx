@@ -54,8 +54,8 @@ const Home = (props) => {
                       <div>
                           <div className={homeStyles.cursosGrid} id={'grid-cursos'}>
                               <CursoMobile imagen={"https://d2nmzq3hxlvmns.cloudfront.net/dist/public/readap.jpg"} title={"Readaptación en deportes de equipo. De lo específico a lo global. "}/>
-                              <CursoMobile curso={props.cursos}/>
-                              <CursoMobile imagen={"https://d2nmzq3hxlvmns.cloudfront.net/dist/public/edp.jpeg"} title={"Metodología al alcance de tu porter@"}/>
+                              <CursoMobile curso={props.cursos[1]}/>
+                              <CursoMobile curso={props.cursos[0]}/>
                           </div>
                       </div>
                   </div>
@@ -155,9 +155,10 @@ const Home = (props) => {
 };
 
 export async function getServerSideProps(){
-    const res = await fetch('http://localhost:3000/api/course/findById/5ec2648350f9235886400039');
+    const res = await fetch('http://localhost:3000/api/course/findLast3');
     const data = await res.json();
-    const cursos = data.Course;
+    console.log(data);
+    const cursos = data.cursos;
     return { props: { cursos } }
 }
 

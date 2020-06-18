@@ -10,6 +10,7 @@ import { Json } from "aws-sdk/clients/marketplacecatalog";
 import { IUsuarioDTO } from "../interfaces/IUsuario";
 import mongoose from "mongoose";
 import {ILection} from "../interfaces/ILection";
+import {errorMonitor} from "events";
 
 export default class CourseController extends GenericController {
     private courseService: CourseService;
@@ -183,6 +184,16 @@ export default class CourseController extends GenericController {
             Logger.debug('curso eliminado');
             return res.status(200).json({ status: 200 });
         } catch (e) {
+            return res.status(400).json({ status: 400 });
+        }
+    }
+
+    public findLast3 = async(req:Request,res:Response) => {
+        try{
+            let err, courses = await this.courseService.findLast3();
+            if(err) throw err;
+            return res.status(200).json({cursos:courses});
+        }catch(e){
             return res.status(400).json({ status: 400 });
         }
     }

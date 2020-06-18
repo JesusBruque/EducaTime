@@ -144,4 +144,14 @@ export default class CourseService extends GenericService {
             throw e;
         }
     }
+
+    public findLast3 = async() : Promise<ICourse[]> =>{
+        try {
+            let err, cursos = await Course.find({}).sort('-1').limit(3).lean();
+            if (err) throw err;
+            return cursos
+        } catch (e) {
+            throw e;
+        }
+    }
 }

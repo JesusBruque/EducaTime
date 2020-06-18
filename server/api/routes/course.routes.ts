@@ -12,7 +12,7 @@ export default (app: Router) => {
 
     route.get('/findAll/:search', courseController.findAll);
     route.get('/findAll', courseController.findAll);
-
+    route.get('/findLast3',courseController.findLast3);
     route.get('/fetchAlumnosByCourse/:idCurso', middlewares.isTeacher, courseController.fetchAlumnosByCourse);
     route.get('/findById/:id', courseController.findById);
     route.delete('/:courseId', middlewares.isAdmin, courseController.deleteFullCourse);
