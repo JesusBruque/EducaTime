@@ -1,0 +1,137 @@
+.calendar{
+    color:var(--black-color);
+}
+.title{
+    text-transform:uppercase;
+    display:flex;
+    justify-content:space-around;
+    font-weight:bold;
+    padding: 8px 0;
+}
+.title>svg{
+    color:var(--main-color);
+    cursor: pointer;
+    height:1em;
+}
+
+.container{
+    border:solid 1px white;
+    font-family: 'Helvetica',sans-serif;
+    display: grid;
+    grid-template-rows: auto auto;
+    justify-content: center;
+}
+.container .header{
+    text-transform: uppercase;
+    display:grid;
+    height:2em;
+    line-height:2em;
+    grid-template-columns: repeat(7, 2.2em);
+    background-color: #5A5A5A;
+    border:solid 1px white;
+    text-align:center;
+    padding-left:15px;
+    color:var(--main-color);
+}
+.container .body{
+    display:grid;
+    grid-template-columns: repeat(7, 2.2em);
+    grid-template-rows: repeat(6,2.2em);
+    text-align:center;
+    align-items:center;
+    padding:8px 15px;
+}
+
+.day {
+    cursor: pointer;
+    position:relative;
+    line-height:2.2em;
+    font-size:11px;
+}
+.day.startDate{
+    color:#1c1c1c;
+}
+.day:before{
+    width:2.3em;
+    height:2.3em;
+    left:50%;
+    top:50%;
+    position:absolute;
+    content:'';
+    transform: translate(-50%,-50%) scale(0);
+    background-color:var(--main-color);
+    opacity:0;
+    transform-origin: center;
+}
+.day:after{
+    width:2.1em;
+    height:2.1em;
+    left:50%;
+    top:50%;
+    position:absolute;
+    content:'';
+    transform: translate(-50%,-50%) scale(0);
+    background-color:var(--main-color);
+    opacity:0;
+    border-radius:50%;
+    transform-origin: center;
+}
+.day.startDate.inRange:before{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.day.inRange:before{
+    opacity:1;
+    transform: translate(-50%,-50%) scale(1);
+    z-index:-1;
+    width:2.6em;
+}
+.day.inRange.hoveredDate:before{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.day:not(.notClick).startDate.inRange.hoveredDate{
+    color:white;
+}
+.day:not(.notClick).inRange.hoveredDate{
+    color:white;
+}
+.day:not(.notClick).inRange.hoveredDate:after{
+    background-color:black;
+    transform: translate(-50%,-50%) scale(1);
+    opacity:1;
+    z-index:-1;
+}
+.day.endDate{
+    color:white;
+}
+.day.endDate:after{
+    background-color:black;
+    transform: translate(-50%,-50%) scale(1);
+    opacity:1;
+    z-index:-1;
+}
+.day:not(.notClick):hover:after{
+    transform: translate(-50%,-50%) scale(1);
+    opacity:.3;
+}
+.day:not(.notClick).startDate:after{
+    opacity:1;
+    transform: translate(-50%,-50%) scale(1);
+    z-index:-1;
+}
+.day.today:after{
+    opacity:1;
+}
+.day.disabled{
+    color:#9F9F9F;
+}
+
+.day.notClick{
+    opacity:.1;
+    cursor:none;
+}
+
+.day.today:after{
+    opacity:1;
+}

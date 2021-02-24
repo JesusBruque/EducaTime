@@ -1,0 +1,118 @@
+.inputContainer{
+    margin:15px 15px calc(.9em + 16px) 15px;
+    position:relative;
+    display:grid;
+    grid-template-columns: minmax(150px, max-content) auto;
+    align-items: center;
+    height:fit-content;
+    min-width:250px;
+    text-align: left;
+}
+.inputContainer>label{
+    font-weight: bold;
+    margin-right:8px;
+    text-transform:uppercase;
+    text-align:right;
+    color:var(--black-color);
+}
+.inputContainer.iconInput{
+    display:flex;
+    background-color:#FFFFFF;
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+    border-radius:4px;
+}
+.inputContainer:not(.iconInput) .input{
+    background-color:#FFFFFF;
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,.2);
+    border-radius:4px;
+    min-width:200px;
+}
+.input{
+    background-color: transparent;
+    padding:8px;
+    border:none;
+    font-family: inherit;
+    font-size:1.1em;
+    height:fit-content;
+    width:100%;
+    color:var(--black-color);
+}
+/*.input.icon{*/
+/*    padding-left:45px;*/
+/*}*/
+.input:focus{
+    outline:none;
+}
+.iconElement{
+    width:15px;
+    height:1.25em;
+    object-fit: contain;
+    box-sizing: content-box;
+    padding:8px 15px;
+}
+.error{
+    color:var(--red-color);
+    position:absolute;
+    bottom:0;
+    right:0;
+    font-weight:bold;
+    transform:translateY(calc(100% + 4px));
+    font-size:.9em;
+}
+
+
+/*--- CHECKBOX Y RADIOS ---*/
+.checkContainer{
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: calc(1em + 8px);
+    margin: 0 auto 16px;
+    cursor: pointer;
+    user-select: none;
+    line-height:1em;
+    width:fit-content;
+    justify-content: center;
+}
+.checkContainer>input{
+    opacity:0;
+    position:absolute;
+    cursor:pointer;
+    height: 0;
+    width: 0;
+}
+.checkContainer .checkmark{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1em;
+    width: 1em;
+    background-color: #FFFFFF;
+    border:solid 1px white;
+}
+.checkContainer .checkmark:after{
+    position:absolute;
+    content:'';
+    width:100%;
+    height:100%;
+    transition:transform .2s ease-in-out;
+    transform: translate(-50%,-50%) scale(0);
+    left:50%;
+    top:50%;
+    transform-origin: center;
+}
+.checkContainer input:checked ~ .checkmark:after{
+    background-color: var(--main-color);
+    transform: translate(-50%,-50%) scale(1);
+}
+
+.checkContainer .checkmark.rounded, .checkContainer .checkmark.rounded:after{
+    border-radius:50%;
+}
+
+@media screen and (max-width:600px){
+    .inputContainer{
+        margin: 1em 0;
+        width:100%;
+    }
+}

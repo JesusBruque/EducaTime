@@ -1,0 +1,21 @@
+<svg height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+    <linearGradient id="linear-gradient" gradientUnits="userSpaceOnUse" x1="-1.414" x2="66.274" y1="65.414" y2="-2.274">
+        <stop offset="0" stop-color="#003f8a"/>
+        <stop offset=".518" stop-color="#30bad6"/>
+        <stop offset="1" stop-color="#30bad6"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-1.412" x2="66.276" xlink:href="#linear-gradient" y1="65.416"
+                    y2="-2.272"/>
+    <linearGradient id="linear-gradient-3" x1="-7.164" x2="60.524" xlink:href="#linear-gradient" y1="59.664"
+                    y2="-8.024"/>
+    <g id="Power_button" data-name="Power button">
+        <path d="m32 1a31 31 0 1 0 31 31 31.035 31.035 0 0 0 -31-31zm0 60a29 29 0 1 1 29-29 29.033 29.033 0 0 1 -29 29z"
+              fill="url(#linear-gradient)"/>
+        <path d="m38.3 15.134a1 1 0 1 0 -.7 1.873 16 16 0 1 1 -11.309.042 1 1 0 0 0 -.714-1.869 18 18 0 1 0 12.723-.046z"
+              fill="url(#linear-gradient-2)"/>
+        <path d="m32 30a1 1 0 0 0 1-1v-17a1 1 0 0 0 -2 0v17a1 1 0 0 0 1 1z" fill="url(#linear-gradient-3)"/>
+    </g>
+</svg>
+
+

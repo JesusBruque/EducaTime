@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neuee&family=Lato:wght@300;700;900&display=swap');
+@font-face {
+    font-family: 'LeagueGothic';
+    src:url('./font/LeagueGothic-Italic.otf');
+}
+html{
+    -webkit-font-smoothing:antialiased;
+}
+body,html{
+    margin: 0 auto;
+    font-family: 'Lato',sans-serif;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100vw;
+    font-size:12px;
+    user-select: none;
+}
+
+html.has-scroll-scrolling header.up{
+    transform:translateY(-100%);
+}
+header{
+    transition: transform ;
+}
+*,*:after,*:before{
+    box-sizing:inherit;
+}
+:root{
+    --main-color:#30bad6;
+    --black-color:#565656;
+    --red-color:#fc585d;
+    --green-color:#28d135;
+    --background-color: #f0f0f0;
+
+    /*--- PLAYER ----*/
+    --plyr-color-main:var(--main-color);
+}
+.plyr--video{
+    max-height:70vh;
+}
+p, span, .title{
+    max-width:75ch;
+}
+input::placeholder{
+    font-weight: bold;
+}
+form{
+    text-align: center;
+}
+main{
+    position: relative;
+    z-index:3;
+}
+.title{
+    text-transform: uppercase;
+    font-weight:bold;
+    color:#565656;
+}
+
+.csr-btn{
+    padding:8px 15px;
+    text-transform: uppercase;
+    cursor:pointer;
+}
+.csr-btn:focus{
+    outline:none;
+    color:var(--black-color);
+}
+.csr-btn.transparent{
+    background-color: transparent;
+    border-color:solid 2px var(--black-color);
+    font-weight:bold;
+}
+/*--- FOOTER ---*/
+footer{
+    background-color:#707070;
+    display:flex;
+    justify-content: space-between;
+    color:white;
+    width:100%;
+    align-items:center;
+    padding:15px 30px;
+}
+footer.absolute{
+    bottom:0;
+    position: absolute;
+    width:100%;
+}
+footer .legal-info{
+    text-transform: uppercase;
+    display:grid;
+    grid-row-gap: 8px;
+
+}
+footer .legal-info>span{
+    margin:0 8px;
+}
+footer img{
+    height:1em;
+    margin:0 8px;
+}
+/*--- FORMULARIO PAGO ---*/
+.card-input--element{
+    background-color: #eef8ff;
+    padding:15px;
+    margin:15px 15px calc(.9em + 16px) 15px;
+    border-radius:4px;
+}
+#payment-form{
+    width:450px;
+}
+#payment-form input::placeholder{
+    font-weight: normal;
+}
+#payment-form>div>img{
+    padding:2px;
+}
+/*---------- SCROLLBAR ------------*/
+
+html.has-scroll-smooth {
+    height:100%;
+    overflow: hidden; }
+
+html.has-scroll-dragging {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+.has-scroll-smooth body{
+    overflow:hidden;
+    position:fixed;
+    top:0;
+}
+.has-scroll-smooth #__next{
+    height:100%;
+}
+.has-scroll-smooth [data-scroll-container] {
+    min-height: 100vh; }
+
+.csr-scrollbar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 11px;
+    height: 100vh;
+    transform-origin: center;
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 1;
+    z-index:1090;
+}
+.csr-scrollbar:hover {
+    transform: scaleX(1.45);
+}
+.csr-scrollbar:hover, .has-scroll-scrolling .c-scrollbar, .has-scroll-dragging .c-scrollbar {
+    opacity: 1;
+}
+
+.csr-scrollbar_thumb {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--main-color);
+    opacity: 0.5;
+    width: 7px;
+    border-radius: 10px;
+    margin: 2px;
+    cursor: grab;
+}
+.has-scroll-dragging .c-scrollbar_thumb {
+    cursor: grabbing;
+}
+
+
+/*------ EDITOR CSS --------*/
+#__next .tox.tox-tinymce{
+    margin:0 auto;
+    max-width:75ch;
+    font-size:1.3em;
+}
+.tox .tox-statusbar{
+    display:none !important;
+}
+
+
+/*----- LOADER -----*/
+#casor-loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:1050;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#video-loader{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#casor-loader--container{
+    position:absolute;
+    z-index:-1;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color: rgba(86,86,86,.3);
+}
+#casor-loader--object{
+    display:grid;
+    perspective:1000px;
+}
+#casor-loader--object .loader-circle{
+    width:50px;
+    height:50px;
+    /*background-color:var(--main-color);*/
+    /*box-shadow: 0 4px 3px 0 rgba(0,0,0,.2);*/
+    transform-origin:center center;
+    border-radius:50%;
+    grid-area:1/1;
+}
+#casor-loader--object .loader-circle:first-child{
+    background-image:radial-gradient(rgba(48,186,214,1),rgba(48,186,214,0));
+}
+#casor-loader--object .loader-circle:last-child{
+    background-image:radial-gradient(rgba(48,186,214,0),rgba(48,186,214,1));
+}
+#casor-loader--text{
+    font-weight: bold;
+    color:white;
+    font-size:1.3em;
+}
+
+/*--- COSAS LEGALES ---*/
+.legalidad{
+    color:var(--black-color);
+    line-height:1.5em;
+}
+.legalidad>div>div{
+    margin:30px 0;
+}
+.legalidad .title{
+    font-weight:bold;
+    font-size:1.2em;
+    text-transform:uppercase;
+    margin:1em 0;
+}
+.legalidad .subtitle{
+    text-align:center;
+    font-weight: bold;
+    font-size:1.1em;
+}
+.legalidad p{
+    max-width:250ch;
+}
+.legalidad.aviso b{
+    font-size:1.1em;
+    line-height:1.5em;
+}
+@media screen and (max-width:600px){
+    main{
+        padding:0;
+    }
+    footer{
+        display:grid;
+        grid-template-columns: 100%;
+        grid-template-rows:auto 1.5em 1.5em;
+        text-align:center;
+        align-items:center;
+        grid-row-gap:8px;
+        height:auto;
+        padding:8px 8px 30px 8px;
+        justify-items:center;
+        position:relative;
+    }
+    #payment-form{
+        width:unset;
+    }
+    .card-input--element{
+        margin:15px 0;
+    }
+}

@@ -1,60 +1,63 @@
-import {IOrder} from '../interfaces/IOrder'
-import Order from '../models/order.model'
-import { IUsuarioDTO } from '../interfaces/IUsuario';
+import GenericService from "./generic.services";
+import Order from "../models/order.model"
+import {ICourse} from "../interfaces/ICourse";
+import AuthenticationService from "./authentication.services"
+import {IOrder} from "../interfaces/IOrder";
+const stripe = require("stripe")(process.env.CLAVE_SK_STRIPE);
+import Course from '../models/course.model';
+import CodeServices from "./code.services";
 
-export default class OrderService{
+export default class OrderService extends GenericService{
+    userService: AuthenticationService;
+    codeService : CodeServices;
     constructor(){
+        super(Order);
+        this.userService = new AuthenticationService();
+        this.codeService = new CodeServices();
     }
-    public create = async(orderObject:IOrder, user: IUsuarioDTO):Promise<IOrder>=>{
+    public paymentIntent = async(courseId:string, plazo:number, code:string) => {
+        try{
+            console.log('PAYMENT INTENT CURSO '+ courseId);
+            const course = await Course.findById(courseId) as ICourse;
+            let courseAmount = 0;
+            console.log(code);
+            if(plazo === null || plazo === undefined){
+                console.log('NO HAY PLAZO COMPADRE');
+                courseAmount = course.original_fee * (1 - (course.discount/100));
+            }
+            else{
+                try{
+                    courseAmount = course.fees[plazo].fee;
+                }catch(e){
+                    throw e;
+                }
+            }
+            if(code){
+                let codeAmount = await this.codeService.getCodeValue(code, courseId);
+                courseAmount -= courseAmount * (codeAmount / 100)
+            }
+            if(courseAmount > 0){
+                return await stripe.paymentIntents.create({
+                    amount:courseAmount*100,
+                    currency:"eur"
+                });
+            }else{
+                throw Error('No se ha creado la orden de pago correctamente. Parece que el precio a cobrar no es mayor a 0.');
+            }
+        }catch(error){
+            throw error;
+        }
+    };
+
+    public updateOrderByPaymentId = async(paymentInfo:any,userId:string) => {
         try {
-            var err, result = await new Order({ ...orderObject, updated_for: user._id }).save();
-            if (err) throw err;
-            if (!result) throw Error("No se ha creado la orden.")
-            return result;
+            let err, order = await Order.findOneAndUpdate({payment_id:paymentInfo.id},{description:"Orden de pago aceptada.",paid:true,email:paymentInfo.receipt_email,user:userId});
+            if(err) throw err;
+            if(!order) throw Error('No se ha encontrado ninguna orden de pago con este id.'+paymentInfo.id);
+            return order;
         } catch (error) {
             throw error;
         }
     }
-    /*
-    public edit = async (order: IOrder, user: IUsuarioDTO): Promise<IOrder> => {
-        try {
-            var err, res = await Order.findOneAndUpdate({ _id: order._id }, { ...order, updated_for: user._id });
-            if (err) throw err;
-            if (!res) throw Error("No se ha editado la order")
-            return res;
-        } catch (e) {
-            throw e;
-        }
-    }
-    */
-    public delete = async (orderId: string): Promise<Boolean> => {
-        try {
-            var err, res = await Order.findByIdAndDelete(orderId);
-            if (err) throw err;
-            if (!res) throw Error("No se ha borrado la orden");
-            return true;
-        } catch (e) {
-            throw e;
-        }
-    }
-    public findById = async (orderId: string): Promise<IOrder> => {
-        try {
-            var err, res = await Order.findById(orderId);
-            if (err) throw err;
-            if (!res) throw Error ("No se ha encontrado la orden");
-            return res;
-        } catch (e) {
-            throw e;
-        }
-    }
-    public findAll = async (): Promise<IOrder[]> => {
-        try {
-            var err, res = await Order.find({});
-            if (err) throw err;
-            if (!res) throw Error ("No se han encontrado ordenes")
-            return res;
-        } catch (e) {
-            throw e;
-        }
-    }
+
 }

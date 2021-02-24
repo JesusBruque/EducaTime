@@ -24,10 +24,21 @@ export default {
     CLIENT_URL: process.env.CLIENT_URL,
     URL: process.env.URL,
 
-    port: 5000,
+    port: 3000,
     api: {
         prefix: '/api'
     },
     upload_dir: process.env.upload_dir,
-    mode: process.env.mode
+    mode: process.env.mode,
+    email_user:process.env.EMAIL_USER,
+    email_pass:process.env.EMAIL_PASSWORD,
+    email_host:process.env.EMAIL_HOST,
+
+    iam_id_key:process.env.AMAZON_KEY_ID,
+    iam_secret_key:process.env.AMAZON_SECRET_ID,
+    cdn_url:process.env.AMAZON_CLOUDFRONT_URL,
+
+    amazon_pair_id:process.env.AMAZON_KEY_PAR_ID,
+    amazon_private_key:process.env.AMAZON_PRIVATE_KEY,
+    amazon_public_key:process.env.AMAZON_PUBLIC_KEY
 }

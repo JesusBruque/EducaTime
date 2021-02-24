@@ -1,0 +1,88 @@
+.addContainer{
+    display:grid;
+    grid-template-columns:3fr 7fr;
+    grid-column-gap:30px;
+}
+.subTitle{
+    font-size:1.1em !important;
+    line-height: 1.3em;
+}
+.subTitle:after{
+    bottom:-8px;
+}
+.cursoInfoDetails{
+    border:solid 1px var(--black-color);
+    display:grid;
+    grid-template-rows:250px auto;
+    grid-row-gap:15px;
+    padding:15px;
+}
+.cursoInfoDetailsGrid{
+    display:flex;
+    flex-direction:column;
+    align-items: flex-end;
+}
+.videoTrailerContainer{
+    border:solid 1px var(--black-color);
+}
+.cursoInfoDescription{
+
+}
+.cursoInfoContent{
+
+}
+.cursoInfoDescriptionValue{
+    border:solid 1px var(--black-color);
+    padding:0 15px;
+    height:150px;
+    overflow:scroll;
+}
+.line{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.line>h4{
+    margin-bottom:1.3em;
+}
+.line>*:last-child{
+    margin-left:4px;
+}
+
+.feeRow{
+    position: relative;
+    padding:0 8px;
+    margin:8px 0;
+    color:var(--main-color);
+}
+.feeRow:before{
+    content:'';
+    background-color: var(--main-color);
+    width:2px;
+    height:100%;
+    left:0;
+    position: absolute;
+    top:0;
+}
+.bloquesInfo{
+    position: relative;
+    display:flex;
+    flex-direction: column;
+    padding-left:8px;
+}
+.bloquesInfo:before{
+    content:'';
+    background-color: var(--black-color);
+    width:2px;
+    height:100%;
+    left:0;
+    position: absolute;
+    top:0;
+}
+
+.bloquesInfo>input{
+    margin:4px 0;
+}
+.bloquesInfo:before{
+
+}

@@ -5,19 +5,22 @@ import mongoose from 'mongoose';
 import mongooseHistory from 'mongoose-history'
 
 var Schema = mongoose.Schema;
+var schemaOptions = {
+  toObject: {
+    virtuals: true
+  }
+  , toJSON: {
+    virtuals: true
+  }
+}
 var usuarioSchema = new Schema({
-  nombre: {
-    type: String,
-    required: true,
-    minlength: 2,
-    trim: true
+  name: {
+    type: String
   },
   apellidos: {
-    type: String,
-    required: true,
-    minlength: 2,
-    trim: true
+    type: String
   },
+  titulation: String,
   password: {
     type: String,
     required: true,
@@ -39,9 +42,11 @@ var usuarioSchema = new Schema({
     minlength: 3,
     trim: true
   },
-  telefono: {
-    type: String
-  },
+  roles: [{
+    type: String,
+    required: true,
+    enum: ['admin', 'user', 'teacher']
+  }],
   salt: {
     type: Buffer,
     required: true,
@@ -50,15 +55,49 @@ var usuarioSchema = new Schema({
   updated_for: {
     type: Schema.Types.ObjectId,
     ref: 'Usuario',
+  },
+  cursos: [{
+    idCurso: { type: Schema.Types.ObjectId, ref: 'Course' },
+    completed: Boolean,
+    review: {enabled: Boolean, reviewId: String},
+    feeState: [{ paid: Boolean, idFee: { type: Schema.Types.ObjectId, ref: 'Course.fees' } }],
+    lections: [{
+      idLection: { type: Schema.Types.ObjectId, ref: 'Lection' },
+      seen: Boolean,
+      taskResponses: [{ origin: String, url: String }],
+      evaluationResponses: [{ origin: String, url: String }]
+    }]
+  }],
+  favoritos: [String]
+}, {
+  toObject: {
+    virtuals: true
   }
-}, { versionKey: '_version' });
+  , toJSON: {
+    virtuals: true
+  }, versionKey: '_version'
+});
 
 usuarioSchema.plugin(mongooseHistory);
+
+usuarioSchema.virtual('paymentPend').get(function () {
+  let res = 0;
+  for (let i = 0; i < this.cursos.length; i++) {
+    const infoCurso = this.cursos[i];
+    if (infoCurso.feeState && infoCurso.feeState.length > 0) {
+      for (let j = 0; j < infoCurso.feeState.length; j++) {
+        const fee = infoCurso.feeState[j];
+        if (fee.paid === false) res++;
+      }
+    }
+  }
+  return res;
+});
 
 usuarioSchema.methods.encryptPassword = async function (password: string): Promise<{ salt: Buffer, hashedPassword: string }> {
   try {
     const salt = randomBytes(32);
-    const hashedPassword = await argon2.hash(password, { salt })
+    const hashedPassword = await argon2.hash(password, { salt });
 
     return { salt, hashedPassword };
   } catch (err) {

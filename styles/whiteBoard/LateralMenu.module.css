@@ -1,0 +1,105 @@
+.lateralMenu{
+    padding:30px;
+    width:max-content;
+    margin-right:30px;
+}
+.lateralMenu>div{
+    position:sticky;
+    top:100px;
+}
+.mainTitle{
+    font-weight:bold;
+    font-size:1.2em;
+    text-transform:uppercase;
+    line-height:40px;
+    position:relative;
+}
+.title{
+    position:relative;
+    text-transform: uppercase;
+}
+.optionSelected{
+    font-weight:bold;
+}
+.optionSelected:before{
+    content:'';
+    position:absolute;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background-color:var(--main-color);
+    top:50%;
+    transform:translateY(-50%);
+    left:-8px;
+}
+.optionDisabled{
+    opacity:.5;
+}
+.childrenContainer{
+    max-height:25px;
+    overflow-y:hidden;
+    transition: max-height .1s linear;
+}
+.childrenContainer.open{
+    transition: max-height .25s linear;
+    max-height:400px;
+    height:fit-content;
+}
+.childs {
+    margin-left: 12px;
+    position: relative;
+    line-height: 25px;
+}
+.bloques:before{
+    content:'';
+    position:absolute;
+    width:1px;
+    height:100%;
+    left:-6px;
+    background-color:var(--main-color);
+}
+.numberIndicator{
+    font-weight:bold;
+    color:white;
+    position:relative;
+    line-height: 1.5em;
+    width: 1.5em;
+    text-align: center;
+    margin:0 8px;
+}
+.numberIndicator.black:after{
+    background-color:var(--black-color);
+}
+.numberIndicator:after{
+    content:'';
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    background-color:var(--red-color);
+    width:1.5em;
+    height:1.5em;
+    border-radius:50%;
+    z-index:-1;
+}
+
+
+@media screen and (max-width:600px){
+    .lateralMenu{
+        position: absolute;
+        background-color:white;
+        box-shadow:0 3px 6px 0 rgba(0, 0 , 0 , .16);
+        height:100%;
+        z-index:1041;
+        margin-right:0;
+        max-width:90vw;
+    }
+    .menu__contraed{
+        transform: translateX(-100%);
+        transition:transform .3s ease-in;
+    }
+    .menu__expanded{
+        transform: translateX(0);
+        transition:transform .3s ease-out;
+    }
+}

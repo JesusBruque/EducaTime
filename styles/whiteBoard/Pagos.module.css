@@ -1,0 +1,16 @@
+.container{
+    display: grid;
+    grid-auto-columns:max-content;
+}
+.pagosTable{
+    padding:15px 0;
+    border-bottom: solid 1px var(--black-color);
+    text-align:center;
+    color:var(--black-color);
+}
+.pagosTable td{
+    padding:8px;
+}
+.pagosTable th{
+    padding:12px;
+}

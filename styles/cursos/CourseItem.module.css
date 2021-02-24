@@ -1,0 +1,140 @@
+.courseContainer{
+    position:relative;
+    display:grid;
+    grid-template-columns: 3fr 7fr;
+    grid-column-gap: 15px;
+    flex-wrap:wrap;
+    padding:15px 30px;
+    box-shadow:0 3px 6px 0 rgba(0,0,0,.16);
+    width:100%;
+    margin-bottom: 30px;
+    max-width:1050px;
+}
+.leftContainer .imageContainer{
+    position:relative;
+    width:250px;
+    height:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.leftContainer .imageContainer>img{
+    object-fit: cover;
+    position: absolute;
+    width:100%;
+    height:100%;
+}
+.links{
+    display:flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+    color:var(--black-color);
+    font-weight: bold;
+    margin-bottom:15px;
+}
+.infoLink{
+    position:relative;
+    cursor:pointer;
+}
+.infoLink.active:after{
+    content:'';
+    position: absolute;
+    left:0;
+    bottom:-3px;
+    height:2px;
+    width:100%;
+    background-color: var(--main-color);
+
+}
+.gridContainer{
+    display:grid;
+    grid-template-areas: 'nada idioma' 'descuento precio' 'valoracion comprar';
+    grid-template-columns: 5fr 5fr;
+    grid-row-gap:8px;
+    grid-column-gap:8px;
+    margin-top:15px;
+}
+.idioma{
+    grid-area:idioma;
+    text-align: center;
+}
+.idioma>svg{
+    margin-right:4px;
+}
+.descuento{
+    grid-area: descuento;
+    color:red;
+    display:flex;
+    align-items:center;
+}
+.descuento>span:last-child{
+    text-decoration:line-through;
+    margin-left:4px;
+}
+.precio{
+    grid-area:precio;
+    font-size:1.5em;
+    font-weight:bold;
+    text-align: center;
+    color:var(--black-color);
+}
+.valoraciones{
+    display:flex;
+    align-items:center;
+}
+
+.valoraciones svg{
+    height:1em;
+    margin:0 2px;
+}
+
+.feesCourse{
+    font-weight:bold;
+    color:var(--black-color);
+    display:flex;
+    align-items:center;
+}
+.feesCourse>svg{
+    margin-right:4px;
+}
+.reviewsContainer{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin-top:15px;
+}
+
+.reviewHeader{
+    display:flex;
+    align-items:center;
+}
+.actionsIcons{
+    position: absolute;
+    right:15px;
+    top:8px;
+    display:flex;
+}
+.actionsIcons>svg{
+    cursor:pointer;
+    margin:0 4px;
+    height:1em;
+}
+
+@media screen and (max-width:600px){
+    .courseContainer{
+        grid-template-columns: 100%;
+        font-size:.8em;
+        padding:15px;
+        justify-items: center;
+    }
+    .links{
+        align-items:center;
+        text-align:center;
+        font-size:.8em;
+    }
+    .infoLink{
+        margin:0 4px;
+    }
+    .reviewsContainer{
+        grid-area:3/1;
+    }
+}

@@ -1,203 +1,165 @@
+import React, {useEffect} from 'react';
 import Head from 'next/head'
+import Layout from "../components/Layout";
+import homeStyles from '../styles/Home.module.css';
+import WebUtils from "../webUtils/WebUtils";
+import Button from "../components/Button";
+import fetch from "isomorphic-unfetch";
+import CursoMobile from "../components/cursos/CursoMobile";
+import Field from "../components/Field";
+import Footer from "../components/Footer";
 
-const Home = () => (
-  <div className="container">
-    <Head>
-      <title>Create Next App</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+const Home = (props) => {
+    useEffect(() => {
+        document.querySelector('body').style.position = 'fixed';
+        document.querySelector('body').style.overflow = 'hidden';
+        props.utils.initScroll().then(() => {
+            props.utils.enterHomeAnimations();
+            props.utils.initHomeScrollAnimations();
+        });
+    },[]);
 
-    <main>
-      <h1 className="title">
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
-      </h1>
+    return (
+      <div>
+          <Head>
+              <title>Casor. Academia de formación</title>
+              <meta name={'description'} content={'Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol.'}/>
+              <meta property="og:title" content="Casor. Academia de formación deportiva"/>
+              <meta property="og:description" content="Casor. Academia de formación deportiva especializada en cursos para entrenadores de fútbol."/>
+              <meta property="og:image" content="https://d2nmzq3hxlvmns.cloudfront.net/dist/public/logo_casor.jpg"/>
+              <meta property="og:url" content={'https://academiaformaciondeportiva.com'+props.router.pathName} />
+          </Head>
+          <Layout user={props.user} router={props.router} setUser={props.setUser} utils={props.utils}>
+              <section className={homeStyles.homeSection} id={'welcome-section'} data-scroll >
+                  <div id={'fixed-field'} className={`${homeStyles.fixedTarget} ${homeStyles.fixedField}` }></div>
+                  <div className={homeStyles.field} data-scroll data-scroll-sticky data-scroll-target={'#fixed-field'}>
+                      <div className={homeStyles.fieldContainer}>
+                          <Field/>
+                      </div>
+                  </div>
+                  <div className={homeStyles.mainClaimer} id={'welcome-claimer'}>
+                      <h1 className={`${homeStyles.mainTitle} title`}>El fútbol profesional<br/> al alcance de todos</h1>
+                      <p style={{opacity:'0'}}>Disfruta de formación online flexible y de calidad, una oportunidad para progresar con los mejores.</p>
+                      <div data-scroll data-scroll-speed={1} className={homeStyles.startBtn} id={'welcome-start--btn'}>
+                          <Button text={'Comienza ya'} color={'blue'} action={()=> props.router.push('/cursos')} styles={{opacity:'0'}}/>
+                      </div>
+                  </div>
+              </section>
+              <section className={`${homeStyles.homeSection}`} id={'cursos-section'} data-scroll>
+                  <div className={homeStyles.claimerContainer}>
+                      <div className={homeStyles.cursoClaimer} data-scroll data-scroll-position='bottom' data-scroll-offset={'50'}>
+                          <h2>Accede ya a nuestros cursos.</h2>
+                          <p>Únete a nuestra comunidad con la compra de uno de nuestros cursos, y disfruta ya de las ventajas.</p>
+                      </div>
+                      <div>
+                          <div className={homeStyles.cursosGrid} id={'grid-cursos'}>
+                              <CursoMobile imagen={"https://d2nmzq3hxlvmns.cloudfront.net/dist/public/readap.jpg"} title={"Readaptación en deportes de equipo. De lo específico a lo global. "}/>
+                              <CursoMobile curso={props.cursos[1]}/>
+                              <CursoMobile curso={props.cursos[0]}/>
+                          </div>
+                      </div>
+                  </div>
+              </section>
+              <section className={`${homeStyles.homeSection} ${homeStyles.valors}`} id={'valors-section'} data-scroll data-scroll-offset={'bottom'}>
+                  <div id={'fixed-target'} className={homeStyles.fixedTarget}></div>
+                  <div className={homeStyles.backgroundSection} data-scroll data-scroll-sticky data-scroll-target={'#fixed-target'}>
+                      <img src={'/assets/landing/porteria_bg.jpg'} alt={'fondo de una porteria'}/>
+                  </div>
+                  <h3 data-scroll data-scroll-speed={2} >¿Por qué elegir <span style={{color:'var(--main-color)'}}>Academia Casor</span>?</h3>
+                  <div className={homeStyles.valorsItems}>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1}>
+                          <img src={'/assets/landing/porteria.svg'} alt={'icono de una porteria'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle}>Cooperación:</span>
+                              <span>Sentimiento de pertenencia y confianza, potenciando el talento colectivo y compartiendo conocimientos.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} >
+                          <img src={'/assets/landing/conos.svg'} alt={'icono de un cono'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle} >Pasión:</span>
+                              <span>Dedicando nuestro tiempo a satisfacer las necesidades de nuestros alumnos/as, asegurando el desarrollo a través de oportunidades basadas en la aportación profesional y el cumplimiento de expectativas.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1} >
+                          <img src={'/assets/landing/corner.svg'} alt={'icono de un corner'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle}>Profesionalidad:</span>
+                              <span>Trabajos realizados por entrenadores cualificados y con experiencia, en el fútbol profesional.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1}>
+                          <img src={'/assets/landing/marcador.svg'} alt={'icono de una porteria'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle}>Innovación:</span>
+                              <span>Promoviendo las formaciones continuas en el plano académico para alcanzar la máxima calidad en la formación continua del alumnado.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.valorsItemsItem} data-scroll data-scroll-speed={1}>
+                          <img src={'/assets/landing/banquillo.svg'} alt={'icono de un banquillo'}/>
+                          <div>
+                              <span className={homeStyles.valorsTitle}>Calidad:</span>
+                              <span>Buscando la excelencia a través de la implantación de nuevas herramientas educativas y procesos de evaluación, utilizando las nuevas tecnologías y tendencias en el deporte.</span>
+                          </div>
+                      </div>
+                  </div>
+              </section>
+              <section className={`${homeStyles.homeSection} ${homeStyles.infoSection}`} id={'info-section'} data-scroll>
+                  <div className={homeStyles.casorInfo}>
+                      <div className={homeStyles.casorInfoItem} data-scroll data-scroll-speed={1}>
+                          <img src={'/assets/icons/calendar.svg'} alt={'icono de calendario'}/>
+                          <div>
+                              <span>Pago a plazos</span>
+                              <span>En Academia Casor pagar por plazos es posible. Alguno de nuestros cursos cuentan con esta opción, accediendo al contenido de manera escalonada.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1}>
+                          <img src={'/assets/icons/graduated.svg'} alt={'icono de graduación'}/>
+                          <div>
+                              <span>Evaluación y certificación</span>
+                              <span>Al finalizar cada curso, los profesores pondrán a prueba lo aprendido durante el curso por parte de los alumnos  y certificarán los conocimientos adquiridos de los mismos.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1}>
+                          <img src={'/assets/icons/education.svg'} alt={'icono de profesores'}/>
+                          <div>
+                              <span>Profesores</span>
+                              <span>Nuestros profesores se encargarán  de gestionar los bloques de contenido proporcionando el mejor aprendizaje.</span>
+                          </div>
+                      </div>
+                      <div className={homeStyles.casorInfoItem}  data-scroll data-scroll-speed={1}>
+                          <img src={'/assets/icons/to-do.svg'} alt={'icono de tareas'}/>
+                          <div>
+                              <span>Tareas</span>
+                              <span>El seguimiento con tareas facilitará al alumno asentar los conceptos de la materia impartida.</span>
+                          </div>
+                      </div>
 
-      <p className="description">
-        Get started by editing <code>pages/index.js</code>
-      </p>
+                  </div>
+                  <div className={homeStyles.movilContent} data-scroll data-scroll-speed={2} data-scroll-delay={0.04}>
+                      <img src={'/assets/landing/movil_web.png'} alt={'imagen de casor en el móvil'}/>
+                      <h4>Accede desde cualquier dispositivo</h4>
+                  </div>
+              </section>
 
-      <div className="grid">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+              <Footer/>
+          </Layout>
 
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Learn &rarr;</h3>
-          <p>Learn about Next.js in an interactive course with quizzes!</p>
-        </a>
-
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Discover and deploy boilerplate example Next.js projects.</p>
-        </a>
-
-        <a
-          href="https://zeit.co/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          className="card"
-        >
-          <h3>Deploy &rarr;</h3>
-          <p>
-            Instantly deploy your Next.js site to a public URL with ZEIT Now.
-          </p>
-        </a>
+          <script noModule src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.6.0/polyfill.min.js"
+                  crossOrigin="anonymous" />
+          <script noModule
+                  src="https://polyfill.io/v3/polyfill.min.js?features=Object.assign%2CElement.prototype.append%2CNodeList.prototype.forEach%2CCustomEvent%2Csmoothscroll"
+                  crossOrigin="anonymous" />
       </div>
-    </main>
+  )
+};
 
-    <footer>
-      <a
-        href="https://zeit.co?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Powered by <img src="/zeit.svg" alt="ZEIT Logo" />
-      </a>
-    </footer>
+export async function getServerSideProps(){
+    const res = await fetch('http://localhost:3000/api/course/findLast3');
+    const data = await res.json();
+    console.log(data);
+    const cursos = data.cursos;
+    return { props: { cursos } }
+}
 
-    <style jsx>{`
-      .container {
-        min-height: 100vh;
-        padding: 0 0.5rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      main {
-        padding: 5rem 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      footer {
-        width: 100%;
-        height: 100px;
-        border-top: 1px solid #eaeaea;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      footer img {
-        margin-left: 0.5rem;
-      }
-
-      footer a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .title a {
-        color: #0070f3;
-        text-decoration: none;
-      }
-
-      .title a:hover,
-      .title a:focus,
-      .title a:active {
-        text-decoration: underline;
-      }
-
-      .title {
-        margin: 0;
-        line-height: 1.15;
-        font-size: 4rem;
-      }
-
-      .title,
-      .description {
-        text-align: center;
-      }
-
-      .description {
-        line-height: 1.5;
-        font-size: 1.5rem;
-      }
-
-      code {
-        background: #fafafa;
-        border-radius: 5px;
-        padding: 0.75rem;
-        font-size: 1.1rem;
-        font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-          DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-      }
-
-      .grid {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-
-        max-width: 800px;
-        margin-top: 3rem;
-      }
-
-      .card {
-        margin: 1rem;
-        flex-basis: 45%;
-        padding: 1.5rem;
-        text-align: left;
-        color: inherit;
-        text-decoration: none;
-        border: 1px solid #eaeaea;
-        border-radius: 10px;
-        transition: color 0.15s ease, border-color 0.15s ease;
-      }
-
-      .card:hover,
-      .card:focus,
-      .card:active {
-        color: #0070f3;
-        border-color: #0070f3;
-      }
-
-      .card h3 {
-        margin: 0 0 1rem 0;
-        font-size: 1.5rem;
-      }
-
-      .card p {
-        margin: 0;
-        font-size: 1.25rem;
-        line-height: 1.5;
-      }
-
-      @media (max-width: 600px) {
-        .grid {
-          width: 100%;
-          flex-direction: column;
-        }
-      }
-    `}</style>
-
-    <style jsx global>{`
-      html,
-      body {
-        padding: 0;
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-          Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-    `}</style>
-  </div>
-)
-
-export default Home
+export default Home;

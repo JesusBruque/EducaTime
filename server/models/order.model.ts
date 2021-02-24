@@ -4,8 +4,8 @@ import mongooseHistory from 'mongoose-history'
 
 var Schema = mongoose.Schema;
 var orderSchema = new Schema({
-    place_date: {
-        type: String,
+    date: {
+        type: Number,
         required: true
       },
     course: {
@@ -16,7 +16,6 @@ var orderSchema = new Schema({
       },
     user: {
         type: String,
-        required: true,
         minlength: 2,
         trim: true
       },
@@ -34,6 +33,17 @@ var orderSchema = new Schema({
         required: true,
         minlength: 1
       },
+    client_secret:{
+        type:String,
+        required:true
+    },
+    payment_id:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+    },
     description: {
         type: String
       },
