@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@types/connect-busboy": "0.0.2",
-    "@types/express-session": "^1.15.16",
-    "@types/mongoose": "^5.7.1",
-    "@types/passport": "^1.0.2",
+    "@types/express-session": "^1.17.3",
+    "@types/mongoose": "^5.10.3",
+    "@types/passport": "^1.0.6",
     "argon2": "^0.24.1",
     "bcrypt-nodejs": "0.0.3",
     "celebrate": "^11.0.1",
@@ -23,22 +23,22 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-list-endpoints": "^4.0.1",
-    "express-session": "^1.17.0",
-    "helmet": "^3.21.2",
-    "mongoose": "^5.9.1",
+    "express-session": "^1.17.1",
+    "helmet": "^3.23.3",
+    "mongoose": "^5.11.18",
     "mongoose-history": "^0.8.0",
-    "next": "9.3.4",
+    "next": "^10.0.7",
     "passport": "^0.4.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "underscore": "^1.9.2",
-    "winston": "^3.2.1",
+    "underscore": "^1.12.0",
+    "winston": "^3.3.3",
     "xlsx": "^0.15.5"
   },
   "devDependencies": {
-    "@types/node": "^13.11.1",
-    "@types/react": "^16.9.34",
-    "@types/react-dom": "^16.9.6",
-    "typescript": "^3.8.3"
+    "@types/node": "^13.13.45",
+    "@types/react": "^16.14.4",
+    "@types/react-dom": "^16.9.11",
+    "typescript": "^3.9.9"
   }
 }
